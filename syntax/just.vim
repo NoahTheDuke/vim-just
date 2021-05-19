@@ -32,7 +32,7 @@ syntax region justInterpolation start="{{" end="}}" contained contains=ALLBUT,@j
 
 syntax cluster justStringNotTop contains=justInterpolation
 
-syntax match justAssignmentOperator "\v:\=" contained skipwhite nextgroup=justBoolean,justSettingShell
+syntax match justAssignmentOperator "\v:\=" contained skipwhite nextgroup=justBoolean
 
 " dependency    : NAME
 "               | '(' NAME expression* ')'
@@ -42,11 +42,13 @@ syntax match justAssignmentOperator "\v:\=" contained skipwhite nextgroup=justBo
 " recipe        : '@'? NAME parameter* variadic? ':' dependency* body?
 syntax match justRecipeAt "\v^\@\ze[a-zA-Z_]" contained
 syntax match justRecipeColon "\v:(\=)@!" contained
-syntax match justRecipe "\v^\@?.{-}:(\=)@!" contains=ALLBUT,justName,justRecipe
+syntax match justRecipe "\v^\@?[a-zA-Z_].*:(\=)@!" contains=justRecipeAt,justRecipeColon,justParameter,justParameterOperator,justVariadic,justVariadicOperator,@justAllStrings
+
 " parameter     : NAME
 "               | NAME '=' value
 syntax match justParameterOperator "\v\=" contained
 syntax match justParameter "\v\s\zs[a-zA-Z_][a-zA-Z0-9_-]*\ze\=?" contained contains=justParameterOperator
+
 " variadic      : '*' parameter
 "               | '+' parameter
 syntax match justVariadicOperator "\v\*|\+" contained
@@ -66,10 +68,10 @@ syntax match justBoolean "\v(true|false)" contained
 "               | 'set' 'export' boolean?
 "               | 'set' 'positional-arguments' boolean?
 "               | 'set' 'shell' ':=' '[' string (',' string)* ','? ']'
-syntax match justSet "^set" contained skipwhite nextgroup=justSetting
-syntax region justSetting start="^set" end="\v%(dotenv-load|export|positional-arguments|shell)" oneline skipwhite contains=justSet,justSetting
-syntax region justSettingShell start="\[" end="\]" oneline contains=@justAllStrings
-syntax match justSetting "\vshell\s+%(\:\=)@=" skipwhite contains=justAssignmentOperator nextgroup=justAssignmentOperator
+syntax match justSetKeyword "^set" contained skipwhite nextgroup=justSetDefinition
+syntax match justSetDefinition "\v^set\s+%(dotenv-load|export|positional-arguments)%(\s+:\=\s+%(true|false))?$" contains=justSetKeyword,justAssignmentOperator,justBoolean
+syntax match justSetBraces "\v[\[\]]" contained
+syntax region justSetDefinition start="\v^set\s+shell\s+:\=\s+\[" end="]" skipwhite oneline contains=justSetKeyword,justAssignmentOperator,@justAllStrings,justNoise,justSetBraces
 
 " alias : 'alias' NAME ':=' NAME
 syntax match justAliasKeyword "\v^alias" contained skipwhite nextgroup=justAlias
@@ -79,7 +81,7 @@ syntax region justAlias start=/\v^alias\s+[a-zA-Z_][a-zA-Z0-9_-]*/ end=/\v%(\:\=
 "               | value '+' expression
 "               | value
 syntax keyword justConditional if else
-syntax region justBraces start="\v[^{]\{[^{]" end="}" contained contains=ALL
+syntax region justConditionalBraces start="\v[^{]\{[^{]" end="}" contained contains=ALLBUT,justConditionalBraces
 
 " condition     : expression '==' expression
 "               | expression '!=' expression
@@ -103,12 +105,15 @@ syntax match justBuiltInFunctionsEnv "\v%(env_key_or_default|env_key)\ze\(.+\)" 
 syntax match justBuiltInFunctionParens "[()]" contained
 syntax region justBuiltInFunctions start=/\v%(env_key_or_default|env_key)\(@=/ end=/)\@=/ oneline contains=justNoise,justBuiltInFunctionParens,justBuiltInFunctionsEnv,justName
 
+syntax match justNumber "\v[0-9]+"
+syntax match justOperator "\v%(\=\=|!\=|\+)"
+
 highlight link justAlias Keyword
 highlight link justAliasKeyword Keyword
 highlight link justAssignmentOperator Operator
 highlight link justBacktick String
 highlight link justBoolean Boolean
-highlight link justBraces Delimiter
+highlight link justConditionalBraces Delimiter
 highlight link justBuiltInFunctions Function
 highlight link justBuiltInFunctionsEnv Function
 highlight link justComment Comment
@@ -118,6 +123,7 @@ highlight link justExportKeyword Keyword
 highlight link justInterpolation Delimiter
 highlight link justLineAt Operator
 highlight link justName Identifier
+highlight link justNumber Number
 highlight link justOperator Operator
 highlight link justParameter Identifier
 highlight link justParameterOperator Operator
@@ -125,8 +131,8 @@ highlight link justRawString String
 highlight link justRecipe Function
 highlight link justRecipeAt Operator
 highlight link justRecipeColon Operator
-highlight link justSet Keyword
-highlight link justSetting Type
+highlight link justSetDefinition Type
+highlight link justSetKeyword Keyword
 highlight link justString String
 highlight link justVariadic Identifier
 highlight link justVariadicOperator Operator
