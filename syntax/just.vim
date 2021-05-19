@@ -1,15 +1,11 @@
 " Vim syntax file
 " Language:	Justfile
 " Maintainer:	Noah Bogart <noah.bogart@hey.com>
+" URL:		https://github.com/NoahTheDuke/vim-just/blob/master/syntax/just.vim
 " Last Change:	2021 May 18
 
-" quit when a syntax file was already loaded
 if exists("b:current_syntax")
   finish
-endif
-
-if exists("b:current_syntax")
-    finish
 endif
 
 let b:current_syntax = "just"
