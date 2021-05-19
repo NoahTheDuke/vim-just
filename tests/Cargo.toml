@@ -1,0 +1,11 @@
+[package]
+name    = "tests"
+version = "0.0.0"
+authors = ["Casey Rodarmor <casey@rodarmor.com>"]
+edition = "2018"
+
+[dependencies]
+regex     = "1.5.4"
+scraper   = "0.12.0"
+structopt = "0.3.21"
+tempfile  = "3.2.0"

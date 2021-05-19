@@ -1,0 +1,76 @@
+name: Build
+
+on:
+  push:
+    branches:
+    - master
+    tags:
+    - '*'
+  pull_request:
+    branches:
+    - master
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  # Increment this key to invalidate the cache.
+  CACHE_KEY: 0
+
+jobs:
+  all:
+    name: All
+
+    runs-on: ubuntu-latest
+
+    env:
+      RUSTFLAGS: "--deny warnings"
+
+    defaults:
+      run:
+        working-directory: tests
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Cache
+      uses: actions/cache@v2
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+          target
+        key: cargo-${{ env.CACHE_KEY }}-${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
+
+    - name: Install Rust Toolchain Components
+      run: |
+        rustup component add clippy rustfmt
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install colordiff ripgrep
+
+    - name: Info
+      run: |
+        rustup --version
+        cargo --version
+        cargo clippy --version
+        cargo fmt --version
+
+    - name: Build
+      run: cargo build --all
+
+    - name: Test
+      run: |
+        cargo run
+
+    - name: Clippy
+      run: cargo clippy --all-targets --all-features
+
+    - name: Check Formatting
+      run: cargo fmt --all -- --check
+
+    - name: Check for Forbidden Words
+      run: ./bin/forbid
