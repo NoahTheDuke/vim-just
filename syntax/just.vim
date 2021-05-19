@@ -100,39 +100,39 @@ syntax region justConditionalBraces start="\v[^{]\{[^{]" end="}" contained conta
 syntax match justLineAt "\v^\s+\@" contained
 syntax match justLine "\v^\s+.*$" contains=justLineAt,justInterpolation,@justAllStrings
 
-syntax match justBuiltInFunctions "\v%(arch|os|os_family|invocation_directory|justfile|justfile_directory|just_executable)\ze\(\)" contained
-syntax match justBuiltInFunctionsEnv "\v%(env_key_or_default|env_key)\ze\(.+\)" contained
 syntax match justBuiltInFunctionParens "[()]" contained
-syntax region justBuiltInFunctions start=/\v%(env_key_or_default|env_key)\(@=/ end=/)\@=/ oneline contains=justNoise,justBuiltInFunctionParens,justBuiltInFunctionsEnv,justName
+syntax match justBuiltInFunctions "\v%(arch|os|os_family|invocation_directory|justfile|justfile_directory|just_executable)\ze\(\)"
+syntax match justBuiltInFunctions "\venv_var\ze\(\".{-}\"\)" contains=@justAllStrings,justBuiltInFunctionParens
+syntax match justBuiltInFunctions "\venv_var_or_default\ze\(\".{-}\", \".{-}\"\)" contains=justNoise,@justAllStrings,justBuiltInFunctionParens
 
 syntax match justNumber "\v[0-9]+"
 syntax match justOperator "\v%(\=\=|!\=|\+)"
 
-highlight link justAlias Keyword
-highlight link justAliasKeyword Keyword
-highlight link justAssignmentOperator Operator
-highlight link justBacktick String
-highlight link justBoolean Boolean
-highlight link justConditionalBraces Delimiter
-highlight link justBuiltInFunctions Function
-highlight link justBuiltInFunctionsEnv Function
-highlight link justComment Comment
-highlight link justConditional Conditional
-highlight link justExport Identifier
-highlight link justExportKeyword Keyword
-highlight link justInterpolation Delimiter
-highlight link justLineAt Operator
-highlight link justName Identifier
-highlight link justNumber Number
-highlight link justOperator Operator
-highlight link justParameter Identifier
-highlight link justParameterOperator Operator
-highlight link justRawString String
-highlight link justRecipe Function
-highlight link justRecipeAt Operator
-highlight link justRecipeColon Operator
-highlight link justSetDefinition Type
-highlight link justSetKeyword Keyword
-highlight link justString String
-highlight link justVariadic Identifier
-highlight link justVariadicOperator Operator
+highlight link justAlias                 Keyword
+highlight link justAliasKeyword          Keyword
+highlight link justAssignmentOperator    Operator
+highlight link justBacktick              String
+highlight link justBoolean               Boolean
+highlight link justBuiltInFunctions      Function
+highlight link justBuiltInFunctionParens Delimiter
+highlight link justComment               Comment
+highlight link justConditional           Conditional
+highlight link justConditionalBraces     Delimiter
+highlight link justExport                Identifier
+highlight link justExportKeyword         Keyword
+highlight link justInterpolation         Delimiter
+highlight link justLineAt                Operator
+highlight link justName                  Identifier
+highlight link justNumber                Number
+highlight link justOperator              Operator
+highlight link justParameter             Identifier
+highlight link justParameterOperator     Operator
+highlight link justRawString             String
+highlight link justRecipe                Function
+highlight link justRecipeAt              Operator
+highlight link justRecipeColon           Operator
+highlight link justSetDefinition         Keyword
+highlight link justSetKeyword            Keyword
+highlight link justString                String
+highlight link justVariadic              Identifier
+highlight link justVariadicOperator      Operator
