@@ -13,99 +13,53 @@ syntax sync minlines=20 maxlines=200
 
 syntax match justNoise ","
 
-" COMMENT             = #([^!].*)?$
 syntax match justComment "\v#.*$" contains=@Spell
-
-" NAME                = [a-zA-Z_][a-zA-Z0-9_-]*
 syntax match justName "\v[a-zA-Z_][a-zA-Z0-9_-]*" contained
 
-" BACKTICK            = `[^`]*`
 syntax region justBacktick start=/`/ skip=/\./ end=/`/ contains=justInterpolation
-" RAW_STRING          = '[^']*'
 syntax region justRawString start=/'/ skip=/\./ end=/'/ contains=justInterpolation
-" STRING              = "[^"]*" # also processes \n \r \t \" \\ escapes
 syntax region justString start=/"/ skip=/\./ end=/"/ contains=justInterpolation
+syntax cluster justAllStrings contains=justRawString,justString
+syntax region justInterpolation start="{{" end="}}" contained
 
-syntax cluster justAllStrings contains=justBacktick,justRawString,justString
-" interpolation : '{{' expression '}}'
-syntax region justInterpolation start="{{" end="}}" contained contains=ALLBUT,@justStringNotTop
+syntax match justAssignmentOperator ":="
 
-syntax cluster justStringNotTop contains=justInterpolation
-
-syntax match justAssignmentOperator ":=" contained skipwhite nextgroup=justBoolean
-
-" dependency    : NAME
-"               | '(' NAME expression* ')'
-" syntax match justDependency "\v:(\=)@!\s+\zs[a-zA-Z_][a-zA-Z0-9_-]*" contained
-" syntax region justDependency start="\v:(\=)@!.*\zs\(" end=")" skipwhite contained contains=justRecipeColon,justName
-
-" recipe        : '@'? NAME parameter* variadic? ':' dependency* body?
-syntax match justRecipeAt "\v^\@\ze[a-zA-Z_]" contained
-syntax match justRecipeColon "\v:(\=)@!" contained
-syntax match justRecipe "\v^\@?[a-zA-Z_].*:(\=)@!" contains=justRecipeAt,justRecipeColon,justParameter,justParameterOperator,justVariadic,justVariadicOperator,@justAllStrings
-
-" parameter     : NAME
-"               | NAME '=' value
 syntax match justParameterOperator "=" contained
-syntax match justParameter "\v\s\zs[a-zA-Z_][a-zA-Z0-9_-]*\ze\=?" contained contains=justParameterOperator
+syntax match justVariadicOperator "*\|+" contained
+syntax match justParameter "\v\s\zs%(\*|\+)?[a-zA-Z_][a-zA-Z0-9_-]*\ze\=?" contained contains=justName,justVariadicOperator,justParameterOperator
 
-" variadic      : '*' parameter
-"               | '+' parameter
-syntax match justVariadicOperator "\v\*|\+" contained
-syntax match justVariadic "\v%(\*|\+)[a-zA-Z_][a-zA-Z0-9_-]*\ze\=?" contained contains=justVariadicOperator,justParameter nextgroup=justName,justRecipeColon
+syntax region justDependency start="(" end=")" skipwhite contained contains=ALLBUT,justDependency,justRecipe,justBody,justBuiltInFunctionParens
 
-" assignment    : NAME ':=' expression eol
-syntax match justAssignment "\v^[a-zA-Z_][a-zA-Z0-9_-]*\s+:\=" skipwhite contains=justName,justAssignmentOperator
+syntax match justRecipeAt "^@" contained
+syntax match justRecipeColon "\v:(\=)@!" contained
+syntax region justRecipe transparent matchgroup=justRecipe start="\v^\@?[a-zA-Z_][a-zA-Z0-9"'`=+_[:blank:]-]*\ze:%(\s|$)" end="$" contains=justDependency,justRecipeAt,justRecipeColon,justParameter,justParameterOperator,justVariadicOperator,@justAllStrings,justDependency,justComment skipnl nextgroup=justBody
+syntax match justRecipe "\v^\@?[a-zA-Z_][a-zA-Z0-9"'`=+_[:blank:]-]*:%(\s+.*)*$" contains=justDependency,justRecipeAt,justRecipeColon,justParameter,justParameterOperator,justVariadicOperator,@justAllStrings,justDependency,justComment skipnl nextgroup=justBody
 
-" export        : 'export' assignment
-syntax match justExportKeyword "\v^export" contained skipwhite nextgroup=justExport
-syntax region justExport start=/\v^export\s+[a-zA-Z_][a-zA-Z0-9_-]*/ end=/\v%(\:\=)@=/ contains=justExportKeyword,justName,justAssignmentOperator skipwhite nextgroup=justAssignmentOperator
-
-" boolean       : ':=' ('true' | 'false')
 syntax match justBoolean "\v(true|false)" contained
+syntax match justKeywords "\v%(export|set|alias)"
 
-" setting       : 'set' 'dotenv-load' boolean?
-"               | 'set' 'export' boolean?
-"               | 'set' 'positional-arguments' boolean?
-"               | 'set' 'shell' ':=' '[' string (',' string)* ','? ']'
-syntax match justSetKeyword "^set" contained skipwhite nextgroup=justSetDefinition
-syntax match justSetDefinition "\v^set\s+%(dotenv-load|export|positional-arguments)%(\s+:\=\s+%(true|false))?$" contains=justSetKeyword,justAssignmentOperator,justBoolean
+syntax match justSetKeywords "\v%(dotenv-load|export|positional-arguments|shell)" contained
+syntax match justSetDefinition transparent "\v^set\s+%(dotenv-load|export|positional-arguments)%(\s+:\=\s+%(true|false))?$" contains=justSetKeywords,justKeywords,justAssignmentOperator,justBoolean
 syntax match justSetBraces "\v[\[\]]" contained
-syntax region justSetDefinition start="\v^set\s+shell\s+:\=\s+\[" end="]" skipwhite oneline contains=justSetKeyword,justAssignmentOperator,@justAllStrings,justNoise,justSetBraces
+syntax region justSetDefinition transparent start="\v^set\s+shell\s+:\=\s+\[" end="]" skipwhite oneline contains=justSetKeywords,justKeywords,justAssignmentOperator,@justAllStrings,justNoise,justSetBraces
 
-" alias : 'alias' NAME ':=' NAME
-syntax match justAliasKeyword "\v^alias" contained skipwhite nextgroup=justAlias
-syntax region justAlias start=/\v^alias\s+[a-zA-Z_][a-zA-Z0-9_-]*/ end=/\v%(\:\=)@=/ contains=justAliasKeyword,justName,justAssignmentOperator skipwhite nextgroup=justAssignmentOperator
+syntax match justAlias "\v^alias\s+[a-zA-Z_][a-zA-Z0-9]*:\=\s+[a-zA-Z_][a-zA-Z0-9]*$" transparent contains=justName,justKeywords,justAssignmentOperator
 
-" expression    : 'if' condition '{' expression '}' 'else' '{' expression '}'
-"               | value '+' expression
-"               | value
 syntax keyword justConditional if else
 syntax region justConditionalBraces start="\v[^{]\{[^{]" end="}" contained contains=ALLBUT,justConditionalBraces
 
-" condition     : expression '==' expression
-"               | expression '!=' expression
-
-" value         : NAME '(' sequence? ')'
-"               | BACKTICK
-"               | INDENTED_BACKTICK
-"               | NAME
-"               | string
-"               | '(' expression ')'
-
-" sequence      : expression ',' sequence
-"               | expression ','?
-
-" line          : LINE (TEXT | interpolation)+ NEWLINE
-" body          : INDENT line+ DEDENT
-syntax match justLineAt "\v^\s+\@" contained
+syntax match justLineAt "\v^\s+\zs\@" contained
 syntax match justLineContinuation "\\\n."he=e-1 contained
-syntax region justBody start="\v^\s+" end="\v^[^\s#]"me=e-1,re=e-1 end="^$" contains=justLineAt,justLineContinuation,justInterpolation,justComment
+syntax region justBody start="\v^\s+" end="\v^[^\s#]"me=e-1,re=e-1 end="^$" contained contains=justLineAt,justLineContinuation,justInterpolation,justComment
+
+syntax sync match justBodySync groupthere NONE "^[^[:blank]#]"
+syntax sync match justBodySync groupthere justBody "\v^\@?[a-zA-Z_].*:(\=)@!.*$"
 
 syntax match justBuiltInFunctionParens "[()]" contained
-syntax match justBuiltInFunctions "\v%(arch|os|os_family|invocation_directory|justfile|justfile_directory|just_executable)\ze\(\)"
-syntax match justBuiltInFunctions "\venv_var\ze\(\".{-}\"\)" contains=@justAllStrings,justBuiltInFunctionParens
-syntax match justBuiltInFunctions "\venv_var_or_default\ze\(\".{-}\", \".{-}\"\)" contains=justNoise,@justAllStrings,justBuiltInFunctionParens
+syntax match justBuiltInFunctions "\v%(arch|os|os_family|invocation_directory|justfile|justfile_directory|just_executable)\ze\(\)" contains=justBuiltInFunctions
+syntax region justBuiltInFunctions transparent matchgroup=justBuiltInFunctions start="\v%(env_var_or_default|env_var)\ze\(" end=")" oneline contains=justBuiltInFunctionParens,justName,justNoise
+
+syntax match justBuiltInFunctionsError "\v%(arch|os|os_family|invocation_directory|justfile|justfile_directory|just_executable)\(.+\)"
 
 syntax match justNumber "\v[0-9]+"
 syntax match justOperator "\v%(\=\=|!\=|\+)"
@@ -117,13 +71,15 @@ highlight default link justBacktick              String
 highlight default link justBody                  Constant
 highlight default link justBoolean               Boolean
 highlight default link justBuiltInFunctions      Function
+highlight default link justBuiltInFunctionsError Error
 highlight default link justBuiltInFunctionParens Delimiter
 highlight default link justComment               Comment
 highlight default link justConditional           Conditional
 highlight default link justConditionalBraces     Delimiter
+highlight default link justDependency            Delimiter
 highlight default link justExport                Identifier
-highlight default link justExportKeyword         Keyword
 highlight default link justInterpolation         Delimiter
+highlight default link justKeywords              Keyword
 highlight default link justLineAt                Operator
 highlight default link justLineContinuation      Special
 highlight default link justName                  Identifier
@@ -136,7 +92,6 @@ highlight default link justRecipe                Function
 highlight default link justRecipeAt              Operator
 highlight default link justRecipeColon           Operator
 highlight default link justSetDefinition         Keyword
-highlight default link justSetKeyword            Keyword
+highlight default link justSetKeywords           Keyword
 highlight default link justString                String
-highlight default link justVariadic              Identifier
 highlight default link justVariadicOperator      Operator
