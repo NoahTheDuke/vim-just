@@ -15,6 +15,7 @@ syntax match justNoise ","
 
 syntax match justComment "\v#.*$" contains=@Spell
 syntax match justName "\v[a-zA-Z_][a-zA-Z0-9_-]*" contained
+syntax match justFunction "\v[a-zA-Z_][a-zA-Z0-9_-]*" contained
 
 syntax region justBacktick start=/`/ skip=/\./ end=/`/ contains=justInterpolation
 syntax region justRawString start=/'/ skip=/\./ end=/'/ contains=justInterpolation
@@ -32,18 +33,18 @@ syntax region justDependency start="(" end=")" skipwhite contained contains=ALLB
 
 syntax match justRecipeAt "^@" contained
 syntax match justRecipeColon "\v:(\=)@!" contained
-syntax region justRecipe transparent matchgroup=justRecipe start="\v^\@?[a-zA-Z_][a-zA-Z0-9"'`=+_[:blank:]-]*\ze:%(\s|$)" end="$" contains=justDependency,justRecipeAt,justRecipeColon,justParameter,justParameterOperator,justVariadicOperator,@justAllStrings,justDependency,justComment skipnl nextgroup=justBody
-syntax match justRecipe "\v^\@?[a-zA-Z_][a-zA-Z0-9"'`=+_[:blank:]-]*:%(\s+.*)*$" contains=justDependency,justRecipeAt,justRecipeColon,justParameter,justParameterOperator,justVariadicOperator,@justAllStrings,justDependency,justComment skipnl nextgroup=justBody
+syntax region justRecipe transparent matchgroup=justRecipe start="\v^\@?[a-zA-Z_][a-zA-Z0-9"'`=+_[:blank:]-]*\ze:%(\s|$)" end="$" contains=justFunction,justDependency,justRecipeAt,justRecipeColon,justParameter,justParameterOperator,justVariadicOperator,@justAllStrings,justDependency,justComment skipnl nextgroup=justBody
+syntax match justRecipe "\v^\@?[a-zA-Z_][a-zA-Z0-9"'`=+_[:blank:]-]*:%(\s+.*)*$" contains=justFunction,justDependency,justRecipeAt,justRecipeColon,justParameter,justParameterOperator,justVariadicOperator,@justAllStrings,justDependency,justComment skipnl nextgroup=justBody
 
 syntax match justBoolean "\v(true|false)" contained
-syntax match justKeywords "\v%(export|set|alias)"
+syntax match justKeywords "\v%(export|set)"
 
 syntax match justSetKeywords "\v%(dotenv-load|export|positional-arguments|shell)" contained
 syntax match justSetDefinition transparent "\v^set\s+%(dotenv-load|export|positional-arguments)%(\s+:\=\s+%(true|false))?$" contains=justSetKeywords,justKeywords,justAssignmentOperator,justBoolean
 syntax match justSetBraces "\v[\[\]]" contained
 syntax region justSetDefinition transparent start="\v^set\s+shell\s+:\=\s+\[" end="]" skipwhite oneline contains=justSetKeywords,justKeywords,justAssignmentOperator,@justAllStrings,justNoise,justSetBraces
 
-syntax match justAlias "\v^alias\s+[a-zA-Z_][a-zA-Z0-9]*:\=\s+[a-zA-Z_][a-zA-Z0-9]*$" transparent contains=justName,justKeywords,justAssignmentOperator
+syntax region justAlias matchgroup=justAlias start="\v^alias" end="$" oneline skipwhite contains=justKeywords,justFunction,justAssignmentOperator
 
 syntax keyword justConditional if else
 syntax region justConditionalBraces start="\v[^{]\{[^{]" end="}" contained contains=ALLBUT,justConditionalBraces
@@ -57,7 +58,7 @@ syntax sync match justBodySync groupthere justBody "\v^\@?[a-zA-Z_].*:(\=)@!.*$"
 
 syntax match justBuiltInFunctionParens "[()]" contained
 syntax match justBuiltInFunctions "\v%(arch|os|os_family|invocation_directory|justfile|justfile_directory|just_executable)\ze\(\)" contains=justBuiltInFunctions
-syntax region justBuiltInFunctions transparent matchgroup=justBuiltInFunctions start="\v%(env_var_or_default|env_var)\ze\(" end=")" oneline contains=justBuiltInFunctionParens,justName,justNoise
+syntax region justBuiltInFunctions transparent matchgroup=justBuiltInFunctions start="\v%(env_var_or_default|env_var)\ze\(" end=")" oneline contains=@justAllStrings,justBuiltInFunctionParens,justNoise
 
 syntax match justBuiltInFunctionsError "\v%(arch|os|os_family|invocation_directory|justfile|justfile_directory|just_executable)\(.+\)"
 
@@ -65,7 +66,6 @@ syntax match justNumber "\v[0-9]+"
 syntax match justOperator "\v%(\=\=|!\=|\+)"
 
 highlight default link justAlias                 Keyword
-highlight default link justAliasKeyword          Keyword
 highlight default link justAssignmentOperator    Operator
 highlight default link justBacktick              String
 highlight default link justBody                  Constant
@@ -78,6 +78,7 @@ highlight default link justConditional           Conditional
 highlight default link justConditionalBraces     Delimiter
 highlight default link justDependency            Delimiter
 highlight default link justExport                Identifier
+highlight default link justFunction              Function
 highlight default link justInterpolation         Delimiter
 highlight default link justKeywords              Keyword
 highlight default link justLineAt                Operator
@@ -88,7 +89,6 @@ highlight default link justOperator              Operator
 highlight default link justParameter             Identifier
 highlight default link justParameterOperator     Operator
 highlight default link justRawString             String
-highlight default link justRecipe                Function
 highlight default link justRecipeAt              Operator
 highlight default link justRecipeColon           Operator
 highlight default link justSetDefinition         Keyword
