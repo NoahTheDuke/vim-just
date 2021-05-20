@@ -110,33 +110,33 @@ syntax match justBuiltInFunctions "\venv_var_or_default\ze\(\".{-}\", \".{-}\"\)
 syntax match justNumber "\v[0-9]+"
 syntax match justOperator "\v%(\=\=|!\=|\+)"
 
-highlight link justAlias                 Keyword
-highlight link justAliasKeyword          Keyword
-highlight link justAssignmentOperator    Operator
-highlight link justBacktick              String
-highlight link justBody                  Constant
-highlight link justBoolean               Boolean
-highlight link justBuiltInFunctions      Function
-highlight link justBuiltInFunctionParens Delimiter
-highlight link justComment               Comment
-highlight link justConditional           Conditional
-highlight link justConditionalBraces     Delimiter
-highlight link justExport                Identifier
-highlight link justExportKeyword         Keyword
-highlight link justInterpolation         Delimiter
-highlight link justLineAt                Operator
-highlight link justLineContinuation      Special
-highlight link justName                  Identifier
-highlight link justNumber                Number
-highlight link justOperator              Operator
-highlight link justParameter             Identifier
-highlight link justParameterOperator     Operator
-highlight link justRawString             String
-highlight link justRecipe                Function
-highlight link justRecipeAt              Operator
-highlight link justRecipeColon           Operator
-highlight link justSetDefinition         Keyword
-highlight link justSetKeyword            Keyword
-highlight link justString                String
-highlight link justVariadic              Identifier
-highlight link justVariadicOperator      Operator
+highlight default link justAlias                 Keyword
+highlight default link justAliasKeyword          Keyword
+highlight default link justAssignmentOperator    Operator
+highlight default link justBacktick              String
+highlight default link justBody                  Constant
+highlight default link justBoolean               Boolean
+highlight default link justBuiltInFunctions      Function
+highlight default link justBuiltInFunctionParens Delimiter
+highlight default link justComment               Comment
+highlight default link justConditional           Conditional
+highlight default link justConditionalBraces     Delimiter
+highlight default link justExport                Identifier
+highlight default link justExportKeyword         Keyword
+highlight default link justInterpolation         Delimiter
+highlight default link justLineAt                Operator
+highlight default link justLineContinuation      Special
+highlight default link justName                  Identifier
+highlight default link justNumber                Number
+highlight default link justOperator              Operator
+highlight default link justParameter             Identifier
+highlight default link justParameterOperator     Operator
+highlight default link justRawString             String
+highlight default link justRecipe                Function
+highlight default link justRecipeAt              Operator
+highlight default link justRecipeColon           Operator
+highlight default link justSetDefinition         Keyword
+highlight default link justSetKeyword            Keyword
+highlight default link justString                String
+highlight default link justVariadic              Identifier
+highlight default link justVariadicOperator      Operator
