@@ -97,8 +97,10 @@ syntax region justConditionalBraces start="\v[^{]\{[^{]" end="}" contained conta
 "               | expression ','?
 
 " line          : LINE (TEXT | interpolation)+ NEWLINE
+" body          : INDENT line+ DEDENT
 syntax match justLineAt "\v^\s+\@" contained
-syntax match justLine "\v^\s+.*$" contains=justLineAt,justInterpolation,@justAllStrings
+syntax match justLineContinuation "\\\n."he=e-1 contained
+syntax region justBody start="\v^\s+" end="\v^[^\s#]"me=e-1,re=e-1 end="^$" contains=justLineAt,justLineContinuation,justInterpolation,justComment
 
 syntax match justBuiltInFunctionParens "[()]" contained
 syntax match justBuiltInFunctions "\v%(arch|os|os_family|invocation_directory|justfile|justfile_directory|just_executable)\ze\(\)"
@@ -112,6 +114,7 @@ highlight link justAlias                 Keyword
 highlight link justAliasKeyword          Keyword
 highlight link justAssignmentOperator    Operator
 highlight link justBacktick              String
+highlight link justBody                  Constant
 highlight link justBoolean               Boolean
 highlight link justBuiltInFunctions      Function
 highlight link justBuiltInFunctionParens Delimiter
@@ -122,6 +125,7 @@ highlight link justExport                Identifier
 highlight link justExportKeyword         Keyword
 highlight link justInterpolation         Delimiter
 highlight link justLineAt                Operator
+highlight link justLineContinuation      Special
 highlight link justName                  Identifier
 highlight link justNumber                Number
 highlight link justOperator              Operator
