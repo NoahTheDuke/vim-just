@@ -14,7 +14,7 @@ syntax sync fromstart
 syntax match justNoise ","
 
 " COMMENT             = #([^!].*)?$
-syntax match justComment "\v#[^!].*$"
+syntax match justComment "\v#.*$" contains=@Spell
 
 " NAME                = [a-zA-Z_][a-zA-Z0-9_-]*
 syntax match justName "\v[a-zA-Z_][a-zA-Z0-9_-]*" contained
