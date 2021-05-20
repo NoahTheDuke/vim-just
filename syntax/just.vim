@@ -9,7 +9,7 @@ if exists('b:current_syntax')
 endif
 
 let b:current_syntax = 'just'
-syntax sync fromstart
+syntax sync minlines=20 maxlines=200
 
 syntax match justNoise ","
 
