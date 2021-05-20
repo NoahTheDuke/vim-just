@@ -20,11 +20,11 @@ syntax match justComment "\v#.*$" contains=@Spell
 syntax match justName "\v[a-zA-Z_][a-zA-Z0-9_-]*" contained
 
 " BACKTICK            = `[^`]*`
-syntax region justBacktick start=/\v`/ skip=/\v\\./ end=/\v`/ contains=justInterpolation
+syntax region justBacktick start=/`/ skip=/\./ end=/`/ contains=justInterpolation
 " RAW_STRING          = '[^']*'
-syntax region justRawString start=/\v'/ skip=/\v\\./ end=/\v'/ contains=justInterpolation
+syntax region justRawString start=/'/ skip=/\./ end=/'/ contains=justInterpolation
 " STRING              = "[^"]*" # also processes \n \r \t \" \\ escapes
-syntax region justString start=/\v"/ skip=/\v\\./ end=/\v"/ contains=justInterpolation
+syntax region justString start=/"/ skip=/\./ end=/"/ contains=justInterpolation
 
 syntax cluster justAllStrings contains=justBacktick,justRawString,justString
 " interpolation : '{{' expression '}}'
@@ -32,7 +32,7 @@ syntax region justInterpolation start="{{" end="}}" contained contains=ALLBUT,@j
 
 syntax cluster justStringNotTop contains=justInterpolation
 
-syntax match justAssignmentOperator "\v:\=" contained skipwhite nextgroup=justBoolean
+syntax match justAssignmentOperator ":=" contained skipwhite nextgroup=justBoolean
 
 " dependency    : NAME
 "               | '(' NAME expression* ')'
@@ -46,7 +46,7 @@ syntax match justRecipe "\v^\@?[a-zA-Z_].*:(\=)@!" contains=justRecipeAt,justRec
 
 " parameter     : NAME
 "               | NAME '=' value
-syntax match justParameterOperator "\v\=" contained
+syntax match justParameterOperator "=" contained
 syntax match justParameter "\v\s\zs[a-zA-Z_][a-zA-Z0-9_-]*\ze\=?" contained contains=justParameterOperator
 
 " variadic      : '*' parameter
