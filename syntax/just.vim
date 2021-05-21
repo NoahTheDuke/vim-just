@@ -88,7 +88,7 @@ highlight default link justParameter             Identifier
 highlight default link justParameterOperator     Operator
 highlight default link justRawString             String
 highlight default link justRecipe                Function
-highlight default link justRecipeAt              Operator
+highlight default link justRecipeAt              Special
 highlight default link justRecipeColon           Operator
 highlight default link justSetDefinition         Keyword
 highlight default link justSetKeywords           Keyword
