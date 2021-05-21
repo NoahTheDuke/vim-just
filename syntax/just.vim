@@ -14,27 +14,28 @@ syntax sync minlines=20 maxlines=200
 syntax match justNoise ","
 
 syntax match justComment "\v#.*$" contains=@Spell
-syntax match justName "\v[a-zA-Z_][a-zA-Z0-9_-]*" contained
-syntax match justFunction "\v[a-zA-Z_][a-zA-Z0-9_-]*" contained
+syntax match justName "[a-zA-Z_][a-zA-Z0-9_-]*" contained
+syntax match justFunction "[a-zA-Z_][a-zA-Z0-9_-]*" contained
 
 syntax region justBacktick start=/`/ skip=/\./ end=/`/ contains=justInterpolation
 syntax region justRawString start=/'/ skip=/\./ end=/'/ contains=justInterpolation
 syntax region justString start=/"/ skip=/\./ end=/"/ contains=justInterpolation
-syntax cluster justAllStrings contains=justRawString,justString
-syntax region justInterpolation start="{{" end="}}" contained
+syntax cluster justAllStrings contains=justBacktick,justRawString,justString
+syntax region justInterpolation start="{{" end="}}" contained contains=ALLBUT,justInterpolation,justFunction
 
 syntax match justAssignmentOperator ":="
 
 syntax match justParameterOperator "=" contained
 syntax match justVariadicOperator "*\|+" contained
-syntax match justParameter "\v\s\zs%(\*|\+)?[a-zA-Z_][a-zA-Z0-9_-]*\ze\=?" contained contains=justName,justVariadicOperator,justParameterOperator
+syntax match justParameter "\v\s\zs%(\*|\+)?[a-zA-Z_][a-zA-Z0-9_-]*\ze\=?" contained contains=justVariadicOperator,justParameterOperator
 
-syntax region justDependency start="(" end=")" skipwhite contained contains=ALLBUT,justDependency,justRecipe,justBody,justBuiltInFunctionParens
+syntax region justDependency start="(" end=")" transparent skipwhite contains=ALLBUT,justDependency,justRecipe,justBody,justBuiltInFunctionParens
 
+syntax match justNextLine "\\\n\s*"
 syntax match justRecipeAt "^@" contained
 syntax match justRecipeColon "\v:(\=)@!" contained
-syntax region justRecipe transparent matchgroup=justRecipe start="\v^\@?[a-zA-Z_][a-zA-Z0-9"'`=+_[:blank:]-]*\ze:%(\s|$)" end="$" contains=justFunction,justDependency,justRecipeAt,justRecipeColon,justParameter,justParameterOperator,justVariadicOperator,@justAllStrings,justDependency,justComment skipnl nextgroup=justBody
-syntax match justRecipe "\v^\@?[a-zA-Z_][a-zA-Z0-9"'`=+_[:blank:]-]*:%(\s+.*)*$" contains=justFunction,justDependency,justRecipeAt,justRecipeColon,justParameter,justParameterOperator,justVariadicOperator,@justAllStrings,justDependency,justComment skipnl nextgroup=justBody
+syntax region justRecipe transparent matchgroup=justRecipe start="\v^\@?[a-zA-Z_][a-zA-Z0-9"'`=+_[:blank:]-]*\ze:[^\=]" end="$" contains=justFunction,justRecipeAt,justRecipeColon,justParameter,justParameterOperator,justVariadicOperator,@justAllStrings,justComment,justNextLine nextgroup=justFunction,justDependency,justBody
+syntax match justRecipe "\v^\@?[a-zA-Z_][a-zA-Z0-9"'`=+_[:blank:]-]*:%(\s|$)" contains=justFunction,justRecipeAt,justRecipeColon,justParameter,justParameterOperator,justVariadicOperator,@justAllStrings,justComment skipnl nextgroup=justFunction,justDependency,justBody
 
 syntax match justBoolean "\v(true|false)" contained
 syntax match justKeywords "\v%(export|set)"
@@ -51,10 +52,8 @@ syntax region justConditionalBraces start="\v[^{]\{[^{]" end="}" contained conta
 
 syntax match justLineAt "\v^\s+\zs\@" contained
 syntax match justLineContinuation "\\\n."he=e-1 contained
-syntax region justBody start="\v^\s+" end="\v^[^\s#]"me=e-1,re=e-1 end="^$" contained contains=justLineAt,justLineContinuation,justInterpolation,justComment
 
-syntax sync match justBodySync groupthere NONE "^[^[:blank]#]"
-syntax sync match justBodySync groupthere justBody "\v^\@?[a-zA-Z_].*:(\=)@!.*$"
+syntax region justBody start="\v^\s+\zs" skip=/\./ end="$" oneline contains=justLineAt,justLineContinuation,justInterpolation,justComment,justNextLine
 
 syntax match justBuiltInFunctionParens "[()]" contained
 syntax match justBuiltInFunctions "\v%(arch|os|os_family|invocation_directory|justfile|justfile_directory|just_executable)\ze\(\)" contains=justBuiltInFunctions
@@ -84,11 +83,13 @@ highlight default link justKeywords              Keyword
 highlight default link justLineAt                Operator
 highlight default link justLineContinuation      Special
 highlight default link justName                  Identifier
+highlight default link justNextLine              Special
 highlight default link justNumber                Number
 highlight default link justOperator              Operator
 highlight default link justParameter             Identifier
 highlight default link justParameterOperator     Operator
 highlight default link justRawString             String
+highlight default link justRecipe                Function
 highlight default link justRecipeAt              Operator
 highlight default link justRecipeColon           Operator
 highlight default link justSetDefinition         Keyword
