@@ -35,7 +35,7 @@ syntax match justNextLine "\\\n\s*"
 syntax match justRecipeAt "^@" contained
 syntax match justRecipeColon "\v:(\=)@!" contained
 syntax region justRecipe transparent matchgroup=justRecipe start="\v^\@?[a-zA-Z_][a-zA-Z0-9"'`=+_[:blank:]-]*\ze:[^\=]" end="$" contains=justFunction,justRecipeAt,justRecipeColon,justParameter,justParameterOperator,justVariadicOperator,@justAllStrings,justComment,justNextLine nextgroup=justFunction,justDependency,justBody
-syntax match justRecipe "\v^\@?[a-zA-Z_][a-zA-Z0-9"'`=+_[:blank:]-]*:%(\s|$)" contains=justFunction,justRecipeAt,justRecipeColon,justParameter,justParameterOperator,justVariadicOperator,@justAllStrings,justComment skipnl nextgroup=justFunction,justDependency,justBody
+syntax match justRecipe transparent "\v^\@?[a-zA-Z_][a-zA-Z0-9"'`=+_[:blank:]-]*:%(\s|$)" contains=justFunction,justRecipeAt,justRecipeColon,justParameter,justParameterOperator,justVariadicOperator,@justAllStrings,justComment skipnl nextgroup=justFunction,justDependency,justBody
 
 syntax match justBoolean "\v(true|false)" contained
 syntax match justKeywords "\v%(export|set)"
