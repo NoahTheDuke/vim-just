@@ -50,8 +50,9 @@ syntax keyword justConditional if else
 syntax region justConditionalBraces start="\v[^{]\{[^{]" end="}" contained contains=ALLBUT,justConditionalBraces
 
 syntax match justLineAt "\v^\s+\zs\@" contained
+syntax match justLineDash "\v^\s+\zs\-" contained
 syntax match justLineContinuation "\\\n."he=e-1 contained
-syntax region justBody start="\v^\s+" end="\v^[^\s#]"me=e-1,re=e-1 end="^$" contained contains=justLineAt,justLineContinuation,justInterpolation,justComment
+syntax region justBody start="\v^\s+" end="\v^[^\s#]"me=e-1,re=e-1 end="^$" contained contains=justLineAt,justLineDash,justLineContinuation,justInterpolation,justComment
 
 syntax sync match justBodySync groupthere NONE "^[^[:blank]#]"
 syntax sync match justBodySync groupthere justBody "\v^\@?[a-zA-Z_].*:(\=)@!.*$"
@@ -82,6 +83,7 @@ highlight default link justFunction              Function
 highlight default link justInterpolation         Delimiter
 highlight default link justKeywords              Keyword
 highlight default link justLineAt                Operator
+highlight default link justLineDash              Special
 highlight default link justLineContinuation      Special
 highlight default link justName                  Identifier
 highlight default link justNumber                Number
