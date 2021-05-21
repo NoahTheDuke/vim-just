@@ -1,12 +1,6 @@
 foo:
   bar
 
-foo: # comment
-  bar
-
-foo:
-  bar # comment
-
 foo:
   bar \
     baz

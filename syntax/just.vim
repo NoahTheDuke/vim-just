@@ -53,7 +53,7 @@ syntax region justConditionalBraces start="\v[^{]\{[^{]" end="}" contained conta
 syntax match justLineAt "\v^\s+\zs\@" contained
 syntax match justLineContinuation "\\\n."he=e-1 contained
 
-syntax region justBody start="\v^\s+\zs" skip=/\./ end="$" oneline contains=justLineAt,justLineContinuation,justInterpolation,justComment,justNextLine
+syntax region justBody matchgroup=justLineAt start="\v^\s+\zs\@"hs=e-1 matchgroup=justBody start="\v^\s+\zs[^@[:space:]#]" skip="\." end="$" skipwhite oneline contains=justLineAt,justLineContinuation,justInterpolation,justComment
 
 syntax match justBuiltInFunctionParens "[()]" contained
 syntax match justBuiltInFunctions "\v%(arch|os|os_family|invocation_directory|justfile|justfile_directory|just_executable)\ze\(\)" contains=justBuiltInFunctions
