@@ -2,7 +2,11 @@ run FILTER='':
   cargo run {{FILTER}}
 
 watch FILTER='':
-  cargo watch --debug --clear --exec "run {{FILTER}}"
+  cargo watch \
+    --clear \
+    --debug \
+    --exec "run {{FILTER}}" \
+    --watch ..
 
 install-rustup:
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
