@@ -61,7 +61,6 @@ syntax region justBuiltInFunctions transparent matchgroup=justBuiltInFunctions s
 
 syntax match justBuiltInFunctionsError "\v%(arch|os|os_family|invocation_directory|justfile|justfile_directory|just_executable)\(.+\)"
 
-syntax match justNumber "\v[0-9]+"
 syntax match justOperator "\v%(\=\=|!\=|\+)"
 
 highlight default link justAlias                 Keyword
@@ -84,7 +83,6 @@ highlight default link justLineAt                Operator
 highlight default link justLineContinuation      Special
 highlight default link justName                  Identifier
 highlight default link justNextLine              Special
-highlight default link justNumber                Number
 highlight default link justOperator              Operator
 highlight default link justParameter             Identifier
 highlight default link justParameterOperator     Operator
