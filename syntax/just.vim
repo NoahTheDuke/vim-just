@@ -44,7 +44,7 @@ syntax match justSetDefinition transparent "\v^set\s+%(dotenv-load|export|positi
 syntax match justSetBraces "\v[\[\]]" contained
 syntax region justSetDefinition transparent start="\v^set\s+shell\s+:\=\s+\[" end="]" skipwhite oneline contains=justSetKeywords,justKeywords,justAssignmentOperator,@justAllStrings,justNoise,justSetBraces
 
-syntax region justAlias matchgroup=justAlias start="\v^alias" end="$" oneline skipwhite contains=justKeywords,justFunction,justAssignmentOperator
+syntax region justAlias matchgroup=justAlias start="\v^alias\ze\s+[a-zA-Z_][a-zA-Z0-9_-]*\s+:\=" end="$" oneline skipwhite contains=justKeywords,justFunction,justAssignmentOperator
 
 syntax keyword justConditional if else
 syntax region justConditionalBraces start="\v[^{]\{[^{]" end="}" contained contains=ALLBUT,justConditionalBraces
