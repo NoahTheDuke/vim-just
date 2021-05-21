@@ -1,11 +1,19 @@
+# run tests
 run FILTER='':
   cargo run {{FILTER}}
 
+# run tests whenever a file changes
 watch FILTER='':
   cargo watch --debug --clear --exec "run {{FILTER}}"
 
+# preview JUSTFILE with syntax file from this repository
+preview JUSTFILE:
+  HOME=`pwd` vim {{JUSTFILE}}
+
+# install rustup (provides `cargo`)
 install-rustup:
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
+# install development dependencies
 deps:
   cargo install cargo-watch
