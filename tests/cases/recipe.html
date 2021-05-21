@@ -1,11 +1,13 @@
 <span class="Function">foo</span><span class="Operator">:</span>
-<span class="Constant">  bar</span>
-
-<span class="Function">foo</span><span class="Operator">:</span> <span class="Comment"># comment</span>
+  <span class="Constant">bar</span>
 
 <span class="Function">foo</span><span class="Operator">:</span>
-<span class="Constant">  bar </span><span class="Special">\</span>
-<span class="Constant">    baz</span>
+  <span class="Constant">bar </span><span class="Special">\</span>
+ <span class="Constant">   baz</span>
 
-<span class="Operator">@</span><span class="Function">foo</span> <span class="Identifier">param1</span> <span class="Identifier">param2</span><span class="Operator">=</span><span class="String">"default"</span> <span class="Operator">+</span><span class="Identifier">varparam</span><span class="Operator">:</span> <span class="Identifier">dependency1</span> <span class="Delimiter">(</span><span class="Function">dependency2</span><span class="Delimiter"> </span><span class="Identifier">param</span><span class="Delimiter">)</span>
-<span class="Constant">  bar</span>
+<span class="Operator">@</span><span class="Function">foo</span><span class="Operator">:</span>
+  <span class="Constant">foo bar</span>
+
+<span class="Operator">@</span><span class="Function">foo</span> <span class="Identifier">param1</span> <span class="Identifier">param2</span><span class="Operator">=</span><span class="String">"default"</span> <span class="Operator">+</span><span class="Identifier">varparam</span><span class="Operator">:</span> <span class="Function">dependency1</span> (<span class="Function">dependency2</span> <span class="Identifier">p1</span> <span class="Identifier">p2</span>) (<span class="Function">dependency3</span> <span class="Identifier">param</span>)
+  <span class="Constant">many lines</span>
+  <span class="Constant">to follow</span>

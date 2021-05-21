@@ -14,10 +14,6 @@ defaults:
   run:
     shell: bash
 
-env:
-  # Increment this key to invalidate the cache.
-  CACHE_KEY: 0
-
 jobs:
   all:
     name: All
@@ -41,7 +37,7 @@ jobs:
           ~/.cargo/registry
           ~/.cargo/git
           target
-        key: cargo-${{ env.CACHE_KEY }}-${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
+        key: cargo-${{ hashFiles('**/src/main.rs') }}-${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
 
     - name: Install Rust Toolchain Components
       run: |
@@ -62,10 +58,6 @@ jobs:
     - name: Build
       run: cargo build --all
 
-    - name: Test
-      run: |
-        cargo run
-
     - name: Clippy
       run: cargo clippy --all-targets --all-features
 
@@ -74,3 +66,7 @@ jobs:
 
     - name: Check for Forbidden Words
       run: ./bin/forbid
+
+    - name: Test
+      run: |
+        cargo run
