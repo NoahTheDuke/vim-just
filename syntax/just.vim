@@ -81,7 +81,7 @@ highlight default link justExport                Identifier
 highlight default link justFunction              Function
 highlight default link justInterpolation         Delimiter
 highlight default link justKeywords              Keyword
-highlight default link justLineAt                Operator
+highlight default link justLineAt                Special
 highlight default link justLineContinuation      Special
 highlight default link justName                  Identifier
 highlight default link justNumber                Number
