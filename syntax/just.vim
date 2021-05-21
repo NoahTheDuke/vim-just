@@ -21,7 +21,7 @@ syntax region justBacktick start=/`/ skip=/\./ end=/`/ contains=justInterpolatio
 syntax region justRawString start=/'/ skip=/\./ end=/'/ contains=justInterpolation
 syntax region justString start=/"/ skip=/\./ end=/"/ contains=justInterpolation
 syntax cluster justAllStrings contains=justBacktick,justRawString,justString
-syntax region justInterpolation start="{{" end="}}" contained contains=ALLBUT,justInterpolation,justFunction
+syntax region justInterpolation start="{{" end="}}" contained contains=ALLBUT,justInterpolation,justFunction,justBodyText
 
 syntax match justAssignmentOperator ":="
 
@@ -29,7 +29,7 @@ syntax match justParameterOperator "=" contained
 syntax match justVariadicOperator "*\|+" contained
 syntax match justParameter "\v\s\zs%(\*|\+)?[a-zA-Z_][a-zA-Z0-9_-]*\ze\=?" contained contains=justVariadicOperator,justParameterOperator
 
-syntax region justDependency start="(" end=")" transparent skipwhite contains=ALLBUT,justDependency,justRecipe,justBody,justBuiltInFunctionParens
+syntax region justDependency start="(" end=")" transparent oneline skipwhite contains=ALLBUT,justDependency,justRecipe,justBody,justBuiltInFunctionParens,justBodyText
 
 syntax match justNextLine "\\\n\s*"
 syntax match justRecipeAt "^@" contained
@@ -48,12 +48,13 @@ syntax region justSetDefinition transparent start="\v^set\s+shell\s+:\=\s+\[" en
 syntax region justAlias matchgroup=justAlias start="\v^alias\ze\s+[a-zA-Z_][a-zA-Z0-9_-]*\s+:\=" end="$" oneline skipwhite contains=justKeywords,justFunction,justAssignmentOperator
 
 syntax keyword justConditional if else
-syntax region justConditionalBraces start="\v[^{]\{[^{]" end="}" contained contains=ALLBUT,justConditionalBraces
+syntax region justConditionalBraces start="\v[^{]\{[^{]" end="}" contained oneline contains=ALLBUT,justConditionalBraces,justBodyText
 
+syntax match justBodyText "[^[:space:]#]\+" contained
 syntax match justLineLeadingSymbol "\v^\s+\zs%(\@|-)" contained
-syntax match justLineContinuation "\\\n."he=e-1 contained
+syntax match justLineContinuation "\\$" contained
 
-syntax region justBody matchgroup=justLineLeadingSymbol start="\v^\s+\zs%(\@|-)"hs=e-1 matchgroup=justBody start="\v^\s+\zs[^@[:space:]#-]" skip="\." end="$" skipwhite oneline contains=justLineLeadingSymbol,justLineContinuation,justInterpolation,justComment
+syntax region justBody transparent matchgroup=justLineLeadingSymbol start="\v^\s+\zs[@-]"hs=e-1 matchgroup=justBodyText start="\v^\s+\zs[^[:space:]@#-]"hs=e-1 end="\n" skipwhite oneline contains=justBodyText,justLineLeadingSymbol,justLineContinuation,justInterpolation,justComment
 
 syntax match justBuiltInFunctionParens "[()]" contained
 syntax match justBuiltInFunctions "\v%(arch|os|os_family|invocation_directory|justfile|justfile_directory|just_executable)\ze\(\)" contains=justBuiltInFunctions
@@ -66,7 +67,7 @@ syntax match justOperator "\v%(\=\=|!\=|\+)"
 highlight default link justAlias                 Keyword
 highlight default link justAssignmentOperator    Operator
 highlight default link justBacktick              String
-highlight default link justBody                  Constant
+highlight default link justBodyText              Constant
 highlight default link justBoolean               Boolean
 highlight default link justBuiltInFunctions      Function
 highlight default link justBuiltInFunctionsError Error
