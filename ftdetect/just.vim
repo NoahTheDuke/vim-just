@@ -3,4 +3,4 @@
 " Maintainer:	Noah Bogart <noah.bogart@hey.com>
 " URL:		https://github.com/NoahTheDuke/vim-just.git
 " Last Change:	2021 May 18
-autocmd BufNewFile,BufRead \cjustfile,.justfile,*.just setfiletype just
+autocmd BufNewFile,BufRead \c[Jj]ustfile,.justfile,*.just setfiletype just

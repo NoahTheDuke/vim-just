@@ -84,10 +84,10 @@ syntax region justBody transparent matchgroup=justLineLeadingSymbol start="\v^\s
 syntax region justInterpolation start="{{" end="}}" contained contains=ALLBUT,justInterpolation,justFunction,justBodyText
 
 syntax match justBuiltInFunctionParens "[()]" contained
-syntax match justBuiltInFunctions "\v%(arch|os|os_family|invocation_directory|justfile|justfile_directory|just_executable)\ze\(\)" contains=justBuiltInFunctions
+syntax match justBuiltInFunctions "\v%(arch|os|os_family|invocation_directory|[Jj]ustfile|justfile_directory|just_executable)\ze\(\)" contains=justBuiltInFunctions
 syntax region justBuiltInFunctions transparent matchgroup=justBuiltInFunctions start="\v%(env_var_or_default|env_var)\ze\(" end=")" oneline contains=@justAllStrings,justBuiltInFunctionParens,justNoise
 
-syntax match justBuiltInFunctionsError "\v%(arch|os|os_family|invocation_directory|justfile|justfile_directory|just_executable)\(.+\)"
+syntax match justBuiltInFunctionsError "\v%(arch|os|os_family|invocation_directory|[Jj]ustfile|justfile_directory|just_executable)\(.+\)"
 
 syntax match justOperator "\v%(\=\=|!\=|\+)"
 
