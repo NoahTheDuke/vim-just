@@ -40,6 +40,9 @@ If you don't have Rust installed, run `just install-rustup` in tests/. This will
 download and install the latest version of the Rust toolchain, including Cargo, the Rust
 package manager.
 
+Run `just deps` to install the cargo dev dependencies, which right now is only
+[`cargo-watch`](https://crates.io/crates/cargo-watch).
+
 ### Test Suite
 
 To run the tests, run `just run` in tests/. Cargo will build and run the project, which
