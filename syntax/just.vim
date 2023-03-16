@@ -20,8 +20,10 @@ syn match justFunction "[a-zA-Z_][a-zA-Z0-9_-]*" contained
 
 syn region justBacktick start=/`/ skip=/\./ end=/`/ contains=justInterpolation
 syn region justRawString start=/'/ skip=/\./ end=/'/ contains=justInterpolation
-syn region justString start=/"/ skip=/\.\|\\\\\|\\"/ end=/"/ contains=justInterpolation,justNextLine
+syn region justString start=/"/ skip=/\.\|\\\\\|\\"/ end=/"/ contains=justInterpolation,justNextLine,justStringEscapeSequence
 syn cluster justAllStrings contains=justBacktick,justRawString,justString
+
+syn match justStringEscapeSequence '\v\\[tnr"\\]' contained
 
 syn match justAssignmentOperator ":=" contained
 
@@ -136,4 +138,5 @@ hi def link justSetKeywords           Keyword
 hi def link justSetDeprecatedKeywords Underlined
 hi def link justShebang               SpecialComment
 hi def link justString                String
+hi def link justStringEscapeSequence  Special
 hi def link justVariadicOperator      Operator
