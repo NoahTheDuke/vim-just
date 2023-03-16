@@ -75,7 +75,7 @@ syn region justAlias
 syn region justExport
       \ matchgroup=justExport start="\v^export\ze\s+[a-zA-Z_][a-zA-Z0-9_-]*%(\s+:\=)?"
       \ end="$"
-      \ contains=justKeywords,justAssignmentOperator
+      \ contains=justKeywords,justAssignmentOperator,justBuiltinFunctions,@justAllStrings
       \ transparent oneline skipwhite
 
 syn keyword justConditional if else
