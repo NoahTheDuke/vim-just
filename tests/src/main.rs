@@ -4,6 +4,7 @@ use std::{
   env,
   ffi::OsStr,
   fs, io,
+  os::unix::fs as ufs,
   path::Path,
   process::{self, Command},
 };
@@ -21,6 +22,11 @@ fn main() -> io::Result<()> {
   let tempdir = tempfile::tempdir().unwrap();
 
   let case_dir = Path::new("cases");
+
+  if fs::metadata(".vim").is_ok() {
+    fs::remove_file(".vim").unwrap();
+  }
+  ufs::symlink("../", ".vim").unwrap();
 
   let mut cases = 0;
   let mut passed = 0;
@@ -44,13 +50,13 @@ fn main() -> io::Result<()> {
 
     cases += 1;
 
-    eprint!("test {}… ", name);
+    eprint!("test {}…\n", name);
 
     let output = tempdir.path().join(format!("{}.output.html", name));
 
     let status = Command::new("vim")
-      .args(&["-S", "convert-to-html.vim"])
-      .env("CASE", &case)
+      .args(["-S", "convert-to-html.vim"])
+      .env("CASE", case)
       .env("OUTPUT", &output)
       .env("HOME", env::current_dir().unwrap())
       .output()
@@ -85,9 +91,9 @@ fn main() -> io::Result<()> {
 
     let diff_output = Command::new("colordiff")
       .arg("--unified")
-      .args(&["--label", "output"])
+      .args(["--label", "output"])
       .arg(output)
-      .args(&["--label", "expected"])
+      .args(["--label", "expected"])
       .arg(expected)
       .output()
       .unwrap();
@@ -105,6 +111,8 @@ fn main() -> io::Result<()> {
       eprint!("{}", String::from_utf8_lossy(&diff_output.stderr));
     }
   }
+
+  fs::remove_file(".vim").unwrap();
 
   if passed != cases {
     process::exit(1);
