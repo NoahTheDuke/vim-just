@@ -50,7 +50,7 @@ fn main() -> io::Result<()> {
 
     cases += 1;
 
-    eprint!("test {}…\n", name);
+    eprintln!("test {}…", name);
 
     let output = tempdir.path().join(format!("{}.output.html", name));
 
