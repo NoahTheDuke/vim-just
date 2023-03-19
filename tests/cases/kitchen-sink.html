@@ -99,11 +99,11 @@ exists <span class="Operator">:=</span> <span class="Conditional">if</span> <spa
 foo   <span class="Operator">:=</span> <span class="Conditional">if</span> <span class="Function">env_var</span>(<span class="String">"_"</span>) <span class="Operator">==</span> <span class="String">"/usr/bin/env"</span> { <span class="Special">`touch /tmp/a_file`</span> } <span class="Conditional">else</span> { <span class="String">"dummy-value"</span> }
 foo_b <span class="Operator">:=</span> <span class="Conditional">if</span> <span class="String">"hello"</span> <span class="Operator">==</span> <span class="String">"goodbye"</span> { <span class="String">"xyz"</span> } <span class="Conditional">else</span> { <span class="Conditional">if</span> <span class="String">"no"</span> <span class="Operator">==</span> <span class="String">"no"</span> { <span class="String">"yep"</span>} <span class="Conditional">else</span> { <span class="Function">error</span>(<span class="String">"123"</span>) } }
 foo_c <span class="Operator">:=</span> <span class="Conditional">if</span> <span class="String">"hello"</span> <span class="Operator">==</span> <span class="String">"goodbye"</span> {
-<span class="Number">  </span><span class="String">"xyz"</span>
+  <span class="String">"xyz"</span>
 } <span class="Conditional">else</span> <span class="Conditional">if</span> <span class="String">"a"</span> <span class="Operator">==</span> <span class="String">"a"</span> {
-<span class="Number">  </span><span class="String">"abc"</span>
+  <span class="String">"abc"</span>
 } <span class="Conditional">else</span> {
-<span class="Number">  </span><span class="String">"123"</span>
+  <span class="String">"123"</span>
 }
 
 <span class="Function">bar</span><span class="Operator">:</span>
@@ -132,9 +132,9 @@ foo_c <span class="Operator">:=</span> <span class="Conditional">if</span> <span
 
 
 shebang <span class="Operator">:=</span> <span class="Conditional">if</span> <span class="Function">os</span>() <span class="Operator">==</span> <span class="String">'windows'</span> {
-<span class="Number">  </span><span class="String">'powershell.exe'</span>
+  <span class="String">'powershell.exe'</span>
 } <span class="Conditional">else</span> {
-<span class="Number">  </span><span class="String">'/usr/bin/env pwsh'</span>
+  <span class="String">'/usr/bin/env pwsh'</span>
 }
 
 <span class="Function">shebang</span><span class="Operator">:</span>
