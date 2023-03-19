@@ -48,7 +48,15 @@ syn match justRecipeBody "\v^\@?[a-zA-Z_]((:\=)@!.)*\ze:%(\s|\n)"
 syn match justRecipeSubsequentDeps '&&' contained
 
 syn match justRecipeDeps "\v:[^\=]?.*\n"
-      \ contains=justComment,justFunction,justRecipeColon,justRecipeSubsequentDeps
+      \ contains=justComment,justFunction,justRecipeColon,justRecipeSubsequentDeps,justRecipeParamDep
+
+syn region justRecipeParamDep contained transparent
+      \ start="("
+      \ matchgroup=justRecipeDepParamsParen start='\v(\(\s*[a-zA-Z_][a-zA-Z0-9_-]*)'
+      \ end=")"
+      \ contains=justRecipeDepParamsParen,justRecipeDepWithParams,@justAllStrings
+syn match justRecipeDepParamsParen '\v(\(\s*[a-zA-Z_][a-zA-Z0-9_-]*|\))' contained contains=justRecipeDepWithParams
+syn match justRecipeDepWithParams "\v\(\s*\zs[a-zA-Z_][a-zA-Z0-9_-]*" contained
 
 syn match justBoolean "\v(true|false)" contained
 syn match justKeywords "\v%(export|set)" contained
@@ -133,6 +141,8 @@ hi def link justRecipeAt              Special
 hi def link justRecipeAttr            Type
 hi def link justRecipeBody            Function
 hi def link justRecipeColon           Operator
+hi def link justRecipeDepParamsParen  Delimiter
+hi def link justRecipeDepWithParams   Function
 hi def link justRecipeSubsequentDeps  Operator
 hi def link justSetDefinition         Keyword
 hi def link justSetKeywords           Keyword
