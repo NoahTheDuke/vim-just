@@ -1,0 +1,217 @@
+<span class="Comment"># From <a href="https://github.com/casey/just/blob/9f03441eef28fd662b33a8f1961e2ee97b60f7ff/examples/kitchen-sink.just">https://github.com/casey/just/blob/9f03441eef28fd662b33a8f1961e2ee97b60f7ff/examples/kitchen-sink.just</a></span>
+<span class="Comment"># Original Author: Nick Kocharhook (<a href="https://github.com/nk9)">https://github.com/nk9)</a></span>
+
+<span class="Statement">set</span> <span class="Keyword">shell</span> <span class="Operator">:=</span> [<span class="String">"sh"</span>, <span class="String">"-c"</span>]
+<span class="Statement">set</span> <span class="Keyword">windows-shell</span> <span class="Operator">:=</span> [<span class="String">"powershell.exe"</span>, <span class="String">"-NoLogo"</span>, <span class="String">"-Command"</span>]
+<span class="Statement">set</span> <span class="Keyword">allow-duplicate-recipes</span>
+<span class="Statement">set</span> <span class="Keyword">positional-arguments</span>
+<span class="Statement">set</span> <span class="Keyword">dotenv-load</span>
+<span class="Statement">set</span> <span class="Keyword">export</span>
+
+<span class="Statement">alias </span><span class="Function">s</span><span class="Statement"> </span><span class="Operator">:=</span><span class="Statement"> </span><span class="Function">serve</span>
+
+bt <span class="Operator">:=</span> <span class="String">'0'</span>
+
+<span class="Statement">export</span> RUST_BACKTRACE_1 <span class="Operator">:=</span> bt
+
+log <span class="Operator">:=</span> <span class="String">"warn"</span>
+
+<span class="Statement">export</span> JUST_LOG <span class="Operator">:=</span> (log + <span class="String">"ing"</span> + <span class="Special">`grep loop /etc/networks | cut -f2`</span>)
+
+tmpdir  <span class="Operator">:=</span> <span class="Special">`mktemp`</span>
+version <span class="Operator">:=</span> <span class="String">"0.2.7"</span>
+tardir  <span class="Operator">:=</span> tmpdir / <span class="String">"awesomesauce-"</span> <span class="Operator">+</span> version
+foo1    <span class="Operator">:=</span> / <span class="String">"tmp"</span>
+foo2_3  <span class="Operator">:=</span> <span class="String">"a/"</span>
+tarball <span class="Operator">:=</span> tardir <span class="Operator">+</span> <span class="String">".tar.gz"</span>
+
+<span class="Statement">export</span> RUST_BACKTRACE_2 <span class="Operator">:=</span> <span class="String">"1"</span>
+string-with-tab             <span class="Operator">:=</span> <span class="String">"</span><span class="Special">\t</span><span class="String">"</span>
+string-with-newline         <span class="Operator">:=</span> <span class="String">"</span><span class="Special">\n</span><span class="String">"</span>
+string-with-carriage-return <span class="Operator">:=</span> <span class="String">"</span><span class="Special">\r</span><span class="String">"</span>
+string-with-double-quote    <span class="Operator">:=</span> <span class="String">"</span><span class="Special">\"</span><span class="String">"</span>
+string-with-slash           <span class="Operator">:=</span> <span class="String">"</span><span class="Special">\\</span><span class="String">"</span>
+string-with-no-newline      <span class="Operator">:=</span> <span class="String">"</span><span class="Special">\</span>
+<span class="String">"</span>
+
+<span class="Comment"># Newlines in variables</span>
+single <span class="Operator">:=</span> <span class="String">'</span>
+<span class="String">hello</span>
+<span class="String">'</span>
+
+double <span class="Operator">:=</span> <span class="String">"</span>
+<span class="String">goodbye</span>
+<span class="String">"</span>
+escapes <span class="Operator">:=</span> <span class="String">'\t\n\r\"\\'</span>
+
+<span class="Comment"># this string will evaluate to `foo\nbar\n`</span>
+x <span class="Operator">:=</span> <span class="String">'''</span>
+<span class="String">  foo</span>
+<span class="String">  bar</span>
+<span class="String">'''</span>
+
+<span class="Comment"># this string will evaluate to `abc\n  wuv\nbar\n`</span>
+y <span class="Operator">:=</span> <span class="String">"""</span>
+<span class="String">  abc</span>
+<span class="String">    wuv</span>
+<span class="String">  xyz</span>
+<span class="String">"""</span>
+
+<span class="Function">for</span><span class="Operator">:</span>
+<span class="Number">  for file in </span><span class="Special">`ls .`</span><span class="Number">; do </span><span class="Special">\</span>
+<span class="Number">    echo $file; </span><span class="Special">\</span>
+<span class="Number">  done</span>
+
+<span class="Function">serve</span><span class="Operator">:</span>
+<span class="Number">  touch </span><span class="Delimiter">{{</span><span class="Identifier">tmpdir</span><span class="Delimiter">}}</span><span class="Number">/file</span>
+
+<span class="Comment"># This backtick evaluates the command `echo foo\necho bar\n`, which produces the value `foo\nbar\n`.</span>
+stuff <span class="Operator">:=</span> <span class="Special">```</span>
+<span class="Special">    echo foo</span>
+<span class="Special">    echo bar</span>
+<span class="Special">  ```</span>
+
+
+an_arch <span class="Operator">:=</span> <span class="Function">trim</span>(<span class="Function">lowercase</span>(<span class="Function">justfile</span>())) <span class="Operator">+</span> <span class="Function">arch</span>()
+trim_end <span class="Operator">:=</span> <span class="Function">trim_end</span>(<span class="String">"99.99954%   "</span>)
+home_dir <span class="Operator">:=</span> <span class="Function">replace</span>(<span class="Function">env_var</span>(<span class="String">'HOME'</span>) / <span class="String">"yep"</span>, <span class="String">'yep'</span>, <span class="String">''</span>)
+quoted <span class="Operator">:=</span> <span class="Function">quote</span>(<span class="String">"some things beyond</span><span class="Special">\"</span><span class="String">$()^%#@!|-+=_*&amp;'`"</span>)
+smartphone <span class="Operator">:=</span> <span class="Function">trim_end_match</span>(<span class="String">'blah.txt'</span>, <span class="String">'txt'</span>)
+museum <span class="Operator">:=</span> <span class="Function">trim_start_match</span>(<span class="Function">trim_start</span>(<span class="Function">trim_end_matches</span>(<span class="String">'   yep_blah.txt.txt'</span>, <span class="String">'.txt'</span>)), <span class="String">'yep_'</span>)
+water <span class="Operator">:=</span> <span class="Function">trim_start_matches</span>(<span class="String">'ssssssoup.txt'</span>, <span class="String">'s'</span>)
+congress <span class="Operator">:=</span> <span class="Function">uppercase</span>(<span class="Function">os</span>())
+fam <span class="Operator">:=</span> <span class="Function">os_family</span>()
+path_1 <span class="Operator">:=</span> <span class="Function">absolute_path</span>(<span class="String">'test'</span>)
+path_2 <span class="Operator">:=</span> <span class="String">'/tmp/subcommittee.txt'</span>
+ext_z <span class="Operator">:=</span> <span class="Function">extension</span>(path_2)
+exe_name <span class="Operator">:=</span> <span class="Function">file_name</span>(<span class="Function">just_executable</span>())
+a_stem <span class="Operator">:=</span> <span class="Function">file_stem</span>(path_2)
+a_parent <span class="Operator">:=</span> <span class="Function">parent_directory</span>(path_2)
+sans_ext <span class="Operator">:=</span> <span class="Function">without_extension</span>(path_2)
+camera <span class="Operator">:=</span> <span class="Function">join</span>(<span class="String">'tmp'</span>, <span class="String">'dir1'</span>, <span class="String">'dir2'</span>, path_2)
+cleaned <span class="Operator">:=</span> <span class="Function">clean</span>(<span class="String">'/tmp/blah/..///thing.txt'</span>)
+id__path <span class="Operator">:=</span> <span class="String">'/tmp'</span> / <span class="Function">sha256</span>(<span class="String">'blah'</span>) / <span class="Function">sha256_file</span>(<span class="Function">justfile</span>())
+_another_var <span class="Operator">:=</span> <span class="Function">env_var_or_default</span>(<span class="String">"HOME"</span>, <span class="Function">justfile_directory</span>())
+python <span class="Operator">:=</span> <span class="Special">`which python`</span>
+
+exists <span class="Operator">:=</span> <span class="Conditional">if</span> <span class="Function">path_exists</span>(<span class="Function">just_executable</span>()) <span class="Operator">=~</span> <span class="String">'^/User'</span> { <span class="Function">uuid</span>() } <span class="Conditional">else</span> { <span class="String">'yeah'</span> }
+
+foo   <span class="Operator">:=</span> <span class="Conditional">if</span> <span class="Function">env_var</span>(<span class="String">"_"</span>) <span class="Operator">==</span> <span class="String">"/usr/bin/env"</span> { <span class="Special">`touch /tmp/a_file`</span> } <span class="Conditional">else</span> { <span class="String">"dummy-value"</span> }
+foo_b <span class="Operator">:=</span> <span class="Conditional">if</span> <span class="String">"hello"</span> <span class="Operator">==</span> <span class="String">"goodbye"</span> { <span class="String">"xyz"</span> } <span class="Conditional">else</span> { <span class="Conditional">if</span> <span class="String">"no"</span> <span class="Operator">==</span> <span class="String">"no"</span> { <span class="String">"yep"</span>} <span class="Conditional">else</span> { <span class="Function">error</span>(<span class="String">"123"</span>) } }
+foo_c <span class="Operator">:=</span> <span class="Conditional">if</span> <span class="String">"hello"</span> <span class="Operator">==</span> <span class="String">"goodbye"</span> {
+<span class="Number">  </span><span class="String">"xyz"</span>
+} <span class="Conditional">else</span> <span class="Conditional">if</span> <span class="String">"a"</span> <span class="Operator">==</span> <span class="String">"a"</span> {
+<span class="Number">  </span><span class="String">"abc"</span>
+} <span class="Conditional">else</span> {
+<span class="Number">  </span><span class="String">"123"</span>
+}
+
+<span class="Function">bar</span><span class="Operator">:</span>
+<span class="Number">  </span><span class="Special">@</span><span class="Number">echo </span><span class="Delimiter">{{</span><span class="Identifier">foo</span><span class="Delimiter">}}</span>
+
+
+<span class="Function">bar2 </span><span class="Identifier">foo_stuff</span><span class="Operator">:</span>
+<span class="Number">  echo </span><span class="Delimiter">{{ </span><span class="Conditional">if</span><span class="Delimiter"> </span><span class="Identifier">foo_stuff</span><span class="Delimiter"> </span><span class="Operator">==</span><span class="Delimiter"> </span><span class="String">"bar"</span><span class="Delimiter"> { </span><span class="String">"hello"</span><span class="Delimiter"> }</span><span class="Delimiter"> </span><span class="Conditional">else</span><span class="Delimiter"> { </span><span class="String">"goodbye"</span><span class="Delimiter"> }</span><span class="Delimiter"> }}</span>
+
+<span class="Function">executable</span><span class="Operator">:</span>
+<span class="Number">  </span><span class="Special">@</span><span class="Number">echo The executable is at: </span><span class="Delimiter">{{</span><span class="Function">just_executable</span><span class="Delimiter">()}}</span>
+
+
+<span class="Function">rustfmt</span><span class="Operator">:</span>
+<span class="Number">  find </span><span class="Delimiter">{{</span><span class="Function">invocation_directory</span><span class="Delimiter">()}}</span><span class="Number"> -name \*.rs -exec rustfmt {} \;</span>
+
+<span class="Function">test</span><span class="Operator">:</span>
+<span class="Number">  echo </span><span class="String">"</span><span class="Delimiter">{{</span><span class="Identifier">home_dir</span><span class="Delimiter">}}</span><span class="String">"</span>
+
+
+<span class="Function">linewise</span><span class="Operator">:</span>
+<span class="Number">  Write-Host </span><span class="String">"Hello, world!"</span>
+
+<span class="Function">serve2</span><span class="Operator">:</span>
+<span class="Number">  </span><span class="Special">@</span><span class="Number">echo </span><span class="String">"Starting server with database $DATABASE_ADDRESS on port $SERVER_PORT…"</span>
+
+
+shebang <span class="Operator">:=</span> <span class="Conditional">if</span> <span class="Function">os</span>() <span class="Operator">==</span> <span class="String">'windows'</span> {
+<span class="Number">  </span><span class="String">'powershell.exe'</span>
+} <span class="Conditional">else</span> {
+<span class="Number">  </span><span class="String">'/usr/bin/env pwsh'</span>
+}
+
+<span class="Function">shebang</span><span class="Operator">:</span>
+<span class="Number">	</span><span class="SpecialComment">#!</span><span class="Delimiter">{{</span><span class="Identifier">shebang</span><span class="Delimiter">}}</span>
+<span class="Number">	$PSV = $PSVersionTable.PSVersion | % {</span><span class="String">"$_"</span><span class="Number"> -split </span><span class="String">"\."</span><span class="Number"> }</span>
+<span class="Number">	$psver = $PSV[0] + </span><span class="String">"."</span><span class="Number"> + $PSV[1]</span>
+<span class="Number">	if ($PSV[2].Length -lt 4) {</span>
+<span class="Number">		$psver += </span><span class="String">"."</span><span class="Number"> + $PSV[2] + </span><span class="String">" Core"</span>
+<span class="Number">	} else {</span>
+<span class="Number">		$psver += </span><span class="String">" Desktop"</span>
+<span class="Number">	}</span>
+<span class="Number">	echo </span><span class="String">"PowerShell $psver"</span>
+
+<span class="Special">@</span><span class="Function">foo</span><span class="Operator">:</span>
+<span class="Number">  echo bar</span>
+
+<span class="Special">@</span><span class="Function">test5 </span><span class="Operator">*</span><span class="Identifier">args</span><span class="Operator">=</span><span class="String">''</span><span class="Operator">:</span>
+<span class="Number">  bash -c </span><span class="String">'while (( "$#" )); do echo - $1; shift; done'</span><span class="Number"> -- </span><span class="String">"$@"</span>
+
+<span class="Function">test2 </span><span class="Operator">$</span><span class="Identifier">RUST_BACKTRACE</span><span class="Operator">=</span><span class="String">"1"</span><span class="Operator">:</span>
+<span class="Number">  </span><span class="Comment"># will print a stack trace if it crashes</span>
+<span class="Number">  cargo test</span>
+
+
+<span class="Function">notify </span><span class="Identifier">m</span><span class="Operator">=</span><span class="String">""</span><span class="Operator">:</span>
+<span class="Number">	keybase chat send --topic-type </span><span class="String">"chat"</span><span class="Number"> --channel &lt;channel&gt; &lt;team&gt; </span><span class="String">"upd(&lt;repo&gt;): </span><span class="Delimiter">{{</span><span class="Identifier">m</span><span class="Delimiter">}}</span><span class="String">"</span>
+
+<span class="Comment"># Sample project script 2</span>
+<span class="Function">script2 </span><span class="Operator">*</span><span class="Identifier">ARGS</span><span class="Operator">:</span>
+<span class="Number">    </span><span class="Delimiter">{{ </span><span class="Identifier">python</span><span class="Delimiter"> }}</span><span class="Number"> script2.py </span><span class="Delimiter">{{ </span><span class="Identifier">ARGS</span><span class="Delimiter"> }}</span>
+
+<span class="Function">braces</span><span class="Operator">:</span>
+<span class="Number">  echo </span><span class="String">'I {{{{LOVE}} curly braces!'</span>
+
+<span class="Function">_braces2</span><span class="Operator">:</span>
+<span class="Number">  echo </span><span class="String">'</span><span class="Delimiter">{{</span><span class="String">'I </span><span class="Delimiter">{{</span><span class="Identifier">LOVE</span><span class="Delimiter">}}</span><span class="String"> curly braces!'</span><span class="Delimiter">}}</span><span class="String">'</span>
+
+<span class="Function">_braces3</span><span class="Operator">:</span>
+<span class="Number">  echo </span><span class="String">'I </span><span class="Delimiter">{{ "{{" }}</span><span class="String">LOVE}} curly braces!'</span>
+
+<span class="Function">foo2</span><span class="Operator">:</span>
+<span class="Number">  </span><span class="Special">-@</span><span class="Number">cat foo</span>
+<span class="Number">  echo </span><span class="String">'Done!'</span>
+
+<span class="Function">test3 </span><span class="Identifier">target</span><span class="Function"> </span><span class="Identifier">tests</span><span class="Operator">=</span><span class="Function">path_1</span><span class="Operator">:</span>
+<span class="Number">  </span><span class="Special">@</span><span class="Number">echo </span><span class="String">'Testing </span><span class="Delimiter">{{</span><span class="Identifier">target</span><span class="Delimiter">}}</span><span class="String">:</span><span class="Delimiter">{{</span><span class="Identifier">tests</span><span class="Delimiter">}}</span><span class="String">…'</span>
+<span class="Number">  ./test --tests </span><span class="Delimiter">{{</span><span class="Identifier">tests</span><span class="Delimiter">}}</span><span class="Number"> </span><span class="Delimiter">{{</span><span class="Identifier">target</span><span class="Delimiter">}}</span>
+
+<span class="Function">test4 </span><span class="Identifier">triple</span><span class="Operator">=</span><span class="Function">(an_arch </span><span class="Operator">+</span><span class="Function"> </span><span class="String">"-unknown-unknown"</span><span class="Function">) </span><span class="Identifier">input</span><span class="Operator">=</span><span class="Function">(an_arch / </span><span class="String">"input.dat"</span><span class="Function">)</span><span class="Operator">:</span>
+<span class="Number">  ./test </span><span class="Delimiter">{{</span><span class="Identifier">triple</span><span class="Delimiter">}}</span>
+
+<span class="Function">variadic </span><span class="Operator">$</span><span class="Identifier">VAR1_1</span><span class="Function"> </span><span class="Identifier">VAR2</span><span class="Function"> </span><span class="Identifier">VAR3</span><span class="Function"> </span><span class="Identifier">VAR4</span><span class="Operator">=</span><span class="Function">(</span><span class="String">"a"</span><span class="Function">) </span><span class="Operator">+$</span><span class="Function">FLAGS</span><span class="Operator">=</span><span class="String">'-q'</span><span class="Operator">:</span> <span class="Function">foo2</span> <span class="Function">braces</span>
+<span class="Number">  cargo test </span><span class="Delimiter">{{</span><span class="Identifier">FLAGS</span><span class="Delimiter">}}</span>
+
+<span class="Function">time</span><span class="Operator">:</span>
+<span class="Number">  </span><span class="Special">@-</span><span class="Number">date +</span><span class="String">"%H:%S"</span>
+<span class="Number">  </span><span class="Special">-</span><span class="Number">cat /tmp/nonexistent_file.txt</span>
+<span class="Number">  </span><span class="Special">@</span><span class="Number">echo </span><span class="String">"finished"</span>
+
+<span class="Function">justwords</span><span class="Operator">:</span>
+<span class="Number">  grep just </span><span class="Special">\</span>
+<span class="Number">    --text /usr/share/dict/words </span><span class="Special">\</span>
+<span class="Number">    &gt; /tmp/justwords</span>
+
+<span class="Comment"># Subsequent dependencies</span>
+<span class="Comment"># <a href="https://just.systems/man/en/chapter_37.html">https://just.systems/man/en/chapter_37.html</a></span>
+<span class="Comment"># To test, run `$ just -f test-suite.just b`</span>
+<span class="Function">a</span><span class="Operator">:</span>
+<span class="Number">  echo </span><span class="String">'A!'</span>
+
+<span class="Function">b</span><span class="Operator">:</span> <span class="Function">a</span> <span class="Operator">&amp;&amp;</span> <span class="Function">d</span>
+<span class="Number">  echo </span><span class="String">'B start!'</span>
+<span class="Number">  just -f </span><span class="Delimiter">{{</span><span class="Function">justfile</span><span class="Delimiter">()}}</span><span class="Number"> c</span>
+<span class="Number">  echo </span><span class="String">'B end!'</span>
+
+<span class="Function">c</span><span class="Operator">:</span>
+<span class="Number">  echo </span><span class="String">'C!'</span>
+
+<span class="Function">d</span><span class="Operator">:</span>
+<span class="Number">  echo </span><span class="String">'D!'</span>
