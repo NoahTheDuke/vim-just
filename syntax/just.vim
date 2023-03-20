@@ -19,10 +19,13 @@ syn match justShebang "#!.*$" contains=justInterpolation
 syn match justName "[a-zA-Z_][a-zA-Z0-9_-]*" contained
 syn match justFunction "[a-zA-Z_][a-zA-Z0-9_-]*" contained
 
-syn region justBacktick start=/`/ skip=/\./ end=/`/ contains=justInterpolation
-syn region justRawString start=/'/ skip=/\./ end=/'/ contains=justInterpolation
-syn region justString start=/"/ skip=/\.\|\\\\\|\\"/ end=/"/ contains=justInterpolation,justNextLine,justStringEscapeSequence
+syn region justBacktick start=/`/ skip=/\./ end=/`/
+syn region justRawString start=/'/ skip=/\./ end=/'/
+syn region justString start=/"/ skip=/\.\|\\\\\|\\"/ end=/"/ contains=justNextLine,justStringEscapeSequence
 syn cluster justAllStrings contains=justBacktick,justRawString,justString
+
+syn region justStringInsideBody start=/'/ skip=/\v\{\{.*\}\}/ end=/'/ contained contains=justNextLine,justInterpolation
+syn region justStringInsideBody start=/"/ skip=/\v\{\{.*\}\}/ end=/"/ contained contains=justNextLine,justInterpolation
 
 syn match justStringEscapeSequence '\v\\[tnr"\\]' contained
 
@@ -96,13 +99,9 @@ syn match justLineLeadingSymbol "\v^(\\\n)@<!\s\s*\zs(\@-|-\@|\@|-)"
 syn match justLineContinuation "\\$" contained
 
 syn region justBody start="\v^(^[A-Za-z_@-].*:%([^=].*)?\n)@<=\s+(\@-|-\@|\@|-)?\S" skip='\\\n' end="\v\n\ze%(\n|\S)"
-      \ contains=justInterpolation,justLineLeadingSymbol,justLineContinuation,justComment,justShebang,@justAllStrings
+      \ contains=justInterpolation,justLineLeadingSymbol,justLineContinuation,justComment,justShebang,justStringInsideBody
 
-syn region justInterpolation start="\v(^|[^{])\zs\{\{[^{]" end="}}" contained contains=ALLBUT,justInterpolation,justFunction,justBody
-
-" XXX I'm sure there is a better, general, way to handle this, but I couldn't come up with one
-" at least cover this specific case since it's in the README and the kitchen-sink.just example
-syn region justInterpolation start='{{\s*"{{"' end='}}' contained
+syn region justInterpolation start="\v(^|[^{])\zs\{\{[^{]" end="}}" contained contains=ALLBUT,justInterpolation,justFunction,justBody,justStringInsideBody
 
 syn match justBuiltInFunctions "\v%(absolute_path|arch|capitalize|clean|env_var_or_default|env_var|error|extension|file_name|file_stem|invocation_directory(_native)?|join|just_executable|justfile_directory|justfile|kebabcase|lowercamelcase|lowercase|os_family|os|parent_directory|path_exists|quote|replace_regex|replace|sha256_file|sha256|shoutykebabcase|shoutysnakecase|snakecase|titlecase|trim_end_matches|trim_end_match|trim_end|trim_start_matches|trim_start_match|trim_start|trim|uppercase|uppercamelcase|uuid|without_extension)\ze\(\)" contains=justBuiltInFunctions
 syn region justBuiltInFunctions transparent matchgroup=justBuiltInFunctions start="\v%(absolute_path|arch|capitalize|clean|env_var_or_default|env_var|error|extension|file_name|file_stem|invocation_directory(_native)?|join|just_executable|justfile_directory|justfile|kebabcase|lowercamelcase|lowercase|os_family|os|parent_directory|path_exists|quote|replace_regex|replace|sha256_file|sha256|shoutykebabcase|shoutysnakecase|snakecase|titlecase|trim_end_matches|trim_end_match|trim_end|trim_start_matches|trim_start_match|trim_start|trim|uppercase|uppercamelcase|uuid|without_extension)\ze\(" end=")" oneline contains=@justAllStrings,justNoise,justBuiltInFunctions
@@ -151,4 +150,5 @@ hi def link justSetDeprecatedKeywords Underlined
 hi def link justShebang               SpecialComment
 hi def link justString                String
 hi def link justStringEscapeSequence  Special
+hi def link justStringInsideBody      String
 hi def link justVariadicOperator      Operator

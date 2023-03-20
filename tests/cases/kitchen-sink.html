@@ -58,7 +58,7 @@ y <span class="Operator">:=</span> <span class="String">"""</span>
 <span class="String">"""</span>
 
 <span class="Function">for</span><span class="Operator">:</span>
-<span class="Number">  for file in </span><span class="Special">`ls .`</span><span class="Number">; do </span><span class="Special">\</span>
+<span class="Number">  for file in `ls .`; do </span><span class="Special">\</span>
 <span class="Number">    echo $file; </span><span class="Special">\</span>
 <span class="Number">  done</span>
 
@@ -170,10 +170,10 @@ shebang <span class="Operator">:=</span> <span class="Conditional">if</span> <sp
 <span class="Number">  echo </span><span class="String">'I {{{{LOVE}} curly braces!'</span>
 
 <span class="Function">_braces2</span><span class="Operator">:</span>
-<span class="Number">  echo </span><span class="String">'</span><span class="Delimiter">{{</span><span class="String">'I </span><span class="Delimiter">{{</span><span class="Identifier">LOVE</span><span class="Delimiter">}}</span><span class="String"> curly braces!'</span><span class="Delimiter">}}</span><span class="String">'</span>
+<span class="Number">  echo </span><span class="String">'</span><span class="Delimiter">{{</span><span class="String">'I {{LOVE}} curly braces!'</span><span class="Delimiter">}}</span><span class="String">'</span>
 
 <span class="Function">_braces3</span><span class="Operator">:</span>
-<span class="Number">  echo </span><span class="String">'I </span><span class="Delimiter">{{ "{{" }}</span><span class="String">LOVE}} curly braces!'</span>
+<span class="Number">  echo </span><span class="String">'I </span><span class="Delimiter">{{ </span><span class="String">"{{"</span><span class="Delimiter"> }}</span><span class="String">LOVE}} curly braces!'</span>
 
 <span class="Function">foo2</span><span class="Operator">:</span>
 <span class="Number">  </span><span class="Special">-@</span><span class="Number">cat foo</span>
