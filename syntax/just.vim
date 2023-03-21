@@ -9,116 +9,146 @@ if exists('b:current_syntax')
 endif
 
 let b:current_syntax = 'just'
-syntax sync minlines=20 maxlines=200
+syn sync minlines=60 maxlines=200
 
-syntax match justNoise ","
+syn match justNoise ","
 
-syntax match justComment "\v#.*$" contains=@Spell
-syntax match justName "[a-zA-Z_][a-zA-Z0-9_-]*" contained
-syntax match justFunction "[a-zA-Z_][a-zA-Z0-9_-]*" contained
+syn match justComment "\v#([^!].*)?$" contains=@Spell,justCommentTodo
+syn keyword justCommentTodo TODO FIXME XXX contained
+syn match justShebang "#!.*$" contains=justInterpolation
+syn match justName "[a-zA-Z_][a-zA-Z0-9_-]*" contained
+syn match justFunction "[a-zA-Z_][a-zA-Z0-9_-]*" contained
 
-syntax region justBacktick start=/`/ skip=/\./ end=/`/ contains=justInterpolation
-syntax region justRawString start=/'/ skip=/\./ end=/'/ contains=justInterpolation
-syntax region justString start=/"/ skip=/\./ end=/"/ contains=justInterpolation
-syntax cluster justAllStrings contains=justBacktick,justRawString,justString
+syn region justBacktick start=/`/ skip=/\./ end=/`/
+syn region justRawString start=/'/ skip=/\./ end=/'/
+syn region justString start=/"/ skip=/\.\|\\\\\|\\"/ end=/"/ contains=justNextLine,justStringEscapeSequence
+syn cluster justAllStrings contains=justBacktick,justRawString,justString
 
-syntax match justAssignmentOperator ":=" contained
+syn region justStringInsideBody start=/'/ skip=/\v\{\{.*\}\}/ end=/'/ contained contains=justNextLine,justInterpolation
+syn region justStringInsideBody start=/"/ skip=/\v\{\{.*\}\}/ end=/"/ contained contains=justNextLine,justInterpolation
 
-syntax match justParameterOperator "=" contained
-syntax match justVariadicOperator "*\|+\|\$" contained
-syntax match justParameter "\v\s\zs%(\*|\+|\$)?[a-zA-Z_][a-zA-Z0-9_-]*\ze\=?" contained contains=justVariadicOperator,justParameterOperator
+syn match justStringEscapeSequence '\v\\[tnr"\\]' contained
 
-syntax match justNextLine "\\\n\s*"
-syntax match justRecipeAt "^@" contained
-syntax match justRecipeColon "\v:" contained
+syn match justAssignmentOperator ":=" contained
 
-syntax region justRecipe
+syn match justParameterOperator "=" contained
+syn match justVariadicOperator "*\|+\|\$" contained
+syn match justParameter "\v\s\zs%(\*|\+|\$)?[a-zA-Z_][a-zA-Z0-9_-]*\ze\=?" contained contains=justVariadicOperator,justParameterOperator
+
+syn match justNextLine "\\\n\s*"
+syn match justRecipeAt "^@" contained
+syn match justRecipeColon "\v:" contained
+
+syn match justRecipeAttr '^\[\(no-\(cd\|exit-message\)\|linux\|macos\|unix\|windows\|private\(,\s*\(no-\(cd\|exit-message\)\|linux\|macos\|unix\|windows\|private\)\)*\)\]'
+
+syn region justRecipe
       \ matchgroup=justRecipeBody start="\v^\@?[a-zA-Z_]((:\=)@!.)*\ze:%(\s|\n)"
       \ matchgroup=justRecipeDeps end="\v:\zs.*\n"
       \ contains=justFunction,justRecipeColon
 
-syntax match justRecipeBody "\v^\@?[a-zA-Z_]((:\=)@!.)*\ze:%(\s|\n)"
-      \ contains=justRecipeAt,justRecipeColon,justParameter,justParameterOperator,justVariadicOperator,@justAllStrings,justComment
+syn match justRecipeBody "\v^\@?[a-zA-Z_]((:\=)@!.)*\ze:%(\s|\n)"
+      \ contains=justRecipeAt,justRecipeColon,justParameter,justParameterOperator,justVariadicOperator,@justAllStrings,justComment,justShebang
 
-syntax match justRecipeDeps "\v:[^\=]?.*\n"
-      \ contains=justComment,justFunction,justRecipeColon
+syn match justRecipeSubsequentDeps '&&' contained
 
-syntax match justBoolean "\v(true|false)" contained
-syntax match justKeywords "\v%(export|set)" contained
+syn match justRecipeDeps "\v:[^\=]?.*\n"
+      \ contains=justComment,justFunction,justRecipeColon,justRecipeSubsequentDeps,justRecipeParamDep
 
-syntax match justAssignment "\v^[a-zA-Z_][a-zA-Z0-9_-]*\s+:\=" transparent contains=justAssignmentOperator
+syn region justRecipeParamDep contained transparent
+      \ start="("
+      \ matchgroup=justRecipeDepParamsParen start='\v(\(\s*[a-zA-Z_][a-zA-Z0-9_-]*)'
+      \ end=")"
+      \ contains=justRecipeDepParamsParen,justRecipeDepWithParams,@justAllStrings
+syn match justRecipeDepParamsParen '\v(\(\s*[a-zA-Z_][a-zA-Z0-9_-]*|\))' contained contains=justRecipeDepWithParams
+syn match justRecipeDepWithParams "\v\(\s*\zs[a-zA-Z_][a-zA-Z0-9_-]*" contained
 
-syntax match justSetKeywords "\v%(dotenv-load|export|positional-arguments|shell)" contained
-syntax match justSetDefinition "\v^set\s+%(dotenv-load|export|positional-arguments)%(\s+:\=\s+%(true|false))?$"
-      \ contains=justSetKeywords,justKeywords,justAssignmentOperator,justBoolean
+syn match justBoolean "\v(true|false)" contained
+syn match justKeywords "\v%(export|set)" contained
+
+syn match justAssignment "\v^[a-zA-Z_][a-zA-Z0-9_-]*\s+:\=" transparent contains=justAssignmentOperator
+
+syn match justSetKeywords "\v%(allow-duplicate-recipes|dotenv-load|export|fallback|ignore-comments|positional-arguments|tempdir|shell|windows-shell)" contained
+syn match justSetDeprecatedKeywords 'windows-powershell' contained
+syn match justSetDefinition "\v^set\s+%(allow-duplicate-recipes|dotenv-load|export|fallback|ignore-comments|positional-arguments|windows-powershell)%(\s+:\=\s+%(true|false))?$"
+      \ contains=justSetKeywords,justSetDeprecatedKeywords,justKeywords,justAssignmentOperator,justBoolean
       \ transparent
 
-syntax match justSetBraces "\v[\[\]]" contained
-syntax region justSetDefinition
-      \ start="\v^set\s+shell\s+:\=\s+\["
+syn match justSetBraces "\v[\[\]]" contained
+syn region justSetDefinition
+      \ start="\v^set\s+(windows-)?shell\s+:\=\s+\["
       \ end="]"
       \ contains=justSetKeywords,justKeywords,justAssignmentOperator,@justAllStrings,justNoise,justSetBraces
       \ transparent skipwhite oneline
 
-syntax region justAlias
+syn region justAlias
       \ matchgroup=justAlias start="\v^alias\ze\s+[a-zA-Z_][a-zA-Z0-9_-]*\s+:\="
       \ end="$"
       \ contains=justKeywords,justFunction,justAssignmentOperator
       \ oneline skipwhite
 
-syntax region justExport
+syn region justExport
       \ matchgroup=justExport start="\v^export\ze\s+[a-zA-Z_][a-zA-Z0-9_-]*%(\s+:\=)?"
       \ end="$"
-      \ contains=justKeywords,justAssignmentOperator
+      \ contains=justKeywords,justAssignmentOperator,justBuiltinFunctions,@justAllStrings
       \ transparent oneline skipwhite
 
-syntax keyword justConditional if else
-syntax region justConditionalBraces start="\v[^{]\{[^{]" end="}" contained oneline contains=ALLBUT,justConditionalBraces,justBodyText
+syn keyword justConditional if else
+syn region justConditionalBraces start="\v[^{]\{[^{]" end="}" contained oneline contains=ALLBUT,justConditionalBraces
 
-syntax match justBodyText "[^[:space:]#]\+" contained
-syntax match justLineLeadingSymbol "\v^\s+\zs%(\@|-)" contained
-syntax match justLineContinuation "\\$" contained
+syn match justLineLeadingSymbol "\v^(\\\n)@<!\s\s*\zs(\@-|-\@|\@|-)"
+syn match justLineContinuation "\\$" contained
 
-syntax region justBody transparent matchgroup=justLineLeadingSymbol start="\v^\s+\zs[@-]"hs=e-1 matchgroup=justBodyText start="\v^\s+\zs[^[:space:]@#-]"hs=e-1 end="\n" skipwhite oneline contains=justInterpolation,justBodyText,justLineLeadingSymbol,justLineContinuation,justComment
+syn region justBody start="\v^(^[A-Za-z_@-].*:%([^=].*)?\n)@<=\s+(\@-|-\@|\@|-)?\S" skip='\\\n' end="\v\n\ze%(\n|\S)"
+      \ contains=justInterpolation,justLineLeadingSymbol,justLineContinuation,justComment,justShebang,justStringInsideBody
 
-syntax region justInterpolation start="{{" end="}}" contained contains=ALLBUT,justInterpolation,justFunction,justBodyText
+syn region justInterpolation start="\v(^|[^{])\zs\{\{[^{]" end="}}" contained contains=ALLBUT,justInterpolation,justFunction,justBody,justStringInsideBody
 
-syntax match justBuiltInFunctionParens "[()]" contained
-syntax match justBuiltInFunctions "\v%(arch|os|os_family|invocation_directory|justfile|justfile_directory|just_executable)\ze\(\)" contains=justBuiltInFunctions
-syntax region justBuiltInFunctions transparent matchgroup=justBuiltInFunctions start="\v%(env_var_or_default|env_var)\ze\(" end=")" oneline contains=@justAllStrings,justBuiltInFunctionParens,justNoise
+syn match justBuiltInFunctions "\v%(absolute_path|arch|capitalize|clean|env_var_or_default|env_var|error|extension|file_name|file_stem|invocation_directory(_native)?|join|just_executable|justfile_directory|justfile|kebabcase|lowercamelcase|lowercase|os_family|os|parent_directory|path_exists|quote|replace_regex|replace|sha256_file|sha256|shoutykebabcase|shoutysnakecase|snakecase|titlecase|trim_end_matches|trim_end_match|trim_end|trim_start_matches|trim_start_match|trim_start|trim|uppercase|uppercamelcase|uuid|without_extension)\ze\(\)" contains=justBuiltInFunctions
+syn region justBuiltInFunctions transparent matchgroup=justBuiltInFunctions start="\v%(absolute_path|arch|capitalize|clean|env_var_or_default|env_var|error|extension|file_name|file_stem|invocation_directory(_native)?|join|just_executable|justfile_directory|justfile|kebabcase|lowercamelcase|lowercase|os_family|os|parent_directory|path_exists|quote|replace_regex|replace|sha256_file|sha256|shoutykebabcase|shoutysnakecase|snakecase|titlecase|trim_end_matches|trim_end_match|trim_end|trim_start_matches|trim_start_match|trim_start|trim|uppercase|uppercamelcase|uuid|without_extension)\ze\(" end=")" oneline contains=@justAllStrings,justNoise,justBuiltInFunctions
 
-syntax match justBuiltInFunctionsError "\v%(arch|os|os_family|invocation_directory|justfile|justfile_directory|just_executable)\(.+\)"
+syn match justBuiltInFunctionsError "\v%(arch|os|os_family|invocation_directory(_native)?|justfile|justfile_directory|just_executable|uuid)\([^)]+\)"
 
-syntax match justOperator "\v%(\=\=|!\=|\+)"
+syn match justOperator "\v%(\=\=|!\=|\=\~|\+)"
 
-highlight default link justAlias                 Keyword
-highlight default link justAssignmentOperator    Operator
-highlight default link justBacktick              String
-highlight default link justBodyText              Constant
-highlight default link justBoolean               Boolean
-highlight default link justBuiltInFunctions      Function
-highlight default link justBuiltInFunctionsError Error
-highlight default link justBuiltInFunctionParens Delimiter
-highlight default link justComment               Comment
-highlight default link justConditional           Conditional
-highlight default link justConditionalBraces     Delimiter
-highlight default link justExport                Keyword
-highlight default link justFunction              Function
-highlight default link justInterpolation         Delimiter
-highlight default link justKeywords              Keyword
-highlight default link justLineContinuation      Special
-highlight default link justLineLeadingSymbol     Special
-highlight default link justName                  Identifier
-highlight default link justNextLine              Special
-highlight default link justOperator              Operator
-highlight default link justParameter             Identifier
-highlight default link justParameterOperator     Operator
-highlight default link justRawString             String
-highlight default link justRecipe                Function
-highlight default link justRecipeAt              Special
-highlight default link justRecipeBody            Function
-highlight default link justRecipeColon           Operator
-highlight default link justSetDefinition         Keyword
-highlight default link justSetKeywords           Keyword
-highlight default link justString                String
-highlight default link justVariadicOperator      Operator
+syn match justInclude "^!include\s\+.*$"
+
+hi def link justAlias                 Statement
+hi def link justAssignmentOperator    Operator
+hi def link justBacktick              Special
+hi def link justBody                  Number
+hi def link justBoolean               Boolean
+hi def link justBuiltInFunctions      Function
+hi def link justBuiltInFunctionsError Error
+hi def link justComment               Comment
+hi def link justCommentTodo           Todo
+hi def link justConditional           Conditional
+hi def link justConditionalBraces     Delimiter
+hi def link justExport                Statement
+hi def link justFunction              Function
+hi def link justInclude               Include
+hi def link justInterpolation         Delimiter
+hi def link justKeywords              Statement
+hi def link justLineContinuation      Special
+hi def link justLineLeadingSymbol     Special
+hi def link justName                  Identifier
+hi def link justNextLine              Special
+hi def link justOperator              Operator
+hi def link justParameter             Identifier
+hi def link justParameterOperator     Operator
+hi def link justRawString             String
+hi def link justRecipe                Function
+hi def link justRecipeAt              Special
+hi def link justRecipeAttr            Type
+hi def link justRecipeBody            Function
+hi def link justRecipeColon           Operator
+hi def link justRecipeDepParamsParen  Delimiter
+hi def link justRecipeDepWithParams   Function
+hi def link justRecipeSubsequentDeps  Operator
+hi def link justSetDefinition         Keyword
+hi def link justSetKeywords           Keyword
+hi def link justSetDeprecatedKeywords Underlined
+hi def link justShebang               SpecialComment
+hi def link justString                String
+hi def link justStringEscapeSequence  Special
+hi def link justStringInsideBody      String
+hi def link justVariadicOperator      Operator
