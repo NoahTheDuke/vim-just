@@ -25,10 +25,36 @@ cd ~/.vim/pack/YOUR-NAMESPACE-HERE/start/
 git clone https://github.com/NoahTheDuke/vim-just.git
 ```
 
+----------
+
+### Updating `git clone` based installations
+
+Run the same `cd` command as in the relevant installation instructions, then:
+
+```bash
+cd vim-just
+git pull --tags --verbose
+```
+
+#### Old `git clone` based installations
+
+In late March 2023, development was moved from `master` branch to `main` branch, and `master` is no longer maintained.  Updating installations that used a `git clone` prior to these changes requires some additional one-time steps, run **after** the normal update procedure:
+
+```bash
+git checkout main
+git branch -d master || git branch --unset-upstream master
+git remote set-head origin -a
+git remote prune origin
+```
+
+Now future updates can again be obtained normally.
+
+----------
+
 ## Contributing & Development
 
 Make some changes, open a PR, easy-peasy. I like to manually apply PRs, so don't be
-surprised if I close your PR while pushing your authored commit directly to master.
+surprised if I close your PR while pushing your authored commit directly to main.
 
 ### Prerequisites
 
