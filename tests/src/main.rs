@@ -6,7 +6,7 @@ use std::{
   fs, io,
   os::unix::fs as ufs,
   path::Path,
-  process::{self, Command},
+  process::{self, Command, Stdio},
 };
 use structopt::StructOpt;
 
@@ -55,10 +55,11 @@ fn main() -> io::Result<()> {
     let output = tempdir.path().join(format!("{}.output.html", name));
 
     let status = Command::new("vim")
-      .args(["-S", "convert-to-html.vim"])
+      .args(["-E", "-S", "convert-to-html.vim"])
       .env("CASE", case)
       .env("OUTPUT", &output)
       .env("HOME", env::current_dir().unwrap())
+      .stdout(Stdio::null())
       .status()
       .unwrap();
 
