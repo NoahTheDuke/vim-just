@@ -59,9 +59,8 @@ fn main() -> io::Result<()> {
       .env("CASE", case)
       .env("OUTPUT", &output)
       .env("HOME", env::current_dir().unwrap())
-      .output()
-      .unwrap()
-      .status;
+      .status()
+      .unwrap();
 
     if !status.success() {
       panic!("Vim failed with status: {}", status);
