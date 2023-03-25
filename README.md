@@ -74,7 +74,6 @@ Run `just deps` to install the cargo dev dependencies, which right now is only
 To run the tests, run `just run` in tests/. Cargo will build and run the project, which
 is a simple test-runner in the `main` fn. If you're going to do more than a simple
 change, I recommend calling `just watch` in tests/, which will watch for any changes in
-the whole repo and re-run the test suite. Because of the use of vim's built-in `TOhtml`,
-the suite is rather slow, so if you want to only run or watch a single test file, you
+the whole repo and re-run the test suite. If you want to only run or watch a single test file, you
 can specify the name by passing an argument to `run` or `watch`: `just run
 recipe-dependency`.
