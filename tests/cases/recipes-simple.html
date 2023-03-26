@@ -1,0 +1,29 @@
+<span class="Comment"># This file intentionally does not have newline at end of file</span>
+
+<span class="Function">empty</span><span class="Operator">:</span>
+
+<span class="Function">tab</span><span class="Operator">:</span>
+<span class="Number">	echo</span>
+<span class="Function">space-indent</span><span class="Operator">:</span>
+<span class="Number">  echo foo foo-bar bar</span>
+
+<span class="Function">simple_dep</span><span class="Operator">:</span> <span class="Function">dependency5</span>
+
+<span class="Function">simple_multiline</span><span class="Operator">:</span>
+<span class="Number">	echo 123</span>
+<span class="Number">	cat comment.just</span>
+
+<span class="Function">simple_multidep</span><span class="Operator">:</span> <span class="Function">dependency</span> <span class="Function">dependency2</span> <span class="Function">dependency3</span>
+<span class="Number">	/bin/true</span>
+
+
+<span class="Function">dependency</span><span class="Operator">:</span>
+<span class="Number">  echo Dependency1</span>
+<span class="Function">dependency2</span><span class="Operator">:</span>
+
+
+<span class="Function">dependency3</span><span class="Operator">:</span>
+<span class="Function">dependency4</span><span class="Operator">:</span>
+<span class="Function">dependency5</span><span class="Operator">:</span>
+<span class="Number">	echo Dependency5 line1</span>
+<span class="Number">	echo Dependency5 line2</span>
