@@ -101,7 +101,7 @@ syn region justConditionalBraces start="\v[^{]\{[^{]" end="}" contained oneline 
 syn match justLineLeadingSymbol "\v^(\\\n)@<!\s\s*\zs(\@-|-\@|\@|-)"
 syn match justLineContinuation "\\$" contained
 
-syn region justBody start="\v^(^[A-Za-z_@-].*:%([^=].*)?\n)@<=%( |\t)+(\@-|-\@|\@|-)?\S" skip='\\\n' end="\v\n\ze%(\n|\S)"
+syn region justBody start="\v^(^[A-Za-z_@-].*:%([^=].*)?\n)@<=%( +|\t+)(\@-|-\@|\@|-)?\S" skip='\\\n' end="\v\n\ze%(\n|\S)"
       \ contains=justInterpolation,@justOtherCurlyBraces,justLineLeadingSymbol,justLineContinuation,justComment,justShebang,justStringInsideBody
 
 syn match justIndentError '\v^%( +\t|\t+ )\s+'
