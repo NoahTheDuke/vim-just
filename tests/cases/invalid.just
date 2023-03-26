@@ -10,3 +10,15 @@ badfunc_in_interpolation:
 
 invalid_recipe_body:
  	  echo 'My indentation mixes tabs and spaces!'
+
+bad_curly_braces:
+	echo {{{Odd number of opening curly braces is an error.}}
+	echo {{{{{Odd number of opening curly braces is an error.}}
+	echo {{{{{{{Odd number of opening curly braces is an error.}}
+	echo {{{{{{{{{Odd number of opening curly braces is an error.}}
+	echo '{{{Odd number of opening curly braces is an error.}}'
+	echo '{{{{{Odd number of opening curly braces is an error.}}'
+	echo '{{{{{{{Odd number of opening curly braces is an error.}}'
+	echo '{{{{{{{{{Odd number of opening curly braces is an error.}}'
+	echo {{{{{{{Odd number of opening curly braces is an error.}}}}}
+	echo "{{{{{{{{{Odd number of opening curly braces is an error.}}}}}"

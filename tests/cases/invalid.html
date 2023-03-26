@@ -10,3 +10,15 @@ badfunc3 <span class="Operator">:=</span> <span class="Error">justfile_directory
 
 <span class="Function">invalid_recipe_body</span><span class="Operator">:</span>
 <span class="Error"> 	  </span>echo <span class="String">'My indentation mixes tabs and spaces!'</span>
+
+<span class="Function">bad_curly_braces</span><span class="Operator">:</span>
+<span class="Number">	echo </span><span class="Error">{{{</span><span class="Number">Odd number of opening curly braces is an error.}}</span>
+<span class="Number">	echo </span><span class="Error">{{{{{</span><span class="Number">Odd number of opening curly braces is an error.}}</span>
+<span class="Number">	echo </span><span class="Special">{{{{</span><span class="Error">{{{</span><span class="Number">Odd number of opening curly braces is an error.}}</span>
+<span class="Number">	echo </span><span class="Special">{{{{</span><span class="Error">{{{{{</span><span class="Number">Odd number of opening curly braces is an error.}}</span>
+<span class="Number">	echo </span><span class="String">'</span><span class="Error">{{{</span><span class="String">Odd number of opening curly braces is an error.}}'</span>
+<span class="Number">	echo </span><span class="String">'</span><span class="Error">{{{{{</span><span class="String">Odd number of opening curly braces is an error.}}'</span>
+<span class="Number">	echo </span><span class="String">'</span><span class="Special">{{{{</span><span class="Error">{{{</span><span class="String">Odd number of opening curly braces is an error.}}'</span>
+<span class="Number">	echo </span><span class="String">'</span><span class="Special">{{{{</span><span class="Error">{{{{{</span><span class="String">Odd number of opening curly braces is an error.}}'</span>
+<span class="Number">	echo </span><span class="Special">{{{{</span><span class="Error">{{{</span><span class="Number">Odd number of opening curly braces is an error.}}}}}</span>
+<span class="Number">	echo </span><span class="String">"</span><span class="Special">{{{{</span><span class="Error">{{{{{</span><span class="String">Odd number of opening curly braces is an error.}}}}}"</span>
