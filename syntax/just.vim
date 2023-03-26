@@ -27,8 +27,8 @@ syn region justString start=/"/ skip=/\.\|\\\\\|\\"/ end=/"/ contains=justNextLi
 syn region justString start=/"""/ skip=/\.\|\\\\\|\\"/ end=/"""/ contains=justNextLine,justStringEscapeSequence
 syn cluster justAllStrings contains=justBacktick,justRawString,justString
 
-syn region justStringInsideBody start=/'/ skip=/\v\{\{.*\}\}/ end=/'/ contained contains=justNextLine,justInterpolation,@justOtherCurlyBraces
-syn region justStringInsideBody start=/"/ skip=/\v\{\{.*\}\}/ end=/"/ contained contains=justNextLine,justInterpolation,@justOtherCurlyBraces
+syn region justStringInsideBody start=/'/ skip=/\v\{\{.*\}\}/ end=/'/ contained contains=justNextLine,justInterpolation,@justOtherCurlyBraces,justIndentError
+syn region justStringInsideBody start=/"/ skip=/\v\{\{.*\}\}/ end=/"/ contained contains=justNextLine,justInterpolation,@justOtherCurlyBraces,justIndentError
 
 syn match justStringEscapeSequence '\v\\[tnr"\\]' contained
 
@@ -102,9 +102,9 @@ syn match justLineLeadingSymbol "\v^(\\\n)@<!\s\s*\zs(\@-|-\@|\@|-)"
 syn match justLineContinuation "\\$" contained
 
 syn region justBody start="\v^(^[A-Za-z_@-].*:%([^=].*)?\n)@<=%( +|\t+)(\@-|-\@|\@|-)?\S" skip='\\\n' end="\v\n\ze%(\n|\S)"
-      \ contains=justInterpolation,@justOtherCurlyBraces,justLineLeadingSymbol,justLineContinuation,justComment,justShebang,justStringInsideBody
+      \ contains=justInterpolation,@justOtherCurlyBraces,justLineLeadingSymbol,justLineContinuation,justComment,justShebang,justStringInsideBody,justIndentError
 
-syn match justIndentError '\v^%( +\t|\t+ )\s+'
+syn match justIndentError '\v^(\\\n)@<!%( +\zs\t|\t+\zs )\s*'
 
 syn region justInterpolation start="\v\{\{[^{]" end="}}" contained contains=ALLBUT,justInterpolation,@justOtherCurlyBraces,justFunction,justBody,justStringInsideBody
 
