@@ -98,13 +98,17 @@ syn region justConditionalBraces start="\v[^{]\{[^{]" end="}" contained oneline 
 syn match justLineLeadingSymbol "\v^(\\\n)@<!\s\s*\zs(\@-|-\@|\@|-)"
 syn match justLineContinuation "\\$" contained
 
-syn region justBody start="\v^(^[A-Za-z_@-].*:%([^=].*)?\n)@<=\s+(\@-|-\@|\@|-)?\S" skip='\\\n' end="\v\n\ze%(\n|\S)"
+syn region justBody start="\v^(^[A-Za-z_@-].*:%([^=].*)?\n)@<=%( |\t)+(\@-|-\@|\@|-)?\S" skip='\\\n' end="\v\n\ze%(\n|\S)"
       \ contains=justInterpolation,justLineLeadingSymbol,justLineContinuation,justComment,justShebang,justStringInsideBody
+
+syn match justIndentError '\v^%( +\t|\t+ )\s+'
 
 syn region justInterpolation start="\v(^|[^{])\zs\{\{[^{]" end="}}" contained contains=ALLBUT,justInterpolation,justFunction,justBody,justStringInsideBody
 
 syn match justBuiltInFunctions "\v%(absolute_path|arch|capitalize|clean|env_var_or_default|env_var|error|extension|file_name|file_stem|invocation_directory(_native)?|join|just_executable|justfile_directory|justfile|kebabcase|lowercamelcase|lowercase|os_family|os|parent_directory|path_exists|quote|replace_regex|replace|sha256_file|sha256|shoutykebabcase|shoutysnakecase|snakecase|titlecase|trim_end_matches|trim_end_match|trim_end|trim_start_matches|trim_start_match|trim_start|trim|uppercase|uppercamelcase|uuid|without_extension)\ze\(\)" contains=justBuiltInFunctions
-syn region justBuiltInFunctions transparent matchgroup=justBuiltInFunctions start="\v%(absolute_path|arch|capitalize|clean|env_var_or_default|env_var|error|extension|file_name|file_stem|invocation_directory(_native)?|join|just_executable|justfile_directory|justfile|kebabcase|lowercamelcase|lowercase|os_family|os|parent_directory|path_exists|quote|replace_regex|replace|sha256_file|sha256|shoutykebabcase|shoutysnakecase|snakecase|titlecase|trim_end_matches|trim_end_match|trim_end|trim_start_matches|trim_start_match|trim_start|trim|uppercase|uppercamelcase|uuid|without_extension)\ze\(" end=")" oneline contains=@justAllStrings,justNoise,justBuiltInFunctions
+syn region justBuiltInFunctions transparent matchgroup=justBuiltInFunctions start="\v%(absolute_path|arch|capitalize|clean|env_var_or_default|env_var|error|extension|file_name|file_stem|invocation_directory(_native)?|join|just_executable|justfile_directory|justfile|kebabcase|lowercamelcase|lowercase|os_family|os|parent_directory|path_exists|quote|replace_regex|replace|sha256_file|sha256|shoutykebabcase|shoutysnakecase|snakecase|titlecase|trim_end_matches|trim_end_match|trim_end|trim_start_matches|trim_start_match|trim_start|trim|uppercase|uppercamelcase|uuid|without_extension)\ze\(" end=")"
+      \ oneline
+      \ contains=@justAllStrings,justNoise,justBuiltInFunctions,justBuiltinFunctionsError
 
 syn match justBuiltInFunctionsError "\v%(arch|os|os_family|invocation_directory(_native)?|justfile|justfile_directory|just_executable|uuid)\([^)]+\)"
 
@@ -126,6 +130,7 @@ hi def link justConditionalBraces     Delimiter
 hi def link justExport                Statement
 hi def link justFunction              Function
 hi def link justInclude               Include
+hi def link justIndentError           Error
 hi def link justInterpolation         Delimiter
 hi def link justKeywords              Statement
 hi def link justLineContinuation      Special
