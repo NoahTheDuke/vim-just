@@ -5,7 +5,7 @@ foo2:
   bar # comment
 
 [no-cd]
-dopwd:
+runpwd:
 	pwd
 
 [private]
