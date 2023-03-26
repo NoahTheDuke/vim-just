@@ -24,8 +24,8 @@ syn region justRawString start=/'/ skip=/\./ end=/'/
 syn region justString start=/"/ skip=/\.\|\\\\\|\\"/ end=/"/ contains=justNextLine,justStringEscapeSequence
 syn cluster justAllStrings contains=justBacktick,justRawString,justString
 
-syn region justStringInsideBody start=/'/ skip=/\v\{\{.*\}\}/ end=/'/ contained contains=justNextLine,justInterpolation
-syn region justStringInsideBody start=/"/ skip=/\v\{\{.*\}\}/ end=/"/ contained contains=justNextLine,justInterpolation
+syn region justStringInsideBody start=/'/ skip=/\v\{\{.*\}\}/ end=/'/ contained contains=justNextLine,justInterpolation,justCurlyBraces
+syn region justStringInsideBody start=/"/ skip=/\v\{\{.*\}\}/ end=/"/ contained contains=justNextLine,justInterpolation,justCurlyBraces
 
 syn match justStringEscapeSequence '\v\\[tnr"\\]' contained
 
@@ -99,11 +99,13 @@ syn match justLineLeadingSymbol "\v^(\\\n)@<!\s\s*\zs(\@-|-\@|\@|-)"
 syn match justLineContinuation "\\$" contained
 
 syn region justBody start="\v^(^[A-Za-z_@-].*:%([^=].*)?\n)@<=%( |\t)+(\@-|-\@|\@|-)?\S" skip='\\\n' end="\v\n\ze%(\n|\S)"
-      \ contains=justInterpolation,justLineLeadingSymbol,justLineContinuation,justComment,justShebang,justStringInsideBody
+      \ contains=justInterpolation,justCurlyBraces,justLineLeadingSymbol,justLineContinuation,justComment,justShebang,justStringInsideBody
 
 syn match justIndentError '\v^%( +\t|\t+ )\s+'
 
-syn region justInterpolation start="\v(^|[^{])\zs\{\{[^{]" end="}}" contained contains=ALLBUT,justInterpolation,justFunction,justBody,justStringInsideBody
+syn region justInterpolation start="\v\{\{[^{]" end="}}" contained contains=ALLBUT,justInterpolation,justCurlyBraces,justFunction,justBody,justStringInsideBody
+
+syn match justCurlyBraces '\v\{{4}' contained
 
 syn match justBuiltInFunctions "\v%(absolute_path|arch|capitalize|clean|env_var_or_default|env_var|error|extension|file_name|file_stem|invocation_directory(_native)?|join|just_executable|justfile_directory|justfile|kebabcase|lowercamelcase|lowercase|os_family|os|parent_directory|path_exists|quote|replace_regex|replace|sha256_file|sha256|shoutykebabcase|shoutysnakecase|snakecase|titlecase|trim_end_matches|trim_end_match|trim_end|trim_start_matches|trim_start_match|trim_start|trim|uppercase|uppercamelcase|uuid|without_extension)\ze\(\)" contains=justBuiltInFunctions
 syn region justBuiltInFunctions transparent matchgroup=justBuiltInFunctions start="\v%(absolute_path|arch|capitalize|clean|env_var_or_default|env_var|error|extension|file_name|file_stem|invocation_directory(_native)?|join|just_executable|justfile_directory|justfile|kebabcase|lowercamelcase|lowercase|os_family|os|parent_directory|path_exists|quote|replace_regex|replace|sha256_file|sha256|shoutykebabcase|shoutysnakecase|snakecase|titlecase|trim_end_matches|trim_end_match|trim_end|trim_start_matches|trim_start_match|trim_start|trim|uppercase|uppercamelcase|uuid|without_extension)\ze\(" end=")"
@@ -127,6 +129,7 @@ hi def link justComment               Comment
 hi def link justCommentTodo           Todo
 hi def link justConditional           Conditional
 hi def link justConditionalBraces     Delimiter
+hi def link justCurlyBraces           Special
 hi def link justExport                Statement
 hi def link justFunction              Function
 hi def link justInclude               Include
