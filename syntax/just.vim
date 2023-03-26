@@ -20,8 +20,11 @@ syn match justName "[a-zA-Z_][a-zA-Z0-9_-]*" contained
 syn match justFunction "[a-zA-Z_][a-zA-Z0-9_-]*" contained
 
 syn region justBacktick start=/`/ skip=/\./ end=/`/
+syn region justBacktick start=/```/ skip=/\./ end=/```/
 syn region justRawString start=/'/ skip=/\./ end=/'/
+syn region justRawString start=/'''/ skip=/\./ end=/'''/
 syn region justString start=/"/ skip=/\.\|\\\\\|\\"/ end=/"/ contains=justNextLine,justStringEscapeSequence
+syn region justString start=/"""/ skip=/\.\|\\\\\|\\"/ end=/"""/ contains=justNextLine,justStringEscapeSequence
 syn cluster justAllStrings contains=justBacktick,justRawString,justString
 
 syn region justStringInsideBody start=/'/ skip=/\v\{\{.*\}\}/ end=/'/ contained contains=justNextLine,justInterpolation,justCurlyBraces

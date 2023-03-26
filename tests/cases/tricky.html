@@ -1,0 +1,20 @@
+raw <span class="Operator">:=</span> <span class="String">'''</span>
+<span class="String">  it's two lines \</span>
+<span class="String">'''</span>
+
+something <span class="Operator">:=</span> <span class="String">"""</span>
+<span class="String">  "T E " </span><span class="Special">\</span>
+<span class="Special">  </span><span class="String">"S T " </span><span class="Special">\</span>
+<span class="String">"""</span>
+
+testing <span class="Operator">:=</span> <span class="Special">```</span>
+<span class="Special">  foo=`echo '  testing  '`;echo $foo  123</span>
+<span class="Special">```</span>
+
+<span class="Function">test</span><span class="Operator">:</span>
+<span class="Number">	echo </span><span class="Delimiter">{{</span><span class="Identifier">something</span><span class="Delimiter">}}{{</span><span class="Identifier">testing</span><span class="Delimiter">}}</span>
+
+<span class="Function">curly_braces_3</span><span class="Operator">:</span>
+<span class="Number">	echo </span><span class="String">'Four </span><span class="Special">{{{{{{{{</span><span class="Delimiter">{{</span><span class="String">"""</span><span class="Special">\</span>
+<span class="String">Opening """</span><span class="Delimiter"> </span><span class="Operator">+</span><span class="Delimiter"> </span><span class="String">'Curly '</span><span class="Delimiter"> </span><span class="Operator">+</span><span class="Delimiter"> </span><span class="String">"Braces"</span><span class="Delimiter">}}</span><span class="String">!'</span>
+<span class="Number">	echo }}</span>
