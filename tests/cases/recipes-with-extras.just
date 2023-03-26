@@ -13,3 +13,7 @@ dopwd:
 error:
 	sh -c 'echo Exit 3;exit 3'
 
+[ unix ]
+[  macos,windows, linux ]
+any:
+	echo foo

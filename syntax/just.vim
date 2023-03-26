@@ -39,7 +39,7 @@ syn match justNextLine "\\\n\s*"
 syn match justRecipeAt "^@" contained
 syn match justRecipeColon "\v:" contained
 
-syn match justRecipeAttr '^\[\(no-\(cd\|exit-message\)\|linux\|macos\|unix\|windows\|private\(,\s*\(no-\(cd\|exit-message\)\|linux\|macos\|unix\|windows\|private\)\)*\)\]'
+syn match justRecipeAttr '^\[\s*\(no-\(cd\|exit-message\)\|linux\|macos\|unix\|windows\|private\)\(,\s*\(no-\(cd\|exit-message\)\|linux\|macos\|unix\|windows\|private\)\)*\s*\]'
 
 syn region justRecipe
       \ matchgroup=justRecipeBody start="\v^\@?[a-zA-Z_]((:\=)@!.)*\ze:%(\s|\n)"
