@@ -30,3 +30,8 @@ line_continuation2:
   	but continues with spaces and tabs"
   echo 987 654 \
   	321
+
+mismatched_but_escaped_quotes:
+	echo it\'s a single apostrophe
+	echo "\"single escaped quote"
+	echo "string \\" ended there

@@ -27,8 +27,8 @@ syn region justString start=/"/ skip=/\.\|\\\\\|\\"/ end=/"/ contains=justNextLi
 syn region justString start=/"""/ skip=/\.\|\\\\\|\\"/ end=/"""/ contains=justNextLine,justStringEscapeSequence
 syn cluster justAllStrings contains=justBacktick,justRawString,justString
 
-syn region justStringInsideBody start=/'/ skip=/\v\{\{.*\}\}/ end=/'/ contained contains=justNextLine,justInterpolation,@justOtherCurlyBraces,justIndentError
-syn region justStringInsideBody start=/"/ skip=/\v\{\{.*\}\}/ end=/"/ contained contains=justNextLine,justInterpolation,@justOtherCurlyBraces,justIndentError
+syn region justStringInsideBody start=/\v[^\\]'/ms=s+1 skip=/\v\{\{.*\}\}/ end=/'/ contained contains=justNextLine,justInterpolation,@justOtherCurlyBraces,justIndentError
+syn region justStringInsideBody start=/\v[^\\]"/ms=s+1 skip=/\v\{\{.*\}\}|\\@<!\\"/ end=/"/ contained contains=justNextLine,justInterpolation,@justOtherCurlyBraces,justIndentError
 
 syn match justStringEscapeSequence '\v\\[tnr"\\]' contained
 
