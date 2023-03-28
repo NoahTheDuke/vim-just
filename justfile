@@ -5,6 +5,9 @@ rq := quote(justfile_directory())
 
 synpreview_homedir := env_var_or_default('TMPDIR', '/tmp') / '_vim-just-preview-home.' + replace(uuid(), '-', '')
 
+@_default:
+	just --list
+
 # preview JUSTFILE in Vim with syntax file from this repository
 [no-cd]
 preview JUSTFILE='': _vim_preview_home && _clean_vim_preview_home
