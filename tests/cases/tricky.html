@@ -35,3 +35,8 @@ testing <span class="Operator">:=</span> <span class="Special">```</span>
 <span class="Number">	echo it\'s a single apostrophe</span>
 <span class="Number">	echo </span><span class="String">"\"single escaped quote"</span>
 <span class="Number">	echo </span><span class="String">"string \\"</span><span class="Number"> ended there</span>
+
+<span class="Function">shebang_mixed_indentation</span><span class="Operator">:</span>
+<span class="Number">	</span><span class="SpecialComment">#!/usr/bin/env python3</span>
+<span class="Number">	if True:</span>
+<span class="Number">	  print(</span><span class="String">'tab indent followed by spaces is allowed in shebang recipe'</span><span class="Number">)</span>

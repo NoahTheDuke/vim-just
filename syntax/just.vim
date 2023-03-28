@@ -29,6 +29,8 @@ syn cluster justAllStrings contains=justBacktick,justRawString,justString
 
 syn region justStringInsideBody start=/\v[^\\]'/ms=s+1 skip=/\v\{\{.*\}\}/ end=/'/ contained contains=justNextLine,justInterpolation,@justOtherCurlyBraces,justIndentError
 syn region justStringInsideBody start=/\v[^\\]"/ms=s+1 skip=/\v\{\{.*\}\}|\\@<!\\"/ end=/"/ contained contains=justNextLine,justInterpolation,@justOtherCurlyBraces,justIndentError
+syn region justStringInShebangBody start=/\v[^\\]'/ms=s+1 skip=/\v\{\{.*\}\}/ end=/'/ contained contains=justNextLine,justInterpolation,@justOtherCurlyBraces,justShebangIndentError
+syn region justStringInShebangBody start=/\v[^\\]"/ms=s+1 skip=/\v\{\{.*\}\}|\\@<!\\"/ end=/"/ contained contains=justNextLine,justInterpolation,@justOtherCurlyBraces,justShebangIndentError
 
 syn match justStringEscapeSequence '\v\\[tnr"\\]' contained
 
@@ -102,11 +104,15 @@ syn match justLineLeadingSymbol "\v^(\\\n)@<!\s\s*\zs(\@-|-\@|\@|-)"
 syn match justLineContinuation "\\$" contained
 
 syn region justBody start="\v^(^[A-Za-z_@-].*:%([^=].*)?\n)@<=%( +|\t+)(\@-|-\@|\@|-)?\S" skip='\\\n' end="\v\n\ze%(\n|\S)"
-      \ contains=justInterpolation,@justOtherCurlyBraces,justLineLeadingSymbol,justLineContinuation,justComment,justShebang,justStringInsideBody,justIndentError
+      \ contains=justInterpolation,@justOtherCurlyBraces,justLineLeadingSymbol,justLineContinuation,justComment,justStringInsideBody,justIndentError
+
+syn region justShebangBody start="\v^(^[A-Za-z_@-].*:%([^=].*)?\n)@<=%( +|\t+)#!" skip='\\\n' end="\v\n\ze%(\n|\S)"
+      \ contains=justInterpolation,@justOtherCurlyBraces,justLineLeadingSymbol,justLineContinuation,justComment,justShebang,justStringInShebangBody,justShebangIndentError
 
 syn match justIndentError '\v^(\\\n)@<!%( +\zs\t|\t+\zs )\s*'
+syn match justShebangIndentError '\v^ +\zs\t\s*'
 
-syn region justInterpolation start="\v\{\{[^{]" end="}}" contained contains=ALLBUT,justInterpolation,@justOtherCurlyBraces,justFunction,justBody,justStringInsideBody
+syn region justInterpolation start="\v\{\{[^{]" end="}}" contained contains=ALLBUT,justInterpolation,@justOtherCurlyBraces,justFunction,justBody,justStringInsideBody,justStringInShebangBody
 
 syn match justBadCurlyBraces '\v\{{3}\ze[^{]' contained
 syn match justCurlyBraces '\v\{{4}' contained
@@ -163,7 +169,10 @@ hi def link justSetDefinition         Keyword
 hi def link justSetKeywords           Keyword
 hi def link justSetDeprecatedKeywords Underlined
 hi def link justShebang               SpecialComment
+hi def link justShebangBody           Number
+hi def link justShebangIndentError    Error
 hi def link justString                String
 hi def link justStringEscapeSequence  Special
+hi def link justStringInShebangBody   String
 hi def link justStringInsideBody      String
 hi def link justVariadicOperator      Operator

@@ -35,3 +35,8 @@ mismatched_but_escaped_quotes:
 	echo it\'s a single apostrophe
 	echo "\"single escaped quote"
 	echo "string \\" ended there
+
+shebang_mixed_indentation:
+	#!/usr/bin/env python3
+	if True:
+	  print('tab indent followed by spaces is allowed in shebang recipe')
