@@ -25,11 +25,20 @@ gpreview JUSTFILE='': _vim_preview_home && _clean_vim_preview_home
 npreview JUSTFILE='': && _clean_vim_preview_home
 	#!/bin/bash
 	mkdir -p {{quote(synpreview_homedir / '.config/nvim/pack/just/start')}}
+	mkdir -p {{quote(synpreview_homedir / '.local/share/nvim/site/pack')}}
 	ln -s {{rq}} {{quote(synpreview_homedir / '.config/nvim/pack/just/start/vim-just')}}
-	for c in ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/{colors,init.vim};do \
+	for c in ${XDG_CONFIG_HOME:-$HOME/.config}/nvim/{colors,init.vim,init.lua,lua,plugin};do \
 	  test -e "$c" && ln -vs "$c" {{quote(synpreview_homedir / '.config/nvim')}}; \
 	done
-	HOME={{quote(synpreview_homedir)}} XDG_CONFIG_HOME={{quote(synpreview_homedir / '.config')}} \
+	for c in ${XDG_DATA_HOME:-$HOME/.local/share}/nvim/site/pack/packer;do
+	  # copy instead of symlink in case we will remove an existing copy of vim-just
+	  test -e "$c" && cp -pvR "$c" {{quote(synpreview_homedir / '.local/share/nvim/site/pack')}};
+	done
+	# remove any existing installation of vim-just from the temporary home
+	find {{quote(synpreview_homedir / '.local/share')}} -iname vim-just -exec rm -fvR {} +
+	HOME={{quote(synpreview_homedir)}} \
+	  XDG_CONFIG_HOME={{quote(synpreview_homedir / '.config')}} \
+	  XDG_DATA_HOME={{quote(synpreview_homedir / '.local/share')}} \
 	  nvim -c 'syntax on' \
 	    {{if JUSTFILE == '' { '-c "set filetype=just"' } else { quote(JUSTFILE) } }}
 
