@@ -89,14 +89,21 @@ fn main() -> io::Result<()> {
       );
     }
 
-    let diff_output = Command::new("colordiff")
+    let diff_output_result = Command::new("colordiff")
       .arg("--unified")
       .args(["--label", "output"])
       .arg(output)
       .args(["--label", "expected"])
       .arg(expected)
-      .output()
-      .unwrap();
+      .output();
+
+    let diff_output = match diff_output_result {
+      Ok(o) => o,
+      Err(e) => {
+        eprintln!("Could not run colordiff: attempt failed with \"{e}\"\nIs colordiff installed and available executable on $PATH ?");
+        return Err(e);
+      }
+    };
 
     if diff_output.status.success() {
       eprintln!("ok");
