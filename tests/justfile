@@ -21,3 +21,12 @@ install-rustup:
 # install development dependencies
 deps:
   cargo install cargo-watch
+
+# compile test runner without running tests
+build:
+  cargo build
+
+# lint test runner code
+lint:
+  cargo clippy --all-targets --all-features
+  cargo fmt --all -- --check
