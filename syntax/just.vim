@@ -98,7 +98,6 @@ syn region justExport
       \ transparent oneline skipwhite
 
 syn keyword justConditional if else
-syn region justConditionalBraces start="\v[^{]\{[^{]" end="}" contained oneline contains=ALLBUT,justConditionalBraces
 
 syn match justLineLeadingSymbol "\v^(\\\n)@<!\s\s*\zs(\@-|-\@|\@|-)"
 syn match justLineContinuation "\\$" contained
@@ -141,7 +140,6 @@ hi def link justBuiltInFunctionsError Error
 hi def link justComment               Comment
 hi def link justCommentTodo           Todo
 hi def link justConditional           Conditional
-hi def link justConditionalBraces     Delimiter
 hi def link justCurlyBraces           Special
 hi def link justExport                Statement
 hi def link justFunction              Function

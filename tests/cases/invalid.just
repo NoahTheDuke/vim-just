@@ -34,3 +34,8 @@ bad_curly_braces:
 	echo '{{{{{{{{{Odd number of opening curly braces is an error.}}'
 	echo {{{{{{{Odd number of opening curly braces is an error.}}}}}
 	echo "{{{{{{{{{Odd number of opening curly braces is an error.}}}}}"
+
+early-interpolation-close foo:
+  echo {{ if foo == "bar" { "hello" } else { "goodbye" }}}
+other-recipe:
+	echo interpolation ended in last recipe
