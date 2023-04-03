@@ -17,3 +17,10 @@
 <span class="Type">[  macos,windows, linux ]</span>
 <span class="Function">any</span><span class="Operator">:</span>
 <span class="Number">	echo foo</span>
+
+<span class="Type">[ private ,no-cd , unix]</span>
+<span class="Type">[no-exit-message ]</span>
+<span class="Function">runpwd_then_error</span><span class="Operator">:</span>
+<span class="Number">	pwd</span>
+<span class="Number">	sh -c </span><span class="String">'exit 2'</span>
+<span class="Number">	echo unreachable</span>

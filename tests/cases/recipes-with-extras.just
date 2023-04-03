@@ -17,3 +17,10 @@ error:
 [  macos,windows, linux ]
 any:
 	echo foo
+
+[ private ,no-cd , unix]
+[no-exit-message ]
+runpwd_then_error:
+	pwd
+	sh -c 'exit 2'
+	echo unreachable
