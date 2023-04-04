@@ -55,7 +55,7 @@ syn match justRecipeBody "\v^\@?[a-zA-Z_]((:\=)@!%([^:]|\n))*\ze:%(\s|\n)"
       \ contains=justRecipeAt,justRecipeColon,justParameter,justParameterOperator,justVariadicOperator,justRecipeParenDefault,@justAllStrings,justComment,justShebang
 
 syn region justRecipeParenDefault
-      \ matchgroup=justRecipeDepParamsParen start='\v\=@<=\(' end='\v\)%(\s|:)@='
+      \ matchgroup=justRecipeDepParamsParen start='\v\=@<=\(' end='\v\)%(\s+[$*+]*[a-zA-Z_]|:)@='
       \ contains=@justExpr
 
 syn match justRecipeSubsequentDeps '&&' contained
