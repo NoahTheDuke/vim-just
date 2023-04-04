@@ -111,7 +111,7 @@ syn region justShebangBody start="\v^(^[A-Za-z_@-].*:%([^=].*)?\n)@<=%( +|\t+)#!
 syn match justIndentError '\v^(\\\n)@<!%( +\zs\t|\t+\zs )\s*'
 syn match justShebangIndentError '\v^ +\zs\t\s*'
 
-syn region justInterpolation start="\v\{\{[^{]" end="}}" contained contains=ALLBUT,justInterpolation,@justOtherCurlyBraces,justFunction,justBody,justStringInsideBody,justStringInShebangBody
+syn region justInterpolation matchgroup=justInterpolationDelim start="\v\{\{%([^{])@=" end="}}" contained contains=ALLBUT,justInterpolation,@justOtherCurlyBraces,justFunction,justBody,justStringInsideBody,justStringInShebangBody
 
 syn match justBadCurlyBraces '\v\{{3}\ze[^{]' contained
 syn match justCurlyBraces '\v\{{4}' contained
@@ -145,7 +145,8 @@ hi def link justExport                Statement
 hi def link justFunction              Function
 hi def link justInclude               Include
 hi def link justIndentError           Error
-hi def link justInterpolation         Delimiter
+hi def link justInterpolation         Normal
+hi def link justInterpolationDelim    Delimiter
 hi def link justKeywords              Statement
 hi def link justLineContinuation      Special
 hi def link justLineLeadingSymbol     Special
