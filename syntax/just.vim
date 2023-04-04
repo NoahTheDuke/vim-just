@@ -52,7 +52,12 @@ syn region justRecipe
       \ contains=justFunction,justRecipeColon
 
 syn match justRecipeBody "\v^\@?[a-zA-Z_]((:\=)@!.)*\ze:%(\s|\n)"
-      \ contains=justRecipeAt,justRecipeColon,justParameter,justParameterOperator,justVariadicOperator,@justAllStrings,justComment,justShebang
+      \ contains=justRecipeAt,justRecipeColon,justParameter,justParameterOperator,justVariadicOperator,justRecipeParenDefault,@justAllStrings,justComment,justShebang
+
+syn region justRecipeParenDefault
+      \ matchgroup=justRecipeDepParamsParen start='\v\=@<=\(' end=')'
+      \ oneline
+      \ contains=@justExpr
 
 syn match justRecipeSubsequentDeps '&&' contained
 
@@ -94,7 +99,7 @@ syn region justAlias
 syn region justExport
       \ matchgroup=justExport start="\v^export\ze\s+[a-zA-Z_][a-zA-Z0-9_-]*%(\s+:\=)?"
       \ end="$"
-      \ contains=justKeywords,justAssignmentOperator,justBuiltinFunctions,@justAllStrings
+      \ contains=justKeywords,justAssignmentOperator,@justExpr
       \ transparent oneline skipwhite
 
 syn keyword justConditional if else
@@ -122,13 +127,15 @@ syn cluster justOtherCurlyBraces contains=justCurlyBraces,justBadCurlyBraces
 syn match justBuiltInFunctions "\v%(absolute_path|arch|capitalize|clean|env_var_or_default|env_var|error|extension|file_name|file_stem|invocation_directory(_native)?|join|just_executable|justfile_directory|justfile|kebabcase|lowercamelcase|lowercase|os_family|os|parent_directory|path_exists|quote|replace_regex|replace|sha256_file|sha256|shoutykebabcase|shoutysnakecase|snakecase|titlecase|trim_end_matches|trim_end_match|trim_end|trim_start_matches|trim_start_match|trim_start|trim|uppercase|uppercamelcase|uuid|without_extension)\(@=" contained
 
 syn region justBuiltInFunctionArgs start='\v[0-9A-Za-z_]+\(' end=')' transparent oneline
-      \ contains=@justAllStrings,justNoise,justBuiltInFunctions,justBuiltInFunctionsError,justConditional,justOperator
+      \ contains=justNoise,@justExpr
 syn region justBuiltInFuncArgsInInterp start='\v[0-9A-Za-z_]+\(' end=')' contained transparent oneline
-      \ contains=@justAllStrings,justNoise,justBuiltInFunctions,justBuiltInFunctionsError,justConditional,justOperator,justName
+      \ contains=justNoise,@justExpr,justName
 
 syn match justBuiltInFunctionsError "\v%(arch|os|os_family|invocation_directory(_native)?|justfile|justfile_directory|just_executable|uuid)\([^)]+\)"
 
-syn match justOperator "\v%(\=\=|!\=|\=\~|\+)"
+syn match justOperator "\v%(\=\=|!\=|\=\~|[+/])"
+
+syn cluster justExpr contains=@justAllStrings,justBuiltInFunctions,justBuiltInFunctionsError,justConditional,justOperator
 
 syn match justInclude "^!include\s\+.*$"
 
