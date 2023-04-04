@@ -111,17 +111,20 @@ syn region justShebangBody start="\v^(^[A-Za-z_@-].*:%([^=].*)?\n)@<=%( +|\t+)#!
 syn match justIndentError '\v^(\\\n)@<!%( +\zs\t|\t+\zs )\s*'
 syn match justShebangIndentError '\v^ +\zs\t\s*'
 
-syn region justInterpolation matchgroup=justInterpolationDelim start="\v\{\{%([^{])@=" end="}}" contained contains=ALLBUT,justInterpolation,@justOtherCurlyBraces,justFunction,justBody,justStringInsideBody,justStringInShebangBody
+syn region justInterpolation matchgroup=justInterpolationDelim start="\v\{\{%([^{])@=" end="}}" contained
+      \ contains=ALLBUT,justInterpolation,@justOtherCurlyBraces,justFunction,justBody,justStringInsideBody,justStringInShebangBody,justBuiltInFunctionArgs,justRecipeDepParamsParen,justVariadicOperator
 
 syn match justBadCurlyBraces '\v\{{3}\ze[^{]' contained
 syn match justCurlyBraces '\v\{{4}' contained
 syn match justBadCurlyBraces '\v\{{5}\ze[^{]' contained
 syn cluster justOtherCurlyBraces contains=justCurlyBraces,justBadCurlyBraces
 
-syn match justBuiltInFunctions "\v%(absolute_path|arch|capitalize|clean|env_var_or_default|env_var|error|extension|file_name|file_stem|invocation_directory(_native)?|join|just_executable|justfile_directory|justfile|kebabcase|lowercamelcase|lowercase|os_family|os|parent_directory|path_exists|quote|replace_regex|replace|sha256_file|sha256|shoutykebabcase|shoutysnakecase|snakecase|titlecase|trim_end_matches|trim_end_match|trim_end|trim_start_matches|trim_start_match|trim_start|trim|uppercase|uppercamelcase|uuid|without_extension)\ze\(\)" contains=justBuiltInFunctions
-syn region justBuiltInFunctions transparent matchgroup=justBuiltInFunctions start="\v%(absolute_path|arch|capitalize|clean|env_var_or_default|env_var|error|extension|file_name|file_stem|invocation_directory(_native)?|join|just_executable|justfile_directory|justfile|kebabcase|lowercamelcase|lowercase|os_family|os|parent_directory|path_exists|quote|replace_regex|replace|sha256_file|sha256|shoutykebabcase|shoutysnakecase|snakecase|titlecase|trim_end_matches|trim_end_match|trim_end|trim_start_matches|trim_start_match|trim_start|trim|uppercase|uppercamelcase|uuid|without_extension)\ze\(" end=")"
-      \ oneline
-      \ contains=@justAllStrings,justNoise,justBuiltInFunctions,justBuiltinFunctionsError
+syn match justBuiltInFunctions "\v%(absolute_path|arch|capitalize|clean|env_var_or_default|env_var|error|extension|file_name|file_stem|invocation_directory(_native)?|join|just_executable|justfile_directory|justfile|kebabcase|lowercamelcase|lowercase|os_family|os|parent_directory|path_exists|quote|replace_regex|replace|sha256_file|sha256|shoutykebabcase|shoutysnakecase|snakecase|titlecase|trim_end_matches|trim_end_match|trim_end|trim_start_matches|trim_start_match|trim_start|trim|uppercase|uppercamelcase|uuid|without_extension)\(@=" contained
+
+syn region justBuiltInFunctionArgs start='\v[0-9A-Za-z_]+\(' end=')' transparent oneline
+      \ contains=@justAllStrings,justNoise,justBuiltInFunctions,justBuiltInFunctionsError,justConditional,justOperator
+syn region justBuiltInFuncArgsInInterp start='\v[0-9A-Za-z_]+\(' end=')' contained transparent oneline
+      \ contains=@justAllStrings,justNoise,justBuiltInFunctions,justBuiltInFunctionsError,justConditional,justOperator,justName
 
 syn match justBuiltInFunctionsError "\v%(arch|os|os_family|invocation_directory(_native)?|justfile|justfile_directory|just_executable|uuid)\([^)]+\)"
 
