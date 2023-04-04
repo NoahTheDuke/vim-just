@@ -42,7 +42,7 @@ syn match justParameter "\v\s\zs%(\*|\+|\$)?[a-zA-Z_][a-zA-Z0-9_-]*\ze\=?" conta
 
 syn match justNextLine "\\\n\s*"
 syn match justRecipeAt "^@" contained
-syn match justRecipeColon "\v:" contained
+syn match justRecipeColon ":" contained
 
 syn match justRecipeAttr '^\[\s*\(no-\(cd\|exit-message\)\|linux\|macos\|unix\|windows\|private\)\(\s*,\s*\(no-\(cd\|exit-message\)\|linux\|macos\|unix\|windows\|private\)\)*\s*\]'
 
@@ -51,12 +51,11 @@ syn region justRecipe
       \ matchgroup=justRecipeDeps end="\v:\zs.*\n"
       \ contains=justFunction,justRecipeColon
 
-syn match justRecipeBody "\v^\@?[a-zA-Z_]((:\=)@!.)*\ze:%(\s|\n)"
+syn match justRecipeBody "\v^\@?[a-zA-Z_]((:\=)@!%([^:]|\n))*\ze:%(\s|\n)"
       \ contains=justRecipeAt,justRecipeColon,justParameter,justParameterOperator,justVariadicOperator,justRecipeParenDefault,@justAllStrings,justComment,justShebang
 
 syn region justRecipeParenDefault
-      \ matchgroup=justRecipeDepParamsParen start='\v\=@<=\(' end=')'
-      \ oneline
+      \ matchgroup=justRecipeDepParamsParen start='\v\=@<=\(' end='\v\)%(\s|:)@='
       \ contains=@justExpr
 
 syn match justRecipeSubsequentDeps '&&' contained
@@ -68,7 +67,7 @@ syn region justRecipeParamDep contained transparent
       \ start="("
       \ matchgroup=justRecipeDepParamsParen start='\v(\(\s*[a-zA-Z_][a-zA-Z0-9_-]*)'
       \ end=")"
-      \ contains=justRecipeDepParamsParen,justRecipeDepWithParams,@justAllStrings
+      \ contains=justRecipeDepParamsParen,justRecipeDepWithParams,@justExpr
 syn match justRecipeDepParamsParen '\v(\(\s*[a-zA-Z_][a-zA-Z0-9_-]*|\))' contained contains=justRecipeDepWithParams
 syn match justRecipeDepWithParams "\v\(\s*\zs[a-zA-Z_][a-zA-Z0-9_-]*" contained
 
@@ -107,10 +106,14 @@ syn keyword justConditional if else
 syn match justLineLeadingSymbol "\v^(\\\n)@<!\s\s*\zs(\@-|-\@|\@|-)"
 syn match justLineContinuation "\\$" contained
 
-syn region justBody start="\v^(^[A-Za-z_@-].*:%([^=].*)?\n)@<=%( +|\t+)(\@-|-\@|\@|-)?\S" skip='\\\n' end="\v\n\ze%(\n|\S)"
+syn region justBody
+      \ start="\v^%(%(^[A-Za-z_@-].*:%([^=].*)?|[^#]*\)%(.*[^{}]))\n)@<=%( +|\t+)(\@-|-\@|\@|-)?\S"
+      \ skip='\\\n' end="\v\n\ze%(\n|\S)"
       \ contains=justInterpolation,@justOtherCurlyBraces,justLineLeadingSymbol,justLineContinuation,justComment,justStringInsideBody,justIndentError
 
-syn region justShebangBody start="\v^(^[A-Za-z_@-].*:%([^=].*)?\n)@<=%( +|\t+)#!" skip='\\\n' end="\v\n\ze%(\n|\S)"
+syn region justShebangBody
+      \ start="\v^%( +|\t+)#!"
+      \ skip='\\\n' end="\v\n\ze%(\n|\S)"
       \ contains=justInterpolation,@justOtherCurlyBraces,justLineLeadingSymbol,justLineContinuation,justComment,justShebang,justStringInShebangBody,justShebangIndentError
 
 syn match justIndentError '\v^(\\\n)@<!%( +\zs\t|\t+\zs )\s*'
@@ -129,13 +132,14 @@ syn match justBuiltInFunctions "\v%(absolute_path|arch|capitalize|clean|env_var_
 syn region justBuiltInFunctionArgs start='\v[0-9A-Za-z_]+\(' end=')' transparent oneline
       \ contains=justNoise,@justExpr
 syn region justBuiltInFuncArgsInInterp start='\v[0-9A-Za-z_]+\(' end=')' contained transparent oneline
-      \ contains=justNoise,@justExpr,justName
+      \ contains=justNoise,@justExprBase,justBuiltInFuncArgsInInterp,justName
 
 syn match justBuiltInFunctionsError "\v%(arch|os|os_family|invocation_directory(_native)?|justfile|justfile_directory|just_executable|uuid)\([^)]+\)"
 
 syn match justOperator "\v%(\=\=|!\=|\=\~|[+/])"
 
-syn cluster justExpr contains=@justAllStrings,justBuiltInFunctions,justBuiltInFunctionsError,justConditional,justOperator
+syn cluster justExprBase contains=@justAllStrings,justBuiltInFunctions,justBuiltInFunctionsError,justConditional,justOperator
+syn cluster justExpr contains=@justExprBase,justBuiltInFunctionArgs
 
 syn match justInclude "^!include\s\+.*$"
 
