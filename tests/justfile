@@ -13,10 +13,6 @@ watch FILTER='':
     --exec "run {{FILTER}}" \
     --watch ..
 
-# install rustup (provides `cargo`)
-install-rustup:
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-
 # install development dependencies
 deps:
   cargo install cargo-watch

@@ -60,11 +60,7 @@ surprised if I close your PR while pushing your authored commit directly to main
 
 * just (of course, lol)
 * [colordiff](https://www.colordiff.org/)
-* [Rust](https://www.rust-lang.org/)
-
-If you don't have Rust installed, run `just install-rustup` in tests/. This will
-download and install the latest version of the Rust toolchain, including Cargo, the Rust
-package manager.
+* Rust ([simple/recommended installation instructions](https://www.rust-lang.org/tools/install); for detailed and alternative installation instructions see [here](https://forge.rust-lang.org/infra/other-installation-methods.html))
 
 Run `just deps` to install the cargo dev dependencies, which right now is only
 [`cargo-watch`](https://crates.io/crates/cargo-watch).
