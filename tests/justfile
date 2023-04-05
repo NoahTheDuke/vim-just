@@ -1,3 +1,6 @@
+# To enable using preview recipes from cwd inside tests/
+set fallback
+
 # run tests
 run FILTER='':
   cargo run {{FILTER}}
@@ -9,10 +12,6 @@ watch FILTER='':
     --debug \
     --exec "run {{FILTER}}" \
     --watch ..
-
-# preview JUSTFILE with syntax file from this repository
-preview JUSTFILE:
-  HOME=`pwd` vim {{JUSTFILE}}
 
 # install rustup (provides `cargo`)
 install-rustup:
