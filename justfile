@@ -50,3 +50,16 @@ _vim_preview_home: _clean_vim_preview_home
 	done
 _clean_vim_preview_home:
 	rm -fvR {{quote(synpreview_homedir)}}
+
+
+update-last-changed *force:
+	#!/bin/bash
+	for f in $(find * -name just.vim);do
+	  gitrev="$(git log -n 1 --format='format:%H' -- "$f")"
+	  if [[ {{quote(force)}} != *"$f"* ]];then
+	    git show "$gitrev" | grep -q -P -i '^\+"\s*Last\s+Change:' && continue
+	  fi
+	  lastchange="$(git show -s "$gitrev" --format='%cd' --date='format:%Y %b %d')"
+	  echo -e "$f -> Last Change: $lastchange"
+	  sed --in-place -E -e "s/(^\"\s*Last\s+Change:\s+).+$/\\1${lastchange}/g" "$f"
+	done
