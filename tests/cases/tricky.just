@@ -56,3 +56,10 @@ shebang_mixed_indentation:
 shebang_recipes_dont_do_line_prefixes:
 	#!/bin/bash
 	@foo
+
+multiline-non-paren-final-param param0=valid_uuid *$PARAM="""
+  foo
+
+""":
+	echo {{param0}}
+	env | grep -F PARAM

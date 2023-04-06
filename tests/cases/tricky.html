@@ -56,3 +56,10 @@ not_a_uuid_anymore <span class="Operator">:=</span> <span class="Function">repla
 <span class="Function">shebang_recipes_dont_do_line_prefixes</span><span class="Operator">:</span>
 <span class="Number">	</span><span class="SpecialComment">#!/bin/bash</span>
 <span class="Number">	@foo</span>
+
+<span class="Function">multiline-non-paren-final-param </span><span class="Identifier">param0</span><span class="Operator">=</span><span class="Function">valid_uuid </span><span class="Operator">*</span><span class="Operator">$</span><span class="Identifier">PARAM</span><span class="Operator">=</span><span class="String">"""</span>
+<span class="String">  foo</span>
+
+<span class="String">"""</span><span class="Operator">:</span>
+<span class="Number">	echo </span><span class="Delimiter">{{</span><span class="Identifier">param0</span><span class="Delimiter">}}</span>
+<span class="Number">	env | grep -F PARAM</span>
