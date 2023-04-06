@@ -114,7 +114,7 @@ syn region justBody
 syn region justShebangBody
       \ start="\v^%( +|\t+)#!"
       \ skip='\\\n' end="\v\n\ze%(\n|\S)"
-      \ contains=justInterpolation,@justOtherCurlyBraces,justLineLeadingSymbol,justLineContinuation,justComment,justShebang,justStringInShebangBody,justShebangIndentError
+      \ contains=justInterpolation,@justOtherCurlyBraces,justLineContinuation,justComment,justShebang,justStringInShebangBody,justShebangIndentError
 
 syn match justIndentError '\v^(\\\n)@<!%( +\zs\t|\t+\zs )\s*'
 syn match justShebangIndentError '\v^ +\zs\t\s*'

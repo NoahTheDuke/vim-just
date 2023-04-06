@@ -40,3 +40,7 @@ shebang_mixed_indentation:
 	#!/usr/bin/env python3
 	if True:
 	  print('tab indent followed by spaces is allowed in shebang recipe')
+
+shebang_recipes_dont_do_line_prefixes:
+	#!/bin/bash
+	@foo
