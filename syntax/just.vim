@@ -127,14 +127,14 @@ syn match justCurlyBraces '\v\{{4}' contained
 syn match justBadCurlyBraces '\v\{{5}\ze[^{]' contained
 syn cluster justOtherCurlyBraces contains=justCurlyBraces,justBadCurlyBraces
 
-syn match justBuiltInFunctions "\v%(absolute_path|arch|capitalize|clean|env_var_or_default|env_var|error|extension|file_name|file_stem|invocation_directory(_native)?|join|just_executable|justfile_directory|justfile|kebabcase|lowercamelcase|lowercase|os_family|os|parent_directory|path_exists|quote|replace_regex|replace|sha256_file|sha256|shoutykebabcase|shoutysnakecase|snakecase|titlecase|trim_end_matches|trim_end_match|trim_end|trim_start_matches|trim_start_match|trim_start|trim|uppercase|uppercamelcase|uuid|without_extension)\(@=" contained
+syn match justBuiltInFunctions "\v%(absolute_path|arch|capitalize|clean|env_var_or_default|env_var|error|extension|file_name|file_stem|invocation_directory(_native)?|join|just_executable|justfile_directory|justfile|kebabcase|lowercamelcase|lowercase|os_family|os|parent_directory|path_exists|quote|replace_regex|replace|sha256_file|sha256|shoutykebabcase|shoutysnakecase|snakecase|titlecase|trim_end_matches|trim_end_match|trim_end|trim_start_matches|trim_start_match|trim_start|trim|uppercase|uppercamelcase|uuid|without_extension)%(\s*\()@=" contained
 
-syn region justBuiltInFunctionArgs start='\v[0-9A-Za-z_]+\(' end=')' transparent oneline
+syn region justBuiltInFunctionArgs start='\v[0-9A-Za-z_]+\s*\(' end=')' transparent
       \ contains=justNoise,@justExpr
-syn region justBuiltInFuncArgsInInterp start='\v[0-9A-Za-z_]+\(' end=')' contained transparent oneline
+syn region justBuiltInFuncArgsInInterp start='\v[0-9A-Za-z_]+\s*\(' end=')' contained transparent
       \ contains=justNoise,@justExprBase,justBuiltInFuncArgsInInterp,justName
 
-syn match justBuiltInFunctionsError "\v%(arch|os|os_family|invocation_directory(_native)?|justfile|justfile_directory|just_executable|uuid)\([^)]+\)"
+syn match justBuiltInFunctionsError "\v%(arch|os|os_family|invocation_directory(_native)?|justfile|justfile_directory|just_executable|uuid)\s*\(%([^)]|\n)*[^)[:space:]]+%([^)]|\n)*\)"
 
 syn match justOperator "\v%(\=\=|!\=|\=\~|[+/])"
 

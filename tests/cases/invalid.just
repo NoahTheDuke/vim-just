@@ -5,6 +5,10 @@ badfunc1 := arch(foo) + os(foo) + os_family(foo)
 badfunc2 := invocation_directory(bar) / invocation_directory_native(bar)
 badfunc3 := justfile_directory(bar) / justfile(bar, foo)
 
+badfunc4 := justfile   (
+  abc def
+)
+
 badfunc_in_interpolation:
 	{{just_executable(this)}} {{quote( uuid(random, foo) )}}
 

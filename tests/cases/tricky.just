@@ -11,6 +11,18 @@ testing := ```
   foo=`echo '  testing  '`;echo $foo  123
 ```
 
+valid_uuid := uuid( )
+
+this_justfile := justfile	 ( 
+
+  )
+
+not_a_uuid_anymore := replace_regex  (
+    uuid	(
+  ), '-4([0-9A-Fa-f]{3})-'
+, '_9${1}_'
+)
+
 test:
 	echo {{something}}{{testing}}
 

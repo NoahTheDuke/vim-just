@@ -5,6 +5,10 @@ badfunc1 <span class="Operator">:=</span> <span class="Error">arch(foo)</span> <
 badfunc2 <span class="Operator">:=</span> <span class="Error">invocation_directory(bar)</span> <span class="Operator">/</span> <span class="Error">invocation_directory_native(bar)</span>
 badfunc3 <span class="Operator">:=</span> <span class="Error">justfile_directory(bar)</span> <span class="Operator">/</span> <span class="Error">justfile(bar, foo)</span>
 
+badfunc4 <span class="Operator">:=</span> <span class="Error">justfile   (</span>
+<span class="Error">  abc def</span>
+<span class="Error">)</span>
+
 <span class="Function">badfunc_in_interpolation</span><span class="Operator">:</span>
 <span class="Number">	</span><span class="Delimiter">{{</span><span class="Error">just_executable(this)</span><span class="Delimiter">}}</span><span class="Number"> </span><span class="Delimiter">{{</span><span class="Function">quote</span><span class="Normal">( </span><span class="Error">uuid(random, foo)</span><span class="Normal"> )</span><span class="Delimiter">}}</span>
 
