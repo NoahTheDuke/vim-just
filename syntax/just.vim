@@ -36,9 +36,11 @@ syn match justStringEscapeSequence '\v\\[tnr"\\]' contained
 
 syn match justAssignmentOperator ":=" contained
 
-syn match justParameterOperator "=" contained
-syn match justVariadicOperator "*\|+\|\$" contained
-syn match justParameter "\v\s\zs%(\*|\+|\$)?[a-zA-Z_][a-zA-Z0-9_-]*\ze\=?" contained contains=justVariadicOperator,justParameterOperator
+syn match justParameter "\v\s\zs%([*+]?\$?|\$[*+])[a-zA-Z_][a-zA-Z0-9_-]*\=?" contained contains=justVariadicOperator,justParamExportOperator,justParameterOperator,justVariadicOpError
+syn match justParameterOperator "\V=" contained
+syn match justVariadicOperator "\v\s@<=[*+]%(\$?[a-zA-Z_])@=" contained
+syn match justParamExportOperator '\V$' contained
+syn match justVariadicOpError "\v\$[*+]" contained
 
 syn match justNextLine "\\\n\s*"
 syn match justRecipeAt "^@" contained
@@ -52,7 +54,7 @@ syn region justRecipe
       \ contains=justFunction,justRecipeColon
 
 syn match justRecipeBody "\v^\@?[a-zA-Z_]((:\=)@!%([^:]|\n))*\ze:%(\s|\n)"
-      \ contains=justRecipeAt,justRecipeColon,justParameter,justParameterOperator,justVariadicOperator,justRecipeParenDefault,@justAllStrings,justComment,justShebang
+      \ contains=justRecipeAt,justRecipeColon,justParameter,justRecipeParenDefault,@justAllStrings,justComment,justShebang
 
 syn region justRecipeParenDefault
       \ matchgroup=justRecipeDepParamsParen start='\v\=@<=\(' end='\v\)%(\s+[$*+]*[a-zA-Z_]|:)@='
@@ -120,7 +122,7 @@ syn match justIndentError '\v^(\\\n)@<!%( +\zs\t|\t+\zs )\s*'
 syn match justShebangIndentError '\v^ +\zs\t\s*'
 
 syn region justInterpolation matchgroup=justInterpolationDelim start="\v\{\{%([^{])@=" end="}}" contained
-      \ contains=ALLBUT,justInterpolation,@justOtherCurlyBraces,justFunction,justBody,justStringInsideBody,justStringInShebangBody,justBuiltInFunctionArgs,justRecipeDepParamsParen,justVariadicOperator
+      \ contains=ALLBUT,justInterpolation,@justOtherCurlyBraces,justFunction,justBody,justStringInsideBody,justStringInShebangBody,justBuiltInFunctionArgs,justRecipeDepParamsParen,justVariadicOperator,justParamExportOperator,justVariadicOpError
 
 syn match justBadCurlyBraces '\v\{{3}\ze[^{]' contained
 syn match justCurlyBraces '\v\{{4}' contained
@@ -169,6 +171,7 @@ hi def link justNextLine              Special
 hi def link justOperator              Operator
 hi def link justParameter             Identifier
 hi def link justParameterOperator     Operator
+hi def link justParamExportOperator   Operator
 hi def link justRawString             String
 hi def link justRecipe                Function
 hi def link justRecipeAt              Special
@@ -189,3 +192,4 @@ hi def link justStringEscapeSequence  Special
 hi def link justStringInShebangBody   String
 hi def link justStringInsideBody      String
 hi def link justVariadicOperator      Operator
+hi def link justVariadicOpError       Error

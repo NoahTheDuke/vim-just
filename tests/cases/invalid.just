@@ -43,3 +43,8 @@ early-interpolation-close foo:
   echo {{ if foo == "bar" { "hello" } else { "goodbye" }}}
 other-recipe:
 	echo interpolation ended in last recipe
+
+variadic-env-wrong-order1 param0=foo $*PARAM:
+	env
+variadic-env-wrong-order2 $+PARAM="1":
+	env
