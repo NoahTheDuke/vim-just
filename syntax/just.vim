@@ -48,13 +48,11 @@ syn match justRecipeColon ":" contained
 
 syn match justRecipeAttr '^\[\s*\(no-\(cd\|exit-message\)\|linux\|macos\|unix\|windows\|private\)\(\s*,\s*\(no-\(cd\|exit-message\)\|linux\|macos\|unix\|windows\|private\)\)*\s*\]'
 
-syn region justRecipe
-      \ matchgroup=justRecipeBody start="\v^\@?[a-zA-Z_]((:\=)@!.)*\ze:%(\s|\n)"
-      \ matchgroup=justRecipeDeps end="\v:\zs.*\n"
-      \ contains=justFunction,justRecipeColon
-
 syn match justRecipeBody "\v^\@?[a-zA-Z_]((:\=)@!%([^:]|\n))*\ze:%(\s|\n)"
-      \ contains=justRecipeAt,justRecipeColon,justParameter,justRecipeParenDefault,@justAllStrings,justComment,justShebang
+      \ transparent
+      \ contains=justRecipeName,justRecipeColon,justParameter,justRecipeParenDefault,@justAllStrings,justComment,justShebang
+
+syn match justRecipeName "\v^\@?[a-zA-Z_][a-zA-Z0-9_-]*" transparent contained contains=justRecipeAt,justFunction
 
 syn region justRecipeParenDefault
       \ matchgroup=justRecipeDepParamsParen start='\v\=@<=\(' end='\v\)%(\s+[$*+]*[a-zA-Z_]|:)@='
@@ -173,10 +171,8 @@ hi def link justParameter             Identifier
 hi def link justParameterOperator     Operator
 hi def link justParamExportOperator   Operator
 hi def link justRawString             String
-hi def link justRecipe                Function
 hi def link justRecipeAt              Special
 hi def link justRecipeAttr            Type
-hi def link justRecipeBody            Function
 hi def link justRecipeColon           Operator
 hi def link justRecipeDepParamsParen  Delimiter
 hi def link justRecipeDepWithParams   Function

@@ -110,7 +110,7 @@ foo_c <span class="Operator">:=</span> <span class="Conditional">if</span> <span
 <span class="Number">  </span><span class="Special">@</span><span class="Number">echo </span><span class="Delimiter">{{</span><span class="Identifier">foo</span><span class="Delimiter">}}</span>
 
 
-<span class="Function">bar2 </span><span class="Identifier">foo_stuff</span><span class="Operator">:</span>
+<span class="Function">bar2</span> <span class="Identifier">foo_stuff</span><span class="Operator">:</span>
 <span class="Number">  echo </span><span class="Delimiter">{{</span><span class="Normal"> </span><span class="Conditional">if</span><span class="Normal"> </span><span class="Identifier">foo_stuff</span><span class="Normal"> </span><span class="Operator">==</span><span class="Normal"> </span><span class="String">"bar"</span><span class="Normal"> { </span><span class="String">"hello"</span><span class="Normal"> } </span><span class="Conditional">else</span><span class="Normal"> { </span><span class="String">"goodbye"</span><span class="Normal"> } </span><span class="Delimiter">}}</span>
 
 <span class="Function">executable</span><span class="Operator">:</span>
@@ -151,19 +151,19 @@ shebang <span class="Operator">:=</span> <span class="Conditional">if</span> <sp
 <span class="Special">@</span><span class="Function">foo</span><span class="Operator">:</span>
 <span class="Number">  echo bar</span>
 
-<span class="Special">@</span><span class="Function">test5 </span><span class="Operator">*</span><span class="Identifier">args</span><span class="Operator">=</span><span class="String">''</span><span class="Operator">:</span>
+<span class="Special">@</span><span class="Function">test5</span> <span class="Operator">*</span><span class="Identifier">args</span><span class="Operator">=</span><span class="String">''</span><span class="Operator">:</span>
 <span class="Number">  bash -c </span><span class="String">'while (( "$#" )); do echo - $1; shift; done'</span><span class="Number"> -- </span><span class="String">"$@"</span>
 
-<span class="Function">test2 </span><span class="Operator">$</span><span class="Identifier">RUST_BACKTRACE</span><span class="Operator">=</span><span class="String">"1"</span><span class="Operator">:</span>
+<span class="Function">test2</span> <span class="Operator">$</span><span class="Identifier">RUST_BACKTRACE</span><span class="Operator">=</span><span class="String">"1"</span><span class="Operator">:</span>
 <span class="Number">  </span><span class="Comment"># will print a stack trace if it crashes</span>
 <span class="Number">  cargo test</span>
 
 
-<span class="Function">notify </span><span class="Identifier">m</span><span class="Operator">=</span><span class="String">""</span><span class="Operator">:</span>
+<span class="Function">notify</span> <span class="Identifier">m</span><span class="Operator">=</span><span class="String">""</span><span class="Operator">:</span>
 <span class="Number">	keybase chat send --topic-type </span><span class="String">"chat"</span><span class="Number"> --channel &lt;channel&gt; &lt;team&gt; </span><span class="String">"upd(&lt;repo&gt;): </span><span class="Delimiter">{{</span><span class="Identifier">m</span><span class="Delimiter">}}</span><span class="String">"</span>
 
 <span class="Comment"># Sample project script 2</span>
-<span class="Function">script2 </span><span class="Operator">*</span><span class="Identifier">ARGS</span><span class="Operator">:</span>
+<span class="Function">script2</span> <span class="Operator">*</span><span class="Identifier">ARGS</span><span class="Operator">:</span>
 <span class="Number">    </span><span class="Delimiter">{{</span><span class="Normal"> </span><span class="Identifier">python</span><span class="Normal"> </span><span class="Delimiter">}}</span><span class="Number"> script2.py </span><span class="Delimiter">{{</span><span class="Normal"> </span><span class="Identifier">ARGS</span><span class="Normal"> </span><span class="Delimiter">}}</span>
 
 <span class="Function">braces</span><span class="Operator">:</span>
@@ -179,14 +179,14 @@ shebang <span class="Operator">:=</span> <span class="Conditional">if</span> <sp
 <span class="Number">  </span><span class="Special">-@</span><span class="Number">cat foo</span>
 <span class="Number">  echo </span><span class="String">'Done!'</span>
 
-<span class="Function">test3 </span><span class="Identifier">target</span><span class="Function"> </span><span class="Identifier">tests</span><span class="Operator">=</span><span class="Function">path_1</span><span class="Operator">:</span>
+<span class="Function">test3</span> <span class="Identifier">target</span> <span class="Identifier">tests</span><span class="Operator">=</span>path_1<span class="Operator">:</span>
 <span class="Number">  </span><span class="Special">@</span><span class="Number">echo </span><span class="String">'Testing </span><span class="Delimiter">{{</span><span class="Identifier">target</span><span class="Delimiter">}}</span><span class="String">:</span><span class="Delimiter">{{</span><span class="Identifier">tests</span><span class="Delimiter">}}</span><span class="String">…'</span>
 <span class="Number">  ./test --tests </span><span class="Delimiter">{{</span><span class="Identifier">tests</span><span class="Delimiter">}}</span><span class="Number"> </span><span class="Delimiter">{{</span><span class="Identifier">target</span><span class="Delimiter">}}</span>
 
-<span class="Function">test4 </span><span class="Identifier">triple</span><span class="Operator">=</span><span class="Delimiter">(</span>an_arch <span class="Operator">+</span> <span class="String">"-unknown-unknown"</span><span class="Delimiter">)</span><span class="Function"> </span><span class="Identifier">input</span><span class="Operator">=</span><span class="Delimiter">(</span>an_arch <span class="Operator">/</span> <span class="String">"input.dat"</span><span class="Delimiter">)</span><span class="Operator">:</span>
+<span class="Function">test4</span> <span class="Identifier">triple</span><span class="Operator">=</span><span class="Delimiter">(</span>an_arch <span class="Operator">+</span> <span class="String">"-unknown-unknown"</span><span class="Delimiter">)</span> <span class="Identifier">input</span><span class="Operator">=</span><span class="Delimiter">(</span>an_arch <span class="Operator">/</span> <span class="String">"input.dat"</span><span class="Delimiter">)</span><span class="Operator">:</span>
 <span class="Number">  ./test </span><span class="Delimiter">{{</span><span class="Identifier">triple</span><span class="Delimiter">}}</span>
 
-<span class="Function">variadic </span><span class="Operator">$</span><span class="Identifier">VAR1_1</span><span class="Function"> </span><span class="Identifier">VAR2</span><span class="Function"> </span><span class="Identifier">VAR3</span><span class="Function"> </span><span class="Identifier">VAR4</span><span class="Operator">=</span><span class="Delimiter">(</span><span class="String">"a"</span><span class="Delimiter">)</span><span class="Function"> </span><span class="Operator">+</span><span class="Operator">$</span><span class="Identifier">FLAGS</span><span class="Operator">=</span><span class="String">'-q'</span><span class="Operator">:</span> <span class="Function">foo2</span> <span class="Function">braces</span>
+<span class="Function">variadic</span> <span class="Operator">$</span><span class="Identifier">VAR1_1</span> <span class="Identifier">VAR2</span> <span class="Identifier">VAR3</span> <span class="Identifier">VAR4</span><span class="Operator">=</span><span class="Delimiter">(</span><span class="String">"a"</span><span class="Delimiter">)</span> <span class="Operator">+</span><span class="Operator">$</span><span class="Identifier">FLAGS</span><span class="Operator">=</span><span class="String">'-q'</span><span class="Operator">:</span> <span class="Function">foo2</span> <span class="Function">braces</span>
 <span class="Number">  cargo test </span><span class="Delimiter">{{</span><span class="Identifier">FLAGS</span><span class="Delimiter">}}</span>
 
 <span class="Function">time</span><span class="Operator">:</span>
