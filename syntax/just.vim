@@ -19,12 +19,12 @@ syn match justShebang "#!.*$" contains=justInterpolation
 syn match justName "[a-zA-Z_][a-zA-Z0-9_-]*" contained
 syn match justFunction "[a-zA-Z_][a-zA-Z0-9_-]*" contained
 
-syn region justBacktick start=/`/ skip=/\./ end=/`/
-syn region justBacktick start=/```/ skip=/\./ end=/```/
-syn region justRawString start=/'/ skip=/\./ end=/'/
-syn region justRawString start=/'''/ skip=/\./ end=/'''/
-syn region justString start=/"/ skip=/\.\|\\\\\|\\"/ end=/"/ contains=justNextLine,justStringEscapeSequence
-syn region justString start=/"""/ skip=/\.\|\\\\\|\\"/ end=/"""/ contains=justNextLine,justStringEscapeSequence
+syn region justBacktick start=/`/ end=/`/
+syn region justBacktick start=/```/ end=/```/
+syn region justRawString start=/'/ end=/'/
+syn region justRawString start=/'''/ end=/'''/
+syn region justString start=/"/ skip=/\\\\\|\\"/ end=/"/ contains=justNextLine,justStringEscapeSequence
+syn region justString start=/"""/ skip=/\\\\\|\\"/ end=/"""/ contains=justNextLine,justStringEscapeSequence
 syn cluster justAllStrings contains=justBacktick,justRawString,justString
 
 syn region justStringInsideBody start=/\v[^\\]'/ms=s+1 skip=/\v\{\{.*\}\}/ end=/'/ contained contains=justNextLine,justInterpolation,@justOtherCurlyBraces,justIndentError
