@@ -1,5 +1,8 @@
  !include not-at-beginning-of-line.just
 
+# export is only valid when prefixing an assignment
+export FOO
+
 badfunc1 := arch(foo) + os(foo) + os_family(foo)
 
 badfunc2 := invocation_directory(bar) / invocation_directory_native(bar)

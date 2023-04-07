@@ -1,5 +1,8 @@
  !include not-at-beginning-of-line.just
 
+<span class="Comment"># export is only valid when prefixing an assignment</span>
+export FOO
+
 badfunc1 <span class="Operator">:=</span> <span class="Error">arch(foo)</span> <span class="Operator">+</span> <span class="Error">os(foo)</span> <span class="Operator">+</span> <span class="Error">os_family(foo)</span>
 
 badfunc2 <span class="Operator">:=</span> <span class="Error">invocation_directory(bar)</span> <span class="Operator">/</span> <span class="Error">invocation_directory_native(bar)</span>

@@ -92,14 +92,14 @@ syn region justSetDefinition
 syn region justAlias
       \ matchgroup=justAlias start="\v^alias\ze\s+[a-zA-Z_][a-zA-Z0-9_-]*\s+:\="
       \ end="$"
-      \ contains=justKeywords,justFunction,justAssignmentOperator
+      \ contains=justFunction,justAssignmentOperator
       \ oneline skipwhite
 
-syn region justExport
-      \ matchgroup=justExport start="\v^export\ze\s+[a-zA-Z_][a-zA-Z0-9_-]*%(\s+:\=)?"
-      \ end="$"
-      \ contains=justKeywords,justAssignmentOperator,@justExpr
+syn match justExportedAssignment "\v^export\s+[a-zA-Z_][a-zA-Z0-9_-]*\s+:\="
+      \ contains=justExport,justAssignmentOperator,@justExpr
       \ transparent oneline skipwhite
+
+syn match justExport '\v^export\ze\s+' contained
 
 syn keyword justConditional if else
 

@@ -11,6 +11,9 @@ testing := ```
   foo=`echo '  testing  '`;echo $foo  123
 ```
 
+other_export := '1'
+export some_export := '0' + other_export
+
 valid_uuid := uuid( )
 
 this_justfile := justfile	 ( 
@@ -63,3 +66,6 @@ multiline-non-paren-final-param param0=valid_uuid *$PARAM="""
 """:
 	echo {{param0}}
 	env | grep -F PARAM
+
+env_test_export:
+	env | grep -F export
