@@ -33,7 +33,7 @@ syn region justRawStrRegexRepl start=/\v'/ end=/'/ contained contains=justRegexC
 syn region justRawStrRegexRepl start=/\v'''/ end=/'''/ contained contains=justRegexCapture
 syn region justStringRegexRepl start=/\v"/ skip=/\\\\\|\\"/ end=/"/ contained contains=justNextLine,justStringEscapeSequence,justRegexCapture
 syn region justStringRegexRepl start=/\v"""/ skip=/\\\\\|\\"/ end=/"""/ contained contains=justNextLine,justStringEscapeSequence,justRegexCapture
-syn match justRegexCapture '\v\$@<!\$%([0-9A-Za-z_]+|\{[0-9A-Za-z_]+\})' contained
+syn match justRegexCapture '\v%(\$@<!\$)@<!\$%([0-9A-Za-z_]+|\{[0-9A-Za-z_]+\})' contained
 syn cluster justStringsWithRegexCapture contains=justRawStrRegexRepl,justStringRegexRepl
 
 syn region justStringInsideBody start=/\v[^\\]'/ms=s+1 skip=/\v\{\{.*\}\}/ end=/'/ contained contains=justNextLine,justInterpolation,@justOtherCurlyBraces,justIndentError
