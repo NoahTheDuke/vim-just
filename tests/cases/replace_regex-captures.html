@@ -1,0 +1,37 @@
+foo <span class="Operator">:=</span> <span class="Function">replace_regex</span>(<span class="Function">justfile</span>(), <span class="String">'[^A-Za-z]([A-Za-z]+)\.just$'</span>, <span class="String">' - Test </span><span class="Constant">$1</span><span class="String">'</span>)
+
+foo2 <span class="Operator">:=</span> <span class="Function">replace_regex</span>(<span class="String">"""</span>
+<span class="String">   </span><span class="Special">\t</span><span class="String">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed</span>
+<span class="String">   do eiusmod tempor incididunt ut labore et dolore</span>
+<span class="String">   disputandum putant. Sed ut omittam pericula, labores,</span>
+<span class="String">   dolorem etiam, quem optimus quisque pro patria et pro suis</span>
+<span class="String">   suscipit, ut non plus habeat sapiens, quod gaudeat, quam</span>
+<span class="String">   quod angatur. Optime vero Epicurus, quod exiguam dixit</span>
+<span class="String">   fortunam intervenire sapienti maximasque ab eo dissentiunt,</span>
+<span class="String">   sed certe non.</span>
+<span class="String">"""</span>, <span class="String">'\W(?P&lt;Abc1_&gt;\w{2})\W'</span>, <span class="String">" _</span><span class="Constant">$Abc1_</span><span class="String">-"</span>)
+
+foo3 <span class="Operator">:=</span> <span class="Function">replace_regex</span>(<span class="Special">`echo ${HOME}`</span>, <span class="String">'/(\w+)/(\w+)'</span>, <span class="String">'</span><span class="Constant">${2}</span><span class="String">at</span><span class="Constant">${1}</span><span class="String">'</span>)
+
+foo4 <span class="Operator">:=</span> <span class="Function">replace_regex</span>(<span class="String">'$Te$t'</span>,
+  <span class="String">'\$([tT])'</span>
+  ,
+  <span class="String">'</span><span class="Constant">$1</span><span class="String">'</span>
+ )
+
+foo5 <span class="Operator">:=</span> <span class="Function">replace_regex</span>(<span class="String">"any</span><span class="Special">\n</span><span class="String">123"</span>, <span class="String">'$123'</span>, <span class="String">"""</span>
+<span class="Special">\t</span><span class="String">$$abc$</span>
+<span class="String">234</span><span class="Special">\</span>
+<span class="String">345 </span><span class="Constant">${456}</span><span class="String">567</span>
+<span class="String">"""</span>)
+
+not_a_replacement <span class="Operator">:=</span> <span class="String">'test $1 test '</span>
+not_a_replacement_2 <span class="Operator">:=</span> <span class="String">"test $Abc_ test"</span>
+
+<span class="Comment"># special highlighting should only occur in the simplest case</span>
+replacement_conditional <span class="Operator">:=</span> <span class="Function">replace_regex</span>(<span class="String">'123456789'</span>, <span class="String">'([2468])'</span>, <span class="Conditional">if</span> <span class="String">"$1"</span> <span class="Operator">==</span> <span class="String">"$2"</span> { <span class="String">'$1_'</span> } <span class="Conditional">else</span> { <span class="String">'_${1}_'</span> })
+replacement_nested_func <span class="Operator">:=</span> <span class="Function">replace_regex</span>(<span class="String">'987654321'</span>, <span class="String">'([13579])'</span>, <span class="Function">trim_start</span>(<span class="String">' $1 '</span>))
+
+<span class="Function">replacement_in_interp</span><span class="Operator">:</span>
+<span class="Number">	echo </span><span class="String">'</span><span class="Delimiter">{{</span><span class="Function">replace_regex</span><span class="Normal">(</span><span class="String">'A b c d'</span>,<span class="Normal"> </span><span class="String">'\s(\w)'</span><span class="Normal">, </span><span class="String">'_</span><span class="Constant">$1</span><span class="String">'</span><span class="Normal">)</span><span class="Delimiter">}}</span><span class="String">'</span>
+<span class="Number">	echo </span><span class="Delimiter">{{</span><span class="Function">replace_regex</span><span class="Normal">(</span><span class="Identifier">replacement_conditional</span>,<span class="Normal"> </span><span class="String">'(\d+)'</span>,<span class="Normal"> </span><span class="Identifier">foo3</span><span class="Normal">)</span><span class="Delimiter">}}</span>

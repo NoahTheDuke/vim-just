@@ -27,6 +27,15 @@ syn region justString start=/"/ skip=/\\\\\|\\"/ end=/"/ contains=justNextLine,j
 syn region justString start=/"""/ skip=/\\\\\|\\"/ end=/"""/ contains=justNextLine,justStringEscapeSequence
 syn cluster justAllStrings contains=justBacktick,justRawString,justString
 
+syn match justRegexReplacement /\v,\_s*%('%([^']|\n)*'|'''%([^']|\n)*''')\_s*\)/me=e-1 transparent contained contains=@justExpr,@justStringsWithRegexCapture
+syn match justRegexReplacement /\v,\_s*%("%([^"]|\\"|\n)*"|"""%(\_.%(""")@!)*\_.?""")\_s*\)/me=e-1 transparent contained contains=@justExpr,@justStringsWithRegexCapture
+syn region justRawStrRegexRepl start=/\v'/ end=/'/ contained contains=justRegexCapture
+syn region justRawStrRegexRepl start=/\v'''/ end=/'''/ contained contains=justRegexCapture
+syn region justStringRegexRepl start=/\v"/ skip=/\\\\\|\\"/ end=/"/ contained contains=justNextLine,justStringEscapeSequence,justRegexCapture
+syn region justStringRegexRepl start=/\v"""/ skip=/\\\\\|\\"/ end=/"""/ contained contains=justNextLine,justStringEscapeSequence,justRegexCapture
+syn match justRegexCapture '\v\$@<!\$%([0-9A-Za-z_]+|\{[0-9A-Za-z_]+\})' contained
+syn cluster justStringsWithRegexCapture contains=justRawStrRegexRepl,justStringRegexRepl
+
 syn region justStringInsideBody start=/\v[^\\]'/ms=s+1 skip=/\v\{\{.*\}\}/ end=/'/ contained contains=justNextLine,justInterpolation,@justOtherCurlyBraces,justIndentError
 syn region justStringInsideBody start=/\v[^\\]"/ms=s+1 skip=/\v\{\{.*\}\}|\\@<!\\"/ end=/"/ contained contains=justNextLine,justInterpolation,@justOtherCurlyBraces,justIndentError
 syn region justStringInShebangBody start=/\v[^\\]'/ms=s+1 skip=/\v\{\{.*\}\}/ end=/'/ contained contains=justNextLine,justInterpolation,@justOtherCurlyBraces,justShebangIndentError
@@ -120,7 +129,7 @@ syn match justIndentError '\v^(\\\n)@<!%( +\zs\t|\t+\zs )\s*'
 syn match justShebangIndentError '\v^ +\zs\t\s*'
 
 syn region justInterpolation matchgroup=justInterpolationDelim start="\v\{\{%([^{])@=" end="}}" contained
-      \ contains=ALLBUT,justInterpolation,@justOtherCurlyBraces,justFunction,justBody,justStringInsideBody,justStringInShebangBody,justBuiltInFunctionArgs,justRecipeDepParamsParen,justVariadicOperator,justParamExportOperator,justVariadicOpError
+      \ contains=ALLBUT,justInterpolation,@justOtherCurlyBraces,justFunction,justBody,justRegexReplacement,@justStringsWithRegexCapture,justStringInsideBody,justStringInShebangBody,justBuiltInFunctionArgs,justRecipeDepParamsParen,justVariadicOperator,justParamExportOperator,justVariadicOpError
 
 syn match justBadCurlyBraces '\v\{{3}\ze[^{]' contained
 syn match justCurlyBraces '\v\{{4}' contained
@@ -129,17 +138,22 @@ syn cluster justOtherCurlyBraces contains=justCurlyBraces,justBadCurlyBraces
 
 syn match justBuiltInFunctions "\v%(absolute_path|arch|capitalize|clean|env_var_or_default|env_var|error|extension|file_name|file_stem|invocation_directory(_native)?|join|just_executable|justfile_directory|justfile|kebabcase|lowercamelcase|lowercase|os_family|os|parent_directory|path_exists|quote|replace_regex|replace|sha256_file|sha256|shoutykebabcase|shoutysnakecase|snakecase|titlecase|trim_end_matches|trim_end_match|trim_end|trim_start_matches|trim_start_match|trim_start|trim|uppercase|uppercamelcase|uuid|without_extension)%(\s*\()@=" contained
 
-syn region justBuiltInFunctionArgs start='\v[0-9A-Za-z_]+\s*\(' end=')' transparent
+syn region justBuiltInFunctionArgs start='\v[0-9A-Za-z_]+%(replace_regex)@<!\s*\(' end=')' transparent
       \ contains=justNoise,@justExpr
-syn region justBuiltInFuncArgsInInterp start='\v[0-9A-Za-z_]+\s*\(' end=')' contained transparent
+syn region justBuiltInFuncArgsInInterp start='\v[0-9A-Za-z_]+%(replace_regex)@<!\s*\(' end=')' contained transparent
       \ contains=justNoise,@justExprBase,justBuiltInFuncArgsInInterp,justName
+
+syn region justReplaceRegex start='\vreplace_regex\s*\(' end=')' transparent
+      \ contains=justNoise,@justExpr,justRegexReplacement
+syn region justReplaceRegexInInterp start='\vreplace_regex\s*\(' end=')' contained transparent
+      \ contains=justNoise,@justExprBase,justRegexReplacement,justBuiltInFuncArgsInInterp,justReplaceRegexInInterp,justName
 
 syn match justBuiltInFunctionsError "\v%(arch|os|os_family|invocation_directory(_native)?|justfile|justfile_directory|just_executable|uuid)\s*\(%([^)]|\n)*[^)[:space:]]+%([^)]|\n)*\)"
 
 syn match justOperator "\v%(\=\=|!\=|\=\~|[+/])"
 
 syn cluster justExprBase contains=@justAllStrings,justBuiltInFunctions,justBuiltInFunctionsError,justConditional,justOperator
-syn cluster justExpr contains=@justExprBase,justBuiltInFunctionArgs
+syn cluster justExpr contains=@justExprBase,justBuiltInFunctionArgs,justReplaceRegex
 
 syn match justInclude "^!include\s\+.*$"
 
@@ -171,12 +185,14 @@ hi def link justParameter             Identifier
 hi def link justParameterOperator     Operator
 hi def link justParamExportOperator   Operator
 hi def link justRawString             String
+hi def link justRawStrRegexRepl       String
 hi def link justRecipeAt              Special
 hi def link justRecipeAttr            Type
 hi def link justRecipeColon           Operator
 hi def link justRecipeDepParamsParen  Delimiter
 hi def link justRecipeDepWithParams   Function
 hi def link justRecipeSubsequentDeps  Operator
+hi def link justRegexCapture          Constant
 hi def link justSetDefinition         Keyword
 hi def link justSetKeywords           Keyword
 hi def link justSetDeprecatedKeywords Underlined
@@ -187,5 +203,6 @@ hi def link justString                String
 hi def link justStringEscapeSequence  Special
 hi def link justStringInShebangBody   String
 hi def link justStringInsideBody      String
+hi def link justStringRegexRepl       String
 hi def link justVariadicOperator      Operator
 hi def link justVariadicOpError       Error
