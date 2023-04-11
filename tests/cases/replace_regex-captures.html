@@ -19,7 +19,7 @@ foo4 <span class="Operator">:=</span> <span class="Function">replace_regex</span
   <span class="String">'</span><span class="Constant">$1</span><span class="String">'</span>
  )
 
-foo5 <span class="Operator">:=</span> <span class="Function">replace_regex</span>(<span class="String">"any</span><span class="Special">\n</span><span class="String">123"</span>, <span class="String">'$123'</span>, <span class="String">"""</span>
+foo5 <span class="Operator">:=</span> <span class="Function">replace_regex</span>(<span class="String">"any</span><span class="Special">\n</span><span class="String">$123"</span>, <span class="String">'\$123'</span>, <span class="String">"""</span>
 <span class="Special">\t</span><span class="String">$$abc$</span>
 <span class="String">234</span><span class="Special">\</span>
 <span class="String">345 </span><span class="Constant">${456}</span><span class="String">567</span>
@@ -29,6 +29,9 @@ foo6 <span class="Operator">:=</span> <span class="Function">replace_regex</span
 
 foo7 <span class="Operator">:=</span> <span class="Function">replace_regex</span>(<span class="String">"Some text."</span>, <span class="String">'([^a-z])'</span>, <span class="String">'$$1'</span>)
 
+foo8 <span class="Operator">:=</span> <span class="Function">replace_regex</span>(<span class="String">"test123"</span>, <span class="String">'\w(\d+)'</span>, <span class="String">'''</span>
+<span class="String">  \t'</span><span class="Constant">$1</span><span class="String">'''</span>)
+
 not_a_replacement <span class="Operator">:=</span> <span class="String">'test $1 test '</span>
 not_a_replacement_2 <span class="Operator">:=</span> <span class="String">"test $Abc_ test"</span>
 
@@ -37,7 +40,7 @@ not_a_regex <span class="Operator">:=</span> <span class="Function">replace</spa
 <span class="Comment"># special highlighting should only occur in the simplest case</span>
 replacement_conditional <span class="Operator">:=</span> <span class="Function">replace_regex</span>(<span class="String">'123456789'</span>, <span class="String">'([2468])'</span>, <span class="Conditional">if</span> <span class="String">"$1"</span> <span class="Operator">==</span> <span class="String">"$2"</span> { <span class="String">'$1_'</span> } <span class="Conditional">else</span> { <span class="String">'_${1}_'</span> })
 replacement_nested_func <span class="Operator">:=</span> <span class="Function">replace_regex</span>(<span class="String">'987654321'</span>, <span class="String">'([13579])'</span>, <span class="Function">trim_start</span>(<span class="String">' $1 '</span>))
-replacement_split <span class="Operator">:=</span> <span class="Function">replace_regex</span>(<span class="String">'012034'</span>, <span class="String">'(?P&lt;capture&gt;[1-9]+)'</span>, <span class="String">'!$cap'</span> <span class="Operator">+</span> <span class="String">'ture'</span> <span class="Operator">+</span> <span class="String">"$captu"</span> <span class="Operator">/</span> <span class="String">"re"</span>)
+replacement_split <span class="Operator">:=</span> <span class="Function">replace_regex</span>(<span class="String">'012034'</span>, <span class="String">'(?P&lt;capture&gt;[1-9]+)'</span>, <span class="String">"!$cap"</span> <span class="Operator">+</span> <span class="String">'ture'</span> <span class="Operator">+</span> <span class="String">'$captu'</span> <span class="Operator">/</span> <span class="String">"re"</span>)
 
 <span class="Function">replacement_in_interp</span><span class="Operator">:</span>
 <span class="Number">	echo </span><span class="String">'</span><span class="Delimiter">{{</span><span class="Function">replace_regex</span><span class="Normal">(</span><span class="String">'A b c d'</span>,<span class="Normal"> </span><span class="String">'\s(\w)'</span><span class="Normal">, </span><span class="String">'1</span><span class="Constant">$1</span><span class="String">'</span><span class="Normal">)</span><span class="Delimiter">}}</span><span class="String">'</span>

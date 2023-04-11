@@ -19,7 +19,7 @@ foo4 := replace_regex('$T$es$t',
   '$1'
  )
 
-foo5 := replace_regex("any\n123", '$123', """
+foo5 := replace_regex("any\n$123", '\$123', """
 \t$$abc$
 234\
 345 ${456}567
@@ -29,6 +29,9 @@ foo6 := replace_regex("Some text.", '([^a-z])', '$$$1$$2')
 
 foo7 := replace_regex("Some text.", '([^a-z])', '$$1')
 
+foo8 := replace_regex("test123", '\w(\d+)', '''
+  \t'$1''')
+
 not_a_replacement := 'test $1 test '
 not_a_replacement_2 := "test $Abc_ test"
 
@@ -37,7 +40,7 @@ not_a_regex := replace('Foo Bar', ' ', '$1')
 # special highlighting should only occur in the simplest case
 replacement_conditional := replace_regex('123456789', '([2468])', if "$1" == "$2" { '$1_' } else { '_${1}_' })
 replacement_nested_func := replace_regex('987654321', '([13579])', trim_start(' $1 '))
-replacement_split := replace_regex('012034', '(?P<capture>[1-9]+)', '!$cap' + 'ture' + "$captu" / "re")
+replacement_split := replace_regex('012034', '(?P<capture>[1-9]+)', "!$cap" + 'ture' + '$captu' / "re")
 
 replacement_in_interp:
 	echo '{{replace_regex('A b c d', '\s(\w)', '1$1')}}'

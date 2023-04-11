@@ -27,7 +27,7 @@ syn region justString start=/"/ skip=/\\\\\|\\"/ end=/"/ contains=justNextLine,j
 syn region justString start=/"""/ skip=/\\\\\|\\"/ end=/"""/ contains=justNextLine,justStringEscapeSequence
 syn cluster justAllStrings contains=justBacktick,justRawString,justString
 
-syn match justRegexReplacement /\v,\_s*%('%([^']|\n)*'|'''%([^']|\n)*''')\_s*\)/me=e-1 transparent contained contains=@justExpr,@justStringsWithRegexCapture
+syn match justRegexReplacement /\v,\_s*%('%([^']|\n)*'|'''%(\_.%(''')@!)*\_.?''')\_s*\)/me=e-1 transparent contained contains=@justExpr,@justStringsWithRegexCapture
 syn match justRegexReplacement /\v,\_s*%("%([^"]|\\"|\n)*"|"""%(\_.%(""")@!)*\_.?""")\_s*\)/me=e-1 transparent contained contains=@justExpr,@justStringsWithRegexCapture
 syn region justRawStrRegexRepl start=/\v'/ end=/'/ contained contains=justRegexCapture
 syn region justRawStrRegexRepl start=/\v'''/ end=/'''/ contained contains=justRegexCapture
