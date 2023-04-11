@@ -12,6 +12,9 @@ badfunc4 := justfile   (
   abc def
 )
 
+nonexistant_func := blahuuid()
+nonexistant_func2 := blah_replace_regex('foo', '([^o])', '$1')
+
 badfunc_in_interpolation:
 	{{just_executable(this)}} {{quote( uuid(random, foo) )}}
 

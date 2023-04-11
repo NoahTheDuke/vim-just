@@ -136,16 +136,16 @@ syn match justCurlyBraces '\v\{{4}' contained
 syn match justBadCurlyBraces '\v\{{5}\ze[^{]' contained
 syn cluster justOtherCurlyBraces contains=justCurlyBraces,justBadCurlyBraces
 
-syn match justBuiltInFunctions "\v%(absolute_path|arch|capitalize|clean|env_var_or_default|env_var|error|extension|file_name|file_stem|invocation_directory(_native)?|join|just_executable|justfile_directory|justfile|kebabcase|lowercamelcase|lowercase|os_family|os|parent_directory|path_exists|quote|replace_regex|replace|sha256_file|sha256|shoutykebabcase|shoutysnakecase|snakecase|titlecase|trim_end_matches|trim_end_match|trim_end|trim_start_matches|trim_start_match|trim_start|trim|uppercase|uppercamelcase|uuid|without_extension)%(\s*\()@=" contained
+syn match justBuiltInFunctions "\v[0-9A-Za-z_]@<!%(absolute_path|arch|capitalize|clean|env_var_or_default|env_var|error|extension|file_name|file_stem|invocation_directory(_native)?|join|just_executable|justfile_directory|justfile|kebabcase|lowercamelcase|lowercase|os_family|os|parent_directory|path_exists|quote|replace_regex|replace|sha256_file|sha256|shoutykebabcase|shoutysnakecase|snakecase|titlecase|trim_end_matches|trim_end_match|trim_end|trim_start_matches|trim_start_match|trim_start|trim|uppercase|uppercamelcase|uuid|without_extension)%(\s*\()@=" contained
 
-syn region justBuiltInFunctionArgs start='\v[0-9A-Za-z_]+%(replace_regex)@<!\s*\(' end=')' transparent
+syn region justBuiltInFunctionArgs start='\v[0-9A-Za-z_]@<![0-9A-Za-z_]+%(replace_regex)@<!\s*\(' end=')' transparent
       \ contains=justNoise,@justExpr
-syn region justBuiltInFuncArgsInInterp start='\v[0-9A-Za-z_]+%(replace_regex)@<!\s*\(' end=')' contained transparent
+syn region justBuiltInFuncArgsInInterp start='\v[0-9A-Za-z_]@<![0-9A-Za-z_]+%(replace_regex)@<!\s*\(' end=')' contained transparent
       \ contains=justNoise,@justExprBase,justBuiltInFuncArgsInInterp,justName
 
-syn region justReplaceRegex start='\vreplace_regex\s*\(' end=')' transparent
+syn region justReplaceRegex start='\v[0-9A-Za-z_]@<!replace_regex\s*\(' end=')' transparent
       \ contains=justNoise,@justExpr,justRegexReplacement
-syn region justReplaceRegexInInterp start='\vreplace_regex\s*\(' end=')' contained transparent
+syn region justReplaceRegexInInterp start='\v[0-9A-Za-z_]@<!replace_regex\s*\(' end=')' contained transparent
       \ contains=justNoise,@justExprBase,justRegexReplacement,justBuiltInFuncArgsInInterp,justReplaceRegexInInterp,justName
 
 syn match justBuiltInFunctionsError "\v%(arch|os|os_family|invocation_directory(_native)?|justfile|justfile_directory|just_executable|uuid)\s*\(%([^)]|\n)*[^)[:space:]]+%([^)]|\n)*\)"
