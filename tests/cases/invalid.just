@@ -1,5 +1,16 @@
  !include not-at-beginning-of-line.just
 
+set shell
+set shell := []
+set shell := [  ]
+set shell := [
+	
+]
+
+bash := 'bash'
+c := '-c'
+set shell := [bash, c]
+
 # export is only valid when prefixing an assignment
 export FOO
 

@@ -1,5 +1,16 @@
  !include not-at-beginning-of-line.just
 
+set shell
+<span class="Statement">set</span> <span class="Keyword">shell</span> <span class="Operator">:=</span> <span class="Error">[]</span>
+<span class="Statement">set</span> <span class="Keyword">shell</span> <span class="Operator">:=</span> <span class="Error">[  ]</span>
+<span class="Statement">set</span> <span class="Keyword">shell</span> <span class="Operator">:=</span> <span class="Error">[</span>
+<span class="Error">	</span>
+<span class="Error">]</span>
+
+bash <span class="Operator">:=</span> <span class="String">'bash'</span>
+c <span class="Operator">:=</span> <span class="String">'-c'</span>
+<span class="Statement">set</span> <span class="Keyword">shell</span> <span class="Operator">:=</span> [<span class="Error">bash</span>, <span class="Error">c</span>]
+
 <span class="Comment"># export is only valid when prefixing an assignment</span>
 export FOO
 

@@ -81,22 +81,25 @@ syn match justRecipeDepParamsParen '\v(\(\s*[a-zA-Z_][a-zA-Z0-9_-]*|\))' contain
 syn match justRecipeDepWithParams "\v\(\s*\zs[a-zA-Z_][a-zA-Z0-9_-]*" contained
 
 syn match justBoolean "\v(true|false)" contained
-syn match justKeywords "\v%(export|set)" contained
 
 syn match justAssignment "\v^[a-zA-Z_][a-zA-Z0-9_-]*\s+:\=" transparent contains=justAssignmentOperator
 
+syn match justSet '\v^set\ze\s+' contained
 syn match justSetKeywords "\v%(allow-duplicate-recipes|dotenv-load|export|fallback|ignore-comments|positional-arguments|tempdir|shell|windows-shell)" contained
 syn match justSetDeprecatedKeywords 'windows-powershell' contained
-syn match justSetDefinition "\v^set\s+%(allow-duplicate-recipes|dotenv-load|export|fallback|ignore-comments|positional-arguments|windows-powershell)%(\s+:\=\s+%(true|false))?$"
-      \ contains=justSetKeywords,justSetDeprecatedKeywords,justKeywords,justAssignmentOperator,justBoolean
+syn match justBooleanSet "\v^set\s+%(allow-duplicate-recipes|dotenv-load|export|fallback|ignore-comments|positional-arguments|windows-powershell)%(\s+:\=\s+%(true|false))?$"
+      \ contains=justSet,justSetKeywords,justSetDeprecatedKeywords,justAssignmentOperator,justBoolean
       \ transparent
 
-syn match justSetBraces "\v[\[\]]" contained
-syn region justSetDefinition
-      \ start="\v^set\s+(windows-)?shell\s+:\=\s+\["
+syn match justStringSet '\v^set\s+%(tempdir)\s+:\=\s+%(['"])@=' transparent contains=justSet,justSetKeywords,justAssignmentOperator
+
+syn region justShellSet
+      \ start=/\v^set\s+(windows-)?shell\s+:\=\s+\[/
       \ end="]"
-      \ contains=justSetKeywords,justKeywords,justAssignmentOperator,@justAllStrings,justNoise,justSetBraces
-      \ transparent skipwhite oneline
+      \ contains=justSet,justSetKeywords,justAssignmentOperator,justString,justRawString,justNoise,justSetError
+      \ transparent skipwhite
+
+syn match justSetError '\v%(%(\[|,)%(\s|\n)*)@<=[^'"\][:space:]][^,\][:space:]]*|\[%(\s|\n)*\]' contained
 
 syn region justAlias
       \ matchgroup=justAlias start="\v^alias\ze\s+[a-zA-Z_][a-zA-Z0-9_-]*\s+:\="
@@ -175,7 +178,6 @@ hi def link justInclude               Include
 hi def link justIndentError           Error
 hi def link justInterpolation         Normal
 hi def link justInterpolationDelim    Delimiter
-hi def link justKeywords              Statement
 hi def link justLineContinuation      Special
 hi def link justLineLeadingSymbol     Special
 hi def link justName                  Identifier
@@ -193,9 +195,10 @@ hi def link justRecipeDepParamsParen  Delimiter
 hi def link justRecipeDepWithParams   Function
 hi def link justRecipeSubsequentDeps  Operator
 hi def link justRegexCapture          Constant
-hi def link justSetDefinition         Keyword
-hi def link justSetKeywords           Keyword
+hi def link justSet                   Statement
 hi def link justSetDeprecatedKeywords Underlined
+hi def link justSetError              Error
+hi def link justSetKeywords           Keyword
 hi def link justShebang               SpecialComment
 hi def link justShebangBody           Number
 hi def link justShebangIndentError    Error
