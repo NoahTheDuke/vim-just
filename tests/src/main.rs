@@ -3,10 +3,11 @@ use scraper::{Html, Selector};
 use std::{
   env,
   ffi::OsStr,
-  fs, io,
+  fs,
+  io::{self, ErrorKind},
   os::unix::fs as ufs,
   path::Path,
-  process::{self, Command},
+  process::Command,
 };
 use structopt::StructOpt;
 
@@ -87,6 +88,7 @@ fn main() -> io::Result<()> {
         expected.display(),
         &inner
       );
+      continue;
     }
 
     let diff_output_result = Command::new("colordiff")
@@ -110,7 +112,7 @@ fn main() -> io::Result<()> {
       passed += 1;
     } else {
       if diff_output.status.code() == Some(2) {
-        eprintln!("syntax highlightning mismatch:");
+        eprintln!("syntax highlighting mismatch:");
       } else {
         eprintln!("diff failed:");
       }
@@ -121,8 +123,12 @@ fn main() -> io::Result<()> {
 
   fs::remove_file(".vim").unwrap();
 
-  if passed != cases {
-    process::exit(1);
+  if passed == cases {
+    Ok(())
+  } else {
+    Err(io::Error::new(
+      ErrorKind::Other,
+      format!("{}/{} tests failed.", cases - passed, cases),
+    ))
   }
-  Ok(())
 }
