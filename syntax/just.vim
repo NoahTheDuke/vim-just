@@ -2,7 +2,7 @@
 " Language:	Justfile
 " Maintainer:	Noah Bogart <noah.bogart@hey.com>
 " URL:		https://github.com/NoahTheDuke/vim-just.git
-" Last Change:	2021 May 19
+" Last Change:	2023 Apr 12
 
 if exists('b:current_syntax')
   finish

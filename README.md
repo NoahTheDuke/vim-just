@@ -1,7 +1,6 @@
 # Vim Just Syntax
 
-Vim syntax files for [justfiles](https://github.com/casey/just). Nothing to note yet as
-the project is young.
+Vim syntax files for [justfiles](https://github.com/casey/just).
 
 ## Installation
 
