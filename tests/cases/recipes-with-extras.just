@@ -25,6 +25,10 @@ dependency3 theparam=('a' + (if env_var_or_default('FOO', sha256(justfile())) ==
   echo {{quote(theparam)}}
 
 test4: (dependency2 "123"
+        + '456')
+  echo Test
+
+test5: (dependency2 "123"
         + '456') # comment
   echo Test
 

@@ -14,6 +14,9 @@ c <span class="Operator">:=</span> <span class="String">'-c'</span>
 <span class="Comment"># export is only valid when prefixing an assignment</span>
 export FOO
 
+	(the next line is not a recipe body)...
+	this text should not be highlighted
+
 badfunc1 <span class="Operator">:=</span> <span class="Error">arch(foo)</span> <span class="Operator">+</span> <span class="Error">os(foo)</span> <span class="Operator">+</span> <span class="Error">os_family(foo)</span>
 
 badfunc2 <span class="Operator">:=</span> <span class="Error">invocation_directory(bar)</span> <span class="Operator">/</span> <span class="Error">invocation_directory_native(bar)</span>

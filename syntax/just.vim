@@ -19,6 +19,9 @@ syn match justShebang "#!.*$" contains=justInterpolation
 syn match justName "[a-zA-Z_][a-zA-Z0-9_-]*" contained
 syn match justFunction "[a-zA-Z_][a-zA-Z0-9_-]*" contained
 
+syn match justPreBodyComment "\v\s*#([^!].*)?\n%(\t+| +)@=" transparent contained contains=justComment
+      \ nextgroup=@justBodies skipnl
+
 syn region justBacktick start=/`/ end=/`/
 syn region justBacktick start=/```/ end=/```/
 syn region justRawString start=/'/ end=/'/
@@ -57,9 +60,10 @@ syn match justRecipeColon ":" contained
 
 syn match justRecipeAttr '^\[\s*\(no-\(cd\|exit-message\)\|linux\|macos\|unix\|windows\|private\)\(\s*,\s*\(no-\(cd\|exit-message\)\|linux\|macos\|unix\|windows\|private\)\)*\s*\]'
 
-syn match justRecipeBody "\v^\@?[a-zA-Z_]((:\=)@!%([^:]|\n))*\ze:%(\s|\n)"
+syn match justRecipeBody "\v^\@?[a-zA-Z_]((:\=)@!%([^:]|\n))*%(:%(#|\s|\n))@="
       \ transparent
       \ contains=justRecipeName,justRecipeColon,justParameter,justRecipeParenDefault,@justAllStrings,justComment,justShebang
+      \ nextgroup=justRecipeNoDeps,justRecipeDeps
 
 syn match justRecipeName "\v^\@?[a-zA-Z_][a-zA-Z0-9_-]*" transparent contained contains=justRecipeAt,justFunction
 
@@ -69,8 +73,14 @@ syn region justRecipeParenDefault
 
 syn match justRecipeSubsequentDeps '&&' contained
 
-syn match justRecipeDeps "\v:[^\=]?.*\n"
-      \ contains=justComment,justFunction,justRecipeColon,justRecipeSubsequentDeps,justRecipeParamDep
+syn match justRecipeNoDeps '\v:\s*\n|:#@=|:\s+#@='
+      \ transparent contained
+      \ contains=justRecipeColon
+      \ nextgroup=justPreBodyComment,@justBodies
+syn region justRecipeDeps start="\v:\s*%([a-zA-Z_(]|\&\&)" end="\v.#@=|\n"
+      \ transparent contained
+      \ contains=justFunction,justRecipeColon,justRecipeSubsequentDeps,justRecipeParamDep
+      \ nextgroup=justPreBodyComment,@justBodies
 
 syn region justRecipeParamDep contained transparent
       \ start="("
@@ -119,14 +129,18 @@ syn match justLineLeadingSymbol "\v^(\\\n)@<!\s\s*\zs(\@-|-\@|\@|-)"
 syn match justLineContinuation "\\$" contained
 
 syn region justBody
-      \ start=/\v^%(%(%(^[A-Za-z_@-]|"""|'''|```).*:%([^=].*)?|[^#]*\)%(.*[^{}]))\n)@<=%( +|\t+)(\@-|-\@|\@|-)?\S/
+      \ start=/\v^%( +|\t+)%(#!)@!(\@-|-\@|\@|-)?\S/
       \ skip='\\\n' end="\v\n\ze%(\n|\S)"
       \ contains=justInterpolation,@justOtherCurlyBraces,justLineLeadingSymbol,justLineContinuation,justComment,justStringInsideBody,justIndentError
+      \ contained
 
 syn region justShebangBody
       \ start="\v^%( +|\t+)#!"
       \ skip='\\\n' end="\v\n\ze%(\n|\S)"
       \ contains=justInterpolation,@justOtherCurlyBraces,justLineContinuation,justComment,justShebang,justStringInShebangBody,justShebangIndentError
+      \ contained
+
+syn cluster justBodies contains=justBody,justShebangBody
 
 syn match justIndentError '\v^(\\\n)@<!%( +\zs\t|\t+\zs )\s*'
 syn match justShebangIndentError '\v^ +\zs\t\s*'

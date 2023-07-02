@@ -14,6 +14,9 @@ set shell := [bash, c]
 # export is only valid when prefixing an assignment
 export FOO
 
+	(the next line is not a recipe body)...
+	this text should not be highlighted
+
 badfunc1 := arch(foo) + os(foo) + os_family(foo)
 
 badfunc2 := invocation_directory(bar) / invocation_directory_native(bar)

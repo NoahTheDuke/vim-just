@@ -67,5 +67,8 @@ multiline-non-paren-final-param param0=valid_uuid *$PARAM="""
 	echo {{param0}}
 	env | grep -F PARAM
 
+immediate-comment:#this is valid
+	echo comment
+
 env_test_export:
 	env | grep -F export
