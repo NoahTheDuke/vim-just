@@ -149,7 +149,7 @@ syn match justIndentError '\v^(\\\n)@<!%( +\zs\t|\t+\zs )\s*'
 syn match justShebangIndentError '\v^ +\zs\t\s*'
 
 syn region justInterpolation matchgroup=justInterpolationDelim start="\v\{\{%([^{])@=" end="}}" contained
-      \ contains=ALLBUT,justInterpolation,@justOtherCurlyBraces,justFunction,justBody,justRegexReplacement,@justStringsWithRegexCapture,justStringInsideBody,justStringInShebangBody,justBuiltInFunctionArgs,justRecipeDepParamsParen,justVariadicPrefix,justParameter,justParamExport,justVariadicPrefixError
+      \ contains=ALLBUT,justInterpolation,@justOtherCurlyBraces,justFunction,@justBodies,justRegexReplacement,@justStringsWithRegexCapture,justStringInsideBody,justStringInShebangBody,justBuiltInFunctionArgs,justRecipeDepParamsParen,justVariadicPrefix,justParameter,justParamExport,justVariadicPrefixError
 
 syn match justBadCurlyBraces '\v\{{3}\ze[^{]' contained
 syn match justCurlyBraces '\v\{{4}' contained
