@@ -70,5 +70,15 @@ multiline-non-paren-final-param param0=valid_uuid *$PARAM="""
 immediate-comment:#this is valid
 	echo comment
 
+spaced_params param1  =  valid_uuid  * param2	=	"x" :
+	echo {{param1}} {{param2}}
+
+spaced_params2 param1  =  valid_uuid  + $ ENV_PARAM2  = 'exported environment variable value':
+	echo {{param1}}
+	env | grep -F PARAM2
+
+spaced_paren_param param1 = (valid_uuid + valid_uuid):
+	echo {{param1}}
+
 env_test_export:
 	env | grep -F export

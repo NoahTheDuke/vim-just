@@ -60,7 +60,7 @@ not_a_uuid_anymore <span class="Operator">:=</span> <span class="Function">repla
 <span class="Number">	</span><span class="SpecialComment">#!/bin/bash</span>
 <span class="Number">	@foo</span>
 
-<span class="Function">multiline-non-paren-final-param</span> <span class="Identifier">param0</span><span class="Operator">=</span>valid_uuid <span class="Operator">*</span><span class="Operator">$</span><span class="Identifier">PARAM</span><span class="Operator">=</span><span class="String">"""</span>
+<span class="Function">multiline-non-paren-final-param</span> <span class="Identifier">param0</span><span class="Operator">=</span>valid_uuid <span class="Statement">*</span><span class="Statement">$</span><span class="Identifier">PARAM</span><span class="Operator">=</span><span class="String">"""</span>
 <span class="String">  foo</span>
 
 <span class="String">"""</span><span class="Operator">:</span>
@@ -69,6 +69,16 @@ not_a_uuid_anymore <span class="Operator">:=</span> <span class="Function">repla
 
 <span class="Function">immediate-comment</span><span class="Operator">:</span><span class="Comment">#this is valid</span>
 <span class="Number">	echo comment</span>
+
+<span class="Function">spaced_params</span> <span class="Identifier">param1</span>  <span class="Operator">=</span>  valid_uuid  <span class="Statement">*</span> <span class="Identifier">param2</span>	<span class="Operator">=</span>	<span class="String">"x"</span> <span class="Operator">:</span>
+<span class="Number">	echo </span><span class="Delimiter">{{</span><span class="Identifier">param1</span><span class="Delimiter">}}</span><span class="Number"> </span><span class="Delimiter">{{</span><span class="Identifier">param2</span><span class="Delimiter">}}</span>
+
+<span class="Function">spaced_params2</span> <span class="Identifier">param1</span>  <span class="Operator">=</span>  valid_uuid  <span class="Statement">+</span> <span class="Statement">$</span> <span class="Identifier">ENV_PARAM2</span>  <span class="Operator">=</span> <span class="String">'exported environment variable value'</span><span class="Operator">:</span>
+<span class="Number">	echo </span><span class="Delimiter">{{</span><span class="Identifier">param1</span><span class="Delimiter">}}</span>
+<span class="Number">	env | grep -F PARAM2</span>
+
+<span class="Function">spaced_paren_param</span> <span class="Identifier">param1</span> <span class="Operator">=</span> <span class="Delimiter">(</span>valid_uuid <span class="Operator">+</span> valid_uuid<span class="Delimiter">)</span><span class="Operator">:</span>
+<span class="Number">	echo </span><span class="Delimiter">{{</span><span class="Identifier">param1</span><span class="Delimiter">}}</span>
 
 <span class="Function">env_test_export</span><span class="Operator">:</span>
 <span class="Number">	env | grep -F export</span>

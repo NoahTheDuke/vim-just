@@ -68,3 +68,5 @@ variadic-env-wrong-order1 param0=foo $*PARAM:
 	env
 variadic-env-wrong-order2 $+PARAM="1":
 	env
+variadic-env-wrong-order-with-whitespace $  *  PARAM:
+	env
