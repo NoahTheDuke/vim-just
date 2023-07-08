@@ -62,9 +62,13 @@ syn match justRecipeColon ":" contained
 
 syn match justRecipeAttr '^\[\s*\(no-\(cd\|exit-message\)\|linux\|macos\|unix\|windows\|private\)\(\s*,\s*\(no-\(cd\|exit-message\)\|linux\|macos\|unix\|windows\|private\)\)*\s*\]'
 
-syn match justRecipeBody "\v^\@?[a-zA-Z_]((:\=)@!%([^:]|\n))*%(:%(#|\s|\n))@="
+syn match justRecipeDeclSimple "\v^\@?[a-zA-Z_][a-zA-Z0-9_-]*%(\s*:\=@!)@="
+      \ transparent contains=justRecipeName
+      \ nextgroup=justRecipeNoDeps,justRecipeDeps
+
+syn region justRecipeDeclComplex start="\v^\@?[a-zA-Z_][a-zA-Z0-9_-]*\s+%([+*$]+\s*)*[a-zA-Z_]" end="\v%(:\=@!)@=|$"
       \ transparent
-      \ contains=justRecipeName,justRecipeColon,justParameter,justRecipeParenDefault,@justAllStrings,justComment,justShebang
+      \ contains=justRecipeName,justParameter,justRecipeParenDefault,@justAllStrings
       \ nextgroup=justRecipeNoDeps,justRecipeDeps
 
 syn match justRecipeName "\v^\@?[a-zA-Z_][a-zA-Z0-9_-]*" transparent contained contains=justRecipeAt,justFunction

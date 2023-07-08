@@ -12,6 +12,7 @@ c := '-c'
 set shell := [bash, c]
 
 # export is only valid when prefixing an assignment
+# just thinks the following line is a malformed attempt to start a recipe called "export"
 export FOO
 
 	(the next line is not a recipe body)...
@@ -26,9 +27,14 @@ badfunc4 := justfile   (
   abc def
 )
 
+not_a_recipe_name #comment:
+	not a recipe body
+
 nonexistant_func := blahuuid()
 nonexistant_func2 := blah_replace_regex('foo', '([^o])', '$1')
 
+not_a_recipe_start
+	not a recipe body
 badfunc_in_interpolation:
 	{{just_executable(this)}} {{quote( uuid(random, foo) )}}
 
