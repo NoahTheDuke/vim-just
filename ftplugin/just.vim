@@ -11,6 +11,7 @@ endif
 let b:did_ftplugin = 1
 
 setlocal iskeyword+=-
+setlocal comments=n:#
 setlocal commentstring=#\ %s
 
-let b:undo_ftplugin = "setlocal iskeyword< commentstring<"
+let b:undo_ftplugin = "setlocal iskeyword< comments< commentstring<"
