@@ -80,5 +80,8 @@ not_a_uuid_anymore <span class="Operator">:=</span> <span class="Function">repla
 <span class="Function">spaced_paren_param</span> <span class="Identifier">param1</span> <span class="Operator">=</span> <span class="Delimiter">(</span>valid_uuid <span class="Operator">+</span> valid_uuid<span class="Delimiter">)</span><span class="Operator">:</span>
 <span class="Number">	echo </span><span class="Delimiter">{{</span><span class="Identifier">param1</span><span class="Delimiter">}}</span>
 
+<span class="Function">invoke</span> <span class="Identifier">shell</span><span class="Operator">:</span>
+<span class="Number">	</span><span class="Delimiter">{{</span><span class="Identifier">shell</span><span class="Delimiter">}}</span>
+
 <span class="Function">env_test_export</span><span class="Operator">:</span>
 <span class="Number">	env | grep -F export</span>

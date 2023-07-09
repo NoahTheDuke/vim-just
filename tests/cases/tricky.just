@@ -80,5 +80,8 @@ spaced_params2 param1  =  valid_uuid  + $ ENV_PARAM2  = 'exported environment va
 spaced_paren_param param1 = (valid_uuid + valid_uuid):
 	echo {{param1}}
 
+invoke shell:
+	{{shell}}
+
 env_test_export:
 	env | grep -F export
