@@ -70,9 +70,20 @@ early-interpolation-close foo:
 other-recipe:
 	echo interpolation ended in last recipe
 
-variadic-env-wrong-order1 param0=foo $*PARAM:
+variadic-env-wrong-order1 param0 $*PARAM:
 	env
 variadic-env-wrong-order2 $+PARAM="1":
 	env
 variadic-env-wrong-order-with-whitespace $  *  PARAM:
+	env
+
+non-default-param-after-default param0='value' param1:
+	/bin/false
+non-default-param-after-default2 param0='value'  *  $  PARAM:
+	env
+non-default-param-after-default3 param0='value' param1 param2 param3 param4=something param5:
+	/bin/false
+non-default-param-after-default4 param0='''
+value
+''' param1  + $ param2:
 	env

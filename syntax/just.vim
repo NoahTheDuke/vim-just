@@ -55,6 +55,7 @@ syn match justParameterOperator "\V=" contained
 syn match justVariadicPrefix "\v\s@<=[*+]%(\s*\$?\s*[a-zA-Z_])@=" contained
 syn match justParamExport '\V$' contained
 syn match justVariadicPrefixError "\v\$\s*[*+]" contained
+syn match justParameterError "\v%(%(\=\s*[a-zA-Z_][a-zA-Z0-9_-]*|[^a-zA-Z0-9_=*+$[:space:]-])\s+)@<=%(%([+*$]+\s*)*[a-zA-Z_][a-zA-Z0-9_-]*)@>%(\s*\=)@!" contained
 
 syn match justNextLine "\\\n\s*"
 syn match justRecipeAt "^@" contained
@@ -68,7 +69,7 @@ syn match justRecipeDeclSimple "\v^\@?[a-zA-Z_][a-zA-Z0-9_-]*%(\s*:\=@!)@="
 
 syn region justRecipeDeclComplex start="\v^\@?[a-zA-Z_][a-zA-Z0-9_-]*\s+%([+*$]+\s*)*[a-zA-Z_]" end="\v%(:\=@!)@=|$"
       \ transparent
-      \ contains=justRecipeName,justParameter,justRecipeParenDefault,@justAllStrings
+      \ contains=justRecipeName,justParameter,justParameterError,justRecipeParenDefault,@justAllStrings
       \ nextgroup=justRecipeNoDeps,justRecipeDeps
 
 syn match justRecipeName "\v^\@?[a-zA-Z_][a-zA-Z0-9_-]*" transparent contained contains=justRecipeAt,justFunction
@@ -204,6 +205,7 @@ hi def link justLineLeadingSymbol     Special
 hi def link justName                  Identifier
 hi def link justNextLine              Special
 hi def link justOperator              Operator
+hi def link justParameterError        Error
 hi def link justParameterOperator     Operator
 hi def link justParamExport           Statement
 hi def link justRawString             String
