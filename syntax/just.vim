@@ -39,10 +39,10 @@ syn region justStringRegexRepl start=/\v"""/ skip=/\\\\\|\\"/ end=/"""/ containe
 syn match justRegexCapture '\v%(\$@1<!\$)@3<!\$%([0-9A-Za-z_]+|\{[0-9A-Za-z_]+\})' contained
 syn cluster justStringsWithRegexCapture contains=justRawStrRegexRepl,justStringRegexRepl
 
-syn region justStringInsideBody start=/\v[^\\]'/ms=s+1 end=/'/ contained contains=justNextLine,justInterpolation,@justOtherCurlyBraces,justIndentError
-syn region justStringInsideBody start=/\v[^\\]"/ms=s+1 skip=/\v\\@1<!\\"/ end=/"/ contained contains=justNextLine,justInterpolation,@justOtherCurlyBraces,justIndentError
-syn region justStringInShebangBody start=/\v[^\\]'/ms=s+1 end=/'/ contained contains=justNextLine,justInterpolation,@justOtherCurlyBraces,justShebangIndentError
-syn region justStringInShebangBody start=/\v[^\\]"/ms=s+1 skip=/\v\\@1<!\\"/ end=/"/ contained contains=justNextLine,justInterpolation,@justOtherCurlyBraces,justShebangIndentError
+syn region justStringInsideBody start=/\v\\@1<!'/ end=/'/ contained contains=justNextLine,justInterpolation,@justOtherCurlyBraces,justIndentError
+syn region justStringInsideBody start=/\v\\@1<!"/ skip=/\v\\@1<!\\"/ end=/"/ contained contains=justNextLine,justInterpolation,@justOtherCurlyBraces,justIndentError
+syn region justStringInShebangBody start=/\v\\@1<!'/ end=/'/ contained contains=justNextLine,justInterpolation,@justOtherCurlyBraces,justShebangIndentError
+syn region justStringInShebangBody start=/\v\\@1<!"/ skip=/\v\\@1<!\\"/ end=/"/ contained contains=justNextLine,justInterpolation,@justOtherCurlyBraces,justShebangIndentError
 
 syn match justStringEscapeSequence '\v\\[tnr"\\]' contained
 

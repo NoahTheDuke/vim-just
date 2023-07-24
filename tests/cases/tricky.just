@@ -29,6 +29,10 @@ not_a_uuid_anymore := replace_regex  (
 test:
 	echo {{something}}{{testing}}
 
+test2:
+	#!/usr/bin/env python3
+	print(''{{quote(something)}}''.split("T"))
+
 curly_braces_3:
 	echo 'Four {{{{{{{{{{"""\
 Opening """ + 'Curly ' + "Braces"}}!'
