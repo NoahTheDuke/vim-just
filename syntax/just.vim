@@ -163,9 +163,15 @@ syn cluster justOtherCurlyBraces contains=justCurlyBraces,justBadCurlyBraces
 
 syn match justBuiltInFunctions "\v[0-9A-Za-z_]@1<!%(a%(bsolute_pat|rc)h|c%(apitalize|lean)|e%(nv_var%(_or_default)?|rror|xtension)|file_%(name|stem)|invocation_directory%(_native)?|j%(oin|ust%(_executable|file%(_directory)?))|kebabcase|lowerca%(melca)?se|os%(_family)?|pa%(rent_directory|th_exists)|quote|replace%(_regex)?|s%(h%(a256%(_file)?|outy%(kebab|snake)case)|nakecase)|t%(itlecase|rim%(_%(end|start)%(_match%(es)?)?)?)|u%(pperca%(melca)?se|uid)|without_extension)%(\s*\()@=" contained
 
-syn region justBuiltInFunctionArgs start='\v[0-9A-Za-z_]@1<!%(replace_regex)@![0-9A-Za-z_]+\s*\(' end=')' transparent
+syn region justBuiltInFunctionArgs
+      \ start='\v[0-9A-Za-z_]@1<!%(r%(eplace_regex)@!|[a-qs-z])[0-9a-z_]*\s*\('
+      \ end=')'
+      \ transparent
       \ contains=justNoise,@justExpr
-syn region justBuiltInFuncArgsInInterp start='\v[0-9A-Za-z_]@1<!%(replace_regex)@![0-9A-Za-z_]+\s*\(' end=')' contained transparent
+syn region justBuiltInFuncArgsInInterp
+      \ start='\v[0-9A-Za-z_]@1<!%(r%(eplace_regex)@!|[a-qs-z])[0-9a-z_]*\s*\('
+      \ end=')'
+      \ contained transparent
       \ contains=justNoise,@justExprBase,justBuiltInFuncArgsInInterp,justName
 
 syn region justReplaceRegex start='\v[0-9A-Za-z_]@1<!replace_regex\s*\(' end=')' transparent
@@ -175,7 +181,7 @@ syn region justReplaceRegexInInterp start='\v[0-9A-Za-z_]@1<!replace_regex\s*\('
 
 syn match justBuiltInFunctionsError "\v%(arch|invocation_directory%(_native)?|just%(_executable|file%(_directory)?)|os%(_family)?|uuid)\s*\(%([^)]|\n)*[^)[:space:]]+%([^)]|\n)*\)"
 
-syn match justOperator "\v%(\=\=|!\=|\=\~|[+/])"
+syn match justOperator "\v%(\=[=~]|!\=|[+/])"
 
 syn cluster justExprBase contains=@justAllStrings,justBuiltInFunctions,justBuiltInFunctionsError,justConditional,justOperator
 syn cluster justExpr contains=@justExprBase,justBuiltInFunctionArgs,justReplaceRegex
