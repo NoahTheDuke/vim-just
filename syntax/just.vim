@@ -161,7 +161,7 @@ syn match justCurlyBraces '\v\{{4}' contained
 syn match justBadCurlyBraces '\v\{{5}\ze[^{]' contained
 syn cluster justOtherCurlyBraces contains=justCurlyBraces,justBadCurlyBraces
 
-syn match justBuiltInFunctions "\v[0-9A-Za-z_]@1<!%(absolute_path|arch|capitalize|clean|env_var_or_default|env_var|error|extension|file_name|file_stem|invocation_directory%(_native)?|join|just_executable|justfile_directory|justfile|kebabcase|lowercamelcase|lowercase|os_family|os|parent_directory|path_exists|quote|replace_regex|replace|sha256_file|sha256|shoutykebabcase|shoutysnakecase|snakecase|titlecase|trim_end_matches|trim_end_match|trim_end|trim_start_matches|trim_start_match|trim_start|trim|uppercase|uppercamelcase|uuid|without_extension)%(\s*\()@=" contained
+syn match justBuiltInFunctions "\v[0-9A-Za-z_]@1<!%(a%(bsolute_pat|rc)h|c%(apitalize|lean)|e%(nv_var%(_or_default)?|rror|xtension)|file_%(name|stem)|invocation_directory%(_native)?|j%(oin|ust%(_executable|file%(_directory)?))|kebabcase|lowerca%(melca)?se|os%(_family)?|pa%(rent_directory|th_exists)|quote|replace%(_regex)?|s%(h%(a256%(_file)?|outy%(kebab|snake)case)|nakecase)|t%(itlecase|rim%(_%(end|start)%(_match%(es)?)?)?)|u%(pperca%(melca)?se|uid)|without_extension)%(\s*\()@=" contained
 
 syn region justBuiltInFunctionArgs start='\v[0-9A-Za-z_]@1<!%(replace_regex)@![0-9A-Za-z_]+\s*\(' end=')' transparent
       \ contains=justNoise,@justExpr
@@ -173,7 +173,7 @@ syn region justReplaceRegex start='\v[0-9A-Za-z_]@1<!replace_regex\s*\(' end=')'
 syn region justReplaceRegexInInterp start='\v[0-9A-Za-z_]@1<!replace_regex\s*\(' end=')' contained transparent
       \ contains=justNoise,@justExprBase,justRegexReplacement,justBuiltInFuncArgsInInterp,justReplaceRegexInInterp,justName
 
-syn match justBuiltInFunctionsError "\v%(arch|os|os_family|invocation_directory%(_native)?|justfile|justfile_directory|just_executable|uuid)\s*\(%([^)]|\n)*[^)[:space:]]+%([^)]|\n)*\)"
+syn match justBuiltInFunctionsError "\v%(arch|invocation_directory%(_native)?|just%(_executable|file%(_directory)?)|os%(_family)?|uuid)\s*\(%([^)]|\n)*[^)[:space:]]+%([^)]|\n)*\)"
 
 syn match justOperator "\v%(\=\=|!\=|\=\~|[+/])"
 
