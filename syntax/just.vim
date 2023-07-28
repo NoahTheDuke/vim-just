@@ -92,11 +92,9 @@ syn region justRecipeDeps start="\v:\s*%([a-zA-Z_(]|\&\&)" end="\v.#@=|\n"
 
 syn region justRecipeParamDep contained transparent
       \ start="("
-      \ matchgroup=justRecipeDepParamsParen start='\v%(\(\s*[a-zA-Z_][a-zA-Z0-9_-]*)'
-      \ end=")"
-      \ contains=justRecipeDepParamsParen,justRecipeDepWithParams,@justExpr
-syn match justRecipeDepParamsParen '\v%(\(\s*[a-zA-Z_][a-zA-Z0-9_-]*|\))' contained contains=justRecipeDepWithParams
-syn match justRecipeDepWithParams "\v\(\s*\zs[a-zA-Z_][a-zA-Z0-9_-]*" contained
+      \ matchgroup=justRecipeDepParamsParen end=")"
+      \ contains=justRecipeDepParamsParen,@justExpr
+syn match justRecipeDepParamsParen '\v\(\s*[a-zA-Z_][a-zA-Z0-9_-]*' contained contains=justFunction
 
 syn keyword justBoolean true false contained
 
@@ -220,7 +218,6 @@ hi def link justRecipeAt              Special
 hi def link justRecipeAttr            Type
 hi def link justRecipeColon           Operator
 hi def link justRecipeDepParamsParen  Delimiter
-hi def link justRecipeDepWithParams   Function
 hi def link justRecipeSubsequentDeps  Operator
 hi def link justRegexCapture          Constant
 hi def link justSet                   Statement
