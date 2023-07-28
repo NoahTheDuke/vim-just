@@ -123,6 +123,7 @@ zeroArgFunctions := '''
   uuid
 '''
 
+# generate an optimized Vim-style "very magic" regex snippet from a list of literal strings to match
 optrx +strings:
 	#!/usr/bin/env python3
 	vparam = ''{{quote(strings)}}''
@@ -174,5 +175,6 @@ optrx +strings:
 	  return o.replace('|)', ')?')
 	print(recursive_coalesce(charByPrefix))
 
+# run optrx on a variable from this justfile
 @optrx_var var:
 	just -f {{quote(justfile())}} optrx "$(just -f {{quote(justfile())}} --evaluate {{var}})"
