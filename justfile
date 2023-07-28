@@ -63,3 +63,116 @@ update-last-changed *force:
 	  echo -e "$f -> Last Change: $lastchange"
 	  sed --in-place -E -e "s/(^\"\s*Last\s+Change:\s+).+$/\\1${lastchange}/g" "$f"
 	done
+
+
+
+allFunctions := '''
+  absolute_path
+  arch
+  capitalize
+  clean
+  env_var
+  env_var_or_default
+  error
+  extension
+  file_name
+  file_stem
+  invocation_directory
+  invocation_directory_native
+  join
+  just_executable
+  justfile
+  justfile_directory
+  kebabcase
+  lowercamelcase
+  lowercase
+  os
+  os_family
+  parent_directory
+  path_exists
+  quote
+  replace
+  replace_regex
+  sha256
+  sha256_file
+  shoutykebabcase
+  shoutysnakecase
+  snakecase
+  titlecase
+  trim
+  trim_end
+  trim_end_match
+  trim_end_matches
+  trim_start
+  trim_start_match
+  trim_start_matches
+  uppercamelcase
+  uppercase
+  uuid
+  without_extension
+'''
+zeroArgFunctions := '''
+  arch
+  invocation_directory
+  invocation_directory_native
+  just_executable
+  justfile
+  justfile_directory
+  os
+  os_family
+  uuid
+'''
+
+optrx +strings:
+	#!/usr/bin/env python3
+	vparam = ''{{quote(strings)}}''
+	import collections
+	strings_list = vparam.split('|') if '|' in vparam else vparam.strip().split()
+	charByPrefix=dict()
+	for f in strings_list:
+	  if len(f) < 1: continue
+	  g=collections.deque(f)
+	  p=charByPrefix
+	  while len(g):
+	    if g[0] not in p: p[g[0]] = dict()
+	    p=p[g.popleft()]
+	  p[''] = dict()
+	def recursive_coalesce(d, addGrouping=False):
+	  o=''
+	  l = collections.deque(d.keys())
+	  # Ensure empty string is at the end
+	  if '' in l and l[-1] != '':
+	    l.remove('')
+	    l.append('')
+	  while len(l):
+	    c = l.popleft()
+	    o += c
+	    if len(d[c]) > 1:
+	      o += recursive_coalesce(d[c], True)
+	    else:
+	      if len(d[c]) == 1:
+	        o += recursive_coalesce(d[c])
+	    if len(l):
+	      o += '|'
+	  # Do all items in this group have a common suffix?
+	  ss=o.split('|')
+	  if len(ss) > 1:
+	    commonEnd = ''
+	    tryCommonEnd = ss[0][:]
+	    while len(tryCommonEnd):
+	      c=0
+	      for j in ss:
+	        c += int(j.endswith(tryCommonEnd))
+	      if c == len(ss):
+	        commonEnd = tryCommonEnd
+	        break
+	      tryCommonEnd=tryCommonEnd[1:]
+	    if not(commonEnd in ('', ')?')):
+	      o = '%(' + ('|'.join(map(lambda s: s[:s.rfind(commonEnd)], ss))) + ')' + commonEnd
+	    elif addGrouping:
+	      o = f'%({o})'
+	  return o.replace('|)', ')?')
+	print(recursive_coalesce(charByPrefix))
+
+@optrx_var var:
+	just -f {{quote(justfile())}} optrx "$(just -f {{quote(justfile())}} --evaluate {{var}})"
