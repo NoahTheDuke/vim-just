@@ -160,6 +160,8 @@ syn match justBadCurlyBraces '\v\{{5}\ze[^{]' contained
 syn cluster justOtherCurlyBraces contains=justCurlyBraces,justBadCurlyBraces
 
 syn match justBuiltInFunctions "\v[0-9A-Za-z_]@1<!%(a%(bsolute_pat|rc)h|c%(apitalize|lean)|e%(nv_var%(_or_default)?|rror|xtension)|file_%(name|stem)|invocation_directory%(_native)?|j%(oin|ust%(_executable|file%(_directory)?))|kebabcase|lowerca%(melca)?se|os%(_family)?|pa%(rent_directory|th_exists)|quote|replace%(_regex)?|s%(h%(a256%(_file)?|outy%(kebab|snake)case)|nakecase)|t%(itlecase|rim%(_%(end|start)%(_match%(es)?)?)?)|u%(pperca%(melca)?se|uid)|without_extension)%(\s*\()@=" contained
+      \ contains=justUserDefinedError
+syn match justUserDefinedError "\v[0-9A-Za-z_]@1<!error%(\s*\()@=" contained
 
 syn region justBuiltInFunctionArgs
       \ start='\v[0-9A-Za-z_]@1<!%(r%(eplace_regex)@!|[a-qs-z])[0-9a-z_]*\s*\('
@@ -232,5 +234,6 @@ hi def link justStringEscapeSequence  Special
 hi def link justStringInShebangBody   String
 hi def link justStringInsideBody      String
 hi def link justStringRegexRepl       String
+hi def link justUserDefinedError      Exception
 hi def link justVariadicPrefix        Statement
 hi def link justVariadicPrefixError   Error
