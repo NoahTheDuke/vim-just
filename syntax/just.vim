@@ -26,23 +26,23 @@ syn region justBacktick start=/`/ end=/`/
 syn region justBacktick start=/```/ end=/```/
 syn region justRawString start=/'/ end=/'/
 syn region justRawString start=/'''/ end=/'''/
-syn region justString start=/"/ skip=/\\\\\|\\"/ end=/"/ contains=justNextLine,justStringEscapeSequence
-syn region justString start=/"""/ skip=/\\\\\|\\"/ end=/"""/ contains=justNextLine,justStringEscapeSequence
+syn region justString start=/"/ skip=/\\\\\|\\"/ end=/"/ contains=justLineContinuation,justStringEscapeSequence
+syn region justString start=/"""/ skip=/\\\\\|\\"/ end=/"""/ contains=justLineContinuation,justStringEscapeSequence
 syn cluster justAllStrings contains=justBacktick,justRawString,justString
 
 syn match justRegexReplacement /\v,\_s*%('%([^']|\n)*'|'''%(\_.%(''')@!)*\_.?''')\_s*\)/me=e-1 transparent contained contains=@justExpr,@justStringsWithRegexCapture
 syn match justRegexReplacement /\v,\_s*%("%([^"]|\\"|\n)*"|"""%(\_.%(""")@!)*\_.?""")\_s*\)/me=e-1 transparent contained contains=@justExpr,@justStringsWithRegexCapture
 syn region justRawStrRegexRepl start=/\v'/ end=/'/ contained contains=justRegexCapture
 syn region justRawStrRegexRepl start=/\v'''/ end=/'''/ contained contains=justRegexCapture
-syn region justStringRegexRepl start=/\v"/ skip=/\\\\\|\\"/ end=/"/ contained contains=justNextLine,justStringEscapeSequence,justRegexCapture
-syn region justStringRegexRepl start=/\v"""/ skip=/\\\\\|\\"/ end=/"""/ contained contains=justNextLine,justStringEscapeSequence,justRegexCapture
+syn region justStringRegexRepl start=/\v"/ skip=/\\\\\|\\"/ end=/"/ contained contains=justLineContinuation,justStringEscapeSequence,justRegexCapture
+syn region justStringRegexRepl start=/\v"""/ skip=/\\\\\|\\"/ end=/"""/ contained contains=justLineContinuation,justStringEscapeSequence,justRegexCapture
 syn match justRegexCapture '\v%(\$@1<!\$)@3<!\$%([0-9A-Za-z_]+|\{[0-9A-Za-z_]+\})' contained
 syn cluster justStringsWithRegexCapture contains=justRawStrRegexRepl,justStringRegexRepl
 
-syn region justStringInsideBody start=/\v\\@1<!'/ end=/'/ contained contains=justNextLine,justInterpolation,@justOtherCurlyBraces,justIndentError
-syn region justStringInsideBody start=/\v\\@1<!"/ skip=/\v\\@1<!\\"/ end=/"/ contained contains=justNextLine,justInterpolation,@justOtherCurlyBraces,justIndentError
-syn region justStringInShebangBody start=/\v\\@1<!'/ end=/'/ contained contains=justNextLine,justInterpolation,@justOtherCurlyBraces,justShebangIndentError
-syn region justStringInShebangBody start=/\v\\@1<!"/ skip=/\v\\@1<!\\"/ end=/"/ contained contains=justNextLine,justInterpolation,@justOtherCurlyBraces,justShebangIndentError
+syn region justStringInsideBody start=/\v\\@1<!'/ end=/'/ contained contains=justLineContinuation,justInterpolation,@justOtherCurlyBraces,justIndentError
+syn region justStringInsideBody start=/\v\\@1<!"/ skip=/\v\\@1<!\\"/ end=/"/ contained contains=justLineContinuation,justInterpolation,@justOtherCurlyBraces,justIndentError
+syn region justStringInShebangBody start=/\v\\@1<!'/ end=/'/ contained contains=justLineContinuation,justInterpolation,@justOtherCurlyBraces,justShebangIndentError
+syn region justStringInShebangBody start=/\v\\@1<!"/ skip=/\v\\@1<!\\"/ end=/"/ contained contains=justLineContinuation,justInterpolation,@justOtherCurlyBraces,justShebangIndentError
 
 syn match justStringEscapeSequence '\v\\[tnr"\\]' contained
 
@@ -57,7 +57,6 @@ syn match justParamExport '\V$' contained
 syn match justVariadicPrefixError "\v\$\s*[*+]" contained
 syn match justParameterError "\v%(%(\=\s*[a-zA-Z_][a-zA-Z0-9_-]*|[^a-zA-Z0-9_=*+$[:space:]-])\s+)@<=%(%([+*$]+\s*)*[a-zA-Z_][a-zA-Z0-9_-]*)@>%(\s*\=)@!" contained
 
-syn match justNextLine "\\\n\s*"
 syn match justRecipeAt "^@" contained
 syn match justRecipeColon ":" contained
 
@@ -209,7 +208,6 @@ hi def link justInterpolationDelim    Delimiter
 hi def link justLineContinuation      Special
 hi def link justLineLeadingSymbol     Special
 hi def link justName                  Identifier
-hi def link justNextLine              Special
 hi def link justOperator              Operator
 hi def link justParameterError        Error
 hi def link justParameterOperator     Operator
