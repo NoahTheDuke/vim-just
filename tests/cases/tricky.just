@@ -11,8 +11,11 @@ testing := ```
   foo=`echo '  testing  '`;echo $foo  123
 ```
 
+nospace:='ABCabc'
+
 other_export := '1'
 export some_export := '0' + other_export
+export SOME_EXPORT2:='1'
 
 valid_uuid := uuid( )
 
@@ -88,4 +91,5 @@ invoke shell:
 	{{shell}}
 
 env_test_export:
-	env | grep -F export
+	env | grep -F -i export
+alias printenv:=env_test_export

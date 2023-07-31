@@ -97,36 +97,36 @@ syn match justRecipeDepParamsParen '\v\(\s*[a-zA-Z_][a-zA-Z0-9_-]*' contained co
 
 syn keyword justBoolean true false contained
 
-syn match justAssignment "\v^[a-zA-Z_][a-zA-Z0-9_-]*\s+:\=" transparent contains=justAssignmentOperator
+syn match justAssignment "\v^[a-zA-Z_][a-zA-Z0-9_-]*\s*:\=" transparent contains=justAssignmentOperator
 
-syn match justSet '\v^set\ze\s+' contained
+syn match justSet '\v^set\s@=' contained
 syn match justSetKeywords "\v%(allow-duplicate-recipes|dotenv-load|export|fallback|ignore-comments|positional-arguments|tempdir|shell|windows-shell)" contained
 syn match justSetDeprecatedKeywords 'windows-powershell' contained
-syn match justBooleanSet "\v^set\s+%(allow-duplicate-recipes|dotenv-load|export|fallback|ignore-comments|positional-arguments|windows-powershell)%(\s+:\=\s+%(true|false))?$"
+syn match justBooleanSet "\v^set\s+%(allow-duplicate-recipes|dotenv-load|export|fallback|ignore-comments|positional-arguments|windows-powershell)%(\s*:\=\s*%(true|false))?$"
       \ contains=justSet,justSetKeywords,justSetDeprecatedKeywords,justAssignmentOperator,justBoolean
       \ transparent
 
-syn match justStringSet '\v^set\s+%(tempdir)\s+:\=\s+%(['"])@=' transparent contains=justSet,justSetKeywords,justAssignmentOperator
+syn match justStringSet '\v^set\s+%(tempdir)\s*:\=\s*%(['"])@=' transparent contains=justSet,justSetKeywords,justAssignmentOperator
 
 syn region justShellSet
-      \ start=/\v^set\s+%(windows-)?shell\s+:\=\s+\[/
+      \ start=/\v^set\s+%(windows-)?shell\s*:\=\s*\[/
       \ end="]"
       \ contains=justSet,justSetKeywords,justAssignmentOperator,justString,justRawString,justNoise,justSetError
       \ transparent skipwhite
 
 syn match justSetError '\v%(%(\[|,)%(\s|\n)*)@<=[^'"\][:space:]][^,\][:space:]]*|\[%(\s|\n)*\]' contained
 
-syn region justAlias
-      \ matchgroup=justAlias start="\v^alias\ze\s+[a-zA-Z_][a-zA-Z0-9_-]*\s+:\="
-      \ end="$"
-      \ contains=justFunction,justAssignmentOperator
-      \ oneline skipwhite
+syn match justAlias '\v^alias\s@=' contained
+syn match justAliasDecl "\v^alias\s+[a-zA-Z_][a-zA-Z0-9_-]*\s*:\=\s*"
+      \ transparent
+      \ contains=justAlias,justFunction,justAssignmentOperator
+      \ nextgroup=justAliasRes
+syn match justAliasRes '\v[a-zA-Z_][a-zA-Z0-9_-]*\s*%(#@=|$)' contained transparent contains=justFunction
 
-syn match justExportedAssignment "\v^export\s+[a-zA-Z_][a-zA-Z0-9_-]*\s+:\="
-      \ contains=justExport,justAssignmentOperator,@justExpr
-      \ transparent oneline skipwhite
+syn match justExportedAssignment "\v^export\s+[a-zA-Z_][a-zA-Z0-9_-]*\s*:\=" transparent
+      \ contains=justExport,justAssignmentOperator
 
-syn match justExport '\v^export\ze\s+' contained
+syn match justExport '\v^export\s@=' contained
 
 syn keyword justConditional if else
 
