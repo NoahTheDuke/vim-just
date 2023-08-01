@@ -66,33 +66,26 @@ update-last-changed *force:
 
 
 
-allFunctions := '''
+# Some functions are intentionally omitted from these lists because they're handled as special cases:
+#  - error
+#  - replace_regex
+functionsWithArgs := '''
   absolute_path
-  arch
   capitalize
   clean
   env_var
   env_var_or_default
-  error
   extension
   file_name
   file_stem
-  invocation_directory
-  invocation_directory_native
   join
-  just_executable
-  justfile
-  justfile_directory
   kebabcase
   lowercamelcase
   lowercase
-  os
-  os_family
   parent_directory
   path_exists
   quote
   replace
-  replace_regex
   sha256
   sha256_file
   shoutykebabcase
@@ -108,7 +101,6 @@ allFunctions := '''
   trim_start_matches
   uppercamelcase
   uppercase
-  uuid
   without_extension
 '''
 zeroArgFunctions := '''

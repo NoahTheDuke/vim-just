@@ -151,39 +151,50 @@ syn match justIndentError '\v^%(\\\n)@3<!%( +\zs\t|\t+\zs )\s*'
 syn match justShebangIndentError '\v^ +\zs\t\s*'
 
 syn region justInterpolation matchgroup=justInterpolationDelim start="\v\{\{%([^{])@=" end="}}" contained
-      \ contains=justName,@justExprBase,justBuiltInFuncArgsInInterp,justReplaceRegexInInterp
+      \ contains=justName,@justExprBase,@justBuiltInFunctionsInInterp
 
 syn match justBadCurlyBraces '\v\{{3}\ze[^{]' contained
 syn match justCurlyBraces '\v\{{4}' contained
 syn match justBadCurlyBraces '\v\{{5}\ze[^{]' contained
 syn cluster justOtherCurlyBraces contains=justCurlyBraces,justBadCurlyBraces
 
-syn match justBuiltInFunctions "\v[0-9A-Za-z_]@1<!%(a%(bsolute_pat|rc)h|c%(apitalize|lean)|e%(nv_var%(_or_default)?|rror|xtension)|file_%(name|stem)|invocation_directory%(_native)?|j%(oin|ust%(_executable|file%(_directory)?))|kebabcase|lowerca%(melca)?se|os%(_family)?|pa%(rent_directory|th_exists)|quote|replace%(_regex)?|s%(h%(a256%(_file)?|outy%(kebab|snake)case)|nakecase)|t%(itlecase|rim%(_%(end|start)%(_match%(es)?)?)?)|u%(pperca%(melca)?se|uid)|without_extension)%(\s*\()@=" contained
-      \ contains=justUserDefinedError
-syn match justUserDefinedError "\v[0-9A-Za-z_]@1<!error%(\s*\()@=" contained
-
-syn region justBuiltInFunctionArgs
-      \ start='\v[0-9A-Za-z_]@1<!%(r%(eplace_regex)@!|[a-qs-z])[0-9a-z_]*\s*\('
-      \ end=')'
-      \ transparent
+syn region justBuiltInFunctionWithArgs
+      \ transparent end=')'
+      \ matchgroup=justFunction start="\v%(absolute_path|c%(apitalize|lean)|e%(nv_var%(_or_default)?|xtension)|file_%(name|stem)|join|kebabcase|lowerca%(melca)?se|pa%(rent_directory|th_exists)|quote|replace|s%(h%(a256%(_file)?|outy%(kebab|snake)case)|nakecase)|t%(itlecase|rim%(_%(end|start)%(_match%(es)?)?)?)|upperca%(melca)?se|without_extension)%(\s*\()@="
+      \ matchgroup=justUserDefinedError start="\verror%(\s*\()@="
+      \ matchgroup=justBuiltInFunctionsError start="\v[a-zA-Z_][a-zA-Z0-9_-]*\s*\("
       \ contains=justNoise,@justExpr
-syn region justBuiltInFuncArgsInInterp
-      \ start='\v[0-9A-Za-z_]@1<!%(r%(eplace_regex)@!|[a-qs-z])[0-9a-z_]*\s*\('
-      \ end=')'
-      \ contained transparent
-      \ contains=justNoise,@justExprBase,justBuiltInFuncArgsInInterp,justName
 
-syn region justReplaceRegex start='\v[0-9A-Za-z_]@1<!replace_regex\s*\(' end=')' transparent
+syn region justBuiltInFuncWithArgsInInterp
+      \ transparent end=')'
+      \ matchgroup=justFunction start="\v%(absolute_path|c%(apitalize|lean)|e%(nv_var%(_or_default)?|xtension)|file_%(name|stem)|join|kebabcase|lowerca%(melca)?se|pa%(rent_directory|th_exists)|quote|replace|s%(h%(a256%(_file)?|outy%(kebab|snake)case)|nakecase)|t%(itlecase|rim%(_%(end|start)%(_match%(es)?)?)?)|upperca%(melca)?se|without_extension)%(\s*\()@="
+      \ matchgroup=justUserDefinedError start="\verror%(\s*\()@="
+      \ matchgroup=justBuiltInFunctionsError start="\v[a-zA-Z_][a-zA-Z0-9_-]*\s*\("
+      \ contained
+      \ contains=justNoise,@justExprBase,@justBuiltInFunctionsInInterp,justName
+
+syn match justBuiltInFunctionZeroArgs "\v%(arch|invocation_directory%(_native)?|just%(_executable|file%(_directory)?)|os%(_family)?|uuid)\s*\(%(\s|\n)*\)"
+      \ transparent contains=justFunction
+
+syn region justReplaceRegex
+      \ transparent end=')'
+      \ matchgroup=justFunction start='\vreplace_regex%(\s*\()@='
       \ contains=justNoise,@justExpr,justRegexReplacement
-syn region justReplaceRegexInInterp start='\v[0-9A-Za-z_]@1<!replace_regex\s*\(' end=')' contained transparent
-      \ contains=justNoise,@justExprBase,justRegexReplacement,justBuiltInFuncArgsInInterp,justReplaceRegexInInterp,justName
+syn region justReplaceRegexInInterp
+      \ transparent end=')'
+      \ matchgroup=justFunction start='\vreplace_regex%(\s*\()@='
+      \ contained
+      \ contains=justNoise,@justExprBase,justRegexReplacement,@justBuiltInFunctionsInInterp,justName
 
-syn match justBuiltInFunctionsError "\v%(arch|invocation_directory%(_native)?|just%(_executable|file%(_directory)?)|os%(_family)?|uuid)\s*\(%([^)]|\n)*[^)[:space:]]+%([^)]|\n)*\)"
+syn match justBuiltInFunctionsError "\v%(arch|invocation_directory%(_native)?|just%(_executable|file%(_directory)?)|os%(_family)?|uuid)\s*\(%(\s|\n)*%([^)[:space:]]%(\s|\n)*)+\)"
+
+syn cluster justBuiltInFunctions contains=justBuiltInFunctionZeroArgs,justBuiltInFunctionWithArgs,justReplaceRegex,justBuiltInFunctionsError
+syn cluster justBuiltInFunctionsInInterp contains=justBuiltInFunctionZeroArgs,justBuiltInFuncWithArgsInInterp,justReplaceRegexInInterp,justBuiltInFunctionsError
 
 syn match justOperator "\v%(\=[=~]|!\=|[+/])"
 
-syn cluster justExprBase contains=@justAllStrings,justBuiltInFunctions,justBuiltInFunctionsError,justConditional,justOperator
-syn cluster justExpr contains=@justExprBase,justBuiltInFunctionArgs,justReplaceRegex
+syn cluster justExprBase contains=@justAllStrings,justConditional,justOperator
+syn cluster justExpr contains=@justExprBase,@justBuiltInFunctions,justBuiltInFunctionArgs,justReplaceRegex
 
 syn match justInclude "^!include\s\+.*$"
 
@@ -193,7 +204,6 @@ hi def link justBacktick              Special
 hi def link justBadCurlyBraces        Error
 hi def link justBody                  Number
 hi def link justBoolean               Boolean
-hi def link justBuiltInFunctions      Function
 hi def link justBuiltInFunctionsError Error
 hi def link justComment               Comment
 hi def link justCommentTodo           Todo
