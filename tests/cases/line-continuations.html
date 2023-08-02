@@ -1,0 +1,124 @@
+<span class="Statement">set</span> <span class="Special">\</span>
+<span class="Keyword">ignore-comments</span> <span class="Operator">:=</span> <span class="Boolean">true</span>
+
+<span class="Statement">set</span> <span class="Special">\</span>
+  <span class="Keyword">fallback</span> <span class="Special">\</span>
+     <span class="Operator">:=</span> <span class="Special">\</span>
+        <span class="Boolean">false</span>
+
+
+var <span class="Special">\</span>
+      <span class="Operator">:=</span><span class="Special">\</span>
+<span class="String">'1'</span> <span class="Operator">+</span> <span class="String">'2'</span> <span class="Special">\</span>
+<span class="Special">\</span>
+      <span class="Operator">+</span> <span class="String">'3'</span> <span class="Operator">/</span><span class="Special">\</span>
+<span class="String">'456'</span> <span class="Operator">+</span> <span class="Special">\</span>
+<span class="Conditional">if</span> <span class="Special">\</span>
+<span class="String">'a'</span> <span class="Special">\</span>
+<span class="Operator">!=</span> <span class="Special">\</span>
+<span class="String">'b'</span> <span class="Special">\</span>
+{<span class="Special">\</span>
+  <span class="String">'\789'</span>} <span class="Special">\</span>
+<span class="Conditional">else</span><span class="Special">\</span>
+{ <span class="String">'\543'</span><span class="Special">\</span>
+<span class="Special">\</span>
+}
+
+
+f1 <span class="Operator">:=</span> <span class="Special">\</span>
+<span class="Error">uuid\</span>
+<span class="Error">\</span>
+<span class="Error">\</span>
+<span class="Error">(\</span>
+
+<span class="Error">    )</span>
+
+f2 <span class="Operator">:=</span> <span class="Function">env</span> (<span class="Special">\</span>
+
+  <span class="String">'FOO_VAR'</span>, <span class="Special">\</span>
+
+<span class="String">'0'</span><span class="Special">\</span>
+
+)
+
+f3 <span class="Operator">:=</span> <span class="Function">replace_regex</span> <span class="Special">\</span>
+( <span class="Special">\</span>
+  <span class="String">"FOOoo"</span>,
+  <span class="String">"([A-Z])[A-Z]+([^A-Z])"</span>, <span class="Special">\</span>
+  <span class="String">"</span><span class="Constant">$1${2}</span><span class="String">"</span>
+<span class="Special">\</span>
+)
+
+<span class="Function">test</span><span class="Operator">:</span> <span class="Function">a</span> <span class="Special">\</span>
+	<span class="Function">b</span>
+<span class="Number">	echo </span><span class="String">'123'</span>
+
+<span class="Function">a</span><span class="Operator">:</span>
+<span class="Number">	echo </span><span class="String">'A'</span>
+<span class="Function">b</span><span class="Operator">:</span>
+<span class="Number">	echo </span><span class="String">'B'</span>
+<span class="Function">c</span><span class="Operator">:</span>
+<span class="Number">	echo </span><span class="String">'C'</span>
+<span class="Number">	</span><span class="Comment"># ignored line</span>
+
+<span class="Function">test2</span> <span class="Special">\</span>
+    <span class="Identifier">param1</span><span class="Operator">=</span><span class="String">"foo"</span> <span class="Identifier">param2</span> <span class="Special">\</span>
+  <span class="Operator">=</span>  <span class="String">'''</span>
+<span class="String">bar'''</span><span class="Special">\</span>
+<span class="Identifier">param3</span> <span class="Operator">=</span> <span class="Special">\</span>
+      <span class="String">"b</span><span class="Special">\</span>
+<span class="String">a</span><span class="Special">\</span>
+<span class="String">z"</span> <span class="Special">\</span>
+<span class="Special">\</span>
+ <span class="Statement">*</span> <span class="Special">\</span>
+  <span class="Statement">$</span> <span class="Special">\</span>
+  <span class="Identifier">param4</span> <span class="Special">\</span>
+<span class="Operator">=</span> <span class="Special">\</span>
+f1 <span class="Operator">:</span>
+<span class="Number">	echo </span><span class="Delimiter">{{</span><span class="Identifier">param1</span><span class="Delimiter">}}</span><span class="Number"> </span><span class="Delimiter">{{</span><span class="Identifier">param2</span><span class="Delimiter">}}</span><span class="Number"> </span><span class="Delimiter">{{</span><span class="Identifier">param3</span><span class="Delimiter">}}</span><span class="Number"> </span><span class="Delimiter">{{</span><span class="Identifier">param4</span><span class="Delimiter">}}</span>
+
+<span class="Function">test3</span><span class="Operator">:</span> <span class="Special">\</span>
+	<span class="Function">a</span> <span class="Function">b</span> <span class="Special">\</span>
+	<span class="Function">c</span> <span class="Comment">#comment \</span>
+<span class="Number">  echo d</span>
+<span class="Number">  echo </span><span class="String">'Test 3'</span>
+
+<span class="Function">test4</span> <span class="Special">\</span>
+	<span class="Statement">+</span><span class="Statement">$</span><span class="Identifier">PARAM</span><span class="Operator">=</span><span class="String">'1'</span><span class="Operator">:</span> <span class="Function">test</span> <span class="Special">\</span>
+	<span class="Delimiter">( </span><span class="Special">\</span>
+<span class="Delimiter">	  </span><span class="Function">test2</span> <span class="Special">\</span>
+	  <span class="String">'bar'</span>
+
+	<span class="Delimiter">)</span>
+<span class="Number">	env | grep -F PARAM</span>
+
+<span class="Function">test5</span><span class="Operator">:</span> <span class="Function">a</span> <span class="Special">\</span>
+	<span class="Special">\</span>
+	<span class="Special">\</span>
+	<span class="Special">\</span>
+	<span class="Function">b</span>
+<span class="Number">	echo </span><span class="String">'Test5'</span>
+
+<span class="Function">test6</span><span class="Operator">:</span> <span class="Function">a</span><span class="Special">\</span>
+<span class="Function">b</span>
+<span class="Number">	echo </span><span class="String">'Test6'</span>
+
+<span class="Comment"># the trailing space after the closing ] is intentional</span>
+<span class="Type">[</span><span class="Special">\</span>
+<span class="Type"> no-cd </span><span class="Special">\</span>
+<span class="Type">  </span><span class="Special">\</span>
+<span class="Type">, unix </span><span class="Special">\</span>
+<span class="Type">   ]</span>
+<span class="Function">test7</span><span class="Operator">:</span>
+<span class="Number">	pwd</span>
+
+<span class="Statement">alias</span><span class="Special">\</span>
+<span class="Function">runpwd</span><span class="Special">\</span>
+<span class="Operator">:=</span><span class="Special">\</span>
+<span class="Function">test7</span>
+
+<span class="Function">test8</span> <span class="Identifier">param1</span> <span class="Special">\</span>
+<span class="Operator">=</span> <span class="Special">\</span>
+<span class="Delimiter">(</span> f1 <span class="Operator">+</span> <span class="String">'X'</span> <span class="Operator">+</span> f2<span class="Delimiter">)</span> <span class="Special">\</span>
+<span class="Operator">:</span>
+<span class="Number">	echo </span><span class="Delimiter">{{</span><span class="Identifier">param1</span><span class="Delimiter">}}</span>
