@@ -168,7 +168,10 @@ syn cluster justBodies contains=justBody,justShebangBody
 syn match justIndentError '\v^%(\\\n)@3<!%( +\zs\t|\t+\zs )\s*'
 syn match justShebangIndentError '\v^ +\zs\t\s*'
 
-syn region justInterpolation matchgroup=justInterpolationDelim start="\v\{\{%([^{])@=" end="}}" contained
+syn region justInterpolation
+      \ matchgroup=justInterpolationDelim
+      \ start="\v%(^\z(\s+)@>.*)@<=\{\{\{@!" end="\v%(%(\\\n\z1|\S)\s*)@<=\}\}|$"
+      \ contained
       \ contains=justName,@justExprBase,@justBuiltInFunctionsInInterp
 
 syn match justBadCurlyBraces '\v\{{3}\ze[^{]' contained

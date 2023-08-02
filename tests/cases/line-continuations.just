@@ -121,4 +121,11 @@ test8 param1 \
 = \
 ( f1 + 'X' + f2) \
 :
-	echo {{param1}}
+	echo {{ \
+	  param1 \
+	}}
+
+test9:
+  echo {{\
+    uuid() \
+  }}
