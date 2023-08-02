@@ -48,14 +48,26 @@ syn match justStringEscapeSequence '\v\\[tnr"\\]' contained
 
 syn match justAssignmentOperator ":=" contained
 
-syn match justParameter "\v\s\zs%(%([*+]\s*)?%(\$\s*)?|\$\s*[*+]\s*)\h[a-zA-Z0-9_-]*%(\s*\=\s*)?"
+syn match justParameter "\v\s@1<=%(%([*+]\s*)?%(\$\s*)?|\$\s*[*+]\s*)\h[a-zA-Z0-9_-]*"
       \ transparent contained
-      \ contains=justName,justVariadicPrefix,justParamExport,justParameterOperator,justVariadicPrefixError
+      \ contains=justName,justVariadicPrefix,justParamExport,justVariadicPrefixError
+      \ nextgroup=justParamValue
+
+syn region justParamValue contained transparent
+      \ start="\v\s*\="
+      \ end="\v\s%([*+$]|\h)@=|:@=|$"
+      \ contains=justParameterOperator,@justAllStrings,justRecipeParenDefault
+      \ nextgroup=justParameterError
+syn match justParamValue "\v\s*\=\s*\h[a-zA-Z0-9_-]*\s*" contained transparent
+      \ contains=justParameterOperator
+      \ nextgroup=justParameterError
 syn match justParameterOperator "\V=" contained
+
 syn match justVariadicPrefix "\v\s@1<=[*+]%(\s*\$?\s*\h)@=" contained
 syn match justParamExport '\V$' contained
 syn match justVariadicPrefixError "\v\$\s*[*+]" contained
-syn match justParameterError "\v%(%(\=\s*\h[a-zA-Z0-9_-]*|[^a-zA-Z0-9_=*+$[:space:]-])\s+)@<=%(%([+*$]+\s*)*\h[a-zA-Z0-9_-]*)@>%(\s*\=)@!" contained
+
+syn match justParameterError "\v%(%([+*$]+\s*)*\h[a-zA-Z0-9_-]*)@>%(\s*\=)@!" contained
 
 syn match justRecipeAt "^@" contained
 syn match justRecipeColon ":" contained
@@ -68,7 +80,7 @@ syn match justRecipeDeclSimple "\v^\@?\h[a-zA-Z0-9_-]*%(\s*:\=@!)@="
 
 syn region justRecipeDeclComplex start="\v^\@?\h[a-zA-Z0-9_-]*\s+%([+*$]+\s*)*\h" end="\v%(:\=@!)@=|$"
       \ transparent
-      \ contains=justRecipeName,justParameter,justParameterError,justRecipeParenDefault,@justAllStrings
+      \ contains=justRecipeName,justParameter
       \ nextgroup=justRecipeNoDeps,justRecipeDeps
 
 syn match justRecipeName "\v^\@?\h[a-zA-Z0-9_-]*" transparent contained contains=justRecipeAt,justFunction
