@@ -86,9 +86,10 @@ syn region justRecipeDeclComplex start="\v^\@?\h[a-zA-Z0-9_-]*\s+%([+*$]+\s*)*\h
 syn match justRecipeName "\v^\@?\h[a-zA-Z0-9_-]*" transparent contained contains=justRecipeAt,justFunction
 
 syn region justRecipeParenDefault
-      \ matchgroup=justRecipeDepParamsParen start='\v%(\=\s*)@<=\(' end='\v\)%(\s+%([$*+]+\s*)?\h|:)@='
+      \ matchgroup=justRecipeDepParamsParen start='\v%(\=\s*)@<=\(' end='\V)'
       \ contained
-      \ contains=@justExpr
+      \ contains=@justExpr,justParenInner
+syn region justParenInner start='\V(' end='\V)' contained contains=justParenInner,@justExpr
 
 syn match justRecipeSubsequentDeps '&&' contained
 
