@@ -113,7 +113,7 @@ syn keyword justBoolean true false contained
 syn match justAssignment "\v^\h[a-zA-Z0-9_-]*\s*:\=" transparent contains=justAssignmentOperator
 
 syn match justSet '\v^set\s@=' contained
-syn match justSetKeywords "\v%(allow-duplicate-recipes|dotenv-load|export|fallback|ignore-comments|positional-arguments|tempdir|shell|windows-shell)" contained
+syn match justSetKeywords "allow-duplicate-recipes\|dotenv-load\|export\|fallback\|ignore-comments\|positional-arguments\|tempdir\|shell\|windows-shell" contained
 syn match justSetDeprecatedKeywords 'windows-powershell' contained
 syn match justBooleanSet "\v^set\s+%(allow-duplicate-recipes|dotenv-load|export|fallback|ignore-comments|positional-arguments|windows-powershell)%(\s*:\=\s*%(true|false))?$"
       \ contains=justSet,justSetKeywords,justSetDeprecatedKeywords,justAssignmentOperator,justBoolean
@@ -204,7 +204,7 @@ syn match justBuiltInFunctionsError "\v%(arch|invocation_directory%(_native)?|ju
 syn cluster justBuiltInFunctions contains=justBuiltInFunctionZeroArgs,justBuiltInFunctionWithArgs,justReplaceRegex,justBuiltInFunctionsError
 syn cluster justBuiltInFunctionsInInterp contains=justBuiltInFunctionZeroArgs,justBuiltInFuncWithArgsInInterp,justReplaceRegexInInterp,justBuiltInFunctionsError
 
-syn match justOperator "\v%(\=[=~]|!\=|[+/])"
+syn match justOperator "\v\=[=~]|!\=|[+/]"
 
 syn cluster justExprBase contains=@justAllStrings,justConditional,justOperator
 syn cluster justExpr contains=@justExprBase,@justBuiltInFunctions,justBuiltInFunctionArgs,justReplaceRegex
