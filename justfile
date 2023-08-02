@@ -73,6 +73,7 @@ functionsWithArgs := '''
   absolute_path
   capitalize
   clean
+  env
   env_var
   env_var_or_default
   extension

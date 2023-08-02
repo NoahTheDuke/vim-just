@@ -178,14 +178,14 @@ syn cluster justOtherCurlyBraces contains=justCurlyBraces,justBadCurlyBraces
 
 syn region justBuiltInFunctionWithArgs
       \ transparent end=')'
-      \ matchgroup=justFunction start="\v%(absolute_path|c%(apitalize|lean)|e%(nv_var%(_or_default)?|xtension)|file_%(name|stem)|join|kebabcase|lowerca%(melca)?se|pa%(rent_directory|th_exists)|quote|replace|s%(h%(a256%(_file)?|outy%(kebab|snake)case)|nakecase)|t%(itlecase|rim%(_%(end|start)%(_match%(es)?)?)?)|upperca%(melca)?se|without_extension)%(%(\s|\\\n)*\()@="
+      \ matchgroup=justFunction start="\v%(absolute_path|c%(apitalize|lean)|e%(nv%(_var%(_or_default)?)?|xtension)|file_%(name|stem)|join|kebabcase|lowerca%(melca)?se|pa%(rent_directory|th_exists)|quote|replace|s%(h%(a256%(_file)?|outy%(kebab|snake)case)|nakecase)|t%(itlecase|rim%(_%(end|start)%(_match%(es)?)?)?)|upperca%(melca)?se|without_extension)%(%(\s|\\\n)*\()@="
       \ matchgroup=justUserDefinedError start="\verror%(%(\s|\\\n)*\()@="
       \ matchgroup=justBuiltInFunctionsError start="\v\h[a-zA-Z0-9_-]*%(\s|\\\n)*\("
       \ contains=justNoise,@justExpr
 
 syn region justBuiltInFuncWithArgsInInterp
       \ transparent end=')'
-      \ matchgroup=justFunction start="\v%(absolute_path|c%(apitalize|lean)|e%(nv_var%(_or_default)?|xtension)|file_%(name|stem)|join|kebabcase|lowerca%(melca)?se|pa%(rent_directory|th_exists)|quote|replace|s%(h%(a256%(_file)?|outy%(kebab|snake)case)|nakecase)|t%(itlecase|rim%(_%(end|start)%(_match%(es)?)?)?)|upperca%(melca)?se|without_extension)%(%(\s|\\\n)*\()@="
+      \ matchgroup=justFunction start="\v%(absolute_path|c%(apitalize|lean)|e%(nv%(_var%(_or_default)?)?|xtension)|file_%(name|stem)|join|kebabcase|lowerca%(melca)?se|pa%(rent_directory|th_exists)|quote|replace|s%(h%(a256%(_file)?|outy%(kebab|snake)case)|nakecase)|t%(itlecase|rim%(_%(end|start)%(_match%(es)?)?)?)|upperca%(melca)?se|without_extension)%(%(\s|\\\n)*\()@="
       \ matchgroup=justUserDefinedError start="\verror%(%(\s|\\\n)*\()@="
       \ matchgroup=justBuiltInFunctionsError start="\v\h[a-zA-Z0-9_-]*%(\s|\\\n)*\("
       \ contained
