@@ -111,6 +111,7 @@ zeroArgFunctions := '''
   just_executable
   justfile
   justfile_directory
+  num_cpus
   os
   os_family
   uuid

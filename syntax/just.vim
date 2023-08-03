@@ -194,7 +194,7 @@ syn region justBuiltInFuncWithArgsInInterp
       \ contained
       \ contains=justNoise,@justExprBase,@justBuiltInFunctionsInInterp,justName
 
-syn match justBuiltInFunctionZeroArgs "\v%(arch|invocation_directory%(_native)?|just%(_executable|file%(_directory)?)|os%(_family)?|uuid)%(\s|\\\n)*\(%(\_s|\\\n)*\)"
+syn match justBuiltInFunctionZeroArgs "\v%(arch|invocation_directory%(_native)?|just%(_executable|file%(_directory)?)|num_cpus|os%(_family)?|uuid)%(\s|\\\n)*\(%(\_s|\\\n)*\)"
       \ transparent contains=justFunction
 
 syn region justReplaceRegex
@@ -207,7 +207,7 @@ syn region justReplaceRegexInInterp
       \ contained
       \ contains=justNoise,@justExprBase,justRegexReplacement,@justBuiltInFunctionsInInterp,justName
 
-syn match justBuiltInFunctionsError "\v%(arch|invocation_directory%(_native)?|just%(_executable|file%(_directory)?)|os%(_family)?|uuid)%(\s|\\\n)*\(%(\_s|\\\n)*%([^)[:space:]]%(\_s|\\\n)*)+\)"
+syn match justBuiltInFunctionsError "\v%(arch|invocation_directory%(_native)?|just%(_executable|file%(_directory)?)|num_cpus|os%(_family)?|uuid)%(\s|\\\n)*\(%(\_s|\\\n)*%([^)[:space:]]%(\_s|\\\n)*)+\)"
 
 syn cluster justBuiltInFunctions contains=justBuiltInFunctionZeroArgs,justBuiltInFunctionWithArgs,justReplaceRegex,justBuiltInFunctionsError
 syn cluster justBuiltInFunctionsInInterp contains=justBuiltInFunctionZeroArgs,justBuiltInFuncWithArgsInInterp,justReplaceRegexInInterp,justBuiltInFunctionsError
