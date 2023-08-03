@@ -116,6 +116,8 @@ f1 <span class="Operator">:</span>
 <span class="Function">runpwd</span><span class="Special">\</span>
 <span class="Operator">:=</span><span class="Special">\</span>
 <span class="Function">test7</span>
+foo <span class="Special">\</span>
+<span class="Operator">:=</span> <span class="String">'Foo!'</span>
 
 <span class="Function">test8</span> <span class="Identifier">param1</span> <span class="Special">\</span>
 <span class="Operator">=</span> <span class="Special">\</span>
@@ -127,5 +129,34 @@ f1 <span class="Operator">:</span>
 
 <span class="Function">test9</span><span class="Operator">:</span>
 <span class="Number">  echo </span><span class="Delimiter">{{</span><span class="Special">\</span>
-<span class="Normal">    </span><span class="Function">uuid</span><span class="Normal">() </span><span class="Special">\</span>
+<span class="Normal">    </span><span class="Function">num_cpus</span><span class="Normal">(</span><span class="Special">\</span>
+<span class="Normal">    ) </span><span class="Special">\</span>
 <span class="Normal">  </span><span class="Delimiter">}}</span>
+
+<span class="Function">test10</span> <span class="Identifier">param1</span><span class="Operator">=</span><span class="Special">\</span>
+<span class="Function">num_cpus</span>() <span class="Special">\</span>
+ <span class="Special">\</span>
+<span class="Identifier">param2</span><span class="Special">\</span>
+<span class="Operator">=</span><span class="Special">\</span>
+<span class="Function">replace_regex</span>(<span class="Function">uuid</span>(),
+<span class="Special">\</span>
+<span class="String">'^(.+)$'</span>, <span class="String">"</span><span class="Special">\"\\\"</span><span class="Constant">$1</span><span class="Special">\\\"\"</span><span class="String">"</span>) <span class="Identifier">param3</span><span class="Operator">=</span> <span class="Special">\</span>
+  <span class="Function">env</span><span class="Special">\</span>
+    (<span class="String">'BAR'</span>,
+
+
+
+   <span class="Special">\</span>
+
+<span class="Function">replace</span>(<span class="String">'fghi'</span>, <span class="String">'ghi'</span>, <span class="Special">\</span>
+  <span class="String">'foo'</span>)
+
+)<span class="Operator">:</span>  <span class="Special">\</span>
+<span class="Comment"># comment \</span>
+<span class="Number">	echo </span><span class="Delimiter">{{</span><span class="Identifier">param1</span><span class="Special">\</span>
+<span class="Normal">	  </span><span class="Operator">/</span><span class="Normal"> </span><span class="Identifier">param2</span><span class="Normal"> </span><span class="Delimiter">}}</span>
+<span class="Number">	echo .</span>
+
+<span class="Function">test11</span><span class="Operator">:</span> <span class="Function">a</span> <span class="Special">\</span>
+<span class="Comment"># comment\</span>
+<span class="Number">	echo Test 11</span>

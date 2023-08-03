@@ -116,6 +116,8 @@ alias\
 runpwd\
 :=\
 test7
+foo \
+:= 'Foo!'
 
 test8 param1 \
 = \
@@ -127,5 +129,34 @@ test8 param1 \
 
 test9:
   echo {{\
-    uuid() \
+    num_cpus(\
+    ) \
   }}
+
+test10 param1=\
+num_cpus() \
+ \
+param2\
+=\
+replace_regex(uuid(),
+\
+'^(.+)$', "\"\\\"$1\\\"\"") param3= \
+  env\
+    ('BAR',
+
+
+
+   \
+
+replace('fghi', 'ghi', \
+  'foo')
+
+):  \
+# comment \
+	echo {{param1\
+	  / param2 }}
+	echo .
+
+test11: a \
+# comment\
+	echo Test 11

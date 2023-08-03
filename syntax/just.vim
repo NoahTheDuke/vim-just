@@ -21,6 +21,7 @@ syn match justFunction "\h[a-zA-Z0-9_-]*" contained
 
 syn match justPreBodyComment "\v%(\s|\\\n)*#%([^!].*)?\n%(\t+| +)@=" transparent contained contains=justComment
       \ nextgroup=@justBodies skipnl
+syn match justPreBodyCommentError "\v^%(%(\\\n)@3<!#|(\\\n)@3<!%( +\t+|\t+ +)#).*$" contained
 
 syn region justBacktick start=/`/ end=/`/
 syn region justBacktick start=/```/ end=/```/
@@ -100,14 +101,14 @@ syn region justParenInner start='\V(' end='\V)' contained contains=justParenInne
 
 syn match justRecipeSubsequentDeps '&&' contained
 
-syn match justRecipeNoDeps '\v:%(\s|\\\n)*\n|:#@=|:\s+#@='
+syn match justRecipeNoDeps '\v:%(\s|\\\n)*\n|:#@=|:%(\s|\\\n)+#@='
       \ transparent contained
       \ contains=justRecipeColon
-      \ nextgroup=justPreBodyComment,@justBodies
-syn region justRecipeDeps start="\v:%(\s|\\\n)*%([a-zA-Z_(]|\&\&)" skip='\\\n' end="\v.#@=|\\@1<!\n"
+      \ nextgroup=justPreBodyComment,justPreBodyCommentError,@justBodies
+syn region justRecipeDeps start="\v:%(\s|\\\n)*%([a-zA-Z_(]|\&\&)" skip='\\\n' end="\v#@=|\\@1<!\n"
       \ transparent contained
       \ contains=justFunction,justRecipeColon,justRecipeSubsequentDeps,justRecipeParamDep
-      \ nextgroup=justPreBodyComment,@justBodies
+      \ nextgroup=justPreBodyComment,justPreBodyCommentError,@justBodies
 
 syn region justRecipeParamDep contained transparent
       \ start="("
@@ -151,7 +152,7 @@ syn match justExport '\v^export%(\s|\\\n)@=' contained
 syn keyword justConditional if else
 
 syn match justLineLeadingSymbol "\v^%(\\\n)@3<!\s+\zs%(\@-|-\@|\@|-)"
-syn match justLineContinuation "\\$" containedin=ALLBUT,justComment,justShebang,@justRawStrings,justBuiltInFunctionsError
+syn match justLineContinuation "\\$" containedin=ALLBUT,justComment,justShebang,@justRawStrings,justBuiltInFunctionsError,justPreBodyCommentError
 
 syn region justBody
       \ start=/\v^%( +|\t+)%(#!)@!%(\@-|-\@|\@|-)?\S/
@@ -189,13 +190,13 @@ syn region justBuiltInFunction
       \ contains=justNoise,@justExpr
 
 syn region justBuiltInFuncParamValue
-      \ transparent end='\v\)%(\s|\\\n)*'
+      \ transparent end=')'
       \ matchgroup=justFunction start="\v%(a%(bsolute_pat|rc)h|c%(apitalize|lean)|e%(nv%(_var%(_or_default)?)?|xtension)|file_%(name|stem)|j%(oin|ust%(_executable|file%(_directory)?))|kebabcase|lowerca%(melca)?se|pa%(rent_directory|th_exists)|quote|replace|s%(h%(a256%(_file)?|outy%(kebab|snake)case)|nakecase)|t%(itlecase|rim%(_%(end|start)%(_match%(es)?)?)?)|u%(pperca%(melca)?se|uid)|without_extension|invocation_directory%(_native)?|num_cpus|os%(_family)?)%(%(\s|\\\n)*\()@="
       \ matchgroup=justUserDefinedError start="\verror%(%(\s|\\\n)*\()@="
       \ matchgroup=justBuiltInFunctionsError start="\v\h[a-zA-Z0-9_-]*%(\s|\\\n)*\("
       \ contained
       \ contains=justNoise,@justExpr
-      \ nextgroup=justParameterError
+      \ nextgroup=justParameterError,justParameterLineContinuation
 
 syn region justBuiltInFuncInInterp
       \ transparent end=')'
@@ -210,11 +211,11 @@ syn region justReplaceRegex
       \ matchgroup=justFunction start='\vreplace_regex%(%(\s|\\\n)*\()@='
       \ contains=justNoise,@justExpr,justRegexReplacement
 syn region justReplaceRegexParamValue
-      \ transparent end='\v\)%(\s|\\\n)*'
+      \ transparent end=')'
       \ matchgroup=justFunction start='\vreplace_regex%(%(\s|\\\n)*\()@='
       \ contained
       \ contains=justNoise,@justExpr,justRegexReplacement
-      \ nextgroup=justParameterError
+      \ nextgroup=justParameterError,justParameterLineContinuation
 syn region justReplaceRegexInInterp
       \ transparent end=')'
       \ matchgroup=justFunction start='\vreplace_regex%(%(\s|\\\n)*\()@='
@@ -222,8 +223,10 @@ syn region justReplaceRegexInInterp
       \ contains=justNoise,@justExprBase,justRegexReplacement,@justBuiltInFunctionsInInterp,justName
 
 syn match justBuiltInFunctionsError "\v%(arch|invocation_directory%(_native)?|just%(_executable|file%(_directory)?)|num_cpus|os%(_family)?|uuid)%(\s|\\\n)*\(%(\_s|\\\n)*%(%([^)[:space:]\\]|\\\n@!)%(\_s|\\\n)*)+\)"
-syn match justBuiltInFuncErrorParamValue "\v%(arch|invocation_directory%(_native)?|just%(_executable|file%(_directory)?)|num_cpus|os%(_family)?|uuid)%(\s|\\\n)*\(%(\_s|\\\n)*%(%([^)[:space:]\\]|\\\n@!)%(\_s|\\\n)*)+\)%(\s|\\\n)*"
-      \ contained nextgroup=justParameterError
+syn match justBuiltInFuncErrorParamValue "\v%(arch|invocation_directory%(_native)?|just%(_executable|file%(_directory)?)|num_cpus|os%(_family)?|uuid)%(\s|\\\n)*\(%(\_s|\\\n)*%(%([^)[:space:]\\]|\\\n@!)%(\_s|\\\n)*)+\)"
+      \ contained nextgroup=justParameterError,justParameterLineContinuation
+
+syn match justParameterLineContinuation '\v%(\s|\\\n)*' contained nextgroup=justParameterError
 
 syn cluster justBuiltInFunctions contains=justBuiltInFunction,justReplaceRegex,justBuiltInFunctionsError
 syn cluster justBuiltInFunctionsParamValue contains=justBuiltInFuncParamValue,justReplaceRegexParamValue,justBuiltInFuncErrorParamValue
@@ -260,6 +263,7 @@ hi def link justOperator              Operator
 hi def link justParameterError        Error
 hi def link justParameterOperator     Operator
 hi def link justParamExport           Statement
+hi def link justPreBodyCommentError   Error
 hi def link justRawString             String
 hi def link justRawStrRegexRepl       String
 hi def link justRecipeAt              Special
