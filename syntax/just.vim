@@ -181,21 +181,18 @@ syn cluster justOtherCurlyBraces contains=justCurlyBraces,justBadCurlyBraces
 
 syn region justBuiltInFunctionWithArgs
       \ transparent end=')'
-      \ matchgroup=justFunction start="\v%(absolute_path|c%(apitalize|lean)|e%(nv%(_var%(_or_default)?)?|xtension)|file_%(name|stem)|join|kebabcase|lowerca%(melca)?se|pa%(rent_directory|th_exists)|quote|replace|s%(h%(a256%(_file)?|outy%(kebab|snake)case)|nakecase)|t%(itlecase|rim%(_%(end|start)%(_match%(es)?)?)?)|upperca%(melca)?se|without_extension)%(%(\s|\\\n)*\()@="
+      \ matchgroup=justFunction start="\v%(a%(bsolute_pat|rc)h|c%(apitalize|lean)|e%(nv%(_var%(_or_default)?)?|xtension)|file_%(name|stem)|j%(oin|ust%(_executable|file%(_directory)?))|kebabcase|lowerca%(melca)?se|pa%(rent_directory|th_exists)|quote|replace|s%(h%(a256%(_file)?|outy%(kebab|snake)case)|nakecase)|t%(itlecase|rim%(_%(end|start)%(_match%(es)?)?)?)|u%(pperca%(melca)?se|uid)|without_extension|invocation_directory%(_native)?|num_cpus|os%(_family)?)%(%(\s|\\\n)*\()@="
       \ matchgroup=justUserDefinedError start="\verror%(%(\s|\\\n)*\()@="
       \ matchgroup=justBuiltInFunctionsError start="\v\h[a-zA-Z0-9_-]*%(\s|\\\n)*\("
       \ contains=justNoise,@justExpr
 
 syn region justBuiltInFuncWithArgsInInterp
       \ transparent end=')'
-      \ matchgroup=justFunction start="\v%(absolute_path|c%(apitalize|lean)|e%(nv%(_var%(_or_default)?)?|xtension)|file_%(name|stem)|join|kebabcase|lowerca%(melca)?se|pa%(rent_directory|th_exists)|quote|replace|s%(h%(a256%(_file)?|outy%(kebab|snake)case)|nakecase)|t%(itlecase|rim%(_%(end|start)%(_match%(es)?)?)?)|upperca%(melca)?se|without_extension)%(%(\s|\\\n)*\()@="
+      \ matchgroup=justFunction start="\v%(a%(bsolute_pat|rc)h|c%(apitalize|lean)|e%(nv%(_var%(_or_default)?)?|xtension)|file_%(name|stem)|j%(oin|ust%(_executable|file%(_directory)?))|kebabcase|lowerca%(melca)?se|pa%(rent_directory|th_exists)|quote|replace|s%(h%(a256%(_file)?|outy%(kebab|snake)case)|nakecase)|t%(itlecase|rim%(_%(end|start)%(_match%(es)?)?)?)|u%(pperca%(melca)?se|uid)|without_extension|invocation_directory%(_native)?|num_cpus|os%(_family)?)%(%(\s|\\\n)*\()@="
       \ matchgroup=justUserDefinedError start="\verror%(%(\s|\\\n)*\()@="
       \ matchgroup=justBuiltInFunctionsError start="\v\h[a-zA-Z0-9_-]*%(\s|\\\n)*\("
       \ contained
       \ contains=justNoise,@justExprBase,@justBuiltInFunctionsInInterp,justName
-
-syn match justBuiltInFunctionZeroArgs "\v%(arch|invocation_directory%(_native)?|just%(_executable|file%(_directory)?)|num_cpus|os%(_family)?|uuid)%(\s|\\\n)*\(%(\_s|\\\n)*\)"
-      \ transparent contains=justFunction
 
 syn region justReplaceRegex
       \ transparent end=')'
@@ -207,10 +204,10 @@ syn region justReplaceRegexInInterp
       \ contained
       \ contains=justNoise,@justExprBase,justRegexReplacement,@justBuiltInFunctionsInInterp,justName
 
-syn match justBuiltInFunctionsError "\v%(arch|invocation_directory%(_native)?|just%(_executable|file%(_directory)?)|num_cpus|os%(_family)?|uuid)%(\s|\\\n)*\(%(\_s|\\\n)*%([^)[:space:]]%(\_s|\\\n)*)+\)"
+syn match justBuiltInFunctionsError "\v%(arch|invocation_directory%(_native)?|just%(_executable|file%(_directory)?)|num_cpus|os%(_family)?|uuid)%(\s|\\\n)*\(%(\_s|\\\n)*%(%([^)[:space:]\\]|\\\n@!)%(\_s|\\\n)*)+\)"
 
-syn cluster justBuiltInFunctions contains=justBuiltInFunctionZeroArgs,justBuiltInFunctionWithArgs,justReplaceRegex,justBuiltInFunctionsError
-syn cluster justBuiltInFunctionsInInterp contains=justBuiltInFunctionZeroArgs,justBuiltInFuncWithArgsInInterp,justReplaceRegexInInterp,justBuiltInFunctionsError
+syn cluster justBuiltInFunctions contains=justBuiltInFunctionWithArgs,justReplaceRegex,justBuiltInFunctionsError
+syn cluster justBuiltInFunctionsInInterp contains=justBuiltInFuncWithArgsInInterp,justReplaceRegexInInterp,justBuiltInFunctionsError
 
 syn match justOperator "\v\=[=~]|!\=|[+/]"
 

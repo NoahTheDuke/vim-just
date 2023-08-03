@@ -27,6 +27,8 @@ badfunc4 := justfile   (
   abc def
 )
 
+badfunc5 := num_cpus(\)
+
 not_a_recipe_name #comment:
 	not a recipe body
 

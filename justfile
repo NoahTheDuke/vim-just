@@ -116,6 +116,7 @@ zeroArgFunctions := '''
   os_family
   uuid
 '''
+allFunctions := functionsWithArgs + zeroArgFunctions
 
 # generate an optimized Vim-style "very magic" regex snippet from a list of literal strings to match
 optrx +strings:
