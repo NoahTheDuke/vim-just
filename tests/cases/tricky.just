@@ -93,6 +93,12 @@ spaced_paren_param2 param=(valid_uuid ) :
 invoke shell:
 	{{shell}}
 
+multi count=num_cpus():
+	seq -s ' ' 1 {{count}}
+
+functions2 cpus = num_cpus() foo = env('FOO', uuid()) :
+	echo '{{foo}}:x{{cpus}}'
+
 env_test_export:
 	env | grep -F -i export
 alias printenv:=env_test_export

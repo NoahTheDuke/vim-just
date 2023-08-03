@@ -93,6 +93,12 @@ not_a_uuid_anymore <span class="Operator">:=</span> <span class="Function">repla
 <span class="Function">invoke</span> <span class="Identifier">shell</span><span class="Operator">:</span>
 <span class="Number">	</span><span class="Delimiter">{{</span><span class="Identifier">shell</span><span class="Delimiter">}}</span>
 
+<span class="Function">multi</span> <span class="Identifier">count</span><span class="Operator">=</span><span class="Function">num_cpus</span>()<span class="Operator">:</span>
+<span class="Number">	seq -s </span><span class="String">' '</span><span class="Number"> 1 </span><span class="Delimiter">{{</span><span class="Identifier">count</span><span class="Delimiter">}}</span>
+
+<span class="Function">functions2</span> <span class="Identifier">cpus</span> <span class="Operator">=</span> <span class="Function">num_cpus</span>() <span class="Identifier">foo</span> <span class="Operator">=</span> <span class="Function">env</span>(<span class="String">'FOO'</span>, <span class="Function">uuid</span>()) <span class="Operator">:</span>
+<span class="Number">	echo </span><span class="String">'</span><span class="Delimiter">{{</span><span class="Identifier">foo</span><span class="Delimiter">}}</span><span class="String">:x</span><span class="Delimiter">{{</span><span class="Identifier">cpus</span><span class="Delimiter">}}</span><span class="String">'</span>
+
 <span class="Function">env_test_export</span><span class="Operator">:</span>
 <span class="Number">	env | grep -F -i export</span>
 <span class="Statement">alias</span> <span class="Function">printenv</span><span class="Operator">:=</span><span class="Function">env_test_export</span>
