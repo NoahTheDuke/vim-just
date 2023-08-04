@@ -7,6 +7,11 @@ tab:
 space-indent:
   echo foo foo-bar bar
 
+alias foo := tab
+
+alias:
+  echo alias
+
 simple_dep: dependency5
 
 simple_multiline:
