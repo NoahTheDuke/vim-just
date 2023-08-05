@@ -160,3 +160,11 @@ replace('fghi', 'ghi', \
 test11: a \
 # comment\
 	echo Test 11
+
+test12: \
+
+	echo Test 12
+
+test13: a\
+
+	echo Test13
