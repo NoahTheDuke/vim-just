@@ -155,7 +155,7 @@ syn match justLineLeadingSymbol "\v^%(\\\n)@3<!\s+\zs%(\@-|-\@|\@|-)"
 syn match justLineContinuation "\\$" containedin=ALLBUT,justComment,justShebang,@justRawStrings,justBuiltInFunctionsError,justPreBodyCommentError
 
 syn region justBody
-      \ start=/\v^\z( +|\t+)%(#!)@!%(\@-|-\@|\@|-)?\S/
+      \ start=/\v^\z( +|\t+)%(#!)@!\S/
       \ skip='\\\n' end="\v\n\z1@!"
       \ contains=justInterpolation,@justOtherCurlyBraces,justLineLeadingSymbol,justLineContinuation,justComment,justStringInsideBody,justIndentError
       \ contained
