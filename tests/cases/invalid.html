@@ -55,6 +55,15 @@ not_a_recipe_start
 <span class="Number">  echo </span><span class="String">'valid again</span>
 <span class="String">  </span><span class="Error">	</span><span class="String">not valid'</span>
 
+<span class="Function">bad_but_not_mixed_indentation</span><span class="Operator">:</span>
+<span class="Number">	echo </span><span class="String">'tab indent'</span>
+        echo <span class="String">'space indent'</span>
+<span class="Function">bad_but_not_mixed_indentation_shebang</span><span class="Operator">:</span>
+<span class="Number">  </span><span class="SpecialComment">#!/bin/bash</span>
+<span class="Number">  echo </span><span class="String">'space indent, same as first line'</span>
+<span class="Number">    echo </span><span class="String">'acceptable space indent'</span>
+	echo <span class="String">'tab indent'</span>
+
 <span class="Function">bad_curly_braces</span><span class="Operator">:</span>
 <span class="Number">	echo </span><span class="Error">{{{</span><span class="Number">Odd number of opening curly braces is an error.}}</span>
 <span class="Number">	echo </span><span class="Error">{{{{{</span><span class="Number">Odd number of opening curly braces is an error.}}</span>

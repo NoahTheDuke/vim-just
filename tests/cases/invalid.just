@@ -55,6 +55,15 @@ invalid_recipe_body4:
   echo 'valid again
   	not valid'
 
+bad_but_not_mixed_indentation:
+	echo 'tab indent'
+        echo 'space indent'
+bad_but_not_mixed_indentation_shebang:
+  #!/bin/bash
+  echo 'space indent, same as first line'
+    echo 'acceptable space indent'
+	echo 'tab indent'
+
 bad_curly_braces:
 	echo {{{Odd number of opening curly braces is an error.}}
 	echo {{{{{Odd number of opening curly braces is an error.}}
