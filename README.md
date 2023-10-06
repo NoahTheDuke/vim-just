@@ -24,6 +24,16 @@ cd ~/.vim/pack/YOUR-NAMESPACE-HERE/start/
 git clone https://github.com/NoahTheDuke/vim-just.git
 ```
 
+### [lazy.nvim](https://github.com/folke/lazy.nvim)
+
+```lua
+{
+  "NoahTheDuke/vim-just",
+  event = { "BufReadPre", "BufNewFile" },
+  ft = { "\\cjustfile", "*.just", ".justfile" },
+}
+```
+
 ----------
 
 ### Updating `git clone` based installations
