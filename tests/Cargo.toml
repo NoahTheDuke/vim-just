@@ -5,7 +5,7 @@ authors = ["Casey Rodarmor <casey@rodarmor.com>", "Noah Bogart <noah.bogart@hey.
 edition = "2021"
 
 [dependencies]
-regex     = "1.7.1"
+regex     = "~1.9"
 scraper   = "0.15.0"
 clap      = { version = "4", features = ["derive"] }
 tempfile  = "3.8.0"
