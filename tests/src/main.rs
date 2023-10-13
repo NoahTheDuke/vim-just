@@ -1,3 +1,4 @@
+use clap::Parser;
 use regex::Regex;
 use scraper::{Html, Selector};
 use std::{
@@ -9,16 +10,15 @@ use std::{
   path::Path,
   process::Command,
 };
-use structopt::StructOpt;
 
-#[derive(StructOpt)]
+#[derive(Parser)]
 struct Arguments {
-  #[structopt(name("PATTERN"), help("Only run tests that match <PATTERN>"))]
+  #[arg(name = "PATTERN", help = "Only run tests that match <PATTERN>")]
   filter: Option<Regex>,
 }
 
 fn main() -> io::Result<()> {
-  let arguments = Arguments::from_args();
+  let arguments = Arguments::parse();
 
   let tempdir = tempfile::tempdir().unwrap();
 

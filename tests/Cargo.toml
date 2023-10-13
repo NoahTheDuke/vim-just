@@ -7,5 +7,5 @@ edition = "2021"
 [dependencies]
 regex     = "1.7.1"
 scraper   = "0.15.0"
-structopt = "0.3.26"
-tempfile  = "3.4.0"
+clap      = { version = "4", features = ["derive"] }
+tempfile  = "3.8.0"
