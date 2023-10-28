@@ -8,7 +8,11 @@ use std::{
   io::{self, ErrorKind},
   os::unix::fs as ufs,
   path::Path,
-  process::Command,
+  process::{Command, Stdio},
+  sync::{
+    atomic::{AtomicBool, Ordering::Relaxed},
+    Arc,
+  },
 };
 
 #[derive(Parser)]
@@ -17,8 +21,17 @@ struct Arguments {
   filter: Option<Regex>,
 }
 
-fn main() -> io::Result<()> {
+fn _main() -> io::Result<()> {
   let arguments = Arguments::parse();
+
+  let interrupted = Arc::new(AtomicBool::new(false));
+  let _interrupted = Arc::clone(&interrupted);
+
+  ctrlc::set_handler(move || {
+    _interrupted.store(true, Relaxed);
+    eprintln!("Received Ctrl+C");
+  })
+  .unwrap();
 
   let tempdir = tempfile::tempdir().unwrap();
 
@@ -55,17 +68,37 @@ fn main() -> io::Result<()> {
 
     let output = tempdir.path().join(format!("{}.output.html", name));
 
-    let status = Command::new("vim")
+    let mut vim = Command::new("vim")
       .args(["--not-a-term", "-S", "convert-to-html.vim"])
       .env("CASE", case)
       .env("OUTPUT", &output)
       .env("HOME", env::current_dir().unwrap())
-      .output()
-      .unwrap()
-      .status;
+      .stdin(Stdio::null())
+      .stdout(Stdio::null())
+      .stderr(Stdio::null())
+      .spawn()
+      .unwrap();
+
+    let status = loop {
+      match vim.try_wait() {
+        Ok(Some(status)) => break status,
+        Ok(None) => {
+          if interrupted.load(Relaxed) {
+            vim.kill().unwrap();
+            return Err(io::Error::new(ErrorKind::Interrupted, "interrupted!"));
+          }
+        }
+        Err(e) => {
+          return Err(e);
+        }
+      }
+    };
 
     if !status.success() {
-      panic!("Vim failed with status: {}", status);
+      return Err(io::Error::new(
+        ErrorKind::Other,
+        format!("Vim failed with status: {}", status),
+      ));
     }
 
     let html = Html::parse_document(&fs::read_to_string(&output).unwrap());
@@ -121,8 +154,6 @@ fn main() -> io::Result<()> {
     }
   }
 
-  fs::remove_file(".vim").unwrap();
-
   if passed == cases {
     Ok(())
   } else {
@@ -131,4 +162,15 @@ fn main() -> io::Result<()> {
       format!("{}/{} tests failed.", cases - passed, cases),
     ))
   }
+}
+
+fn main() -> io::Result<()> {
+  let real_main = _main();
+
+  // cleanup
+  if fs::metadata(".vim").is_ok() {
+    fs::remove_file(".vim").unwrap();
+  }
+
+  real_main
 }

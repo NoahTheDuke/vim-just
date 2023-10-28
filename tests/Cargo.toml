@@ -9,3 +9,4 @@ regex     = "~1.9"
 scraper   = "0.17.1"
 clap      = { version = "4", features = ["derive"] }
 tempfile  = "3.8.0"
+ctrlc     = "3.4.1"
