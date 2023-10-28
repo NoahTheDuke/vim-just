@@ -145,6 +145,10 @@ fn _main() -> io::Result<()> {
       }
     };
 
+    if interrupted.load(Relaxed) {
+      return Err(io::Error::new(ErrorKind::Interrupted, "interrupted!"));
+    }
+
     if diff_output.status.success() {
       eprintln!("ok");
       passed += 1;
