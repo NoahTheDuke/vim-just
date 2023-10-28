@@ -13,7 +13,9 @@ use std::{
     atomic::{AtomicBool, Ordering::Relaxed},
     Arc,
   },
+  time::Duration,
 };
+use wait_timeout::ChildExt;
 
 #[derive(Parser)]
 struct Arguments {
@@ -79,8 +81,9 @@ fn _main() -> io::Result<()> {
       .spawn()
       .unwrap();
 
+    let poll_interval = Duration::from_millis(25);
     let status = loop {
-      match vim.try_wait() {
+      match vim.wait_timeout(poll_interval) {
         Ok(Some(status)) => break status,
         Ok(None) => {
           if interrupted.load(Relaxed) {
