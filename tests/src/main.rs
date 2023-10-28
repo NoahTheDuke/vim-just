@@ -77,12 +77,13 @@ fn _main() -> io::Result<()> {
       .env("HOME", env::current_dir().unwrap())
       .stdin(Stdio::null())
       .stdout(Stdio::null())
-      .stderr(Stdio::null())
+      .stderr(Stdio::piped())
       .spawn()
       .unwrap();
 
-    let poll_interval = Duration::from_millis(25);
+    let mut poll_count = 0;
     let status = loop {
+      let poll_interval = Duration::from_millis(if poll_count % 6 == 0 { 500 } else { 25 });
       match vim.wait_timeout(poll_interval) {
         Ok(Some(status)) => break status,
         Ok(None) => {
@@ -95,6 +96,7 @@ fn _main() -> io::Result<()> {
           return Err(e);
         }
       }
+      poll_count += 1;
     };
 
     if !status.success() {
