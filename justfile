@@ -1,12 +1,13 @@
 # Do not prevent local external justfile recipes from being run from cwd within the repo
 set fallback
 
+justq := quote(just_executable()) + ' -f ' + quote(justfile())
 rq := quote(justfile_directory())
 
 synpreview_homedir := env_var_or_default('TMPDIR', '/tmp') / '_vim-just-preview-home.' + replace(uuid(), '-', '')
 
 @_default:
-	just -f {{quote(justfile())}} --list
+	{{justq}} --list
 
 # preview JUSTFILE in Vim with syntax file from this repository
 [no-cd]
@@ -172,4 +173,4 @@ optrx +strings:
 
 # run optrx on a variable from this justfile
 @optrx_var var:
-	just -f {{quote(justfile())}} optrx "$(just -f {{quote(justfile())}} --evaluate {{var}})"
+	{{justq}} optrx "$({{justq}} --evaluate {{var}})"
