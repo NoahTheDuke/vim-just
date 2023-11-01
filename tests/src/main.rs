@@ -81,9 +81,9 @@ fn _main() -> io::Result<()> {
       .spawn()
       .unwrap();
 
-    let mut poll_count = 0;
+    let mut poll_count = 1;
     let status = loop {
-      let poll_interval = Duration::from_millis(if poll_count % 6 == 0 { 500 } else { 25 });
+      let poll_interval = Duration::from_millis(if poll_count % 3 == 0 { 333 } else { 100 });
       match vim.wait_timeout(poll_interval) {
         Ok(Some(status)) => break status,
         Ok(None) => {
