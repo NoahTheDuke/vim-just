@@ -1,0 +1,24 @@
+[
+  {
+    "filename": "justfile"
+  },
+  {
+    "filename": "Justfile"
+  },
+  {
+    "filename": "*.just"
+  },
+  {
+    "content": "#!/usr/bin/env -S just -f\n"
+  },
+  {
+    "content": "#!/usr/bin/env just -f\n"
+  },
+  {
+    "content": "#!/usr/local/bin/just -f\n"
+  },
+  {
+    "content": "",
+    "should_fail": true
+  }
+]
