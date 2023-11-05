@@ -1,4 +1,4 @@
-pub mod common;
+mod common;
 use crate::common::*;
 
 use clap::Parser;

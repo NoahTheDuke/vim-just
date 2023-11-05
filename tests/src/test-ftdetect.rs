@@ -1,7 +1,12 @@
-pub mod common;
+mod common;
 use crate::common::*;
 
-use rand::rngs::ThreadRng;
+use rand::{
+  self,
+  distributions::{Alphanumeric, DistString},
+  rngs::ThreadRng,
+  Rng,
+};
 use regex::{Captures, Regex};
 use serde::Deserialize;
 use std::{
@@ -24,6 +29,11 @@ struct FtdetectCase {
 
   #[serde(default)]
   not_justfile: bool,
+}
+
+fn random_alnum(rng: &mut ThreadRng, minlen: u8, maxlen: u8) -> String {
+  let len = rng.gen_range(minlen..=maxlen);
+  Alphanumeric.sample_string(rng, len.into())
 }
 
 fn fuzz_filename(rng: &mut ThreadRng, filename: String) -> String {
