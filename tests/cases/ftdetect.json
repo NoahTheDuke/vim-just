@@ -19,6 +19,6 @@
   },
   {
     "content": "",
-    "should_fail": true
+    "not_justfile": true
   }
 ]

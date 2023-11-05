@@ -23,7 +23,7 @@ struct FtdetectCase {
   content: Option<String>,
 
   #[serde(default)]
-  should_fail: bool,
+  not_justfile: bool,
 }
 
 fn fuzz_filename(rng: &mut ThreadRng, filename: String) -> String {
@@ -135,7 +135,7 @@ fn _main() -> io::Result<()> {
       };
       let filetype = detected_filetype_match.as_str();
       let case = file2case.get(current_key).unwrap();
-      if (filetype == "just" && !case.should_fail) || (case.should_fail && filetype != "just") {
+      if (filetype == "just" && !case.not_justfile) || (case.not_justfile && filetype != "just") {
         passed += 1;
       } else {
         eprintln!(
