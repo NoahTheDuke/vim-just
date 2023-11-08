@@ -3,7 +3,7 @@ foo: # comment
 
 p1 := 'test'
 p2 := 'OtherTest'
-param := 'ThirdTest'
+param := semver_matches('0.1.1', '>=0.1.0')
 
 @foo1 param1 param2="default test" +varparam='default': dependency1 (dependency2 p1 p2) (dependency3 param)
   echo many lines

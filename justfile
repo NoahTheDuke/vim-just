@@ -88,6 +88,7 @@ functionsWithArgs := '''
   path_exists
   quote
   replace
+  semver_matches
   sha256
   sha256_file
   shoutykebabcase
