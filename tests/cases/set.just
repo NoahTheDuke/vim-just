@@ -42,3 +42,6 @@ set tempdir := """
 set tempdir:="/tmp"
 set tempdir:= "/tmp"
 set tempdir :='/tmp'
+
+set dotenv-filename := "mydotenv"
+set dotenv-path := '/tmp/dotenv'

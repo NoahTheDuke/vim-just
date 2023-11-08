@@ -121,13 +121,13 @@ syn keyword justBoolean true false contained
 syn match justAssignment "\v^\h[a-zA-Z0-9_-]*%(\s|\\\n)*:\=" transparent contains=justAssignmentOperator
 
 syn match justSet '\v^set%(\s|\\\n)@=' contained
-syn match justSetKeywords "allow-duplicate-recipes\|dotenv-load\|export\|fallback\|ignore-comments\|positional-arguments\|tempdir\|shell\|windows-shell" contained
+syn match justSetKeywords "\vallow-duplicate-recipes|dotenv-%(load|filename|path)|export|fallback|ignore-comments|positional-arguments|tempdir|%(windows-)?shell" contained
 syn match justSetDeprecatedKeywords 'windows-powershell' contained
 syn match justBooleanSet "\v^set%(\s|\\\n)+%(allow-duplicate-recipes|dotenv-load|export|fallback|ignore-comments|positional-arguments|windows-powershell)%(%(\s|\\\n)*:\=%(\s|\\\n)*%(true|false))?$"
       \ contains=justSet,justSetKeywords,justSetDeprecatedKeywords,justAssignmentOperator,justBoolean
       \ transparent
 
-syn match justStringSet '\v^set%(\s|\\\n)+%(tempdir)%(\s|\\\n)*:\=%(\s|\\\n)*%(['"])@=' transparent contains=justSet,justSetKeywords,justAssignmentOperator
+syn match justStringSet '\v^set%(\s|\\\n)+%(dotenv-%(filename|path)|tempdir)%(\s|\\\n)*:\=%(\s|\\\n)*%(['"])@=' transparent contains=justSet,justSetKeywords,justAssignmentOperator
 
 syn region justShellSet
       \ start="\v^set%(\s|\\\n)+%(windows-)?shell%(\s|\\\n)*:\=%(\s|\\\n)*\["
