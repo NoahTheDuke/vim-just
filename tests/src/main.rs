@@ -2,6 +2,7 @@ mod common;
 use crate::common::*;
 
 use clap::Parser;
+use rayon::prelude::*;
 use regex::Regex;
 use scraper::{Html, Selector};
 use std::{
@@ -9,7 +10,7 @@ use std::{
   ffi::OsStr,
   fs,
   io::{self, ErrorKind},
-  path::Path,
+  path::{Path, PathBuf},
   process::{Command, Stdio},
   sync::atomic::Ordering::Relaxed,
   time::Duration,
@@ -41,6 +42,74 @@ fn _main() -> io::Result<()> {
     .collect::<Result<Vec<_>, io::Error>>()?;
   test_cases.sort_unstable();
 
+  let html_conversion = test_cases
+    .par_iter()
+    .filter(|f| f.extension() == Some(OsStr::new("just")))
+    .try_for_each(|case: &PathBuf| {
+      let name = case.file_stem().unwrap().to_str().unwrap();
+
+      if let Some(filter) = &arguments.filter {
+        if !filter.is_match(name) {
+          return Ok(());
+        }
+      }
+
+      let output = tempdir.path().join(format!("{}.output.html", name));
+
+      let mut vim = Command::new("vim")
+        .args(["--not-a-term", "-S", "convert-to-html.vim"])
+        .env("CASE", case)
+        .env("OUTPUT", &output)
+        .env("HOME", env::current_dir().unwrap())
+        .stdin(Stdio::null())
+        .stdout(Stdio::null())
+        .stderr(Stdio::piped())
+        .spawn()
+        .unwrap();
+
+      let mut poll_count = 1;
+      let status = loop {
+        let poll_interval = Duration::from_millis(if poll_count % 3 == 0 { 333 } else { 100 });
+        match vim.wait_timeout(poll_interval) {
+          Ok(Some(status)) => break status,
+          Ok(None) => {
+            if interrupted.load(Relaxed) {
+              vim.kill().unwrap();
+              return Err(io::Error::new(ErrorKind::Interrupted, "interrupted!"));
+            }
+          }
+          Err(e) => {
+            return Err(e);
+          }
+        }
+        poll_count += 1;
+      };
+
+      if !status.success() {
+        return Err(io::Error::new(
+          ErrorKind::Other,
+          format!("Vim failed with status: {}", status),
+        ));
+      }
+
+      let html = Html::parse_document(&fs::read_to_string(&output).unwrap());
+
+      let code_element_selector = Selector::parse("#vimCodeElement").unwrap();
+
+      let inner = html
+        .select(&code_element_selector)
+        .next()
+        .unwrap()
+        .inner_html();
+
+      fs::write(&output, inner)
+    });
+
+  match html_conversion {
+    Ok(o) => o,
+    Err(e) => return Err(e),
+  };
+
   for case in test_cases
     .iter()
     .filter(|f| f.extension() == Some(OsStr::new("just")))
@@ -58,62 +127,14 @@ fn _main() -> io::Result<()> {
     eprintln!("test {}…", name);
 
     let output = tempdir.path().join(format!("{}.output.html", name));
-
-    let mut vim = Command::new("vim")
-      .args(["--not-a-term", "-S", "convert-to-html.vim"])
-      .env("CASE", case)
-      .env("OUTPUT", &output)
-      .env("HOME", env::current_dir().unwrap())
-      .stdin(Stdio::null())
-      .stdout(Stdio::null())
-      .stderr(Stdio::piped())
-      .spawn()
-      .unwrap();
-
-    let mut poll_count = 1;
-    let status = loop {
-      let poll_interval = Duration::from_millis(if poll_count % 3 == 0 { 333 } else { 100 });
-      match vim.wait_timeout(poll_interval) {
-        Ok(Some(status)) => break status,
-        Ok(None) => {
-          if interrupted.load(Relaxed) {
-            vim.kill().unwrap();
-            return Err(io::Error::new(ErrorKind::Interrupted, "interrupted!"));
-          }
-        }
-        Err(e) => {
-          return Err(e);
-        }
-      }
-      poll_count += 1;
-    };
-
-    if !status.success() {
-      return Err(io::Error::new(
-        ErrorKind::Other,
-        format!("Vim failed with status: {}", status),
-      ));
-    }
-
-    let html = Html::parse_document(&fs::read_to_string(&output).unwrap());
-
-    let code_element_selector = Selector::parse("#vimCodeElement").unwrap();
-
-    let inner = html
-      .select(&code_element_selector)
-      .next()
-      .unwrap()
-      .inner_html();
-
-    fs::write(&output, &inner).unwrap();
-
     let expected = case_dir.join(format!("{}.html", name));
 
     if !expected.is_file() {
+      let output_content = fs::read_to_string(&output).unwrap();
       eprintln!(
         "`{}` is missing, output was:\n{}",
         expected.display(),
-        &inner
+        output_content
       );
       continue;
     }
