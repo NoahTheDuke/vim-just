@@ -97,8 +97,6 @@ syn region justRecipeParenDefault
       \ matchgroup=justRecipeDepParamsParen start='\v%(\=%(\s|\\\n)*)@<=\(' end='\V)'
       \ contained
       \ contains=@justExpr,justParenInner
-syn region justParenInner start='\V(' end='\V)' contained contains=justParenInner,@justExpr
-
 syn match justRecipeSubsequentDeps '&&' contained
 
 syn match justRecipeNoDeps '\v:%(\s|\\\n)*\n|:#@=|:%(\s|\\\n)+#@='
@@ -111,10 +109,12 @@ syn region justRecipeDeps start="\v:%(\s|\\\n)*%([a-zA-Z_(]|\&\&)" skip='\\\n' e
       \ nextgroup=justPreBodyComment,justPreBodyCommentError,@justBodies
 
 syn region justRecipeParamDep contained transparent
+      \ matchgroup=justRecipeDepParamsParen
       \ start="("
-      \ matchgroup=justRecipeDepParamsParen end=")"
-      \ contains=justRecipeDepParamsParen,@justExpr
-syn match justRecipeDepParamsParen '\v\(%(\s|\\\n)*\h[a-zA-Z0-9_-]*' contained contains=justFunction
+      \ end=")"
+      \ contains=justRecipeDepParenName,justParenInner,@justExpr
+
+syn region justParenInner start='\V(' end='\V)' contained contains=justParenInner,@justExpr
 
 syn keyword justBoolean true false contained
 
@@ -227,6 +227,10 @@ syn match justBuiltInFuncErrorParamValue "\v%(arch|invocation_directory%(_native
       \ contained nextgroup=justParameterError,justParameterLineContinuation
 
 syn match justParameterLineContinuation '\v%(\s|\\\n)*' contained nextgroup=justParameterError
+
+syn match justRecipeDepParenName '\v%(\(%(\s|\\\n)*)@<=\h[a-zA-Z0-9_-]*'
+      \ transparent contained
+      \ contains=justFunction
 
 syn cluster justBuiltInFunctions contains=justBuiltInFunction,justReplaceRegex,justBuiltInFunctionsError
 syn cluster justBuiltInFunctionsParamValue contains=justBuiltInFuncParamValue,justReplaceRegexParamValue,justBuiltInFuncErrorParamValue

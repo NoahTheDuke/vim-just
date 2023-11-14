@@ -102,3 +102,13 @@ functions2 cpus = num_cpus() foo = env('FOO', uuid()) :
 env_test_export:
 	env | grep -F -i export
 alias printenv:=env_test_export
+
+parenthesized_dep_param: (multi ('1' + '0'))
+
+parenthesized_dep_param2 p: (invoke \
+  (p + " -c 'echo 123'") \
+)
+
+parenthesized_dep_param3: (multi \
+  ( '1' + '0' ) \
+)
