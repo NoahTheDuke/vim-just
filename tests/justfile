@@ -13,6 +13,10 @@ watch FILTER='':
     --exec "run {{FILTER}}" \
     --watch ..
 
+# run ftdetect tests
+ftdetect:
+  cargo run --bin=test-ftdetect
+
 # install development dependencies
 deps:
   cargo install cargo-watch

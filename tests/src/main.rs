@@ -1,3 +1,6 @@
+mod common;
+use crate::common::*;
+
 use clap::Parser;
 use regex::Regex;
 use scraper::{Html, Selector};
@@ -6,13 +9,9 @@ use std::{
   ffi::OsStr,
   fs,
   io::{self, ErrorKind},
-  os::unix::fs as ufs,
   path::Path,
   process::{Command, Stdio},
-  sync::{
-    atomic::{AtomicBool, Ordering::Relaxed},
-    Arc,
-  },
+  sync::atomic::Ordering::Relaxed,
   time::Duration,
 };
 use wait_timeout::ChildExt;
@@ -26,23 +25,13 @@ struct Arguments {
 fn _main() -> io::Result<()> {
   let arguments = Arguments::parse();
 
-  let interrupted = Arc::new(AtomicBool::new(false));
-  let _interrupted = Arc::clone(&interrupted);
-
-  ctrlc::set_handler(move || {
-    _interrupted.store(true, Relaxed);
-    eprintln!("Received Ctrl+C");
-  })
-  .unwrap();
+  let interrupted = setup_ctrlc_handler();
 
   let tempdir = tempfile::tempdir().unwrap();
 
   let case_dir = Path::new("cases");
 
-  if fs::metadata(".vim").is_ok() {
-    fs::remove_file(".vim").unwrap();
-  }
-  ufs::symlink("../", ".vim").unwrap();
+  create_dotvim_symlink();
 
   let mut cases = 0;
   let mut passed = 0;
@@ -177,9 +166,7 @@ fn main() -> io::Result<()> {
   let real_main = _main();
 
   // cleanup
-  if fs::metadata(".vim").is_ok() {
-    fs::remove_file(".vim").unwrap();
-  }
+  clean_dotvim_symlink();
 
   real_main
 }
