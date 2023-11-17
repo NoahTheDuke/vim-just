@@ -12,8 +12,11 @@ use std::{
   io::{self, ErrorKind},
   path::{Path, PathBuf},
   process::{Command, Stdio},
-  sync::atomic::Ordering::Relaxed,
-  time::Duration,
+  sync::{
+    atomic::{AtomicU64, Ordering::Relaxed},
+    Arc,
+  },
+  time::{Duration, Instant},
 };
 use wait_timeout::ChildExt;
 
@@ -42,6 +45,8 @@ fn _main() -> io::Result<()> {
     .collect::<Result<Vec<_>, io::Error>>()?;
   test_cases.sort_unstable();
 
+  let total_vim_time = Arc::new(AtomicU64::new(0));
+
   let html_conversion = test_cases
     .par_iter()
     .filter(|f| f.extension() == Some(OsStr::new("just")))
@@ -55,6 +60,8 @@ fn _main() -> io::Result<()> {
       }
 
       let output = tempdir.path().join(format!("{}.output.html", name));
+
+      let ts = Instant::now();
 
       let mut vim = Command::new("vim")
         .args(["--not-a-term", "-S", "convert-to-html.vim"])
@@ -92,6 +99,9 @@ fn _main() -> io::Result<()> {
         ));
       }
 
+      let vim_time = ts.elapsed().as_millis() as u64;
+      total_vim_time.fetch_add(vim_time, Relaxed);
+
       let html = Html::parse_document(&fs::read_to_string(&output).unwrap());
 
       let code_element_selector = Selector::parse("#vimCodeElement").unwrap();
@@ -109,6 +119,11 @@ fn _main() -> io::Result<()> {
     Ok(o) => o,
     Err(e) => return Err(e),
   };
+
+  eprintln!(
+    "Vim total execution time: {}s.",
+    total_vim_time.load(Relaxed) as f64 / 1000.0
+  );
 
   for case in test_cases
     .iter()
