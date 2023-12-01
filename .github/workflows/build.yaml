@@ -70,3 +70,4 @@ jobs:
     - name: Test
       run: |
         cargo run
+        cargo run --bin=test-ftdetect
