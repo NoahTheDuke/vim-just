@@ -84,7 +84,7 @@ fn _main() -> io::Result<()> {
   let ftdetect_results = tempdir.path().join("ftdetect_results.txt");
 
   let mut vim = Command::new("vim")
-    .args(["--not-a-term", "-S", "batch_ftdetect_res.vim"])
+    .args(["--not-a-term", "-R", "-S", "batch_ftdetect_res.vim"])
     .args(file2case.keys())
     .env("OUTPUT", &ftdetect_results)
     .env("HOME", env::current_dir().unwrap())

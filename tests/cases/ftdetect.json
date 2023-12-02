@@ -18,7 +18,26 @@
     "content": "#!/usr/local/bin/just -f\n"
   },
   {
+    "content": "#!/opt/local/bin-/just -f\n"
+  },
+  {
     "content": "",
+    "not_justfile": true
+  },
+  {
+    "content": "#!/usr/bin/just",
+    "not_justfile": true
+  },
+  {
+    "content": "#!/usr/bin/just\n",
+    "not_justfile": true
+  },
+  {
+    "content": "#!/usr//bin/env just -f\n",
+    "not_justfile": true
+  },
+  {
+    "content": "#!//usr/local/bin/just -f\n",
     "not_justfile": true
   }
 ]
