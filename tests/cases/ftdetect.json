@@ -6,7 +6,22 @@
     "filename": "Justfile"
   },
   {
+    "filename": "JUSTFILE"
+  },
+  {
+    "filename": ".justfile"
+  },
+  {
+    "filename": ".Justfile"
+  },
+  {
+    "filename": ".JUSTFILE"
+  },
+  {
     "filename": "*.just"
+  },
+  {
+    "filename": "*.JUST"
   },
   {
     "content": "#!/usr/bin/env -S just -f\n"
