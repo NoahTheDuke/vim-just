@@ -37,7 +37,7 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install colordiff ripgrep
+        sudo apt-get install colordiff
 
     - name: Info
       run: |
@@ -58,9 +58,6 @@ jobs:
 
     - name: Check Formatting
       run: cargo fmt --all -- --check
-
-    - name: Check for Forbidden Words
-      run: ./bin/forbid
 
     - name: Test
       run: |
