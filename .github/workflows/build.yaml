@@ -30,15 +30,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Cache
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/.cargo/registry
-          ~/.cargo/git
-          target
-        key: cargo-${{ hashFiles('**/src/main.rs') }}-${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
-
     - name: Install Rust Toolchain Components
       run: |
         rustup component add clippy rustfmt
@@ -54,6 +45,10 @@ jobs:
         cargo --version
         cargo clippy --version
         cargo fmt --version
+
+    - uses: Swatinem/rust-cache@d30f1144e884b1fe579845ed7a339c640dff522e
+      with:
+        workspaces: ./tests -> target
 
     - name: Build
       run: cargo build --workspace
