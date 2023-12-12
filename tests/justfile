@@ -25,7 +25,7 @@ deps:
 build:
   cargo build
 
-# lint test runner code
+# for test runner development: strict production-level checks on test runner code
 lint:
-  cargo clippy --all-targets --all-features
+  cargo clippy --all-targets --all-features -- -Dwarnings
   cargo fmt --all -- --check
