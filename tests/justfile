@@ -1,9 +1,9 @@
 # To enable using preview recipes from cwd inside tests/
 set fallback
 
-# run tests
+# run syntax highlighting tests
 run FILTER='':
-  cargo run {{FILTER}}
+  cargo run -- {{quote(FILTER)}}
 
 # run tests whenever a file changes
 watch FILTER='':

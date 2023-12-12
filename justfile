@@ -123,7 +123,7 @@ allFunctions := functionsWithArgs + zeroArgFunctions
 # generate an optimized Vim-style "very magic" regex snippet from a list of literal strings to match
 optrx +strings:
 	#!/usr/bin/env python3
-	vparam = ''{{quote(strings)}}''
+	vparam = """{{strings}}"""
 	import collections
 	strings_list = vparam.split('|') if '|' in vparam else vparam.strip().split()
 	charByPrefix=dict()
