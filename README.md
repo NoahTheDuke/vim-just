@@ -4,19 +4,6 @@ Vim syntax files for [justfiles](https://github.com/casey/just).
 
 ## Installation
 
-### [vim-plug](https://github.com/junegunn/vim-plug)
-
-```vim
-Plug 'NoahTheDuke/vim-just'
-```
-
-### [Pathogen](https://github.com/tpope/vim-pathogen)
-
-```bash
-cd ~/.vim/bundle
-git clone https://github.com/NoahTheDuke/vim-just.git
-```
-
 ### [Vim8 Package](https://vimhelp.org/repeat.txt.html#packages)
 
 ```bash
@@ -24,15 +11,28 @@ cd ~/.vim/pack/YOUR-NAMESPACE-HERE/start/
 git clone https://github.com/NoahTheDuke/vim-just.git
 ```
 
-### [lazy.nvim](https://github.com/folke/lazy.nvim)
+### With a plugin manager
+
+#### [vim-plug](https://github.com/junegunn/vim-plug)
+
+```vim
+Plug 'NoahTheDuke/vim-just'
+```
+
+#### [lazy.nvim](https://github.com/folke/lazy.nvim)
 
 ```lua
 {
   "NoahTheDuke/vim-just",
-  event = { "BufReadPre", "BufNewFile" },
-  ft = { "\\cjustfile", "*.just", ".justfile" },
+  ft = { "just" },
 }
 ```
+
+### Third-party packages
+
+For questions or issues when using these packages, contact the package's maintainer.
+
+[![Packaging status](https://repology.org/badge/vertical-allrepos/vim:vim-just.svg)](https://repology.org/project/vim:vim-just/versions)
 
 ----------
 
