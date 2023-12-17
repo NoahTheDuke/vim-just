@@ -124,12 +124,17 @@ allFunctions := functionsWithArgs + zeroArgFunctions
 optrx +strings:
 	#!/usr/bin/env python3
 	vparam = """{{strings}}"""
-	import collections
+	import collections, re
 	strings_list = vparam.split('|') if '|' in vparam else vparam.strip().split()
+	vimSpecialChars = tuple('~@$%^&*()+=[]{}\\|<>.?')
+	def vimEscape(c):
+	  if type(c) is str and len(c) < 2:
+	    return f'\\{c}' if c in vimSpecialChars else c
+	  raise TypeError(f'{c!r} is not a character')
 	charByPrefix=dict()
 	for f in strings_list:
 	  if len(f) < 1: continue
-	  g=collections.deque(f)
+	  g=collections.deque(map(vimEscape, f))
 	  p=charByPrefix
 	  while len(g):
 	    if g[0] not in p: p[g[0]] = dict()
@@ -160,6 +165,9 @@ optrx +strings:
 	    while len(tryCommonEnd):
 	      c=0
 	      for j in ss:
+	        if re.search(r'%\((?:[^)]|\\\))+$', j):
+	          # don't compare suffix in inner group to suffix of outer group
+	          continue
 	        c += int(j.endswith(tryCommonEnd))
 	      if c == len(ss):
 	        commonEnd = tryCommonEnd
