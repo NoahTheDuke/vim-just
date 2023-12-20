@@ -10,13 +10,13 @@ name = "test-ftdetect"
 path = "src/test-ftdetect.rs"
 
 [dependencies]
-regex        = "~1.9"
-scraper      = ">=0.17.1"
-clap         = { version = "4.4.8", features = ["derive"] }
-tempfile     = "3.8.0"
+clap         = { version = "4.4.11", features = ["derive"] }
 ctrlc        = "3.4.1"
-wait-timeout = "0.2.0"
-serde        = { version = "1.0.192", features = ["derive"] }
-serde_json   = "1.0.108"
 rand         = "0.8.5"
 rayon        = "1.8.0"
+regex        = "~1.9"
+scraper      = ">=0.17.1"
+serde        = { version = "1.0.193", features = ["derive"] }
+serde_json   = "1.0.108"
+tempfile     = "3.8.0"
+wait-timeout = "0.2.0"
