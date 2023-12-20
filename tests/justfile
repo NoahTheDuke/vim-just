@@ -19,7 +19,7 @@ ftdetect:
 
 # install development dependencies
 deps:
-  cargo install cargo-watch
+  cargo install --locked cargo-watch
 
 # compile test runner without running tests
 build:
