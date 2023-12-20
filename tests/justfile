@@ -3,7 +3,7 @@ set fallback
 
 # run syntax highlighting tests
 run FILTER='':
-  cargo run -- {{quote(FILTER)}}
+  cargo run {{ if FILTER == '' { '' } else { '-- ' + quote(FILTER) } }}
 
 # run tests whenever a file changes
 watch FILTER='':
