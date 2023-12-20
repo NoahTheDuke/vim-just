@@ -25,10 +25,6 @@ set shell:=['bash',"-c"]
 
 set windows-shell:=["powershell.exe", "-NoLogo", "-Command"]
 
-set windows-powershell
-set windows-powershell:=false
-set windows-powershell := true
-
 set fallback
 set fallback := true
 set fallback := false

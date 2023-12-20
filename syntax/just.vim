@@ -241,7 +241,8 @@ syn match justOperator "\v\=[=~]|!\=|[+/]"
 syn cluster justExprBase contains=@justAllStrings,justConditional,justOperator
 syn cluster justExpr contains=@justExprBase,@justBuiltInFunctions,justBuiltInFunctionArgs,justReplaceRegex
 
-syn match justInclude "^!include\s\+.*$"
+syn match justOldInclude "^!include\s.*$" contains=justOldIncludeDirective
+syn match justOldIncludeDirective "^!include" contained
 
 hi def link justAlias                 Statement
 hi def link justAssignmentOperator    Operator
@@ -256,13 +257,14 @@ hi def link justConditional           Conditional
 hi def link justCurlyBraces           Special
 hi def link justExport                Statement
 hi def link justFunction              Function
-hi def link justInclude               Include
 hi def link justIndentError           Error
 hi def link justInterpolation         Normal
 hi def link justInterpolationDelim    Delimiter
 hi def link justLineContinuation      Special
 hi def link justLineLeadingSymbol     Special
 hi def link justName                  Identifier
+hi def link justOldInclude            PreProc
+hi def link justOldIncludeDirective   Underlined
 hi def link justOperator              Operator
 hi def link justParameterError        Error
 hi def link justParameterOperator     Operator
