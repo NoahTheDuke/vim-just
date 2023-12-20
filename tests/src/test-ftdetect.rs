@@ -51,14 +51,8 @@ fn _main() -> io::Result<()> {
 
   let mut rng = rand::thread_rng();
 
-  let cases_json = match fs::read_to_string("cases/ftdetect.json") {
-    Ok(o) => o,
-    Err(e) => return Err(e),
-  };
-  let cases = match serde_json::from_str::<Vec<FtdetectCase>>(cases_json.as_str()) {
-    Ok(o) => o,
-    Err(e) => return Err(e.into()),
-  };
+  let cases_json = fs::read_to_string("cases/ftdetect.json")?;
+  let cases = serde_json::from_str::<Vec<FtdetectCase>>(cases_json.as_str())?;
 
   let total = cases.len();
   let mut passed = 0;

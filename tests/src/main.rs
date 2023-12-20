@@ -47,7 +47,7 @@ fn _main() -> io::Result<()> {
 
   let total_vim_time = Arc::new(AtomicU64::new(0));
 
-  let html_conversion = test_cases
+  test_cases
     .par_iter()
     .filter(|f| f.extension() == Some(OsStr::new("just")))
     .try_for_each(|case: &PathBuf| {
@@ -113,12 +113,7 @@ fn _main() -> io::Result<()> {
         .inner_html();
 
       fs::write(&output, inner)
-    });
-
-  match html_conversion {
-    Ok(o) => o,
-    Err(e) => return Err(e),
-  };
+    })?;
 
   eprintln!(
     "Vim total execution time: {}s.",
