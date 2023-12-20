@@ -54,7 +54,7 @@ syn match justAssignmentOperator ":=" contained
 syn match justRecipeAt "^@" contained
 syn match justRecipeColon ":" contained
 
-syn match justRecipeAttr '^\v\[%(\s|\\\n)*%(no-%(cd|exit-message)|linux|macos|unix|windows|private)%(%(\s|\\\n)*,%(\s|\\\n)*%(no-%(cd|exit-message)|linux|macos|unix|windows|private))*%(\s|\\\n)*\]'
+syn match justRecipeAttr '^\v\[%(\s|\\\n)*%(confirm|no-%(cd|exit-message)|linux|macos|unix|windows|private)%(%(\s|\\\n)*,%(\s|\\\n)*%(confirm|no-%(cd|exit-message)|linux|macos|unix|windows|private))*%(\s|\\\n)*\]'
 
 syn match justRecipeDeclSimple "\v^\@?\h[a-zA-Z0-9_-]*%(%(\s|\\\n)*:\=@!)@="
       \ transparent contains=justRecipeName

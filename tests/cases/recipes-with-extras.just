@@ -37,6 +37,7 @@ runpwd:
 	pwd
 
 [private]
+[confirm]
 [no-exit-message]
 error:
 	sh -c 'echo Exit 3;exit 3'
