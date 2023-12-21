@@ -33,10 +33,10 @@ conditional_without_indent <span class="Operator">:=</span> <span class="Conditi
 valid_uuid <span class="Operator">+</span> testing
 } <span class="Conditional">else</span> { <span class="String">''</span> }
 
-<span class="Function">test</span><span class="Operator">:</span>
+<span class="Function">back2back_interpolations</span><span class="Operator">:</span>
 <span class="Number">	echo </span><span class="Delimiter">{{</span><span class="Identifier">something</span><span class="Delimiter">}}{{</span><span class="Identifier">testing</span><span class="Delimiter">}}</span>
 
-<span class="Function">test2</span><span class="Operator">:</span>
+<span class="Function">interp_immediately_after_string</span><span class="Operator">:</span>
 <span class="Number">	</span><span class="SpecialComment">#!/usr/bin/env python3</span>
 <span class="Number">	print(</span><span class="String">''</span><span class="Delimiter">{{</span><span class="Function">quote</span><span class="Normal">(</span><span class="Identifier">something</span><span class="Normal">)</span><span class="Delimiter">}}</span><span class="String">''</span><span class="Number">.split(</span><span class="String">"T"</span><span class="Number">))</span>
 

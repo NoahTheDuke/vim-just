@@ -33,10 +33,10 @@ conditional_without_indent := if env('SHELL') == '/bin/bash' {
 valid_uuid + testing
 } else { '' }
 
-test:
+back2back_interpolations:
 	echo {{something}}{{testing}}
 
-test2:
+interp_immediately_after_string:
 	#!/usr/bin/env python3
 	print(''{{quote(something)}}''.split("T"))
 
