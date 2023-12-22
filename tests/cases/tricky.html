@@ -29,6 +29,10 @@ not_a_uuid_anymore <span class="Operator">:=</span> <span class="Function">repla
 , <span class="String">'_9</span><span class="Constant">${1}</span><span class="String">_'</span>
 )
 
+conditional_without_indent <span class="Operator">:=</span> <span class="Conditional">if</span> <span class="Function">env</span>(<span class="String">'SHELL'</span>) <span class="Operator">==</span> <span class="String">'/bin/bash'</span> {
+valid_uuid <span class="Operator">+</span> testing
+} <span class="Conditional">else</span> { <span class="String">''</span> }
+
 <span class="Function">test</span><span class="Operator">:</span>
 <span class="Number">	echo </span><span class="Delimiter">{{</span><span class="Identifier">something</span><span class="Delimiter">}}{{</span><span class="Identifier">testing</span><span class="Delimiter">}}</span>
 

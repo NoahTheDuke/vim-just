@@ -29,6 +29,10 @@ not_a_uuid_anymore := replace_regex  (
 , '_9${1}_'
 )
 
+conditional_without_indent := if env('SHELL') == '/bin/bash' {
+valid_uuid + testing
+} else { '' }
+
 test:
 	echo {{something}}{{testing}}
 

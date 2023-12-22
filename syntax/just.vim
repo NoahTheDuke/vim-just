@@ -150,6 +150,7 @@ syn match justExportedAssignment "\v^export%(\s|\\\n)+\h[a-zA-Z0-9_-]*\s*:\=" tr
 syn match justExport '\v^export%(\s|\\\n)@=' contained
 
 syn keyword justConditional if else
+syn region justConditionalBraces start="\v\{@1<!\{\{@!" end="\v\}@=" transparent contains=@justExpr
 
 syn match justLineLeadingSymbol "\v^%(\\\n)@3<!\s+\zs%(\@-|-\@|\@|-)"
 syn match justLineContinuation "\\$" containedin=ALLBUT,justComment,justShebang,@justRawStrings,justBuiltInFunctionsError,justPreBodyCommentError
@@ -238,7 +239,7 @@ syn cluster justBuiltInFunctionsInInterp contains=justBuiltInFuncInInterp,justRe
 
 syn match justOperator "\v\=[=~]|!\=|[+/]"
 
-syn cluster justExprBase contains=@justAllStrings,justConditional,justOperator
+syn cluster justExprBase contains=@justAllStrings,justConditional,justConditionalBraces,justOperator
 syn cluster justExpr contains=@justExprBase,@justBuiltInFunctions,justBuiltInFunctionArgs,justReplaceRegex
 
 syn match justOldInclude "^!include\s.*$" contains=justOldIncludeDirective
