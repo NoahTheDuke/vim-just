@@ -20,7 +20,7 @@ syn match justName "\h[a-zA-Z0-9_-]*" contained
 syn match justFunction "\h[a-zA-Z0-9_-]*" contained
 
 syn match justPreBodyComment "\v%(\s|\\\n)*#%([^!].*)?\n%(\t+| +)@=" transparent contained contains=justComment
-      \ nextgroup=@justBodies skipnl
+   \ nextgroup=@justBodies skipnl
 syn match justPreBodyCommentError "\v^%(%(\\\n)@3<!#|(\\\n)@3<!%( +\t+|\t+ +)#).*$" contained
 
 syn region justBacktick start=/`/ end=/`/
@@ -57,34 +57,34 @@ syn match justRecipeColon ":" contained
 syn match justRecipeAttr '^\v\[%(\s|\\\n)*%(confirm|no-%(cd|exit-message)|linux|macos|unix|windows|private)%(%(\s|\\\n)*,%(\s|\\\n)*%(confirm|no-%(cd|exit-message)|linux|macos|unix|windows|private))*%(\s|\\\n)*\]'
 
 syn match justRecipeDeclSimple "\v^\@?\h[a-zA-Z0-9_-]*%(%(\s|\\\n)*:\=@!)@="
-      \ transparent contains=justRecipeName
-      \ nextgroup=justRecipeNoDeps,justRecipeDeps
+   \ transparent contains=justRecipeName
+   \ nextgroup=justRecipeNoDeps,justRecipeDeps
 
 syn region justRecipeDeclComplex start="\v^\@?\h[a-zA-Z0-9_-]*%(\s|\\\n)+%([+*$]+%(\s|\\\n)*)*\h" end="\v%(:\=@!)@=|$"
-      \ transparent
-      \ contains=justRecipeName,justParameter
-      \ nextgroup=justRecipeNoDeps,justRecipeDeps
+   \ transparent
+   \ contains=justRecipeName,justParameter
+   \ nextgroup=justRecipeNoDeps,justRecipeDeps
 
 syn match justRecipeName "\v^\@?\h[a-zA-Z0-9_-]*" transparent contained contains=justRecipeAt,justFunction
 
 syn match justParameter "\v%(\s|\\\n)@3<=%(%([*+]%(\s|\\\n)*)?%(\$%(\s|\\\n)*)?|\$%(\s|\\\n)*[*+]%(\s|\\\n)*)\h[a-zA-Z0-9_-]*"
-      \ transparent contained
-      \ contains=justName,justVariadicPrefix,justParamExport,justVariadicPrefixError
-      \ nextgroup=justParamValue,justPreParamValue
+   \ transparent contained
+   \ contains=justName,justVariadicPrefix,justParamExport,justVariadicPrefixError
+   \ nextgroup=justParamValue,justPreParamValue
 
 syn match justPreParamValue '\v%(\s*\\\n)*' contained transparent nextgroup=justParamValue
 
 syn region justParamValue contained transparent
-      \ start="\v\s*\="
-      \ skip="\\\n"
-      \ end="\v%(\s|^)%([*+$:]|\h)@=|:@=|\)|$"
-      \ contains=justParameterOperator,@justAllStrings,justRecipeParenDefault
-      \ nextgroup=justParameterError
+   \ start="\v\s*\="
+   \ skip="\\\n"
+   \ end="\v%(\s|^)%([*+$:]|\h)@=|:@=|\)|$"
+   \ contains=justParameterOperator,@justAllStrings,justRecipeParenDefault
+   \ nextgroup=justParameterError
 syn match justParamValue "\v%(\s|\\\n)*\=%(\s|\\\n)*\h[a-zA-Z0-9_-]*%(\s|\\\n)*" contained transparent
-      \ contains=justParameterOperator
-      \ nextgroup=justParameterError
+   \ contains=justParameterOperator
+   \ nextgroup=justParameterError
 syn match justParamValue "\v%(\s|\\\n)*\=%(\s|\\\n)*%(\w+%(\s|\\\n)*\()@=" contained transparent
-      \ contains=justParameterOperator nextgroup=@justBuiltInFunctionsParamValue
+   \ contains=justParameterOperator nextgroup=@justBuiltInFunctionsParamValue
 syn match justParameterOperator "\V=" contained
 
 syn match justVariadicPrefix "\v%(\s|\\\n)@3<=[*+]%(%(\s|\\\n)*\$?%(\s|\\\n)*\h)@=" contained
@@ -94,25 +94,25 @@ syn match justVariadicPrefixError "\v\$%(\s|\\\n)*[*+]" contained
 syn match justParameterError "\v%(%([+*$]+%(\s|\\\n)*)*\h[a-zA-Z0-9_-]*)@>%(%(\s|\\\n)*\=)@!" contained
 
 syn region justRecipeParenDefault
-      \ matchgroup=justRecipeDepParamsParen start='\v%(\=%(\s|\\\n)*)@<=\(' end='\V)'
-      \ contained
-      \ contains=@justExpr,justParenInner
+   \ matchgroup=justRecipeDepParamsParen start='\v%(\=%(\s|\\\n)*)@<=\(' end='\V)'
+   \ contained
+   \ contains=@justExpr,justParenInner
 syn match justRecipeSubsequentDeps '&&' contained
 
 syn match justRecipeNoDeps '\v:%(\s|\\\n)*\n|:#@=|:%(\s|\\\n)+#@='
-      \ transparent contained
-      \ contains=justRecipeColon
-      \ nextgroup=justPreBodyComment,justPreBodyCommentError,@justBodies
+   \ transparent contained
+   \ contains=justRecipeColon
+   \ nextgroup=justPreBodyComment,justPreBodyCommentError,@justBodies
 syn region justRecipeDeps start="\v:%(\s|\\\n)*%([a-zA-Z_(]|\&\&)" skip='\\\n' end="\v#@=|\\@1<!\n"
-      \ transparent contained
-      \ contains=justFunction,justRecipeColon,justRecipeSubsequentDeps,justRecipeParamDep
-      \ nextgroup=justPreBodyComment,justPreBodyCommentError,@justBodies
+   \ transparent contained
+   \ contains=justFunction,justRecipeColon,justRecipeSubsequentDeps,justRecipeParamDep
+   \ nextgroup=justPreBodyComment,justPreBodyCommentError,@justBodies
 
 syn region justRecipeParamDep contained transparent
-      \ matchgroup=justRecipeDepParamsParen
-      \ start="("
-      \ end=")"
-      \ contains=justRecipeDepParenName,justParenInner,@justExpr
+   \ matchgroup=justRecipeDepParamsParen
+   \ start="("
+   \ end=")"
+   \ contains=justRecipeDepParenName,justParenInner,@justExpr
 
 syn region justParenInner start='\V(' end='\V)' contained contains=justParenInner,@justExpr
 
@@ -124,28 +124,28 @@ syn match justSet '\v^set%(\s|\\\n)@=' contained
 syn match justSetKeywords "\vallow-duplicate-recipes|dotenv-%(load|filename|path)|export|fallback|ignore-comments|positional-arguments|tempdir|%(windows-)?shell" contained
 syn match justSetDeprecatedKeywords 'windows-powershell' contained
 syn match justBooleanSet "\v^set%(\s|\\\n)+%(allow-duplicate-recipes|dotenv-load|export|fallback|ignore-comments|positional-arguments|windows-powershell)%(%(\s|\\\n)*:\=%(\s|\\\n)*%(true|false))?$"
-      \ contains=justSet,justSetKeywords,justSetDeprecatedKeywords,justAssignmentOperator,justBoolean
-      \ transparent
+   \ contains=justSet,justSetKeywords,justSetDeprecatedKeywords,justAssignmentOperator,justBoolean
+   \ transparent
 
 syn match justStringSet '\v^set%(\s|\\\n)+%(dotenv-%(filename|path)|tempdir)%(\s|\\\n)*:\=%(\s|\\\n)*%(['"])@=' transparent contains=justSet,justSetKeywords,justAssignmentOperator
 
 syn region justShellSet
-      \ start="\v^set%(\s|\\\n)+%(windows-)?shell%(\s|\\\n)*:\=%(\s|\\\n)*\["
-      \ end="]"
-      \ contains=justSet,justSetKeywords,justAssignmentOperator,justString,justRawString,justNoise,justSetError
-      \ transparent skipwhite
+   \ start="\v^set%(\s|\\\n)+%(windows-)?shell%(\s|\\\n)*:\=%(\s|\\\n)*\["
+   \ end="]"
+   \ contains=justSet,justSetKeywords,justAssignmentOperator,justString,justRawString,justNoise,justSetError
+   \ transparent skipwhite
 
 syn match justSetError '\v%(%(\[|,)\_s*)@<=[^'"\][:space:]][^,\][:space:]]*|\[\_s*\]' contained
 
 syn match justAlias '\v^alias%(\s|\\\n)@=' contained
 syn match justAliasDecl "\v^alias%(\s|\\\n)+\h[a-zA-Z0-9_-]*%(\s|\\\n)*:\=%(\s|\\\n)*"
-      \ transparent
-      \ contains=justAlias,justFunction,justAssignmentOperator
-      \ nextgroup=justAliasRes
+   \ transparent
+   \ contains=justAlias,justFunction,justAssignmentOperator
+   \ nextgroup=justAliasRes
 syn match justAliasRes '\v\h[a-zA-Z0-9_-]*%(\s|\\\n)*%(#@=|$)' contained transparent contains=justFunction
 
 syn match justExportedAssignment "\v^export%(\s|\\\n)+\h[a-zA-Z0-9_-]*\s*:\=" transparent
-      \ contains=justExport,justAssignmentOperator
+   \ contains=justExport,justAssignmentOperator
 
 syn match justExport '\v^export%(\s|\\\n)@=' contained
 
@@ -156,16 +156,16 @@ syn match justLineLeadingSymbol "\v^%(\\\n)@3<!\s+\zs%(\@-|-\@|\@|-)"
 syn match justLineContinuation "\\$" containedin=ALLBUT,justComment,justShebang,@justRawStrings,justBuiltInFunctionsError,justPreBodyCommentError
 
 syn region justBody
-      \ start=/\v^\z( +|\t+)%(#!)@!\S/
-      \ skip='\\\n' end="\v\n\z1@!"
-      \ contains=justInterpolation,@justOtherCurlyBraces,justLineLeadingSymbol,justLineContinuation,justComment,justStringInsideBody,justIndentError
-      \ contained
+   \ start=/\v^\z( +|\t+)%(#!)@!\S/
+   \ skip='\\\n' end="\v\n\z1@!"
+   \ contains=justInterpolation,@justOtherCurlyBraces,justLineLeadingSymbol,justLineContinuation,justComment,justStringInsideBody,justIndentError
+   \ contained
 
 syn region justShebangBody
-      \ start="\v^\z( +|\t+)#!"
-      \ skip='\\\n' end="\v\n\z1@!"
-      \ contains=justInterpolation,@justOtherCurlyBraces,justLineContinuation,justComment,justShebang,justStringInShebangBody,justShebangIndentError
-      \ contained
+   \ start="\v^\z( +|\t+)#!"
+   \ skip='\\\n' end="\v\n\z1@!"
+   \ contains=justInterpolation,@justOtherCurlyBraces,justLineContinuation,justComment,justShebang,justStringInShebangBody,justShebangIndentError
+   \ contained
 
 syn cluster justBodies contains=justBody,justShebangBody
 
@@ -173,10 +173,10 @@ syn match justIndentError '\v^%(\\\n)@3<!%( +\zs\t|\t+\zs )\s*'
 syn match justShebangIndentError '\v^ +\zs\t\s*'
 
 syn region justInterpolation
-      \ matchgroup=justInterpolationDelim
-      \ start="\v%(^\z(\s+)@>.*)@<=\{\{\{@!" end="\v%(%(\\\n\z1|\S)\s*)@<=\}\}|$"
-      \ contained
-      \ contains=justName,@justExprBase,@justBuiltInFunctionsInInterp
+   \ matchgroup=justInterpolationDelim
+   \ start="\v%(^\z(\s+)@>.*)@<=\{\{\{@!" end="\v%(%(\\\n\z1|\S)\s*)@<=\}\}|$"
+   \ contained
+   \ contains=justName,@justExprBase,@justBuiltInFunctionsInInterp
 
 syn match justBadCurlyBraces '\v\{{3}\ze[^{]' contained
 syn match justCurlyBraces '\v\{{4}' contained
@@ -184,54 +184,54 @@ syn match justBadCurlyBraces '\v\{{5}\ze[^{]' contained
 syn cluster justOtherCurlyBraces contains=justCurlyBraces,justBadCurlyBraces
 
 syn region justBuiltInFunction
-      \ transparent end=')'
-      \ matchgroup=justFunction start="\v%(a%(bsolute_pat|rc)h|c%(apitalize|lean)|e%(nv%(_var%(_or_default)?)?|xtension)|file_%(name|stem)|j%(oin|ust%(_executable|file%(_directory)?))|kebabcase|lowerca%(melca)?se|pa%(rent_directory|th_exists)|quote|replace|s%(emver_matches|h%(a256%(_file)?|outy%(kebab|snake)case)|nakecase)|t%(itlecase|rim%(_%(end|start)%(_match%(es)?)?)?)|u%(pperca%(melca)?se|uid)|without_extension|invocation_directory%(_native)?|num_cpus|os%(_family)?)%(%(\s|\\\n)*\()@="
-      \ matchgroup=justUserDefinedError start="\verror%(%(\s|\\\n)*\()@="
-      \ matchgroup=justBuiltInFunctionsError start="\v\h[a-zA-Z0-9_-]*%(\s|\\\n)*\("
-      \ contains=justNoise,@justExpr
+   \ transparent end=')'
+   \ matchgroup=justFunction start="\v%(a%(bsolute_pat|rc)h|c%(apitalize|lean)|e%(nv%(_var%(_or_default)?)?|xtension)|file_%(name|stem)|j%(oin|ust%(_executable|file%(_directory)?))|kebabcase|lowerca%(melca)?se|pa%(rent_directory|th_exists)|quote|replace|s%(emver_matches|h%(a256%(_file)?|outy%(kebab|snake)case)|nakecase)|t%(itlecase|rim%(_%(end|start)%(_match%(es)?)?)?)|u%(pperca%(melca)?se|uid)|without_extension|invocation_directory%(_native)?|num_cpus|os%(_family)?)%(%(\s|\\\n)*\()@="
+   \ matchgroup=justUserDefinedError start="\verror%(%(\s|\\\n)*\()@="
+   \ matchgroup=justBuiltInFunctionsError start="\v\h[a-zA-Z0-9_-]*%(\s|\\\n)*\("
+   \ contains=justNoise,@justExpr
 
 syn region justBuiltInFuncParamValue
-      \ transparent end=')'
-      \ matchgroup=justFunction start="\v%(a%(bsolute_pat|rc)h|c%(apitalize|lean)|e%(nv%(_var%(_or_default)?)?|xtension)|file_%(name|stem)|j%(oin|ust%(_executable|file%(_directory)?))|kebabcase|lowerca%(melca)?se|pa%(rent_directory|th_exists)|quote|replace|s%(emver_matches|h%(a256%(_file)?|outy%(kebab|snake)case)|nakecase)|t%(itlecase|rim%(_%(end|start)%(_match%(es)?)?)?)|u%(pperca%(melca)?se|uid)|without_extension|invocation_directory%(_native)?|num_cpus|os%(_family)?)%(%(\s|\\\n)*\()@="
-      \ matchgroup=justUserDefinedError start="\verror%(%(\s|\\\n)*\()@="
-      \ matchgroup=justBuiltInFunctionsError start="\v\h[a-zA-Z0-9_-]*%(\s|\\\n)*\("
-      \ contained
-      \ contains=justNoise,@justExpr
-      \ nextgroup=justParameterError,justParameterLineContinuation
+   \ transparent end=')'
+   \ matchgroup=justFunction start="\v%(a%(bsolute_pat|rc)h|c%(apitalize|lean)|e%(nv%(_var%(_or_default)?)?|xtension)|file_%(name|stem)|j%(oin|ust%(_executable|file%(_directory)?))|kebabcase|lowerca%(melca)?se|pa%(rent_directory|th_exists)|quote|replace|s%(emver_matches|h%(a256%(_file)?|outy%(kebab|snake)case)|nakecase)|t%(itlecase|rim%(_%(end|start)%(_match%(es)?)?)?)|u%(pperca%(melca)?se|uid)|without_extension|invocation_directory%(_native)?|num_cpus|os%(_family)?)%(%(\s|\\\n)*\()@="
+   \ matchgroup=justUserDefinedError start="\verror%(%(\s|\\\n)*\()@="
+   \ matchgroup=justBuiltInFunctionsError start="\v\h[a-zA-Z0-9_-]*%(\s|\\\n)*\("
+   \ contained
+   \ contains=justNoise,@justExpr
+   \ nextgroup=justParameterError,justParameterLineContinuation
 
 syn region justBuiltInFuncInInterp
-      \ transparent end=')'
-      \ matchgroup=justFunction start="\v%(a%(bsolute_pat|rc)h|c%(apitalize|lean)|e%(nv%(_var%(_or_default)?)?|xtension)|file_%(name|stem)|j%(oin|ust%(_executable|file%(_directory)?))|kebabcase|lowerca%(melca)?se|pa%(rent_directory|th_exists)|quote|replace|s%(emver_matches|h%(a256%(_file)?|outy%(kebab|snake)case)|nakecase)|t%(itlecase|rim%(_%(end|start)%(_match%(es)?)?)?)|u%(pperca%(melca)?se|uid)|without_extension|invocation_directory%(_native)?|num_cpus|os%(_family)?)%(%(\s|\\\n)*\()@="
-      \ matchgroup=justUserDefinedError start="\verror%(%(\s|\\\n)*\()@="
-      \ matchgroup=justBuiltInFunctionsError start="\v\h[a-zA-Z0-9_-]*%(\s|\\\n)*\("
-      \ contained
-      \ contains=justNoise,@justExprBase,@justBuiltInFunctionsInInterp,justName
+   \ transparent end=')'
+   \ matchgroup=justFunction start="\v%(a%(bsolute_pat|rc)h|c%(apitalize|lean)|e%(nv%(_var%(_or_default)?)?|xtension)|file_%(name|stem)|j%(oin|ust%(_executable|file%(_directory)?))|kebabcase|lowerca%(melca)?se|pa%(rent_directory|th_exists)|quote|replace|s%(emver_matches|h%(a256%(_file)?|outy%(kebab|snake)case)|nakecase)|t%(itlecase|rim%(_%(end|start)%(_match%(es)?)?)?)|u%(pperca%(melca)?se|uid)|without_extension|invocation_directory%(_native)?|num_cpus|os%(_family)?)%(%(\s|\\\n)*\()@="
+   \ matchgroup=justUserDefinedError start="\verror%(%(\s|\\\n)*\()@="
+   \ matchgroup=justBuiltInFunctionsError start="\v\h[a-zA-Z0-9_-]*%(\s|\\\n)*\("
+   \ contained
+   \ contains=justNoise,@justExprBase,@justBuiltInFunctionsInInterp,justName
 
 syn region justReplaceRegex
-      \ transparent end=')'
-      \ matchgroup=justFunction start='\vreplace_regex%(%(\s|\\\n)*\()@='
-      \ contains=justNoise,@justExpr,justRegexReplacement
+   \ transparent end=')'
+   \ matchgroup=justFunction start='\vreplace_regex%(%(\s|\\\n)*\()@='
+   \ contains=justNoise,@justExpr,justRegexReplacement
 syn region justReplaceRegexParamValue
-      \ transparent end=')'
-      \ matchgroup=justFunction start='\vreplace_regex%(%(\s|\\\n)*\()@='
-      \ contained
-      \ contains=justNoise,@justExpr,justRegexReplacement
-      \ nextgroup=justParameterError,justParameterLineContinuation
+   \ transparent end=')'
+   \ matchgroup=justFunction start='\vreplace_regex%(%(\s|\\\n)*\()@='
+   \ contained
+   \ contains=justNoise,@justExpr,justRegexReplacement
+   \ nextgroup=justParameterError,justParameterLineContinuation
 syn region justReplaceRegexInInterp
-      \ transparent end=')'
-      \ matchgroup=justFunction start='\vreplace_regex%(%(\s|\\\n)*\()@='
-      \ contained
-      \ contains=justNoise,@justExprBase,justRegexReplacement,@justBuiltInFunctionsInInterp,justName
+   \ transparent end=')'
+   \ matchgroup=justFunction start='\vreplace_regex%(%(\s|\\\n)*\()@='
+   \ contained
+   \ contains=justNoise,@justExprBase,justRegexReplacement,@justBuiltInFunctionsInInterp,justName
 
 syn match justBuiltInFunctionsError "\v%(arch|invocation_directory%(_native)?|just%(_executable|file%(_directory)?)|num_cpus|os%(_family)?|uuid)%(\s|\\\n)*\(%(\_s|\\\n)*%(%([^)[:space:]\\]|\\\n@!)%(\_s|\\\n)*)+\)"
 syn match justBuiltInFuncErrorParamValue "\v%(arch|invocation_directory%(_native)?|just%(_executable|file%(_directory)?)|num_cpus|os%(_family)?|uuid)%(\s|\\\n)*\(%(\_s|\\\n)*%(%([^)[:space:]\\]|\\\n@!)%(\_s|\\\n)*)+\)"
-      \ contained nextgroup=justParameterError,justParameterLineContinuation
+   \ contained nextgroup=justParameterError,justParameterLineContinuation
 
 syn match justParameterLineContinuation '\v%(\s|\\\n)*' contained nextgroup=justParameterError
 
 syn match justRecipeDepParenName '\v%(\(%(\s|\\\n)*)@<=\h[a-zA-Z0-9_-]*'
-      \ transparent contained
-      \ contains=justFunction
+   \ transparent contained
+   \ contains=justFunction
 
 syn cluster justBuiltInFunctions contains=justBuiltInFunction,justReplaceRegex,justBuiltInFunctionsError
 syn cluster justBuiltInFunctionsParamValue contains=justBuiltInFuncParamValue,justReplaceRegexParamValue,justBuiltInFuncErrorParamValue
