@@ -11,8 +11,6 @@ endif
 let b:current_syntax = 'just'
 syn sync fromstart
 
-syn match justNoise ","
-
 syn match justComment "\v#%([^!].*)?$" contains=@Spell,justCommentTodo
 syn keyword justCommentTodo TODO FIXME XXX contained
 syn match justShebang "#!.*$" contains=justInterpolation
@@ -132,7 +130,7 @@ syn match justStringSet '\v^set%(\s|\\\n)+%(dotenv-%(filename|path)|tempdir)%(\s
 syn region justShellSet
    \ start="\v^set%(\s|\\\n)+%(windows-)?shell%(\s|\\\n)*:\=%(\s|\\\n)*\["
    \ end="]"
-   \ contains=justSet,justSetKeywords,justAssignmentOperator,justString,justRawString,justNoise,justSetError
+   \ contains=justSet,justSetKeywords,justAssignmentOperator,justString,justRawString,justSetError
    \ transparent skipwhite
 
 syn match justSetError '\v%(%(\[|,)\_s*)@<=[^'"\][:space:]][^,\][:space:]]*|\[\_s*\]' contained
@@ -188,7 +186,7 @@ syn region justBuiltInFunction
    \ matchgroup=justFunction start="\v%(a%(bsolute_pat|rc)h|c%(apitalize|lean)|e%(nv%(_var%(_or_default)?)?|xtension)|file_%(name|stem)|j%(oin|ust%(_executable|file%(_directory)?))|kebabcase|lowerca%(melca)?se|pa%(rent_directory|th_exists)|quote|replace|s%(emver_matches|h%(a256%(_file)?|outy%(kebab|snake)case)|nakecase)|t%(itlecase|rim%(_%(end|start)%(_match%(es)?)?)?)|u%(pperca%(melca)?se|uid)|without_extension|invocation_directory%(_native)?|num_cpus|os%(_family)?)%(%(\s|\\\n)*\()@="
    \ matchgroup=justUserDefinedError start="\verror%(%(\s|\\\n)*\()@="
    \ matchgroup=justBuiltInFunctionsError start="\v\h[a-zA-Z0-9_-]*%(\s|\\\n)*\("
-   \ contains=justNoise,@justExpr
+   \ contains=@justExpr
 
 syn region justBuiltInFuncParamValue
    \ transparent end=')'
@@ -196,7 +194,7 @@ syn region justBuiltInFuncParamValue
    \ matchgroup=justUserDefinedError start="\verror%(%(\s|\\\n)*\()@="
    \ matchgroup=justBuiltInFunctionsError start="\v\h[a-zA-Z0-9_-]*%(\s|\\\n)*\("
    \ contained
-   \ contains=justNoise,@justExpr
+   \ contains=@justExpr
    \ nextgroup=justParameterError,justParameterLineContinuation
 
 syn region justBuiltInFuncInInterp
@@ -205,23 +203,23 @@ syn region justBuiltInFuncInInterp
    \ matchgroup=justUserDefinedError start="\verror%(%(\s|\\\n)*\()@="
    \ matchgroup=justBuiltInFunctionsError start="\v\h[a-zA-Z0-9_-]*%(\s|\\\n)*\("
    \ contained
-   \ contains=justNoise,@justExprBase,@justBuiltInFunctionsInInterp,justName
+   \ contains=@justExprBase,@justBuiltInFunctionsInInterp,justName
 
 syn region justReplaceRegex
    \ transparent end=')'
    \ matchgroup=justFunction start='\vreplace_regex%(%(\s|\\\n)*\()@='
-   \ contains=justNoise,@justExpr,justRegexReplacement
+   \ contains=@justExpr,justRegexReplacement
 syn region justReplaceRegexParamValue
    \ transparent end=')'
    \ matchgroup=justFunction start='\vreplace_regex%(%(\s|\\\n)*\()@='
    \ contained
-   \ contains=justNoise,@justExpr,justRegexReplacement
+   \ contains=@justExpr,justRegexReplacement
    \ nextgroup=justParameterError,justParameterLineContinuation
 syn region justReplaceRegexInInterp
    \ transparent end=')'
    \ matchgroup=justFunction start='\vreplace_regex%(%(\s|\\\n)*\()@='
    \ contained
-   \ contains=justNoise,@justExprBase,justRegexReplacement,@justBuiltInFunctionsInInterp,justName
+   \ contains=@justExprBase,justRegexReplacement,@justBuiltInFunctionsInInterp,justName
 
 syn match justBuiltInFunctionsError "\v%(arch|invocation_directory%(_native)?|just%(_executable|file%(_directory)?)|num_cpus|os%(_family)?|uuid)%(\s|\\\n)*\(%(\_s|\\\n)*%(%([^)[:space:]\\]|\\\n@!)%(\_s|\\\n)*)+\)"
 syn match justBuiltInFuncErrorParamValue "\v%(arch|invocation_directory%(_native)?|just%(_executable|file%(_directory)?)|num_cpus|os%(_family)?|uuid)%(\s|\\\n)*\(%(\_s|\\\n)*%(%([^)[:space:]\\]|\\\n@!)%(\_s|\\\n)*)+\)"
@@ -240,7 +238,7 @@ syn cluster justBuiltInFunctionsInInterp contains=justBuiltInFuncInInterp,justRe
 syn match justOperator "\v\=[=~]|!\=|[+/]"
 
 syn cluster justExprBase contains=@justAllStrings,justConditional,justConditionalBraces,justOperator
-syn cluster justExpr contains=@justExprBase,@justBuiltInFunctions,justBuiltInFunctionArgs,justReplaceRegex
+syn cluster justExpr contains=@justExprBase,@justBuiltInFunctions,justReplaceRegex
 
 syn match justImport /\v^import\ze%(\s|\\\n)+['"]@=/
 
