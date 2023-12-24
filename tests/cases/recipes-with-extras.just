@@ -61,3 +61,6 @@ interp_with_func_with_arg foo:
 	echo {{quote(sha256(foo+"-"))}}
 	echo {{quote('x' + sha256(foo+"-"+ foo+'-'+foo) + foo+ 'y')}}
 	echo {{quote(if foo == '123' { '321' } else { 'foo bar' } )}}
+
+interp_with_conditional foo:
+	echo {{if foo != 'foo' { quote(foo) } else { foo / foo } }}

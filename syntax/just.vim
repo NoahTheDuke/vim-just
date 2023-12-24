@@ -149,6 +149,7 @@ syn match justExport '\v^export%(\s|\\\n)@=' contained
 
 syn keyword justConditional if else
 syn region justConditionalBraces start="\v\{@1<!\{\{@!" end="\v\}@=" transparent contains=@justExpr
+syn region justConditionalBracesInInterp start="\v\{@1<!\{\{@!" end="\v\}@=" transparent contained contains=@justExprInInterp
 
 syn match justLineLeadingSymbol "\v^%(\\\n)@3<!\s+\zs%(\@-|-\@|\@|-)"
 syn match justLineContinuation "\\$" containedin=ALLBUT,justComment,justShebang,@justRawStrings,justBuiltInFunctionsError,justPreBodyCommentError
@@ -174,7 +175,7 @@ syn region justInterpolation
    \ matchgroup=justInterpolationDelim
    \ start="\v%(^\z(\s+)@>.*)@<=\{\{\{@!" end="\v%(%(\\\n\z1|\S)\s*)@<=\}\}|$"
    \ contained
-   \ contains=justName,@justExprBase,@justBuiltInFunctionsInInterp
+   \ contains=@justExprInInterp
 
 syn match justBadCurlyBraces '\v\{{3}\ze[^{]' contained
 syn match justCurlyBraces '\v\{{4}' contained
@@ -203,7 +204,7 @@ syn region justBuiltInFuncInInterp
    \ matchgroup=justUserDefinedError start="\verror%(%(\s|\\\n)*\()@="
    \ matchgroup=justBuiltInFunctionsError start="\v\h[a-zA-Z0-9_-]*%(\s|\\\n)*\("
    \ contained
-   \ contains=@justExprBase,@justBuiltInFunctionsInInterp,justName
+   \ contains=@justExprInInterp
 
 syn region justReplaceRegex
    \ transparent end=')'
@@ -219,7 +220,7 @@ syn region justReplaceRegexInInterp
    \ transparent end=')'
    \ matchgroup=justFunction start='\vreplace_regex%(%(\s|\\\n)*\()@='
    \ contained
-   \ contains=@justExprBase,justRegexReplacement,@justBuiltInFunctionsInInterp,justName
+   \ contains=@justExprInInterp,justRegexReplacement
 
 syn match justBuiltInFunctionsError "\v%(arch|invocation_directory%(_native)?|just%(_executable|file%(_directory)?)|num_cpus|os%(_family)?|uuid)%(\s|\\\n)*\(%(\_s|\\\n)*%(%([^)[:space:]\\]|\\\n@!)%(\_s|\\\n)*)+\)"
 syn match justBuiltInFuncErrorParamValue "\v%(arch|invocation_directory%(_native)?|just%(_executable|file%(_directory)?)|num_cpus|os%(_family)?|uuid)%(\s|\\\n)*\(%(\_s|\\\n)*%(%([^)[:space:]\\]|\\\n@!)%(\_s|\\\n)*)+\)"
@@ -233,12 +234,12 @@ syn match justRecipeDepParenName '\v%(\(%(\s|\\\n)*)@<=\h[a-zA-Z0-9_-]*'
 
 syn cluster justBuiltInFunctions contains=justBuiltInFunction,justReplaceRegex,justBuiltInFunctionsError
 syn cluster justBuiltInFunctionsParamValue contains=justBuiltInFuncParamValue,justReplaceRegexParamValue,justBuiltInFuncErrorParamValue
-syn cluster justBuiltInFunctionsInInterp contains=justBuiltInFuncInInterp,justReplaceRegexInInterp,justBuiltInFunctionsError
 
 syn match justOperator "\v\=[=~]|!\=|[+/]"
 
-syn cluster justExprBase contains=@justAllStrings,justConditional,justConditionalBraces,justOperator
-syn cluster justExpr contains=@justExprBase,@justBuiltInFunctions,justReplaceRegex
+syn cluster justExprBase contains=@justAllStrings,justConditional,justOperator
+syn cluster justExpr contains=@justExprBase,@justBuiltInFunctions,justConditionalBraces,justReplaceRegex
+syn cluster justExprInInterp contains=@justExprBase,justName,justBuiltInFuncInInterp,justConditionalBracesInInterp,justReplaceRegexInInterp,justBuiltInFunctionsError
 
 syn match justImport /\v^import\ze%(\s|\\\n)+['"]@=/
 
