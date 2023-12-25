@@ -11,11 +11,13 @@ endif
 let b:current_syntax = 'just'
 syn sync fromstart
 
+syn iskeyword @,48-57,_,-
+
 syn match justComment "\v#%([^!].*)?$" contains=@Spell,justCommentTodo
 syn keyword justCommentTodo TODO FIXME XXX contained
 syn match justShebang "#!.*$" contains=justInterpolation
-syn match justName "\h[a-zA-Z0-9_-]*" contained
-syn match justFunction "\h[a-zA-Z0-9_-]*" contained
+syn match justName "\h\k*" contained
+syn match justFunction "\h\k*" contained
 
 syn match justPreBodyComment "\v%(\s|\\\n)*#%([^!].*)?\n%(\t+| +)@=" transparent contained contains=justComment
    \ nextgroup=@justBodies skipnl
@@ -47,7 +49,7 @@ syn region justStringInShebangBody start=/\v\\@1<!"/ skip=/\v\\@1<!\\"/ end=/"/ 
 
 syn match justStringEscapeSequence '\v\\[tnr"\\]' contained
 
-syn match justAssignmentOperator ":=" contained
+syn match justAssignmentOperator "\V:=" contained
 
 syn region justExprParen start='\V(' end='\V)' transparent contains=@justExpr
 syn region justExprParenInInterp start='\V(' end='\V)' transparent contained contains=@justExprInInterp
@@ -57,18 +59,18 @@ syn match justRecipeColon ":" contained
 
 syn match justRecipeAttr '^\v\[%(\s|\\\n)*%(confirm|no-%(cd|exit-message)|linux|macos|unix|windows|private)%(%(\s|\\\n)*,%(\s|\\\n)*%(confirm|no-%(cd|exit-message)|linux|macos|unix|windows|private))*%(\s|\\\n)*\]'
 
-syn match justRecipeDeclSimple "\v^\@?\h[a-zA-Z0-9_-]*%(%(\s|\\\n)*:\=@!)@="
+syn match justRecipeDeclSimple "\v^\@?\h\k*%(%(\s|\\\n)*:\=@!)@="
    \ transparent contains=justRecipeName
    \ nextgroup=justRecipeNoDeps,justRecipeDeps
 
-syn region justRecipeDeclComplex start="\v^\@?\h[a-zA-Z0-9_-]*%(\s|\\\n)+%([+*$]+%(\s|\\\n)*)*\h" end="\v%(:\=@!)@=|$"
+syn region justRecipeDeclComplex start="\v^\@?\h\k*%(\s|\\\n)+%([+*$]+%(\s|\\\n)*)*\h" end="\v%(:\=@!)@=|$"
    \ transparent
    \ contains=justRecipeName,justParameter
    \ nextgroup=justRecipeNoDeps,justRecipeDeps
 
-syn match justRecipeName "\v^\@?\h[a-zA-Z0-9_-]*" transparent contained contains=justRecipeAt,justFunction
+syn match justRecipeName "\v^\@?\h\k*" transparent contained contains=justRecipeAt,justFunction
 
-syn match justParameter "\v%(\s|\\\n)@3<=%(%([*+]%(\s|\\\n)*)?%(\$%(\s|\\\n)*)?|\$%(\s|\\\n)*[*+]%(\s|\\\n)*)\h[a-zA-Z0-9_-]*"
+syn match justParameter "\v%(\s|\\\n)@3<=%(%([*+]%(\s|\\\n)*)?%(\$%(\s|\\\n)*)?|\$%(\s|\\\n)*[*+]%(\s|\\\n)*)\h\k*"
    \ transparent contained
    \ contains=justName,justVariadicPrefix,justParamExport,justVariadicPrefixError
    \ nextgroup=justPreParamValue
@@ -90,13 +92,13 @@ syn match justVariadicPrefix "\v%(\s|\\\n)@3<=[*+]%(%(\s|\\\n)*\$?%(\s|\\\n)*\h)
 syn match justParamExport '\V$' contained
 syn match justVariadicPrefixError "\v\$%(\s|\\\n)*[*+]" contained
 
-syn match justParameterError "\v%(%([+*$]+%(\s|\\\n)*)*\h[a-zA-Z0-9_-]*)@>%(%(\s|\\\n)*\=)@!" contained
+syn match justParameterError "\v%(%([+*$]+%(\s|\\\n)*)*\h\k*)@>%(%(\s|\\\n)*\=)@!" contained
 
 syn region justRecipeParenDefault
    \ matchgroup=justRecipeDepParamsParen start='\v%(\=%(\s|\\\n)*)@<=\(' end='\V)'
    \ contained
    \ contains=@justExpr
-syn match justRecipeSubsequentDeps '&&' contained
+syn match justRecipeSubsequentDeps '\V&&' contained
 
 syn match justRecipeNoDeps '\v:%(\s|\\\n)*\n|:#@=|:%(\s|\\\n)+#@='
    \ transparent contained
@@ -109,46 +111,52 @@ syn region justRecipeDeps start="\v:%(\s|\\\n)*%([a-zA-Z_(]|\&\&)" skip='\\\n' e
 
 syn region justRecipeParamDep contained transparent
    \ matchgroup=justRecipeDepParamsParen
-   \ start="("
-   \ end=")"
+   \ start="\V("
+   \ end="\V)"
    \ contains=justRecipeDepParenName,@justExpr
 
 syn keyword justBoolean true false contained
 
-syn match justAssignment "\v^\h[a-zA-Z0-9_-]*%(\s|\\\n)*:\=" transparent contains=justAssignmentOperator
+syn match justAssignment "\v^\h\k*%(\s|\\\n)*:\=" transparent contains=justAssignmentOperator
 
-syn match justSet '\v^set%(\s|\\\n)@=' contained
-syn match justSetKeywords "\vallow-duplicate-recipes|dotenv-%(load|filename|path)|export|fallback|ignore-comments|positional-arguments|tempdir|%(windows-)?shell" contained
-syn match justSetDeprecatedKeywords 'windows-powershell' contained
+syn match justSet '\v^set' contained
+syn keyword justSetKeywords
+   \ allow-duplicate-recipes dotenv-load dotenv-filename dotenv-path export fallback ignore-comments positional-arguments shell tempdir windows-shell
+   \ contained
+syn keyword justSetDeprecatedKeywords windows-powershell contained
 syn match justBooleanSet "\v^set%(\s|\\\n)+%(allow-duplicate-recipes|dotenv-load|export|fallback|ignore-comments|positional-arguments|windows-powershell)%(%(\s|\\\n)*:\=%(\s|\\\n)*%(true|false))?$"
    \ contains=justSet,justSetKeywords,justSetDeprecatedKeywords,justAssignmentOperator,justBoolean
    \ transparent
 
-syn match justStringSet '\v^set%(\s|\\\n)+%(dotenv-%(filename|path)|tempdir)%(\s|\\\n)*:\=%(\s|\\\n)*%(['"])@=' transparent contains=justSet,justSetKeywords,justAssignmentOperator
+syn match justStringSet '\v^set%(\s|\\\n)+\k+%(\s|\\\n)*:\=%(\s|\\\n)*%(['"])@=' transparent contains=justSet,justSetKeywords,justAssignmentOperator
 
-syn region justShellSet
-   \ start="\v^set%(\s|\\\n)+%(windows-)?shell%(\s|\\\n)*:\=%(\s|\\\n)*\["
-   \ end="]"
-   \ contains=justSet,justSetKeywords,justAssignmentOperator,justString,justRawString,justSetError
+syn match justShellSet
+   \ "\v^set%(\s|\\\n)+%(windows-)?shell%(\s|\\\n)*:\=%(\s|\\\n)*\[@="
+   \ contains=justSet,justSetKeywords,justAssignmentOperator
    \ transparent skipwhite
+   \ nextgroup=justShellSetValue
+syn region justShellSetValue
+   \ start='\V[' end='\V]'
+   \ contained
+   \ contains=justString,justRawString,justShellSetError
 
-syn match justSetError '\v%(%(\[|,)\_s*)@<=[^'"\][:space:]][^,\][:space:]]*|\[\_s*\]' contained
+syn match justShellSetError '\v\k+' contained
 
-syn match justAlias '\v^alias%(\s|\\\n)@=' contained
-syn match justAliasDecl "\v^alias%(\s|\\\n)+\h[a-zA-Z0-9_-]*%(\s|\\\n)*:\=%(\s|\\\n)*"
+syn match justAlias '\v^alias' contained
+syn match justAliasDecl "\v^alias%(\s|\\\n)+\h\k*%(\s|\\\n)*:\=%(\s|\\\n)*"
    \ transparent
    \ contains=justAlias,justFunction,justAssignmentOperator
    \ nextgroup=justAliasRes
-syn match justAliasRes '\v\h[a-zA-Z0-9_-]*%(\s|\\\n)*%(#@=|$)' contained transparent contains=justFunction
+syn match justAliasRes '\v\h\k*%(\s|\\\n)*%(#@=|$)' contained transparent contains=justFunction
 
-syn match justExportedAssignment "\v^export%(\s|\\\n)+\h[a-zA-Z0-9_-]*\s*:\=" transparent
+syn match justExportedAssignment "\v^export%(\s|\\\n)+\h\k*\s*:\=" transparent
    \ contains=justExport,justAssignmentOperator
 
-syn match justExport '\v^export%(\s|\\\n)@=' contained
+syn match justExport '\v^export' contained
 
 syn keyword justConditional if else
-syn region justConditionalBraces start="\v\{@1<!\{\{@!" end="\v\}@=" transparent contains=@justExpr
-syn region justConditionalBracesInInterp start="\v\{@1<!\{\{@!" end="\v\}@=" transparent contained contains=@justExprInInterp
+syn region justConditionalBraces start="\v\{\{@!" end="\v\}@=" transparent contains=@justExpr
+syn region justConditionalBracesInInterp start="\v\{\{@!" end="\v\}@=" transparent contained contains=@justExprInInterp
 
 syn match justLineLeadingSymbol "\v^%(\\\n)@3<!\s+\zs%(\@-|-\@|\@|-)"
 syn match justLineContinuation "\\$" containedin=ALLBUT,justComment,justShebang,@justRawStrings,justBuiltInFunctionsError,justPreBodyCommentError
@@ -208,13 +216,17 @@ syn match justBuiltInFunctionsError "\v%(arch|invocation_directory%(_native)?|ju
 
 syn match justParameterLineContinuation '\v%(\s|\\\n)*' contained nextgroup=justParameterError
 
-syn match justRecipeDepParenName '\v%(\(%(\s|\\\n)*)@<=\h[a-zA-Z0-9_-]*'
+syn match justRecipeDepParenName '\v%(\(%(\s|\\\n)*)@<=\h\k*'
    \ transparent contained
    \ contains=justFunction
 
 syn cluster justBuiltInFunctions contains=justBuiltInFunction,justUserDefinedError,justBuiltInFunctionsError
 
-syn match justOperator "\v\=[=~]|!\=|[+/]"
+syn match justOperator "\V=="
+syn match justOperator "\V!="
+syn match justOperator "\V=~"
+syn match justOperator "\V+"
+syn match justOperator "\V/"
 
 syn cluster justExprBase contains=@justAllStrings,@justBuiltInFunctions,justConditional,justOperator
 syn cluster justExpr contains=@justExprBase,justExprParen,justConditionalBraces,justReplaceRegex
@@ -265,11 +277,11 @@ hi def link justRecipeSubsequentDeps  Operator
 hi def link justRegexCapture          Constant
 hi def link justSet                   Statement
 hi def link justSetDeprecatedKeywords Underlined
-hi def link justSetError              Error
 hi def link justSetKeywords           Keyword
 hi def link justShebang               SpecialComment
 hi def link justShebangBody           Number
 hi def link justShebangIndentError    Error
+hi def link justShellSetError         Error
 hi def link justString                String
 hi def link justStringEscapeSequence  Special
 hi def link justStringInShebangBody   String
