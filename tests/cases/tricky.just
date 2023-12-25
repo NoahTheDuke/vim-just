@@ -33,6 +33,10 @@ conditional_without_indent := if env('SHELL') == '/bin/bash' {
 valid_uuid + testing
 } else { '' }
 
+paren_without_indent := (
+valid_uuid + testing
+)
+
 back2back_interpolations:
 	echo {{something}}{{testing}}
 

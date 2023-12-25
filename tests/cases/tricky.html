@@ -33,6 +33,10 @@ conditional_without_indent <span class="Operator">:=</span> <span class="Conditi
 valid_uuid <span class="Operator">+</span> testing
 } <span class="Conditional">else</span> { <span class="String">''</span> }
 
+paren_without_indent <span class="Operator">:=</span> (
+valid_uuid <span class="Operator">+</span> testing
+)
+
 <span class="Function">back2back_interpolations</span><span class="Operator">:</span>
 <span class="Number">	echo </span><span class="Delimiter">{{</span><span class="Identifier">something</span><span class="Delimiter">}}{{</span><span class="Identifier">testing</span><span class="Delimiter">}}</span>
 
