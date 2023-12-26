@@ -69,7 +69,6 @@ update-last-changed *force:
 
 # Some functions are intentionally omitted from these lists because they're handled as special cases:
 #  - error
-#  - replace_regex
 functionsWithArgs := '''
   absolute_path
   capitalize
@@ -88,6 +87,7 @@ functionsWithArgs := '''
   path_exists
   quote
   replace
+  replace_regex
   semver_matches
   sha256
   sha256_file
@@ -119,6 +119,9 @@ zeroArgFunctions := '''
   uuid
 '''
 allFunctions := functionsWithArgs + zeroArgFunctions
+
+@functions:
+	echo $({{justq}} --evaluate allFunctions | sort)
 
 # generate an optimized Vim-style "very magic" regex snippet from a list of literal strings to match
 optrx +strings:

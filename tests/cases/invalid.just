@@ -13,15 +13,6 @@ export FOO
 	(the next line is not a recipe body)...
 	this text should not be highlighted
 
-badfunc1 := arch(foo) + os(foo) + os_family(foo)
-
-badfunc2 := invocation_directory(bar) / invocation_directory_native(bar)
-badfunc3 := justfile_directory(bar) / justfile(bar, foo)
-
-badfunc4 := justfile   (
-  abc def
-)
-
 badfunc5 := num_cpus(\)
 
 not_a_recipe_name #comment:
@@ -29,11 +20,6 @@ not_a_recipe_name #comment:
 
 nonexistant_func := blahuuid()
 nonexistant_func2 := blah_replace_regex('foo', '([^o])', '$1')
-
-not_a_recipe_start
-	not a recipe body
-badfunc_in_interpolation:
-	{{just_executable(this)}} {{quote( uuid(random, foo) )}}
 
 invalid_recipe_body:
  	  echo 'My indentation mixes spaces and tabs!'
@@ -50,6 +36,8 @@ invalid_recipe_body4:
   echo 'valid again
   	not valid'
 
+not_a_recipe_start
+	not a recipe body
 bad_but_not_mixed_indentation:
 	echo 'tab indent'
         echo 'space indent'

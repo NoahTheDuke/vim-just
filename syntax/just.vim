@@ -159,7 +159,7 @@ syn region justConditionalBraces start="\v\{\{@!" end="\v\}@=" transparent conta
 syn region justConditionalBracesInInterp start="\v\{\{@!" end="\v\}@=" transparent contained contains=@justExprInInterp
 
 syn match justLineLeadingSymbol "\v^%(\\\n)@3<!\s+\zs%(\@-|-\@|\@|-)"
-syn match justLineContinuation "\\$" containedin=ALLBUT,justComment,justShebang,@justRawStrings,justBuiltInFunctionsError,justPreBodyCommentError
+syn match justLineContinuation "\\$" containedin=ALLBUT,justComment,justShebang,@justRawStrings,justPreBodyCommentError
 
 syn region justBody
    \ start=/\v^\z( +|\t+)%(#!)@!\S/
@@ -189,17 +189,16 @@ syn match justCurlyBraces '\v\{{4}' contained
 syn match justBadCurlyBraces '\v\{{5}\ze[^{]' contained
 syn cluster justOtherCurlyBraces contains=justCurlyBraces,justBadCurlyBraces
 
-syn match justBuiltInFunctionsError '\v\w+%(\s|\\\n)*\('
+syn match justFunctionCall "\v\w+%(\s|\\\n)*\(@=" transparent contains=justBuiltInFunction
 
-syn match justBuiltInFunction "\v%(a%(bsolute_pat|rc)h|c%(apitalize|lean)|e%(nv%(_var%(_or_default)?)?|xtension)|file_%(name|stem)|j%(oin|ust%(_executable|file%(_directory)?))|kebabcase|lowerca%(melca)?se|pa%(rent_directory|th_exists)|quote|replace|s%(emver_matches|h%(a256%(_file)?|outy%(kebab|snake)case)|nakecase)|t%(itlecase|rim%(_%(end|start)%(_match%(es)?)?)?)|u%(pperca%(melca)?se|uid)|without_extension|invocation_directory%(_native)?|num_cpus|os%(_family)?)%(%(\s|\\\n)*\()@="
+syn keyword justBuiltInFunction
+   \ absolute_path arch capitalize clean env env_var env_var_or_default extension file_name file_stem invocation_directory invocation_directory_native join just_executable justfile justfile_directory kebabcase lowercamelcase lowercase num_cpus os os_family parent_directory path_exists quote replace replace_regex semver_matches sha256 sha256_file shoutykebabcase shoutysnakecase snakecase titlecase trim trim_end trim_end_match trim_end_matches trim_start trim_start_match trim_start_matches uppercamelcase uppercase uuid without_extension
+   \ contained
 
 syn match justUserDefinedError "\verror%(%(\s|\\\n)*\()@="
 
-syn match justReplaceRegex '\vreplace_regex%(\s|\\\n)*\(@=' transparent contains=justReplaceRegexKw nextgroup=justReplaceRegexCall
-syn match justReplaceRegexInInterp '\vreplace_regex%(\s|\\\n)*\(@=' transparent contains=justReplaceRegexKw nextgroup=justReplaceRegexCallInInterp
-
-syn keyword justReplaceRegexKw replace_regex contained
-hi link justReplaceRegexKw justBuiltInFunction
+syn match justReplaceRegex '\vreplace_regex%(\s|\\\n)*\(@=' transparent contains=justBuiltInFunction nextgroup=justReplaceRegexCall
+syn match justReplaceRegexInInterp '\vreplace_regex%(\s|\\\n)*\(@=' transparent contains=justBuiltInFunction nextgroup=justReplaceRegexCallInInterp
 
 syn region justReplaceRegexCall
    \ matchgroup=justReplaceRegexCall
@@ -212,15 +211,13 @@ syn region justReplaceRegexCallInInterp
    \ transparent contained
    \ contains=@justExprInInterp,justRegexReplacement
 
-syn match justBuiltInFunctionsError "\v%(arch|invocation_directory%(_native)?|just%(_executable|file%(_directory)?)|num_cpus|os%(_family)?|uuid)%(\s|\\\n)*\(%(\_s|\\\n)*%(%([^)[:space:]\\]|\\\n@!)%(\_s|\\\n)*)+\)"
-
 syn match justParameterLineContinuation '\v%(\s|\\\n)*' contained nextgroup=justParameterError
 
 syn match justRecipeDepParenName '\v%(\(%(\s|\\\n)*)@<=\h\k*'
    \ transparent contained
    \ contains=justFunction
 
-syn cluster justBuiltInFunctions contains=justBuiltInFunction,justUserDefinedError,justBuiltInFunctionsError
+syn cluster justBuiltInFunctions contains=justFunctionCall,justUserDefinedError
 
 syn match justOperator "\V=="
 syn match justOperator "\V!="
@@ -246,7 +243,6 @@ hi def link justBadCurlyBraces        Error
 hi def link justBody                  Number
 hi def link justBoolean               Boolean
 hi def link justBuiltInFunction       Function
-hi def link justBuiltInFunctionsError Error
 hi def link justComment               Comment
 hi def link justCommentTodo           Todo
 hi def link justConditional           Conditional

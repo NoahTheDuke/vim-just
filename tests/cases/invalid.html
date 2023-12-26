@@ -13,27 +13,13 @@ c <span class="Operator">:=</span> <span class="String">'-c'</span>
 	(the next line is not a recipe body)...
 	this text should not be highlighted
 
-badfunc1 <span class="Operator">:=</span> <span class="Error">arch(foo)</span> <span class="Operator">+</span> <span class="Error">os(foo)</span> <span class="Operator">+</span> <span class="Error">os_family(foo)</span>
-
-badfunc2 <span class="Operator">:=</span> <span class="Error">invocation_directory(bar)</span> <span class="Operator">/</span> <span class="Error">invocation_directory_native(bar)</span>
-badfunc3 <span class="Operator">:=</span> <span class="Error">justfile_directory(bar)</span> <span class="Operator">/</span> <span class="Error">justfile(bar, foo)</span>
-
-badfunc4 <span class="Operator">:=</span> <span class="Error">justfile   (</span>
-<span class="Error">  abc def</span>
-<span class="Error">)</span>
-
-badfunc5 <span class="Operator">:=</span> <span class="Error">num_cpus(\)</span>
+badfunc5 <span class="Operator">:=</span> <span class="Function">num_cpus</span>(\)
 
 not_a_recipe_name <span class="Comment">#comment:</span>
 	not a recipe body
 
-nonexistant_func <span class="Operator">:=</span> <span class="Error">blahuuid(</span>)
-nonexistant_func2 <span class="Operator">:=</span> <span class="Error">blah_replace_regex(</span><span class="String">'foo'</span>, <span class="String">'([^o])'</span>, <span class="String">'$1'</span>)
-
-not_a_recipe_start
-	not a recipe body
-<span class="Function">badfunc_in_interpolation</span><span class="Operator">:</span>
-<span class="Number">	</span><span class="Delimiter">{{</span><span class="Error">just_executable(this)</span><span class="Delimiter">}}</span><span class="Number"> </span><span class="Delimiter">{{</span><span class="Function">quote</span><span class="Normal">( </span><span class="Error">uuid(random, foo)</span><span class="Normal"> )</span><span class="Delimiter">}}</span>
+nonexistant_func <span class="Operator">:=</span> blahuuid()
+nonexistant_func2 <span class="Operator">:=</span> blah_replace_regex(<span class="String">'foo'</span>, <span class="String">'([^o])'</span>, <span class="String">'$1'</span>)
 
 <span class="Function">invalid_recipe_body</span><span class="Operator">:</span>
  <span class="Error">	  </span>echo <span class="String">'My indentation mixes spaces and tabs!'</span>
@@ -50,6 +36,8 @@ not_a_recipe_start
 <span class="Number">  echo </span><span class="String">'valid again</span>
 <span class="String">  </span><span class="Error">	</span><span class="String">not valid'</span>
 
+not_a_recipe_start
+	not a recipe body
 <span class="Function">bad_but_not_mixed_indentation</span><span class="Operator">:</span>
 <span class="Number">	echo </span><span class="String">'tab indent'</span>
         echo <span class="String">'space indent'</span>
