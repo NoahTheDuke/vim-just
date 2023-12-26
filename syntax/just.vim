@@ -57,7 +57,14 @@ syn region justExprParenInInterp start='\V(' end='\V)' transparent contained con
 syn match justRecipeAt "^@" contained
 syn match justRecipeColon ":" contained
 
-syn match justRecipeAttr '^\v\[%(\s|\\\n)*%(confirm|no-%(cd|exit-message)|linux|macos|unix|windows|private)%(%(\s|\\\n)*,%(\s|\\\n)*%(confirm|no-%(cd|exit-message)|linux|macos|unix|windows|private))*%(\s|\\\n)*\]'
+syn region justRecipeAttributes
+   \ matchgroup=justRecipeAttr start='\v^%(\\\n)@3<!\[' end='\V]'
+   \ contains=justRecipeAttr,justRecipeAttrSep
+
+syn keyword justRecipeAttr
+   \ confirm linux macos no-cd no-exit-message private unix windows
+   \ contained
+syn match justRecipeAttrSep ',' contained
 
 syn match justRecipeDeclSimple "\v^\@?\h\k*%(%(\s|\\\n)*:\=@!)@="
    \ transparent contains=justRecipeName
@@ -267,6 +274,7 @@ hi def link justRawString             String
 hi def link justRawStrRegexRepl       String
 hi def link justRecipeAt              Special
 hi def link justRecipeAttr            Type
+hi def link justRecipeAttrSep         Operator
 hi def link justRecipeColon           Operator
 hi def link justRecipeDepParamsParen  Delimiter
 hi def link justRecipeSubsequentDeps  Operator

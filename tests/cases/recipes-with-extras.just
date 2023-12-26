@@ -54,6 +54,15 @@ runpwd_then_error:
 	sh -c 'exit 2'
 	echo unreachable
 
+[
+   private
+  ,
+
+    confirm
+ ]
+multiline-attr-no-continuations:
+	/bin/true
+
 somevar := "1"
 interp_with_func_with_arg foo:
 	echo {{quote(foo)}}
