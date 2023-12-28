@@ -243,6 +243,10 @@ syn match justImport /\v^import\ze%(\s|\\\n)+['"]@=/
 syn match justOldInclude "^!include\s.*$" contains=justOldIncludeDirective
 syn match justOldIncludeDirective "^!include" contained
 
+syn match justModule /\v^mod%(\s|\\\n)+\h\k*\s*%($|%(\s|\\\n)+['"]@=)/
+   \ transparent contains=justModStatement,justName
+syn match justModStatement '^mod' contained
+
 hi def link justAlias                 Statement
 hi def link justAssignmentOperator    Operator
 hi def link justBacktick              Special
@@ -262,6 +266,7 @@ hi def link justInterpolation         Normal
 hi def link justInterpolationDelim    Delimiter
 hi def link justLineContinuation      Special
 hi def link justLineLeadingSymbol     Special
+hi def link justModStatement          Keyword
 hi def link justName                  Identifier
 hi def link justOldInclude            PreProc
 hi def link justOldIncludeDirective   Underlined
