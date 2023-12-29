@@ -7,3 +7,7 @@ mod foo "foo/justfile"
 
 mod _foo-Foo \
   'foo/foo.just'
+
+mod? foo
+
+mod ? foo 'foo/justfile'

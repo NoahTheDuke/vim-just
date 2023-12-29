@@ -238,14 +238,18 @@ syn cluster justExprInInterp contains=@justExprBase,justName,justExprParenInInte
 
 syn cluster justExprFunc contains=@justBuiltInFunctions,justReplaceRegex,justExprParen
 
-syn match justImport /\v^import\ze%(\s|\\\n)+['"]@=/
+syn match justImport /\v^import%(%(\s|\\\n)*\?|%(\s|\\\n)+['"]@=)/ transparent
+   \ contains=justImportStatement,justOptionalFile
+syn match justImportStatement '^import' contained
 
 syn match justOldInclude "^!include\s.*$" contains=justOldIncludeDirective
 syn match justOldIncludeDirective "^!include" contained
 
-syn match justModule /\v^mod%(\s|\\\n)+\h\k*\s*%($|%(\s|\\\n)+['"]@=)/
-   \ transparent contains=justModStatement,justName
+syn match justModule /\v^mod%(%(\s|\\\n)*\?)?%(\s|\\\n)+\h\k*\s*%($|%(\s|\\\n)+['"]@=)/
+   \ transparent contains=justModStatement,justName,justOptionalFile
 syn match justModStatement '^mod' contained
+
+syn match justOptionalFile '\V?' contained
 
 hi def link justAlias                 Statement
 hi def link justAssignmentOperator    Operator
@@ -260,7 +264,7 @@ hi def link justConditional           Conditional
 hi def link justCurlyBraces           Special
 hi def link justExport                Statement
 hi def link justFunction              Function
-hi def link justImport                Include
+hi def link justImportStatement       Include
 hi def link justIndentError           Error
 hi def link justInterpolation         Normal
 hi def link justInterpolationDelim    Delimiter
@@ -271,6 +275,7 @@ hi def link justName                  Identifier
 hi def link justOldInclude            PreProc
 hi def link justOldIncludeDirective   Underlined
 hi def link justOperator              Operator
+hi def link justOptionalFile          Conditional
 hi def link justParameterError        Error
 hi def link justParameterOperator     Operator
 hi def link justParamExport           Statement

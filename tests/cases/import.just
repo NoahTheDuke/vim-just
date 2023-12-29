@@ -3,5 +3,5 @@ import 'recipes-simple.just'
 import\
 'line-continuations.just'
 
-import 	"""
+import ?	"""
   tricky.just"""
