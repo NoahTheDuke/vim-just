@@ -5,12 +5,16 @@ set fallback
 run FILTER='':
   cargo run {{ if FILTER == '' { '' } else { '-- ' + quote(FILTER) } }}
 
+watchwatch := '`just watch watch` is redundant'
+
 # run tests whenever a file changes
-watch FILTER='':
+watch RECIPE='run' FILTER='': build
   cargo watch \
     --clear \
-    --debug \
-    --exec "run {{FILTER}}" \
+    --shell "{{quote(just_executable())}} \
+        {{if RECIPE == 'watch' { error(watchwatch) } else { quote(RECIPE) } }} \
+        {{if RECIPE + FILTER =~ 'watch' { error(watchwatch) } else if FILTER == '' { '' } else { quote(FILTER) } }} \
+      " \
     --watch ..
 
 # run ftdetect tests
