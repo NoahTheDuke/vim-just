@@ -242,8 +242,7 @@ syn match justImport /\v^import%(%(\s|\\\n)*\?|%(\s|\\\n)+['"]@=)/ transparent
    \ contains=justImportStatement,justOptionalFile
 syn match justImportStatement '^import' contained
 
-syn match justOldInclude "^!include\s.*$" contains=justOldIncludeDirective
-syn match justOldIncludeDirective "^!include" contained
+syn match justOldInclude "^!include"
 
 syn match justModule /\v^mod%(%(\s|\\\n)*\?)?%(\s|\\\n)+\h\k*\s*%($|%(\s|\\\n)+['"]@=)/
    \ transparent contains=justModStatement,justName,justOptionalFile
@@ -272,8 +271,7 @@ hi def link justLineContinuation      Special
 hi def link justLineLeadingSymbol     Special
 hi def link justModStatement          Keyword
 hi def link justName                  Identifier
-hi def link justOldInclude            PreProc
-hi def link justOldIncludeDirective   Underlined
+hi def link justOldInclude            Error
 hi def link justOperator              Operator
 hi def link justOptionalFile          Conditional
 hi def link justParameterError        Error
