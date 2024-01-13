@@ -29,6 +29,8 @@ syn region justRawString start=/'/ end=/'/
 syn region justRawString start=/'''/ end=/'''/
 syn region justString start=/"/ skip=/\\\\\|\\"/ end=/"/ contains=justLineContinuation,justStringEscapeSequence
 syn region justString start=/"""/ skip=/\\\\\|\\"/ end=/"""/ contains=justLineContinuation,justStringEscapeSequence
+
+syn cluster justStringLiterals contains=justRawString,justString
 syn cluster justAllStrings contains=justBacktick,justRawString,justString
 
 syn match justRegexReplacement /\v,%(\_s|\\\n)*%('\_[^']*'|'''%(\_.%(''')@!)*\_.?''')%(\_s|\\\n)*\)/me=e-1 transparent contained contains=@justExpr,@justStringsWithRegexCapture
@@ -59,12 +61,15 @@ syn match justRecipeColon ":" contained
 
 syn region justRecipeAttributes
    \ matchgroup=justRecipeAttr start='\v^%(\\\n)@3<!\[' end='\V]'
-   \ contains=justRecipeAttr,justRecipeAttrSep
+   \ contains=justRecipeAttr,justRecipeAttrSep,justRecipeAttrArgs,justRecipeAttrArgError
 
 syn keyword justRecipeAttr
    \ confirm linux macos no-cd no-exit-message no-quiet private unix windows
    \ contained
 syn match justRecipeAttrSep ',' contained
+syn region justRecipeAttrArgs matchgroup=justRecipeAttr start='\V(' end='\V)' contained
+   \ contains=@justStringLiterals
+syn match justRecipeAttrArgError '\v\(%(\s|\\?\n)*\)' contained
 
 syn match justRecipeDeclSimple "\v^\@?\h\k*%(%(\s|\\\n)*:\=@!)@="
    \ transparent contains=justRecipeName
@@ -145,7 +150,7 @@ syn match justShellSet
 syn region justShellSetValue
    \ start='\V[' end='\V]'
    \ contained
-   \ contains=justString,justRawString,justShellSetError
+   \ contains=@justStringLiterals,justShellSetError
 
 syn match justShellSetError '\v\k+' contained
 
@@ -166,7 +171,7 @@ syn region justConditionalBraces start="\v\{\{@!" end="\v\}@=" transparent conta
 syn region justConditionalBracesInInterp start="\v\{\{@!" end="\v\}@=" transparent contained contains=@justExprInInterp
 
 syn match justLineLeadingSymbol "\v^%(\\\n)@3<!\s+\zs%(\@-|-\@|\@|-)"
-syn match justLineContinuation "\\$" containedin=ALLBUT,justComment,justShebang,@justRawStrings,justPreBodyCommentError
+syn match justLineContinuation "\\$" containedin=ALLBUT,justComment,justShebang,@justRawStrings,justPreBodyCommentError,justRecipeAttrArgError
 
 syn region justBody
    \ start=/\v^\z( +|\t+)%(#!)@!\S/
@@ -282,6 +287,7 @@ hi def link justRawString             String
 hi def link justRawStrRegexRepl       String
 hi def link justRecipeAt              Special
 hi def link justRecipeAttr            Type
+hi def link justRecipeAttrArgError    Error
 hi def link justRecipeAttrSep         Operator
 hi def link justRecipeColon           Operator
 hi def link justRecipeDepParamsParen  Delimiter

@@ -83,3 +83,19 @@ non-default-param-after-default4 param0='''
 value
 ''' param1  + $ param2:
 	env
+
+[confirm()]
+argless-attribute1:
+	/bin/false
+
+[confirm(  )]
+argless-attribute2:
+	/bin/false
+
+[confirm  \
+  (
+   
+  \
+) ]
+argless-attribute3:
+	/bin/false

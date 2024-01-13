@@ -63,6 +63,29 @@ runpwd_then_error:
 multiline-attr-no-continuations:
 	/bin/true
 
+
+[confirm("confirm2: Are you sure?")]
+confirm2:
+	python3 -c pass
+
+[confirm (
+  '''
+  confirm3: Are you sure?''' \
+)
+ ]
+confirm3:
+	python3 -c pass
+
+[confirm  \
+  ( \
+"
+confirm4: Are you sure? [y/N]
+>"
+)]
+confirm4:
+	python3 -c pass
+
+
 somevar := "1"
 interp_with_func_with_arg foo:
 	echo {{quote(foo)}}
