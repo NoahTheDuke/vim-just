@@ -10,6 +10,10 @@ set positional-arguments
 set positional-arguments := true
 set positional-arguments := false
 
+set quiet
+set quiet := true
+set quiet := false
+
 set shell := ["foo"]
 set shell := ["foo",]
 set shell := ["foo", "bar"]

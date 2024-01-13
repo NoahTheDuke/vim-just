@@ -104,7 +104,7 @@ invoke shell:
 multi count=num_cpus():
 	seq -s ' ' 1 {{count}}
 
-functions2 cpus = num_cpus() foo = env('FOO', uuid()) :
+functions2 cpus = num_cpus() foo = env('FOO', just_pid()) :
 	echo '{{foo}}:x{{cpus}}'
 
 env_test_export:

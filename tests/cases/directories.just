@@ -1,0 +1,7 @@
+xdg_cache := cache_directory()
+xdg_config := config_directory()
+xdg_config_local := config_local_directory()
+xdg_data := data_directory()
+xdg_data_local := data_local_directory()
+xdg_executable := executable_directory()
+xdg_home := home_directory()
