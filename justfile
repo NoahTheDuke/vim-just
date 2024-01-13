@@ -108,9 +108,17 @@ functionsWithArgs := '''
 '''
 zeroArgFunctions := '''
   arch
+  cache_directory
+  config_directory
+  config_local_directory
+  data_directory
+  data_local_directory
+  executable_directory
+  home_directory
   invocation_directory
   invocation_directory_native
   just_executable
+  just_pid
   justfile
   justfile_directory
   num_cpus
