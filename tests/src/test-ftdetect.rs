@@ -7,7 +7,6 @@ use rand::{
   rngs::ThreadRng,
   Rng,
 };
-use regex::{Captures, Regex};
 use serde::Deserialize;
 use std::{
   collections::HashMap,
@@ -37,9 +36,10 @@ fn random_alnum(rng: &mut ThreadRng, minlen: u8, maxlen: u8) -> String {
 }
 
 fn fuzz_filename(rng: &mut ThreadRng, filename: String) -> String {
-  let rx = Regex::new(r"\*").unwrap();
-  rx.replace_all(filename.as_str(), |_: &Captures| random_alnum(rng, 3, 8))
-    .into_owned()
+  filename
+    .split_inclusive('*')
+    .map(|part| part.replace('*', random_alnum(rng, 3, 8).as_str()))
+    .collect()
 }
 
 fn _main() -> io::Result<()> {
@@ -57,7 +57,7 @@ fn _main() -> io::Result<()> {
   let total = cases.len();
   let mut passed = 0;
 
-  let mut file2case: HashMap<String, FtdetectCase> = HashMap::with_capacity(total);
+  let mut file2case = HashMap::<String, FtdetectCase>::with_capacity(total);
   for case in cases {
     let fname = match &case.filename {
       Some(n) => fuzz_filename(&mut rng, n.to_string()),
@@ -67,11 +67,10 @@ fn _main() -> io::Result<()> {
     fs::write(
       &actual_file,
       match &case.content {
-        Some(t) => t.clone(),
-        None => "".to_string(),
+        Some(t) => t,
+        None => "",
       },
-    )
-    .unwrap();
+    )?;
     file2case.insert(actual_file.into_os_string().into_string().unwrap(), case);
   }
 
@@ -111,33 +110,22 @@ fn _main() -> io::Result<()> {
     ));
   }
 
-  let ftdetections = fs::read_to_string(ftdetect_results).unwrap();
+  let ftdetections = fs::read_to_string(ftdetect_results)?;
 
-  let filetype_rx = Regex::new(r"^\s*filetype=(.*)$").unwrap();
   let mut current_key = "";
   for line in ftdetections.lines() {
     if line.is_empty() {
       continue;
     } else if !current_key.is_empty() {
-      let detected_filetype_match = match filetype_rx.captures(line) {
-        Some(o) => o,
+      let filetype = match line.split_once("filetype=") {
+        Some((_, ft)) => ft,
         None => {
           return Err(io::Error::new(
             ErrorKind::Other,
-            format!("filetype regex failed to match line: {}", line),
+            format!("expected to find \"filetype=\" in line: {:?}", line),
           ))
         }
       };
-      let detected_filetype_match = match detected_filetype_match.get(1) {
-        Some(o) => o,
-        None => {
-          return Err(io::Error::new(
-            ErrorKind::Other,
-            format!("filetype regex missing capture in match on line: {}", line),
-          ))
-        }
-      };
-      let filetype = detected_filetype_match.as_str();
       let case = file2case.get(current_key).unwrap();
       if (filetype == "just" && !case.not_justfile) || (case.not_justfile && filetype != "just") {
         passed += 1;
