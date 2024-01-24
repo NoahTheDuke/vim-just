@@ -2,8 +2,8 @@ mod common;
 use crate::common::*;
 
 use clap::Parser;
+use fancy_regex::Regex;
 use rayon::prelude::*;
-use regex::Regex;
 use scraper::{Html, Selector};
 use std::{
   env,
@@ -41,96 +41,98 @@ fn _main() -> io::Result<()> {
   let mut passed = 0;
 
   let mut test_cases = fs::read_dir(case_dir)?
-    .map(|res| res.map(|e| e.path()))
+    .filter_map(
+      |res: io::Result<fs::DirEntry>| -> Option<io::Result<(String, PathBuf)>> {
+        match res {
+          Ok(o) => {
+            let p = o.path();
+            let ext = p.extension();
+            if ext != Some(OsStr::new("just")) {
+              return None;
+            }
+            let name = p.file_stem().unwrap().to_str().unwrap().to_owned();
+            if let Some(filter) = &arguments.filter {
+              if !filter.is_match(&name).unwrap() {
+                return None;
+              }
+            }
+            Some(Ok((name, p)))
+          }
+          Err(e) => Some(Err(e)),
+        }
+      },
+    )
     .collect::<Result<Vec<_>, io::Error>>()?;
   test_cases.sort_unstable();
 
   let total_vim_time = Arc::new(AtomicU64::new(0));
 
-  test_cases
-    .par_iter()
-    .filter(|f| f.extension() == Some(OsStr::new("just")))
-    .try_for_each(|case: &PathBuf| {
-      let name = case.file_stem().unwrap().to_str().unwrap();
+  test_cases.par_iter().try_for_each(|case| {
+    let (name, case) = case;
 
-      if let Some(filter) = &arguments.filter {
-        if !filter.is_match(name) {
-          return Ok(());
-        }
-      }
+    let output = tempdir.path().join(format!("{}.output.html", name));
 
-      let output = tempdir.path().join(format!("{}.output.html", name));
+    let ts = Instant::now();
 
-      let ts = Instant::now();
+    let mut vim = Command::new("vim")
+      .args(["--not-a-term", "-S", "convert-to-html.vim"])
+      .env("CASE", case)
+      .env("OUTPUT", &output)
+      .env("HOME", env::current_dir().unwrap())
+      .stdin(Stdio::null())
+      .stdout(Stdio::null())
+      .stderr(Stdio::piped())
+      .spawn()
+      .unwrap();
 
-      let mut vim = Command::new("vim")
-        .args(["--not-a-term", "-S", "convert-to-html.vim"])
-        .env("CASE", case)
-        .env("OUTPUT", &output)
-        .env("HOME", env::current_dir().unwrap())
-        .stdin(Stdio::null())
-        .stdout(Stdio::null())
-        .stderr(Stdio::piped())
-        .spawn()
-        .unwrap();
-
-      let mut poll_count = 1;
-      let status = loop {
-        let poll_interval = Duration::from_millis(if poll_count % 3 == 0 { 333 } else { 100 });
-        match vim.wait_timeout(poll_interval) {
-          Ok(Some(status)) => break status,
-          Ok(None) => {
-            if interrupted.load(Relaxed) {
-              vim.kill().unwrap();
-              return Err(io::Error::new(ErrorKind::Interrupted, "interrupted!"));
-            }
-          }
-          Err(e) => {
-            return Err(e);
+    let mut poll_count = 1;
+    let status = loop {
+      let poll_interval = Duration::from_millis(if poll_count % 3 == 0 { 333 } else { 100 });
+      match vim.wait_timeout(poll_interval) {
+        Ok(Some(status)) => break status,
+        Ok(None) => {
+          if interrupted.load(Relaxed) {
+            vim.kill().unwrap();
+            return Err(io::Error::new(ErrorKind::Interrupted, "interrupted!"));
           }
         }
-        poll_count += 1;
-      };
-
-      if !status.success() {
-        return Err(io::Error::new(
-          ErrorKind::Other,
-          format!("Vim failed with status: {}", status),
-        ));
+        Err(e) => {
+          return Err(e);
+        }
       }
+      poll_count += 1;
+    };
 
-      let vim_time = ts.elapsed().as_millis() as u64;
-      total_vim_time.fetch_add(vim_time, Relaxed);
+    if !status.success() {
+      return Err(io::Error::new(
+        ErrorKind::Other,
+        format!("Vim failed with status: {}", status),
+      ));
+    }
 
-      let html = Html::parse_document(&fs::read_to_string(&output).unwrap());
+    let vim_time = ts.elapsed().as_millis() as u64;
+    total_vim_time.fetch_add(vim_time, Relaxed);
 
-      let code_element_selector = Selector::parse("#vimCodeElement").unwrap();
+    let html = Html::parse_document(&fs::read_to_string(&output).unwrap());
 
-      let inner = html
-        .select(&code_element_selector)
-        .next()
-        .unwrap()
-        .inner_html();
+    let code_element_selector = Selector::parse("#vimCodeElement").unwrap();
 
-      fs::write(&output, inner)
-    })?;
+    let inner = html
+      .select(&code_element_selector)
+      .next()
+      .unwrap()
+      .inner_html();
+
+    fs::write(&output, inner)
+  })?;
 
   eprintln!(
     "Vim total execution time: {}s.",
     total_vim_time.load(Relaxed) as f64 / 1000.0
   );
 
-  for case in test_cases
-    .iter()
-    .filter(|f| f.extension() == Some(OsStr::new("just")))
-  {
-    let name = case.file_stem().unwrap().to_str().unwrap();
-
-    if let Some(filter) = &arguments.filter {
-      if !filter.is_match(name) {
-        continue;
-      }
-    }
+  for case in test_cases.iter() {
+    let name = &case.0;
 
     cases += 1;
 
