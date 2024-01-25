@@ -2,6 +2,7 @@
 set fallback
 
 justq := quote(just_executable()) + ' -f ' + quote(justfile())
+test_cases := justfile_directory() / 'tests/cases'
 
 @_default:
 	{{justq}} --list
@@ -12,20 +13,20 @@ synpreview_rtp := '-c ' + quote("let &runtimepath=\"" + justfile_directory() + "
 [no-cd]
 preview JUSTFILE='':
 	vim {{synpreview_rtp}} \
-	  {{if JUSTFILE == '' { '-c "set filetype=just"' } else { quote(JUSTFILE) } }}
+	  {{if JUSTFILE == '' { '-c "set filetype=just"' } else if path_exists(test_cases / JUSTFILE + '.just') == 'true' { quote(test_cases / JUSTFILE + '.just') } else { quote(JUSTFILE) } }}
 
 # preview JUSTFILE in GVim with syntax file from this repository
 [no-cd]
 gpreview JUSTFILE='':
 	gvim -f {{synpreview_rtp}} \
-	  {{if JUSTFILE == '' { '-c "set filetype=just"' } else { quote(JUSTFILE) } }}
+	  {{if JUSTFILE == '' { '-c "set filetype=just"' } else if path_exists(test_cases / JUSTFILE + '.just') == 'true' { quote(test_cases / JUSTFILE + '.just') } else { quote(JUSTFILE) } }}
 
 # preview JUSTFILE in Neovim with syntax file from this repository
 [no-cd]
 npreview JUSTFILE='':
 	nvim {{synpreview_rtp}} \
 	  -c 'syntax on' \
-	  {{if JUSTFILE == '' { '-c "set filetype=just"' } else { quote(JUSTFILE) } }}
+	  {{if JUSTFILE == '' { '-c "set filetype=just"' } else if path_exists(test_cases / JUSTFILE + '.just') == 'true' { quote(test_cases / JUSTFILE + '.just') } else { quote(JUSTFILE) } }}
 
 
 update-last-changed *force:
