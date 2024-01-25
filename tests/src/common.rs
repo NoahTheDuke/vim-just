@@ -38,7 +38,7 @@ pub fn setup_ctrlc_handler() -> Arc<AtomicBool> {
 
 pub fn run_vim(args: Vec<&str>, output: &PathBuf, interrupted: &Arc<AtomicBool>) -> io::Result<()> {
   let mut vim = Command::new("vim")
-    .arg("--not-a-term")
+    .args(["--not-a-term", "--cmd", "set noswapfile"])
     .args(args)
     .env("OUTPUT", output)
     .env("HOME", env::current_dir().unwrap())
