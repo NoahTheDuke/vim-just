@@ -2,6 +2,8 @@
 
 Vim syntax files for [justfiles](https://github.com/casey/just).
 
+Works with Vim/GVim >= 8, Neovim >= 0.4.
+
 ## Installation
 
 ### [Vim8 Package](https://vimhelp.org/repeat.txt.html#packages)
