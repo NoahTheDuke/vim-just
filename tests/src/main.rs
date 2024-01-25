@@ -10,7 +10,6 @@ use std::{
   fs,
   io::{self, ErrorKind},
   path::{Path, PathBuf},
-  process::Command,
   sync::{
     atomic::{AtomicU64, Ordering::Relaxed},
     Arc,
@@ -119,37 +118,43 @@ fn _main() -> io::Result<()> {
       continue;
     }
 
-    let diff_output_result = Command::new("colordiff")
-      .arg("--unified")
-      .args(["--label", "output"])
-      .arg(output)
-      .args(["--label", "expected"])
-      .arg(expected)
-      .output();
-
-    let diff_output = match diff_output_result {
-      Ok(o) => o,
-      Err(e) => {
-        eprintln!("Could not run colordiff: attempt failed with \"{e}\"\nIs colordiff installed and available executable on $PATH ?");
-        return Err(e);
-      }
-    };
-
     if interrupted.load(Relaxed) {
       return Err(io::Error::new(ErrorKind::Interrupted, "interrupted!"));
     }
 
-    if diff_output.status.success() {
+    let output = fs::read_to_string(output)?;
+    let expected = fs::read_to_string(expected)?;
+
+    let diff = format!(
+      "{}",
+      similar::TextDiff::from_lines(&output, &expected)
+        .unified_diff()
+        .header("output", "expected")
+    );
+    if diff.is_empty() {
       eprintln!("ok");
       passed += 1;
     } else {
-      if diff_output.status.code() == Some(2) {
-        eprintln!("syntax highlighting mismatch:");
-      } else {
-        eprintln!("diff failed:");
+      eprintln!("syntax highlighting mismatch:");
+      for line in diff.lines() {
+        if line.starts_with(' ') {
+          eprintln!("{}", line);
+          continue;
+        }
+        let color = if line.starts_with('+') {
+          "0;32"
+        } else if line.starts_with('-') {
+          "0;31"
+        } else if line.starts_with('@') {
+          "0;36"
+        } else {
+          return Err(io::Error::new(
+            ErrorKind::Other,
+            format!("no defined color for line: {:?}", line),
+          ));
+        };
+        eprintln!("\x1B[{}m{}\x1B[0m", color, line);
       }
-      eprint!("{}", String::from_utf8_lossy(&diff_output.stdout));
-      eprint!("{}", String::from_utf8_lossy(&diff_output.stderr));
     }
   }
 

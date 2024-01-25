@@ -37,11 +37,6 @@ jobs:
       run: |
         rustup component add clippy rustfmt
 
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install colordiff
-
     - name: Info
       run: |
         rustup --version

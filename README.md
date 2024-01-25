@@ -68,7 +68,6 @@ surprised if I close your PR while pushing your authored commit directly to main
 ### Prerequisites
 
 * just (of course, lol)
-* [colordiff](https://www.colordiff.org/)
 * Rust ([simple/recommended installation instructions](https://www.rust-lang.org/tools/install); for detailed and alternative installation instructions see [here](https://forge.rust-lang.org/infra/other-installation-methods.html))
 
 Run `just deps` to install the cargo dev dependencies, which right now is only
