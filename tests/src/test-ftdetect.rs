@@ -10,13 +10,9 @@ use rand::{
 use serde::Deserialize;
 use std::{
   collections::HashMap,
-  env, fs,
+  fs,
   io::{self, ErrorKind},
-  process::{Command, Stdio},
-  sync::atomic::Ordering::Relaxed,
-  time::Duration,
 };
-use wait_timeout::ChildExt;
 
 #[derive(Debug, Default, Deserialize)]
 struct FtdetectCase {
@@ -76,39 +72,9 @@ fn _main() -> io::Result<()> {
 
   let ftdetect_results = tempdir.path().join("ftdetect_results.txt");
 
-  let mut vim = Command::new("vim")
-    .args(["--not-a-term", "-R", "-S", "batch_ftdetect_res.vim"])
-    .args(file2case.keys())
-    .env("OUTPUT", &ftdetect_results)
-    .env("HOME", env::current_dir().unwrap())
-    .stdin(Stdio::null())
-    .stdout(Stdio::null())
-    .stderr(Stdio::piped())
-    .spawn()
-    .unwrap();
-
-  let poll_interval = Duration::from_millis(100);
-  let status = loop {
-    match vim.wait_timeout(poll_interval) {
-      Ok(Some(status)) => break status,
-      Ok(None) => {
-        if interrupted.load(Relaxed) {
-          vim.kill().unwrap();
-          return Err(io::Error::new(ErrorKind::Interrupted, "interrupted!"));
-        }
-      }
-      Err(e) => {
-        return Err(e);
-      }
-    }
-  };
-
-  if !status.success() {
-    return Err(io::Error::new(
-      ErrorKind::Other,
-      format!("Vim failed with status: {}", status),
-    ));
-  }
+  let mut args = vec!["-R", "-S", "batch_ftdetect_res.vim"];
+  args.extend(file2case.keys().map(|s| s.as_str()));
+  run_vim(args, &ftdetect_results, &interrupted)?;
 
   let ftdetections = fs::read_to_string(ftdetect_results)?;
 

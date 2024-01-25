@@ -41,9 +41,6 @@ hi Type           ctermfg=7*
 hi Typedef        ctermfg=7*
 hi Underlined     ctermfg=7*
 
-" edit the input justfile
-edit $CASE
-
 " convert justfile to HTML
 TOhtml
 

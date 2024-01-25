@@ -6,19 +6,17 @@ use fancy_regex::Regex;
 use rayon::prelude::*;
 use scraper::{Html, Selector};
 use std::{
-  env,
   ffi::OsStr,
   fs,
   io::{self, ErrorKind},
   path::{Path, PathBuf},
-  process::{Command, Stdio},
+  process::Command,
   sync::{
     atomic::{AtomicU64, Ordering::Relaxed},
     Arc,
   },
-  time::{Duration, Instant},
+  time::Instant,
 };
-use wait_timeout::ChildExt;
 
 #[derive(Parser)]
 struct Arguments {
@@ -74,41 +72,11 @@ fn _main() -> io::Result<()> {
 
     let ts = Instant::now();
 
-    let mut vim = Command::new("vim")
-      .args(["--not-a-term", "-S", "convert-to-html.vim"])
-      .env("CASE", case)
-      .env("OUTPUT", &output)
-      .env("HOME", env::current_dir().unwrap())
-      .stdin(Stdio::null())
-      .stdout(Stdio::null())
-      .stderr(Stdio::piped())
-      .spawn()
-      .unwrap();
-
-    let mut poll_count = 1;
-    let status = loop {
-      let poll_interval = Duration::from_millis(if poll_count % 3 == 0 { 333 } else { 100 });
-      match vim.wait_timeout(poll_interval) {
-        Ok(Some(status)) => break status,
-        Ok(None) => {
-          if interrupted.load(Relaxed) {
-            vim.kill().unwrap();
-            return Err(io::Error::new(ErrorKind::Interrupted, "interrupted!"));
-          }
-        }
-        Err(e) => {
-          return Err(e);
-        }
-      }
-      poll_count += 1;
-    };
-
-    if !status.success() {
-      return Err(io::Error::new(
-        ErrorKind::Other,
-        format!("Vim failed with status: {}", status),
-      ));
-    }
+    run_vim(
+      vec!["-S", "convert-to-html.vim", case.to_str().unwrap()],
+      &output,
+      &interrupted,
+    )?;
 
     let vim_time = ts.elapsed().as_millis() as u64;
     total_vim_time.fetch_add(vim_time, Relaxed);
