@@ -43,6 +43,8 @@ function GetJustfileIndent()
     endif
   elseif v:lnum > 2 && getline(v:lnum - 2) =~ '\\$'
     return last_indent - shiftwidth()
+  elseif prev_line =~ '\v:\s*%(\h|\()' && prev_line !~ '\V:='
+    return last_indent + shiftwidth()
   endif
 
   return last_indent
