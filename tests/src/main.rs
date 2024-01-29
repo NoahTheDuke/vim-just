@@ -4,15 +4,15 @@ use crate::common::*;
 use clap::Parser;
 use fancy_regex::Regex;
 use rayon::prelude::*;
-use scraper::{Html, Selector};
 use std::{
+  collections::HashMap,
   ffi::OsStr,
   fs,
   io::{self, ErrorKind},
   path::{Path, PathBuf},
   sync::{
     atomic::{AtomicU64, Ordering::Relaxed},
-    Arc,
+    Arc, Mutex,
   },
   time::Instant,
 };
@@ -64,39 +64,46 @@ fn _main() -> io::Result<()> {
 
   let total_vim_time = Arc::new(AtomicU64::new(0));
 
-  test_cases.par_iter().try_for_each(|case| {
-    let (name, case) = case;
+  let res = Arc::new(Mutex::new(HashMap::<String, String>::with_capacity(
+    test_cases.len(),
+  )));
+  test_cases
+    .par_iter()
+    .try_for_each(|case| -> io::Result<()> {
+      let (name, case) = case;
 
-    let output = tempdir.path().join(format!("{}.output.html", name));
+      let output = tempdir.path().join(format!("{}.output.html", name));
 
-    let ts = Instant::now();
+      let ts = Instant::now();
 
-    run_vim(
-      vec!["-S", "convert-to-html.vim", case.to_str().unwrap()],
-      &output,
-      &interrupted,
-    )?;
+      run_vim(
+        vec!["-S", "convert-to-html.vim", case.to_str().unwrap()],
+        &output,
+        &interrupted,
+      )?;
 
-    let vim_time = ts.elapsed().as_millis() as u64;
-    total_vim_time.fetch_add(vim_time, Relaxed);
+      let vim_time = ts.elapsed().as_millis() as u64;
+      total_vim_time.fetch_add(vim_time, Relaxed);
 
-    let html = Html::parse_document(&fs::read_to_string(&output).unwrap());
+      let mut html = fs::read_to_string(&output)?;
+      html.truncate(html.rfind("</pre>").unwrap());
+      html = html
+        .split_once("\n<pre id='vimCodeElement'>\n")
+        .unwrap()
+        .1
+        .replace("&quot;", "\"");
 
-    let code_element_selector = Selector::parse("#vimCodeElement").unwrap();
+      res.lock().unwrap().insert(name.to_owned(), html);
 
-    let inner = html
-      .select(&code_element_selector)
-      .next()
-      .unwrap()
-      .inner_html();
-
-    fs::write(&output, inner)
-  })?;
+      Ok(())
+    })?;
 
   eprintln!(
     "Vim total execution time: {}s.",
     total_vim_time.load(Relaxed) as f64 / 1000.0
   );
+
+  let res = Arc::into_inner(res).unwrap().into_inner().unwrap();
 
   for case in test_cases.iter() {
     let name = &case.0;
@@ -105,15 +112,15 @@ fn _main() -> io::Result<()> {
 
     eprintln!("test {}…", name);
 
-    let output = tempdir.path().join(format!("{}.output.html", name));
+    let output = res.get(name).unwrap();
+
     let expected = case_dir.join(format!("{}.html", name));
 
     if !expected.is_file() {
-      let output_content = fs::read_to_string(&output).unwrap();
       eprintln!(
         "`{}` is missing, output was:\n{}",
         expected.display(),
-        output_content
+        output
       );
       continue;
     }
@@ -122,12 +129,11 @@ fn _main() -> io::Result<()> {
       return Err(io::Error::new(ErrorKind::Interrupted, "interrupted!"));
     }
 
-    let output = fs::read_to_string(output)?;
     let expected = fs::read_to_string(expected)?;
 
     let diff = format!(
       "{}",
-      similar::TextDiff::from_lines(&output, &expected)
+      similar::TextDiff::from_lines(output, &expected)
         .unified_diff()
         .header("output", "expected")
     );
