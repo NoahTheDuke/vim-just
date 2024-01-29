@@ -153,11 +153,10 @@ fn _main() -> io::Result<()> {
           "0;31"
         } else if line.starts_with('@') {
           "0;36"
+        } else if line == "\\ No newline at end of file" {
+          "0;97"
         } else {
-          return Err(io::Error::new(
-            ErrorKind::Other,
-            format!("no defined color for line: {:?}", line),
-          ));
+          unimplemented!("no defined color for line: '{}'", line);
         };
         eprintln!("\x1B[{}m{}\x1B[0m", color, line);
       }
