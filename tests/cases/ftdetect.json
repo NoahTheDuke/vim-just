@@ -52,6 +52,22 @@
     "not_justfile": true
   },
   {
+    "filename": "justfile*",
+    "not_justfile": true
+  },
+  {
+    "filename": ".justfile*",
+    "not_justfile": true
+  },
+  {
+    "filename": "*.justfile*",
+    "not_justfile": true
+  },
+  {
+    "filename": "*.justnot*",
+    "not_justfile": true
+  },
+  {
     "content": "#!/usr/bin/env -S just -f\n"
   },
   {
