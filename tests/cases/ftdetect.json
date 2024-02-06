@@ -24,22 +24,16 @@
     "filename": "*.JUST"
   },
   {
-    "filename": "test.justfile"
+    "filename": "*.justfile"
   },
   {
-    "filename": "test.Justfile"
+    "filename": "*.Justfile"
   },
   {
-    "filename": "test.JUSTFILE"
+    "filename": "*.JUSTFILE"
   },
   {
-    "filename": "test.just"
-  },
-  {
-    "filename": "test.Just"
-  },
-  {
-    "filename": "test.JUST"
+    "filename": "*.Just"
   },
   {
     "content": "#!/usr/bin/env -S just -f\n"
