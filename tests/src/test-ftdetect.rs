@@ -47,8 +47,11 @@ fn _main() -> io::Result<()> {
 
   let mut rng = rand::thread_rng();
 
-  let cases_json = fs::read_to_string("cases/ftdetect.json")?;
-  let cases = serde_json::from_str::<Vec<FtdetectCase>>(cases_json.as_str())?;
+  let cases = fs::read_to_string("cases/ftdetect.yml")?;
+  let cases = match serde_yaml::from_str::<Vec<FtdetectCase>>(cases.as_str()) {
+    Ok(o) => o,
+    Err(e) => return Err(io::Error::new(ErrorKind::Other, e)),
+  };
 
   let total = cases.len();
   let mut passed = 0;
