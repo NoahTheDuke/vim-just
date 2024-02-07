@@ -7,7 +7,9 @@ test_cases := justfile_directory() / 'tests/cases'
 @_default:
 	{{justq}} --list
 
-synpreview_rtp := '-c ' + quote("let &runtimepath=\"" + justfile_directory() + ",\" . &runtimepath")
+synpreview_rtp := '-c ' + \
+  quote("let &runtimepath=\"" + justfile_directory() + ",\" . &runtimepath") + \
+  " -c 'filetype detect'"
 
 # preview JUSTFILE in Vim with syntax file from this repository
 [no-cd]
