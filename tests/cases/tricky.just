@@ -1,3 +1,13 @@
+# This recipe is at the start of this file because `just` inserts extra lines to make shebang script line numbers match the corresponding justfile line numbers.
+skip-all-whitespace-lines-shebang:
+	#!/bin/bash
+
+  
+ 	
+	echo -e -n '\033[1;47;30m'
+	cat "$0"
+	echo -e -n '\033[0m'
+
 raw := '''
   it's two lines \
 '''
@@ -120,3 +130,15 @@ parenthesized_dep_param2 p: (invoke \
 parenthesized_dep_param3: (multi \
   ( '1' + '0' ) \
 )
+
+skip-all-whitespace-lines1:
+    echo '111'
+
+    echo '222'
+
+skip-all-whitespace-lines2:
+	echo start
+	
+
+  	
+	echo end

@@ -175,20 +175,22 @@ syn match justLineContinuation "\\$" containedin=ALLBUT,justComment,justShebang,
 
 syn region justBody
    \ start=/\v^\z( +|\t+)%(#!)@!\S/
-   \ skip='\\\n' end="\v\n\z1@!"
+   \ skip='\v\\\n|\n\s*$'
+   \ end="\v\n\z1@!"
    \ contains=justInterpolation,@justOtherCurlyBraces,justLineLeadingSymbol,justLineContinuation,justComment,justStringInsideBody,justIndentError
    \ contained
 
 syn region justShebangBody
    \ start="\v^\z( +|\t+)#!"
-   \ skip='\\\n' end="\v\n\z1@!"
+   \ skip='\v\\\n|\n\s*$'
+   \ end="\v\n\z1@!"
    \ contains=justInterpolation,@justOtherCurlyBraces,justLineContinuation,justComment,justShebang,justStringInShebangBody,justShebangIndentError
    \ contained
 
 syn cluster justBodies contains=justBody,justShebangBody
 
-syn match justIndentError '\v^%(\\\n)@3<!%( +\zs\t|\t+\zs )\s*'
-syn match justShebangIndentError '\v^ +\zs\t\s*'
+syn match justIndentError '\v^%(\\\n)@3<!%( +\zs\t|\t+\zs )\s*\S@='
+syn match justShebangIndentError '\v^ +\zs\t\s*\S@='
 
 syn region justInterpolation
    \ matchgroup=justInterpolationDelim
