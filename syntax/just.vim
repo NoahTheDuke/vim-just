@@ -9,7 +9,7 @@ if exists('b:current_syntax')
 endif
 
 let b:current_syntax = 'just'
-syn sync fromstart
+syn sync fromstart linebreaks=10
 
 syn iskeyword @,48-57,_,-
 
