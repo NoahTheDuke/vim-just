@@ -1,3 +1,16 @@
+# This file specifies a list of files to generate for `vim-just` filetype detection tests.
+# Each list entry can have the following properties:
+#
+#   filename: (string) The name of the file.
+#             Each occurrence of `*` will be replaced with a
+#             non-empty random sequence of alphanumeric characters.
+#             If not specified, the file will have a completely random alphanumeric name.
+#
+#   content: (string) The file contents.  If not specified, the file will be empty.
+#
+#   not_justfile: (boolean) Set this to `true` if the file specified by the other properties
+#                 should **not** be detected as a justfile.
+
 - filename: justfile
 
 - filename: Justfile

@@ -15,6 +15,7 @@ use std::{
 };
 
 #[derive(Debug, Default, Deserialize)]
+#[serde(deny_unknown_fields)]
 struct FtdetectCase {
   #[serde(default)]
   filename: Option<String>,
