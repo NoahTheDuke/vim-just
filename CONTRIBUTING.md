@@ -75,3 +75,21 @@ $ just watch ftdetect run
 # watch syntax highlighting tests with filenames matching the regex ^r.*s$
 $ just watch run '^r.*s$'
 ```
+
+### How the tests work
+
+The test runners run Vim with a custom value of the `HOME` environment variable
+and create a symlink such that the repository root directory is `~/.vim` to invoked Vim instances.
+
+For each `*.just` file in `tests/cases/`, the syntax highlighting test runner opens it in Vim,
+runs a Vim script that executes `:TOhtml`,
+normalizes the result, and compares it to the corresponding .html file.
+If they don't match, the diff will be printed.
+They're effectively "snapshot" tests: at this stage of the syntax files,
+this is how the given file should be highlighted.
+
+The recommended way to update the syntax highlighting tests is
+to run them and then copy-paste intentional parts of the
+diff output into the relevant html files.
+
+Filetype detection tests are documented in `tests/cases/ftdetect.yml`.
