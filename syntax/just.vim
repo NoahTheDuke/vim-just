@@ -9,8 +9,12 @@ if exists('b:current_syntax')
 endif
 
 let b:current_syntax = 'just'
+
+" syncing fromstart prevents mismatched highlighting when jumping around in a justfile
+" linebreaks= keeps multi-line constructs highlighted correctly while typing
 syn sync fromstart linebreaks=10
 
+" a-zA-Z0-9_-
 syn iskeyword @,48-57,_,-
 
 syn match justComment "\v#%([^!].*)?$" contains=@Spell,justCommentTodo
@@ -205,6 +209,7 @@ syn cluster justOtherCurlyBraces contains=justCurlyBraces,justBadCurlyBraces
 
 syn match justFunctionCall "\v\w+%(\s|\\\n)*\(@=" transparent contains=justBuiltInFunction
 
+" error() is intentionally not included in this list
 syn keyword justBuiltInFunction
    \ absolute_path arch blake3 blake3_file cache_directory canonicalize capitalize clean config_directory config_local_directory data_directory data_local_directory env env_var env_var_or_default executable_directory extension file_name file_stem home_directory invocation_directory invocation_directory_native join just_executable justfile justfile_directory just_pid kebabcase lowercamelcase lowercase num_cpus os os_family parent_directory path_exists quote replace replace_regex semver_matches sha256 sha256_file shoutykebabcase shoutysnakecase snakecase titlecase trim trim_end trim_end_match trim_end_matches trim_start trim_start_match trim_start_matches uppercamelcase uppercase uuid without_extension
    \ contained
@@ -256,6 +261,18 @@ syn match justModule /\v^mod%(%(\s|\\\n)*\?)?%(\s|\\\n)+\h\k*\s*%($|%(\s|\\\n)+[
 syn match justModStatement '^mod' contained
 
 syn match justOptionalFile '\V?' contained
+
+" Most linked colorscheme colors are chosen based on semantics of the color name.
+" Some are for parity with other syntax files (for example, Number for recipe body highlighting
+" is to align with the make.vim distributed with Vim).
+" Deprecated `just` syntaxes are highlighted as Underlined.
+"
+" Colors are linked 'def'(ault) so that users who prefer other colors
+" can override them, e.g. in ~/.vim/after/syntax/just.vim
+"
+" Note that vim-just's highlight groups are an implementation detail and may be subject to change.
+
+" The list of highlight links is sorted alphabetically.
 
 hi def link justAlias                 Statement
 hi def link justAssignmentOperator    Operator
