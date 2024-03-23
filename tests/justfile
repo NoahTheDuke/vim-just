@@ -1,6 +1,15 @@
 # To enable using preview recipes from cwd inside tests/
 set fallback
 
+# Newline-separated list of test cases that are _not_ intended to be runnable justfiles.
+cases_invalid_justfiles := """
+  comment
+  deprecated_obsolete
+  invalid
+  mod
+  set
+"""
+
 # run syntax highlighting tests
 run FILTER='':
   cargo run {{ if FILTER == '' { '' } else { '-- ' + quote(FILTER) } }}
@@ -33,3 +42,16 @@ build:
 lint:
   cargo clippy --all-targets --all-features -- -Dwarnings
   cargo fmt --all -- --check
+
+# for test case development: verify that test case files are valid justfiles
+check-cases:
+  #!/bin/bash
+  set -e
+  declare -rA cases_invalid_justfiles=({{ \
+    replace_regex(cases_invalid_justfiles, "([^\n]+)", '["cases/${1}.just"]=1, ') \
+  }})
+  for case in cases/*.just;do
+    if [[ -z "${cases_invalid_justfiles["$case"]}" ]];then
+      {{quote(just_executable())}} --unstable -f "$case" --list >/dev/null
+    fi
+  done
