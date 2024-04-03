@@ -1,15 +1,35 @@
 Contributing
 ============
 
-Make some changes, open a PR, easy-peasy. I like to manually apply PRs, so don't be
-surprised if I close your PR while pushing your authored commit directly to main.
+Thank you for your interest in contributing to `vim-just`!
+
+## General
 
 Any contribution intentionally submitted
 for inclusion in the work by you shall be licensed as in [LICENSE](LICENSE),
 without any additional terms or conditions.
 
+## Pull Requests
+
+Reviewing a change requires understanding the reason for the change.
+To save time and avoid additional back-and-forth,
+please include a descriptive rationale when submitting your PR.
+If the changes have already been discussed in a `vim-just` issue,
+this can simply be a link to the relevant issue.
+
+We sometimes like to manually apply PRs, so don't be
+surprised if we close your PR while pushing your authored commit directly to main.
+
 Developer Documentation
 =======================
+
+## Conformance
+
+Filetype detection and ftplugin settings follow `just` documentation without deviation.
+
+Syntax highlighting targets how `just` actually behaves.
+This means that if `just` accepts a syntax form, it's considered valid,
+even if it's not documented directly.
 
 ## Test Suite
 
