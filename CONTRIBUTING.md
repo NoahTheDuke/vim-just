@@ -113,3 +113,11 @@ to run them and then copy-paste intentional parts of the
 diff output into the relevant html files.
 
 Filetype detection tests are documented in `tests/cases/ftdetect.yml`.
+
+### About test cases
+
+To assist with accuracy of `vim-just` syntax highlighting,
+most of the test case justfiles are designed to be valid and runnable.
+
+Running `just check-cases` in tests/ performs basic validity checking of all test case justfiles
+except for files intentionally flagged as invalid.  The exceptions list is in the tests justfile.
