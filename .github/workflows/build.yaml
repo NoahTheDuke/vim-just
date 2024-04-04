@@ -33,13 +33,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install Rust Toolchain Components
+    - name: Rust Toolchain Info
       run: |
-        rustup component add clippy rustfmt
-
-    - name: Info
-      run: |
-        rustup --version
+        rustc --version
         cargo --version
         cargo clippy --version
         cargo fmt --version
