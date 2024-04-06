@@ -33,6 +33,16 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    # Vim maybe already installed, but this appears to be an undocumented implementation detail.
+    # Make sure Vim is installed and working, and log Vim version.
+    - name: Vim
+      run: |
+        if ! which vim ;then
+          sudo apt-get update
+          sudo apt-get -y install vim
+        fi
+        vim --version
+
     - name: Rust Toolchain Info
       run: |
         rustc --version
