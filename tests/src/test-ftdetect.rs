@@ -9,13 +9,14 @@ use rand::{
 };
 use serde::Deserialize;
 use std::{
-  collections::HashMap,
+  collections::{HashMap, HashSet},
   fs::{self, File},
+  hash::{Hash, Hasher},
   io::{self, prelude::*, ErrorKind},
 };
 use tempfile::TempDir;
 
-#[derive(Debug, Default, Deserialize)]
+#[derive(Clone, Debug, Default, Deserialize, Eq)]
 #[serde(deny_unknown_fields)]
 struct FtdetectCase {
   #[serde(default)]
@@ -26,6 +27,19 @@ struct FtdetectCase {
 
   #[serde(default)]
   not_justfile: bool,
+}
+
+impl PartialEq for FtdetectCase {
+  fn eq(&self, other: &Self) -> bool {
+    self.filename == other.filename && self.content == other.content
+  }
+}
+
+impl Hash for FtdetectCase {
+  fn hash<H: Hasher>(&self, state: &mut H) {
+    self.filename.hash(state);
+    self.content.hash(state);
+  }
 }
 
 fn random_alnum(rng: &mut ThreadRng, minlen: u8, maxlen: u8) -> String {
@@ -59,7 +73,14 @@ fn _main() -> io::Result<()> {
   let mut passed = 0;
 
   let mut file2case = HashMap::<String, FtdetectCase>::with_capacity(total);
+  let mut unique = HashSet::<FtdetectCase>::with_capacity(total);
   for case in cases {
+    if !unique.insert(case.clone()) {
+      return Err(io::Error::new(
+        ErrorKind::Other,
+        format!("Duplicate or contradictory test case: {:?}", case),
+      ));
+    }
     let fname = match &case.filename {
       Some(n) => fuzz_filename(&mut rng, n.to_string()),
       None => random_alnum(&mut rng, 1, 16),
