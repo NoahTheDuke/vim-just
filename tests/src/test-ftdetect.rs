@@ -10,9 +10,10 @@ use rand::{
 use serde::Deserialize;
 use std::{
   collections::HashMap,
-  fs,
-  io::{self, ErrorKind},
+  fs::{self, File},
+  io::{self, prelude::*, ErrorKind},
 };
+use tempfile::TempDir;
 
 #[derive(Debug, Default, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -42,7 +43,7 @@ fn fuzz_filename(rng: &mut ThreadRng, filename: String) -> String {
 fn _main() -> io::Result<()> {
   let interrupted = setup_ctrlc_handler();
 
-  let tempdir = tempfile::tempdir().unwrap();
+  let mut tempdirs: Vec<TempDir> = vec![tempfile::tempdir().unwrap()];
 
   create_dotvim_symlink();
 
@@ -63,18 +64,29 @@ fn _main() -> io::Result<()> {
       Some(n) => fuzz_filename(&mut rng, n.to_string()),
       None => random_alnum(&mut rng, 1, 16),
     };
-    let actual_file = tempdir.path().join(fname);
-    fs::write(
-      &actual_file,
-      match &case.content {
-        Some(t) => t,
-        None => "",
-      },
-    )?;
+    let actual_file = tempdirs
+      .iter()
+      .find_map(|t| {
+        let pth = t.path().join(&fname);
+        if pth.exists() {
+          None
+        } else {
+          Some(pth)
+        }
+      })
+      .unwrap_or_else(|| {
+        tempdirs.push(tempfile::tempdir().unwrap());
+        tempdirs[tempdirs.len() - 1].path().join(&fname)
+      });
+    let mut testfile = File::create_new(&actual_file)?;
+    testfile.write_all(match &case.content {
+      Some(t) => t.as_bytes(),
+      None => b"",
+    })?;
     file2case.insert(actual_file.into_os_string().into_string().unwrap(), case);
   }
 
-  let ftdetect_results = tempdir.path().join("ftdetect_results.txt");
+  let ftdetect_results = tempdirs[0].path().join("ftdetect_results.txt");
 
   let mut args = vec!["-R", "-S", "batch_ftdetect_res.vim"];
   args.extend(file2case.keys().map(|s| s.as_str()));
