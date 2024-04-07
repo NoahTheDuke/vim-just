@@ -28,7 +28,7 @@ fn _main() -> io::Result<()> {
 
   let interrupted = setup_ctrlc_handler();
 
-  let tempdir = tempfile::tempdir().unwrap();
+  let tmpdir = tempdir().unwrap();
 
   let case_dir = Path::new("cases");
 
@@ -72,7 +72,7 @@ fn _main() -> io::Result<()> {
     .try_for_each(|case| -> io::Result<()> {
       let (name, case) = case;
 
-      let output = tempdir.path().join(format!("{}.output.html", name));
+      let output = tmpdir.path().join(format!("{}.output.html", name));
 
       let ts = Instant::now();
 
@@ -99,7 +99,8 @@ fn _main() -> io::Result<()> {
     })?;
 
   eprintln!(
-    "Vim total execution time: {}s.",
+    "{} total execution time: {}s.",
+    if *TEST_NVIM { "Neovim" } else { "Vim" },
     total_vim_time.load(Relaxed) as f64 / 1000.0
   );
 

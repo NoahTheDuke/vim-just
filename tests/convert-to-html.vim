@@ -1,6 +1,5 @@
 set nobackup               " don't save backup files
 set nowritebackup          " don't create backup files while editing
-set viminfofile=NONE       " don't create .viminfo files
 let g:html_no_progress = 1 " don't show a progress bar
 
 " define a color for every default syntax class
