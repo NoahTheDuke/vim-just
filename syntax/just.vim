@@ -217,7 +217,7 @@ syn keyword justBuiltInFunction
 syn match justUserDefinedError "\verror%(%(\s|\\\n)*\()@="
 
 syn match justReplaceRegex '\vreplace_regex%(\s|\\\n)*\(@=' transparent contains=justBuiltInFunction nextgroup=justReplaceRegexCall
-syn match justReplaceRegexInInterp '\vreplace_regex%(\s|\\\n)*\(@=' transparent contains=justBuiltInFunction nextgroup=justReplaceRegexCallInInterp
+syn match justReplaceRegexInInterp '\vreplace_regex%(\s|\\\n)*\(@=' transparent contained contains=justBuiltInFunction nextgroup=justReplaceRegexCallInInterp
 
 syn region justReplaceRegexCall
    \ matchgroup=justReplaceRegexCall

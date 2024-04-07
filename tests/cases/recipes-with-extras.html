@@ -3,6 +3,7 @@
 
 p1 <span class="Operator">:=</span> <span class="String">'test'</span>
 p2 <span class="Operator">:=</span> <span class="Function">canonicalize</span>(<span class="String">'..'</span>)
+pdirname <span class="Operator">:=</span> <span class="Function">replace_regex</span>(p2, <span class="String">'/([^/]*)$'</span>, <span class="String">'</span><span class="Constant">$1</span><span class="String">'</span>)
 param <span class="Operator">:=</span> <span class="Function">semver_matches</span>(<span class="String">'0.1.1'</span>, <span class="String">'&gt;=0.1.0'</span>)
 
 <span class="Special">@</span><span class="Function">foo1</span> <span class="Identifier">param1</span> <span class="Identifier">param2</span><span class="Operator">=</span><span class="String">"default test"</span> <span class="Statement">+</span><span class="Identifier">varparam</span><span class="Operator">=</span><span class="String">'default'</span><span class="Operator">:</span> <span class="Function">dependency1</span> <span class="Delimiter">(</span><span class="Function">dependency2</span> p1 p2<span class="Delimiter">)</span> <span class="Delimiter">(</span><span class="Function">dependency3</span> param<span class="Delimiter">)</span>
