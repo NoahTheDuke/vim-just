@@ -168,3 +168,8 @@ test12: \
 test13: a\
 
 	echo Test13
+
+continued_interpolation:
+	echo {{"foo " + \
+ f2 \
+ }}

@@ -99,3 +99,8 @@ argless-attribute2:
 ) ]
 argless-attribute3:
 	/bin/false
+
+invalid_multi_line_interp:
+	echo {{"foo" + \
+bar }}
+	echo this line is not part of the recipe body

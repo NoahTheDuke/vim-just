@@ -142,3 +142,12 @@ skip-all-whitespace-lines2:
 
   	
 	echo end
+
+triple-quoted-multiline-interp:
+	echo {{quote("""
+[package]
+name = "foo"
+edition = "2021"
+
+[dependencies]
+""")}} > {{quote(cache_directory() / 'Cargo.toml-' + valid_uuid)}}

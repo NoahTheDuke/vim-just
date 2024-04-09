@@ -180,14 +180,14 @@ syn match justLineContinuation "\\$" containedin=ALLBUT,justComment,justShebang,
 syn region justBody
    \ start=/\v^\z( +|\t+)%(#!)@!\S/
    \ skip='\v\\\n|\n\s*$'
-   \ end="\v\n\z1@!"
+   \ end="\v\n\z1@!|%(^\S)@2<=\_.@="
    \ contains=justInterpolation,@justOtherCurlyBraces,justLineLeadingSymbol,justLineContinuation,justComment,justStringInsideBody,justIndentError
    \ contained
 
 syn region justShebangBody
    \ start="\v^\z( +|\t+)#!"
    \ skip='\v\\\n|\n\s*$'
-   \ end="\v\n\z1@!"
+   \ end="\v\n\z1@!|%(^\S)@2<=\_.@="
    \ contains=justInterpolation,@justOtherCurlyBraces,justLineContinuation,justComment,justShebang,justStringInShebangBody,justShebangIndentError
    \ contained
 
@@ -198,7 +198,8 @@ syn match justShebangIndentError '\v^ +\zs\t\s*\S@='
 
 syn region justInterpolation
    \ matchgroup=justInterpolationDelim
-   \ start="\v%(^\z(\s+)@>.*)@<=\{\{\{@!" end="\v%(%(\\\n\z1|\S)\s*)@<=\}\}|$"
+   \ start="\v\{\{\{@!" end="\v%(%(\\\n\s|\S)\s*)@<=\}\}|$"
+   \ matchgroup=justInterpError end='^\S'
    \ contained
    \ contains=@justExprInInterp
 
@@ -289,6 +290,7 @@ hi def link justExport                Statement
 hi def link justFunction              Function
 hi def link justImportStatement       Include
 hi def link justIndentError           Error
+hi def link justInterpError           Error
 hi def link justInterpolation         Normal
 hi def link justInterpolationDelim    Delimiter
 hi def link justLineContinuation      Special
