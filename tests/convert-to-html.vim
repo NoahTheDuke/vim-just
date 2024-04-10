@@ -1,6 +1,6 @@
 set nobackup               " don't save backup files
 set nowritebackup          " don't create backup files while editing
-let g:html_no_progress = 1 " don't show a progress bar
+setlocal readonly          " no need to modify test case justfiles
 
 " define a color for every default syntax class
 hi Boolean        ctermfg=7*
@@ -39,11 +39,97 @@ hi Type           ctermfg=7*
 hi Typedef        ctermfg=7*
 hi Underlined     ctermfg=7*
 
-" convert justfile to HTML
-TOhtml
+" define a helper function to check whether a syntax group is cleared
+" This is so different between Vim and versions of Neovim that we need platform-specific variants.
+if exists("*hlget")
+  " Vim
+  function s:is_cleared(name)
+    let l:chr_hlget = hlget(a:name)
+    return len(l:chr_hlget) > 0 && l:chr_hlget[0]->has_key("cleared") && l:chr_hlget[0].cleared
+  endfunction
+elseif has("nvim") && exists("*nvim_get_hl")
+  " Neovim >= 0.9
+  function s:is_cleared(name)
+    return len(nvim_get_hl(0, {"name": a:name})) == 0
+  endfunction
+else
+  " old Neovim
+  " fallback to checking name
+  " this function is only ever passed canonical group name obtained from result of synIDtrans()
+  " so if we get a name starting with 'just' it's an unlinked implementation detail of vim-just
+  function s:is_cleared(name)
+    return luaeval('string.len(_A) > 4 and string.sub(_A, 1, 4) == "just"', a:name)
+  endfunction
+endif
 
-" write HTML to output
-w! $OUTPUT
+" convert justfile to HTML
+function s:html(winid)
+  let l:saved_wid = win_getid()
+  call win_gotoid(a:winid)
+
+  let l:output = ["<body>", "<pre id='vimCodeElement'>"]
+
+  let l:line_n = 1
+  let l:line_max = line('$')
+
+  while l:line_n <= l:line_max
+    let l:line = getline(l:line_n)
+    let l:last_name = ""
+    let l:line_html = ""
+
+    let l:chr_n = 0
+    let l:chr = l:line[l:chr_n]
+    let l:last_synid = hlID("cleared")
+    while !empty(l:chr)
+      let l:synid = synID(l:line_n, l:chr_n + 1, 1)
+      let l:name = synIDattr(synIDtrans(l:synid), "name")
+      if s:is_cleared(l:name)
+        let l:name = ""
+      endif
+
+      if l:synid != l:last_synid
+        if !empty(l:last_name)
+          let l:line_html .= '</span>'
+        endif
+        if !empty(l:name)
+          let l:line_html .= '<span class="' . l:name . '">'
+        endif
+      endif
+
+      if l:chr == '&'
+        let l:line_html .= '&amp;'
+      elseif l:chr == '<'
+        let l:line_html .= '&lt;'
+      elseif l:chr == '>'
+        let l:line_html .= '&gt;'
+      else
+        let l:line_html .= l:chr
+      endif
+
+      let l:last_name = l:name
+      let l:last_synid = l:synid
+
+      let l:chr_n += 1
+      let l:chr = l:line[l:chr_n]
+    endwhile
+
+    if !empty(l:last_name)
+      let l:line_html .= '</span>'
+    endif
+
+    call add(l:output, l:line_html)
+    let l:line_n += 1
+  endwhile
+
+  call extend(l:output, ["</pre>", "</body>"])
+
+  call win_gotoid(l:saved_wid)
+  return l:output
+endfunction
+
+" perform HTML conversion in a new buffer and write HTML to output
+let s:wid = win_getid()
+new | call append(0, s:html(s:wid)) | w! $OUTPUT
 
 " quit!
 qa!
