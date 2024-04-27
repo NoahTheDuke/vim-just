@@ -16,7 +16,7 @@ use std::{
 pub use tempfile::tempdir;
 use wait_timeout::ChildExt;
 
-static VIM_BIN: Lazy<OsString> = Lazy::new(|| {
+pub static VIM_BIN: Lazy<OsString> = Lazy::new(|| {
   let default_vim = OsString::from("vim");
   let v = env::var_os("TEST_VIM").unwrap_or(default_vim.clone());
   if v.is_empty() {
@@ -25,7 +25,7 @@ static VIM_BIN: Lazy<OsString> = Lazy::new(|| {
     v
   }
 });
-pub static TEST_NVIM: Lazy<bool> = Lazy::new(|| {
+static TEST_NVIM: Lazy<bool> = Lazy::new(|| {
   PathBuf::from(&*VIM_BIN)
     .file_stem()
     .unwrap()
@@ -105,7 +105,7 @@ pub fn run_vim(args: Vec<&str>, output: &PathBuf, interrupted: &Arc<AtomicBool>)
       ErrorKind::Other,
       format!(
         "{} failed with status: {}",
-        if *TEST_NVIM { "Neovim" } else { "Vim" },
+        &*VIM_BIN.to_string_lossy(),
         status
       ),
     ))

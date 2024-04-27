@@ -100,7 +100,7 @@ fn _main() -> io::Result<()> {
 
   eprintln!(
     "{} total execution time: {}s.",
-    if *TEST_NVIM { "Neovim" } else { "Vim" },
+    &*VIM_BIN.to_string_lossy(),
     total_vim_time.load(Relaxed) as f64 / 1000.0
   );
 
