@@ -96,13 +96,32 @@ $ just watch ftdetect run
 $ just watch run '^r.*s$'
 ```
 
+Unless otherwise specified, the test runner will run `vim` to perform the tests.
+To test with Neovim or an alternative Vim installation,
+the environment variable `TEST_VIM` can be set to the path of the executable:
+
+```bash
+# test Neovim
+export TEST_VIM=nvim
+
+# one-time run syntax highlighting tests with an alternative Vim executable
+TEST_VIM=/opt/vim91/bin/vim just run
+```
+
+Vim and Neovim require slightly different invocation.
+If the specified executable's
+[`file_stem`](https://doc.rust-lang.org/std/path/struct.Path.html#method.file_stem)
+contains "nvim", the test runner will treat it as Neovim.
+Otherwise, the test runner will treat it as Vim.
+
 ### How the tests work
 
 The test runners run Vim with a custom value of the `HOME` environment variable
-and create a symlink such that the repository root directory is `~/.vim` to invoked Vim instances.
+and create a symlink such that the repository root directory is `~/.vim` to invoked Vim instances,
+or `${XDG_CONFIG_HOME}/nvim` to invoked Neovim instances.
 
 For each `*.just` file in `tests/cases/`, the syntax highlighting test runner opens it in Vim,
-runs a Vim script that executes `:TOhtml`,
+runs a Vim script to create HTML representation of the effective highlighting,
 normalizes the result, and compares it to the corresponding .html file.
 If they don't match, the diff will be printed.
 They're effectively "snapshot" tests: at this stage of the syntax files,
