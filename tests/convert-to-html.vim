@@ -1,6 +1,7 @@
 set nobackup               " don't save backup files
 set nowritebackup          " don't create backup files while editing
 setlocal readonly          " no need to modify test case justfiles
+set nofixeol               " don't add or remove trailing newlines
 
 " define a color for every default syntax class
 hi Boolean        ctermfg=7*
@@ -67,7 +68,9 @@ function s:html(winid)
   let l:saved_wid = win_getid()
   call win_gotoid(a:winid)
 
-  let l:output = ["<body>", "<pre id='vimCodeElement'>"]
+  let l:has_eol = &eol
+
+  let l:output = []
 
   let l:line_n = 1
   let l:line_max = line('$')
@@ -121,7 +124,9 @@ function s:html(winid)
     let l:line_n += 1
   endwhile
 
-  call extend(l:output, ["</pre>", "</body>"])
+  if l:has_eol
+    call add(l:output, "")
+  endif
 
   call win_gotoid(l:saved_wid)
   return l:output
@@ -129,7 +134,7 @@ endfunction
 
 " perform HTML conversion in a new buffer and write HTML to output
 let s:wid = win_getid()
-new | call append(0, s:html(s:wid)) | w! $OUTPUT
+new | set noeol | call append(1, s:html(s:wid)) | 1d | w! $OUTPUT
 
 " quit!
 qa!

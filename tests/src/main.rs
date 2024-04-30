@@ -85,14 +85,7 @@ fn _main() -> io::Result<()> {
       let vim_time = ts.elapsed().as_millis() as u64;
       total_vim_time.fetch_add(vim_time, Relaxed);
 
-      let mut html = fs::read_to_string(&output)?;
-      html.truncate(html.rfind("</pre>").unwrap());
-      html = html
-        .split_once("\n<pre id='vimCodeElement'>\n")
-        .unwrap()
-        .1
-        .replace("&quot;", "\"");
-
+      let html = fs::read_to_string(&output)?;
       res.lock().unwrap().insert(name.to_owned(), html);
 
       Ok(())
