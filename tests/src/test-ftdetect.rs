@@ -57,7 +57,7 @@ fn fuzz_filename(rng: &mut ThreadRng, filename: String) -> String {
 fn _main() -> io::Result<()> {
   let interrupted = setup_ctrlc_handler();
 
-  let mut tempdirs: Vec<TempDir> = vec![tempfile::tempdir().unwrap()];
+  let mut tempdirs: Vec<TempDir> = vec![tempdir().unwrap()];
 
   create_dotvim_symlink();
 
@@ -96,7 +96,7 @@ fn _main() -> io::Result<()> {
         }
       })
       .unwrap_or_else(|| {
-        tempdirs.push(tempfile::tempdir().unwrap());
+        tempdirs.push(tempdir().unwrap());
         tempdirs[tempdirs.len() - 1].path().join(&fname)
       });
     let mut testfile = File::create_new(&actual_file)?;
