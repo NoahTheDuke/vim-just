@@ -12,7 +12,7 @@ use std::{
   collections::{HashMap, HashSet},
   fs::{self, File},
   hash::{Hash, Hasher},
-  io::{self, prelude::*, ErrorKind},
+  io::{self, prelude::*},
 };
 use tempfile::TempDir;
 
@@ -66,7 +66,7 @@ fn _main() -> io::Result<()> {
   let cases = fs::read_to_string("cases/ftdetect.yml")?;
   let cases = match serde_yaml::from_str::<Vec<FtdetectCase>>(cases.as_str()) {
     Ok(o) => o,
-    Err(e) => return Err(io::Error::new(ErrorKind::Other, e)),
+    Err(e) => return Err(io::Error::other(e)),
   };
 
   let total = cases.len();
@@ -76,10 +76,10 @@ fn _main() -> io::Result<()> {
   let mut unique = HashSet::<FtdetectCase>::with_capacity(total);
   for case in cases {
     if !unique.insert(case.clone()) {
-      return Err(io::Error::new(
-        ErrorKind::Other,
-        format!("Duplicate or contradictory test case: {:?}", case),
-      ));
+      return Err(io::Error::other(format!(
+        "Duplicate or contradictory test case: {:?}",
+        case
+      )));
     }
     let fname = match &case.filename {
       Some(n) => fuzz_filename(&mut rng, n.to_string()),
@@ -123,13 +123,13 @@ fn _main() -> io::Result<()> {
       let filetype = match line.split_once("filetype=") {
         Some((_, ft)) => ft,
         None => {
-          return Err(io::Error::new(
-            ErrorKind::Other,
-            format!("expected to find \"filetype=\" in line: {:?}", line),
-          ))
+          return Err(io::Error::other(format!(
+            "expected to find \"filetype=\" in line: {:?}",
+            line
+          )));
         }
       };
-      let case = file2case.get(current_key).unwrap();
+      let case = &file2case[current_key];
       if (filetype == "just" && !case.not_justfile) || (case.not_justfile && filetype != "just") {
         passed += 1;
       } else {
@@ -148,10 +148,11 @@ fn _main() -> io::Result<()> {
     eprintln!("[\u{2713}] {0}/{0} ftdetect tests passed.", total);
     Ok(())
   } else {
-    Err(io::Error::new(
-      ErrorKind::Other,
-      format!("{}/{} tests failed.", total - passed, total),
-    ))
+    Err(io::Error::other(format!(
+      "{}/{} tests failed.",
+      total - passed,
+      total
+    )))
   }
 }
 

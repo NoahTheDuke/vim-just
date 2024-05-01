@@ -106,7 +106,7 @@ fn _main() -> io::Result<()> {
 
     eprintln!("test {}…", name);
 
-    let output = res.get(name).unwrap();
+    let output = &res[name];
 
     let expected = case_dir.join(format!("{}.html", name));
 
@@ -160,10 +160,11 @@ fn _main() -> io::Result<()> {
   if passed == cases {
     Ok(())
   } else {
-    Err(io::Error::new(
-      ErrorKind::Other,
-      format!("{}/{} tests failed.", cases - passed, cases),
-    ))
+    Err(io::Error::other(format!(
+      "{}/{} tests failed.",
+      cases - passed,
+      cases
+    )))
   }
 }
 

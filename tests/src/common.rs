@@ -101,13 +101,10 @@ pub fn run_vim(args: Vec<&str>, output: &PathBuf, interrupted: &Arc<AtomicBool>)
   if status.success() {
     Ok(())
   } else {
-    Err(io::Error::new(
-      ErrorKind::Other,
-      format!(
-        "{} failed with status: {}",
-        &*VIM_BIN.to_string_lossy(),
-        status
-      ),
-    ))
+    Err(io::Error::other(format!(
+      "{} failed with status: {}",
+      &*VIM_BIN.to_string_lossy(),
+      status
+    )))
   }
 }
