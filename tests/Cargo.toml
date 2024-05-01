@@ -9,6 +9,9 @@ default-run = "tests"
 name = "test-ftdetect"
 path = "src/test-ftdetect.rs"
 
+[lints.clippy]
+get_unwrap = "warn"
+
 [dependencies]
 clap         = { version = "4.5.4", features = ["derive"] }
 ctrlc        = "3.4.4"
