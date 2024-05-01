@@ -37,8 +37,13 @@ syn region justString start=/"""/ skip=/\\\\\|\\"/ end=/"""/ contains=justLineCo
 syn cluster justStringLiterals contains=justRawString,justString
 syn cluster justAllStrings contains=justBacktick,justRawString,justString
 
-syn match justRegexReplacement /\v,%(\_s|\\\n)*%('\_[^']*'|'''%(\_.%(''')@!)*\_.?''')%(\_s|\\\n)*\)/me=e-1 transparent contained contains=@justExpr,@justStringsWithRegexCapture
-syn match justRegexReplacement /\v,%(\_s|\\\n)*%("%(\_[^"]|\\")*"|"""%(\_.%(""")@!)*\_.?""")%(\_s|\\\n)*\)/me=e-1 transparent contained contains=@justExpr,@justStringsWithRegexCapture
+syn match justRegexReplacement
+   \ /\v,%(\_s|\\\n)*%('\_[^']*'|'''%(\_.%(''')@!)*\_.?''')%(\_s|\\\n)*%(,%(\_s|\\\n)*)?\)/me=e-1
+   \ transparent contained contains=@justExpr,@justStringsWithRegexCapture
+syn match justRegexReplacement
+   \ /\v,%(\_s|\\\n)*%("%(\_[^"]|\\")*"|"""%(\_.%(""")@!)*\_.?""")%(\_s|\\\n)*%(,%(\_s|\\\n)*)?\)/me=e-1
+   \ transparent contained contains=@justExpr,@justStringsWithRegexCapture
+
 syn region justRawStrRegexRepl start=/\v'/ end=/'/ contained contains=justRegexCapture
 syn region justRawStrRegexRepl start=/\v'''/ end=/'''/ contained contains=justRegexCapture
 syn region justStringRegexRepl start=/\v"/ skip=/\\\\\|\\"/ end=/"/ contained contains=justLineContinuation,justStringEscapeSequence,justRegexCapture

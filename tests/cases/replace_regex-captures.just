@@ -32,6 +32,18 @@ foo7 := replace_regex("Some text.", '([^a-z])', '$$1')
 foo8 := replace_regex("test123", '\w(\d+)', '''
   \t'$1''')
 
+foo9 := replace_regex("trailing comma is accepted after the final argument,",
+  "(\\W+)", \
+  "${1}_$1",
+)
+
+foo10 := replace_regex("_abcdef",
+  '(\w)[a-z]+', \
+
+  '${1}'
+  , \
+)
+
 not_a_replacement := 'test $1 test '
 not_a_replacement_2 := "test $Abc_ test"
 

@@ -32,6 +32,18 @@ foo7 <span class="Operator">:=</span> <span class="Function">replace_regex</span
 foo8 <span class="Operator">:=</span> <span class="Function">replace_regex</span>(<span class="String">"test123"</span>, <span class="String">'\w(\d+)'</span>, <span class="String">'''</span>
 <span class="String">  \t'</span><span class="Constant">$1</span><span class="String">'''</span>)
 
+foo9 <span class="Operator">:=</span> <span class="Function">replace_regex</span>(<span class="String">"trailing comma is accepted after the final argument,"</span>,
+  <span class="String">"(</span><span class="Special">\\</span><span class="String">W+)"</span>, <span class="Special">\</span>
+  <span class="String">"</span><span class="Constant">${1}</span><span class="String">_</span><span class="Constant">$1</span><span class="String">"</span>,
+)
+
+foo10 <span class="Operator">:=</span> <span class="Function">replace_regex</span>(<span class="String">"_abcdef"</span>,
+  <span class="String">'(\w)[a-z]+'</span>, <span class="Special">\</span>
+
+  <span class="String">'</span><span class="Constant">${1}</span><span class="String">'</span>
+  , <span class="Special">\</span>
+)
+
 not_a_replacement <span class="Operator">:=</span> <span class="String">'test $1 test '</span>
 not_a_replacement_2 <span class="Operator">:=</span> <span class="String">"test $Abc_ test"</span>
 
