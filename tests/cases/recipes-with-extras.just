@@ -104,3 +104,7 @@ loud:
 
 hex_digits_all:
 	echo {{HEXUPPER + replace_regex(HEXLOWER, '\d+', "")}}
+
+[confirm(x"Run this recipe in $PWD ?")]
+confirm_shell_expanded:
+	echo {{x"Running in $PWD"}}
