@@ -30,6 +30,7 @@ import sys\nprint(sys.argv[1:])
 prefix'''
 ]
 set shell:=['bash',"-c"]
+set shell := [x"$SHELL"]
 
 set windows-shell:=["powershell.exe", "-NoLogo", "-Command"]
 
@@ -46,6 +47,7 @@ set tempdir := """
 set tempdir:="/tmp"
 set tempdir:= "/tmp"
 set tempdir :='/tmp'
+set tempdir := x'${XDG_CACHE_HOME:-/tmp}'
 
 set dotenv-filename := "mydotenv"
 set dotenv-path := '/tmp/dotenv'

@@ -161,7 +161,7 @@ syn match justBooleanSet "\v^set%(\s|\\\n)+%(allow-duplicate-%(recip|variabl)es|
    \ contains=justSet,justSetKeywords,justSetDeprecatedKeywords,justAssignmentOperator,justBoolean
    \ transparent
 
-syn match justStringSet '\v^set%(\s|\\\n)+\k+%(\s|\\\n)*:\=%(\s|\\\n)*%(['"])@=' transparent contains=justSet,justSetKeywords,justAssignmentOperator
+syn match justStringSet '\v^set%(\s|\\\n)+\k+%(\s|\\\n)*:\=%(\s|\\\n)*%(x?['"])@=' transparent contains=justSet,justSetKeywords,justAssignmentOperator
 
 syn match justShellSet
    \ "\v^set%(\s|\\\n)+%(windows-)?shell%(\s|\\\n)*:\=%(\s|\\\n)*\[@="
@@ -173,7 +173,7 @@ syn region justShellSetValue
    \ contained
    \ contains=@justStringLiterals,justShellSetError
 
-syn match justShellSetError '\v\k+' contained
+syn match justShellSetError '\v\k+['"]@!' contained
 
 syn match justAlias '\v^alias' contained
 syn match justAliasDecl "\v^alias%(\s|\\\n)+\h\k*%(\s|\\\n)*:\=%(\s|\\\n)*"
