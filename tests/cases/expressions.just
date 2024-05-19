@@ -11,3 +11,21 @@ random1 := choose('10', HEXLOWER + replace_regex(HEXUPPER, '\d+', ''))
 example_url := 'https://foo.example/?parameter=' + encode_uri_component(
   prepend('/', append('/', 'foo bar baz ' + HEX))
 )
+
+shell_expanded1 := x'$SHELL -c '
+shell_expanded2 := x"${SHELL:-/bin/sh} -c "
+shell_expanded3 := x'''
+  $_'''
+shell_expanded4 := x"""
+  ${FOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO:-foo\r\n
+  bar
+     baz}
+  $DIS\
+  PLAY
+  Foo
+"""
+shell_expanded5 := x'''
+  ${FOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO:-foo\r\n
+  bar
+     baz}
+'''

@@ -34,8 +34,20 @@ syn region justRawString start=/'''/ end=/'''/
 syn region justString start=/"/ skip=/\\\\\|\\"/ end=/"/ contains=justLineContinuation,justStringEscapeSequence
 syn region justString start=/"""/ skip=/\\\\\|\\"/ end=/"""/ contains=justLineContinuation,justStringEscapeSequence
 
-syn cluster justStringLiterals contains=justRawString,justString
-syn cluster justAllStrings contains=justBacktick,justRawString,justString
+syn region justShellExpandRawString start=/x'/ end=/'/
+   \ contains=justShellExpandVarRaw
+syn region justShellExpandRawString start=/x'''/ end=/'''/
+   \ contains=justShellExpandVarRaw
+syn region justShellExpandString
+   \ start=/x"/ skip=/\\\\\|\\"/ end=/"/
+   \ contains=justLineContinuation,justStringEscapeSequence,justShellExpandVar
+syn region justShellExpandString
+   \ start=/x"""/ skip=/\\\\\|\\"/ end=/"""/
+   \ contains=justLineContinuation,justStringEscapeSequence,justShellExpandVar
+
+syn cluster justStringLiterals
+   \ contains=justRawString,justString,justShellExpandRawString,justShellExpandString
+syn cluster justAllStrings contains=justBacktick,@justStringLiterals
 
 syn match justRegexReplacement
    \ /\v,%(\_s|\\\n)*%('\_[^']*'|'''%(\_.%(''')@!)*\_.?''')%(\_s|\\\n)*%(,%(\_s|\\\n)*)?\)/me=e-1
@@ -253,6 +265,13 @@ syn match justOperator "\V/"
 syn keyword justConstant
    \ HEX HEXLOWER HEXUPPER
 
+syn match justShellExpandVarRaw '\v\$%(\{\_[^}]*\}|\w+)' contained contains=justShellExpandRawDefault
+syn match justShellExpandRawDefault '\V:-' contained nextgroup=justShellExpandRawDefaultValue
+syn match justShellExpandRawDefaultValue '\v\_[^}]*' contained
+syn match justShellExpandVar '\v\$%(\{\_[^}]*\}|%(\w|\\\n\s*)+)' contained contains=justShellExpandDefault,justLineContinuation,justStringEscapeSequence
+syn match justShellExpandDefault '\V:-' contained nextgroup=justShellExpandDefaultValue
+syn match justShellExpandDefaultValue '\v\_[^}]*' contained contains=justLineContinuation,justStringEscapeSequence
+
 syn cluster justExprBase contains=@justAllStrings,@justBuiltInFunctions,justConditional,justOperator,justConstant
 syn cluster justExpr contains=@justExprBase,justExprParen,justConditionalBraces,justReplaceRegex
 syn cluster justExprInInterp contains=@justExprBase,justName,justExprParenInInterp,justConditionalBracesInInterp,justReplaceRegexInInterp
@@ -329,6 +348,14 @@ hi def link justSetKeywords           Keyword
 hi def link justShebang               SpecialComment
 hi def link justShebangBody           Number
 hi def link justShebangIndentError    Error
+hi def link justShellExpandDefault    Operator
+hi def link justShellExpandDefaultValue Character
+hi def link justShellExpandRawDefault Operator
+hi def link justShellExpandRawDefaultValue Character
+hi def link justShellExpandRawString  String
+hi def link justShellExpandString     String
+hi def link justShellExpandVar        PreProc
+hi def link justShellExpandVarRaw     PreProc
 hi def link justShellSetError         Error
 hi def link justString                String
 hi def link justStringEscapeSequence  Special

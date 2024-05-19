@@ -11,3 +11,21 @@ random1 <span class="Operator">:=</span> <span class="Function">choose</span>(<s
 example_url <span class="Operator">:=</span> <span class="String">'https://foo.example/?parameter='</span> <span class="Operator">+</span> <span class="Function">encode_uri_component</span>(
   <span class="Function">prepend</span>(<span class="String">'/'</span>, <span class="Function">append</span>(<span class="String">'/'</span>, <span class="String">'foo bar baz '</span> <span class="Operator">+</span> <span class="Constant">HEX</span>))
 )
+
+shell_expanded1 <span class="Operator">:=</span> <span class="String">x'</span><span class="PreProc">$SHELL</span><span class="String"> -c '</span>
+shell_expanded2 <span class="Operator">:=</span> <span class="String">x"</span><span class="PreProc">${SHELL</span><span class="Operator">:-</span><span class="Character">/bin/sh</span><span class="PreProc">}</span><span class="String"> -c "</span>
+shell_expanded3 <span class="Operator">:=</span> <span class="String">x'''</span>
+<span class="String">  </span><span class="PreProc">$_</span><span class="String">'''</span>
+shell_expanded4 <span class="Operator">:=</span> <span class="String">x"""</span>
+<span class="String">  </span><span class="PreProc">${FOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</span><span class="Operator">:-</span><span class="Character">foo</span><span class="Special">\r\n</span>
+<span class="Character">  bar</span>
+<span class="Character">     baz</span><span class="PreProc">}</span>
+<span class="String">  </span><span class="PreProc">$DIS</span><span class="Special">\</span>
+<span class="PreProc">  PLAY</span>
+<span class="String">  Foo</span>
+<span class="String">"""</span>
+shell_expanded5 <span class="Operator">:=</span> <span class="String">x'''</span>
+<span class="String">  </span><span class="PreProc">${FOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO</span><span class="Operator">:-</span><span class="Character">foo\r\n</span>
+<span class="Character">  bar</span>
+<span class="Character">     baz</span><span class="PreProc">}</span>
+<span class="String">'''</span>
