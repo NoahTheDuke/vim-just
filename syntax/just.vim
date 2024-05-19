@@ -250,7 +250,10 @@ syn match justOperator "\V=~"
 syn match justOperator "\V+"
 syn match justOperator "\V/"
 
-syn cluster justExprBase contains=@justAllStrings,@justBuiltInFunctions,justConditional,justOperator
+syn keyword justConstant
+   \ HEX HEXLOWER HEXUPPER
+
+syn cluster justExprBase contains=@justAllStrings,@justBuiltInFunctions,justConditional,justOperator,justConstant
 syn cluster justExpr contains=@justExprBase,justExprParen,justConditionalBraces,justReplaceRegex
 syn cluster justExprInInterp contains=@justExprBase,justName,justExprParenInInterp,justConditionalBracesInInterp,justReplaceRegexInInterp
 
@@ -290,6 +293,7 @@ hi def link justBuiltInFunction       Function
 hi def link justComment               Comment
 hi def link justCommentTodo           Todo
 hi def link justConditional           Conditional
+hi def link justConstant              Constant
 hi def link justCurlyBraces           Special
 hi def link justExport                Statement
 hi def link justFunction              Function
