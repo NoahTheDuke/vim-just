@@ -232,7 +232,7 @@ syn keyword justBuiltInFunction
    \ absolute_path append arch blake3 blake3_file cache_directory canonicalize capitalize choose clean config_directory config_local_directory data_directory data_local_directory encode_uri_component env env_var env_var_or_default executable_directory extension file_name file_stem home_directory invocation_directory invocation_directory_native join just_executable justfile justfile_directory just_pid kebabcase lowercamelcase lowercase num_cpus os os_family parent_directory path_exists prepend quote replace replace_regex semver_matches sha256 sha256_file shoutykebabcase shoutysnakecase snakecase titlecase trim trim_end trim_end_match trim_end_matches trim_start trim_start_match trim_start_matches uppercamelcase uppercase uuid without_extension
    \ contained
 
-syn match justUserDefinedError "\verror%(%(\s|\\\n)*\()@="
+syn match justUserDefinedError "\v%(assert|error)%(%(\s|\\\n)*\()@="
 
 syn match justReplaceRegex '\vreplace_regex%(\s|\\\n)*\(@=' transparent contains=justBuiltInFunction nextgroup=justReplaceRegexCall
 syn match justReplaceRegexInInterp '\vreplace_regex%(\s|\\\n)*\(@=' transparent contained contains=justBuiltInFunction nextgroup=justReplaceRegexCallInInterp

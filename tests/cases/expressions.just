@@ -29,3 +29,5 @@ shell_expanded5 := x'''
   bar
      baz}
 '''
+
+_true := assert('1' != '0', '1 is not 0')
