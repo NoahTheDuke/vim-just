@@ -7,28 +7,30 @@ test_cases := justfile_directory() / 'tests/cases'
 @_default:
 	{{justq}} --list
 
-synpreview_rtp := '-c ' + \
-  quote("let &runtimepath=\"" + justfile_directory() + ",\" . &runtimepath") + \
-  " -c 'filetype detect'"
-
 # preview JUSTFILE in Vim with syntax file from this repository
 [no-cd]
-preview JUSTFILE='':
-	vim {{synpreview_rtp}} \
-	  {{if JUSTFILE == '' { '-c "set filetype=just"' } else if path_exists(test_cases / JUSTFILE + '.just') == 'true' { quote(test_cases / JUSTFILE + '.just') } else { quote(JUSTFILE) } }}
+preview JUSTFILE='': (_preview_common 'vim' JUSTFILE)
 
 # preview JUSTFILE in GVim with syntax file from this repository
 [no-cd]
-gpreview JUSTFILE='':
-	gvim -f {{synpreview_rtp}} \
-	  {{if JUSTFILE == '' { '-c "set filetype=just"' } else if path_exists(test_cases / JUSTFILE + '.just') == 'true' { quote(test_cases / JUSTFILE + '.just') } else { quote(JUSTFILE) } }}
+gpreview JUSTFILE='': (_preview_common 'gvim -f' JUSTFILE)
 
 # preview JUSTFILE in Neovim with syntax file from this repository
 [no-cd]
-npreview JUSTFILE='':
-	nvim {{synpreview_rtp}} \
-	  -c 'syntax on' \
-	  {{if JUSTFILE == '' { '-c "set filetype=just"' } else if path_exists(test_cases / JUSTFILE + '.just') == 'true' { quote(test_cases / JUSTFILE + '.just') } else { quote(JUSTFILE) } }}
+npreview JUSTFILE='': (_preview_common 'nvim' JUSTFILE)
+
+[no-cd]
+_preview_common vimcmd JUSTFILE:
+	{{vimcmd}} \
+	  -c {{quote("let &runtimepath=\"" + justfile_directory() + ",\" . &runtimepath")}} \
+	  -c {{quote("runtime ftdetect/just.vim")}} \
+	  {{if JUSTFILE == '' { '-c "set filetype=just"' } \
+	    else { \
+	      "-c " + quote('edit ' + \
+	      if path_exists(test_cases / JUSTFILE + '.just') == 'true' { \
+	        test_cases / JUSTFILE + '.just' \
+	      } else { JUSTFILE }) \
+	    } }}
 
 
 update-last-changed *force:
