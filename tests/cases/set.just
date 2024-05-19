@@ -1,3 +1,7 @@
+set allow-duplicate-variables
+set allow-duplicate-variables := true
+set allow-duplicate-variables := false
+
 set dotenv-load
 set dotenv-load := true
 set dotenv-load := false

@@ -43,6 +43,17 @@ update-last-changed *force:
 	  sed --in-place -E -e "s/(^\"\s*Last\s+Change:\s+).+$/\\1${lastchange}/g" "$f"
 	done
 
+just_boolean_settings := """
+  allow-duplicate-recipes
+  allow-duplicate-variables
+  dotenv-load
+  export
+  fallback
+  ignore-comments
+  positional-arguments
+  quiet
+  windows-powershell
+"""
 
 # generate an optimized Vim-style "very magic" regex snippet from a list of literal strings to match
 optrx +strings:
