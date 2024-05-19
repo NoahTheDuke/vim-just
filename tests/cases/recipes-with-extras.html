@@ -101,3 +101,6 @@ somevar <span class="Operator">:=</span> <span class="String">"1"</span>
 <span class="Type">[no-quiet]</span>
 <span class="Function">loud</span><span class="Operator">:</span>
 <span class="Number">	echo LOUD</span>
+
+<span class="Function">hex_digits_all</span><span class="Operator">:</span>
+<span class="Number">	echo </span><span class="Delimiter">{{</span><span class="Constant">HEXUPPER</span><span class="Normal"> </span><span class="Operator">+</span><span class="Normal"> </span><span class="Function">replace_regex</span>(<span class="Constant">HEXLOWER</span><span class="Normal">, </span><span class="String">'\d+'</span><span class="Normal">, </span><span class="String">""</span>)<span class="Delimiter">}}</span>

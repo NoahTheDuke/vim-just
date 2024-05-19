@@ -101,3 +101,6 @@ interp_with_conditional foo:
 [no-quiet]
 loud:
 	echo LOUD
+
+hex_digits_all:
+	echo {{HEXUPPER + replace_regex(HEXLOWER, '\d+', "")}}

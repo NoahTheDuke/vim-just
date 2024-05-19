@@ -1,0 +1,13 @@
+xdg_cache <span class="Operator">:=</span> <span class="Function">cache_directory</span>()
+xdg_config <span class="Operator">:=</span> <span class="Function">config_directory</span>()
+xdg_config_local <span class="Operator">:=</span> <span class="Function">config_local_directory</span>()
+xdg_data <span class="Operator">:=</span> <span class="Function">data_directory</span>()
+xdg_data_local <span class="Operator">:=</span> <span class="Function">data_local_directory</span>()
+xdg_executable <span class="Operator">:=</span> <span class="Function">executable_directory</span>()
+xdg_home <span class="Operator">:=</span> <span class="Function">home_directory</span>()
+
+random1 <span class="Operator">:=</span> <span class="Function">choose</span>(<span class="String">'10'</span>, <span class="Constant">HEXLOWER</span> <span class="Operator">+</span> <span class="Function">replace_regex</span>(<span class="Constant">HEXUPPER</span>, <span class="String">'\d+'</span>, <span class="String">''</span>))
+
+example_url <span class="Operator">:=</span> <span class="String">'https://foo.example/?parameter='</span> <span class="Operator">+</span> <span class="Function">encode_uri_component</span>(
+  <span class="Function">prepend</span>(<span class="String">'/'</span>, <span class="Function">append</span>(<span class="String">'/'</span>, <span class="String">'foo bar baz '</span> <span class="Operator">+</span> <span class="Constant">HEX</span>))
+)

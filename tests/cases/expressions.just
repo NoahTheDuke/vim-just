@@ -5,3 +5,9 @@ xdg_data := data_directory()
 xdg_data_local := data_local_directory()
 xdg_executable := executable_directory()
 xdg_home := home_directory()
+
+random1 := choose('10', HEXLOWER + replace_regex(HEXUPPER, '\d+', ''))
+
+example_url := 'https://foo.example/?parameter=' + encode_uri_component(
+  prepend('/', append('/', 'foo bar baz ' + HEX))
+)
