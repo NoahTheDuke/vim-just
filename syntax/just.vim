@@ -341,7 +341,7 @@ hi def link justRecipeAttrSep                    Operator
 hi def link justRecipeColon                      Operator
 hi def link justRecipeDepParamsParen             Delimiter
 hi def link justRecipeSubsequentDeps             Operator
-hi def link justRegexCapture                     Constant
+hi def link justRegexCapture                     Identifier
 hi def link justSet                              Statement
 hi def link justSetDeprecatedKeywords            Underlined
 hi def link justSetKeywords                      Keyword

@@ -36,7 +36,7 @@ this_justfile <span class="Operator">:=</span> <span class="Function">justfile</
 not_a_uuid_anymore <span class="Operator">:=</span> <span class="Function">replace_regex</span>  (
     <span class="Function">uuid</span>	(
   ), <span class="String">'-4([0-9A-Fa-f]{3})-'</span>
-, <span class="String">'_9</span><span class="Constant">${1}</span><span class="String">_'</span>
+, <span class="String">'_9</span><span class="Identifier">${1}</span><span class="String">_'</span>
 )
 
 conditional_without_indent <span class="Operator">:=</span> <span class="Conditional">if</span> <span class="Function">env</span>(<span class="String">'SHELL'</span>) <span class="Operator">==</span> <span class="String">'/bin/bash'</span> {

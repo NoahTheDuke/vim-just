@@ -45,7 +45,7 @@ f3 <span class="Operator">:=</span> <span class="Function">replace_regex</span> 
 ( <span class="Special">\</span>
   <span class="String">"FOOoo"</span>,
   <span class="String">"([A-Z])[A-Z]+([^A-Z])"</span>, <span class="Special">\</span>
-  <span class="String">"</span><span class="Constant">$1${2}</span><span class="String">"</span>
+  <span class="String">"</span><span class="Identifier">$1${2}</span><span class="String">"</span>
 <span class="Special">\</span>
 )
 
@@ -140,7 +140,7 @@ foo <span class="Special">\</span>
 <span class="Operator">=</span><span class="Special">\</span>
 <span class="Function">replace_regex</span>(<span class="Function">uuid</span>(),
 <span class="Special">\</span>
-<span class="String">'^(.+)$'</span>, <span class="String">"</span><span class="Special">\"\\\"</span><span class="Constant">$1</span><span class="Special">\\\"\"</span><span class="String">"</span>) <span class="Identifier">param3</span><span class="Operator">=</span> <span class="Special">\</span>
+<span class="String">'^(.+)$'</span>, <span class="String">"</span><span class="Special">\"\\\"</span><span class="Identifier">$1</span><span class="Special">\\\"\"</span><span class="String">"</span>) <span class="Identifier">param3</span><span class="Operator">=</span> <span class="Special">\</span>
   <span class="Function">env</span><span class="Special">\</span>
     (<span class="String">'BAR'</span>,
 
