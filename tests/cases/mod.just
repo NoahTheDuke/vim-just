@@ -11,3 +11,6 @@ mod _foo-Foo \
 mod? foo
 
 mod ? foo 'foo/justfile'
+
+mod foo x'$FOO/justfile'
+mod? foo x"$FOO/justfile"

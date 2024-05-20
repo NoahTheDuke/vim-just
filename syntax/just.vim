@@ -278,13 +278,13 @@ syn cluster justExprInInterp contains=@justExprBase,justName,justExprParenInInte
 
 syn cluster justExprFunc contains=@justBuiltInFunctions,justReplaceRegex,justExprParen
 
-syn match justImport /\v^import%(%(\s|\\\n)*\?|%(\s|\\\n)+['"]@=)/ transparent
+syn match justImport /\v^import%(%(\s|\\\n)*\?|%(\s|\\\n)+%(x?['"])@=)/ transparent
    \ contains=justImportStatement,justOptionalFile
 syn match justImportStatement '^import' contained
 
 syn match justOldInclude "^!include"
 
-syn match justModule /\v^mod%(%(\s|\\\n)*\?)?%(\s|\\\n)+\h\k*\s*%($|%(\s|\\\n)+['"]@=)/
+syn match justModule /\v^mod%(%(\s|\\\n)*\?)?%(\s|\\\n)+\h\k*\s*%($|%(\s|\\\n)+%(x?['"])@=)/
    \ transparent contains=justModStatement,justName,justOptionalFile
 syn match justModStatement '^mod' contained
 
