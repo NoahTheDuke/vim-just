@@ -151,3 +151,6 @@ edition = "2021"
 
 [dependencies]
 """)}} > {{quote(cache_directory() / 'Cargo.toml-' + valid_uuid)}}
+
+not-shell-expanded-string fix: (functions2 fix'$HOME')
+not-shell-expanded-string2 _-x: (functions2 _-x"$HOME")

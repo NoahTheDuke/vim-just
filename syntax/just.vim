@@ -34,15 +34,15 @@ syn region justRawString start=/'''/ end=/'''/
 syn region justString start=/"/ skip=/\\\\\|\\"/ end=/"/ contains=justLineContinuation,justStringEscapeSequence
 syn region justString start=/"""/ skip=/\\\\\|\\"/ end=/"""/ contains=justLineContinuation,justStringEscapeSequence
 
-syn region justShellExpandRawString start=/x'/ end=/'/
+syn region justShellExpandRawString start=/\v\k@1<!x'/ end=/'/
    \ contains=justShellExpandVarRaw
-syn region justShellExpandRawString start=/x'''/ end=/'''/
+syn region justShellExpandRawString start=/\v\k@1<!x'''/ end=/'''/
    \ contains=justShellExpandVarRaw
 syn region justShellExpandString
-   \ start=/x"/ skip=/\\\\\|\\"/ end=/"/
+   \ start=/\v\k@1<!x"/ skip=/\\\\\|\\"/ end=/"/
    \ contains=justLineContinuation,justStringEscapeSequence,justShellExpandVar
 syn region justShellExpandString
-   \ start=/x"""/ skip=/\\\\\|\\"/ end=/"""/
+   \ start=/\v\k@1<!x"""/ skip=/\\\\\|\\"/ end=/"""/
    \ contains=justLineContinuation,justStringEscapeSequence,justShellExpandVar
 
 syn cluster justStringLiterals
