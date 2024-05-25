@@ -108,3 +108,19 @@ hex_digits_all:
 [confirm(x"Run this recipe in $PWD ?")]
 confirm_shell_expanded:
 	echo {{x"Running in $PWD"}}
+
+[group('foo group')]
+grouped1:
+	echo 'grouped'
+
+# An undocumented recipe
+[doc]
+not_documented:
+	echo foo
+
+[doc('''
+  A very documented recipe.
+  This documentation comment spans multiple lines.
+''')]
+long_doc:
+	echo foo foo
