@@ -33,3 +33,5 @@ shell_expanded5 := x'''
 _true := assert('1' != '0', '1 is not 0')
 
 shell_command := shell('echo "$@"', _true, random1)
+
+this_source := source_directory() + "\n -> " + source_file()
