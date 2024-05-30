@@ -4,7 +4,7 @@
 -- URL:		https://github.com/NoahTheDuke/vim-just.git
 -- Last Change:	2024 May 29
 
-if vim.fn.has("nvim-0.10") then
+if vim.fn.has("nvim-0.8") then
   vim.filetype.add({
     extension = {
       -- Disable extension-based detection of *.just justfiles.
