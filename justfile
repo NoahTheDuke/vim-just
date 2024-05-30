@@ -23,7 +23,7 @@ npreview JUSTFILE='': (_preview_common 'nvim' JUSTFILE)
 _preview_common vimcmd JUSTFILE:
 	{{vimcmd}} \
 	  -c {{quote("let &runtimepath=\"" + justfile_directory() + ",\" . &runtimepath")}} \
-	  -c {{quote("runtime ftdetect/just.vim")}} \
+	  -c {{quote('runtime ftdetect/just.vim | if has("nvim") | runtime ftdetect/just.lua | endif')}} \
 	  {{if JUSTFILE == '' { '-c "set filetype=just"' } \
 	    else { \
 	      "-c " + quote('edit ' + \
