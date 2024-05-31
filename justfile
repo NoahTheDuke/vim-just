@@ -35,14 +35,14 @@ _preview_common vimcmd JUSTFILE:
 
 update-last-changed *force:
 	#!/bin/bash
-	for f in $(find * -name just.vim);do
+	for f in $(find * -name just.vim -o -name just.lua);do
 	  gitrev="$(git log -n 1 --format='format:%H' -- "$f")"
 	  if [[ {{quote(force)}} != *"$f"* ]];then
-	    git show "$gitrev" | grep -q -P -i '^\+"\s*Last\s+Change:' && continue
+	    git show "$gitrev" | grep -q -P -i '^\+\S+\s*Last\s+Change:' && continue
 	  fi
 	  lastchange="$(git show -s "$gitrev" --format='%cd' --date='format:%Y %b %d')"
 	  echo -e "$f -> Last Change: $lastchange"
-	  sed --in-place -E -e "s/(^\"\s*Last\s+Change:\s+).+$/\\1${lastchange}/g" "$f"
+	  sed --in-place -E -e "s/(^\\S+\\s*Last\\s+Change:\\s+).+$/\\1${lastchange}/g" "$f"
 	done
 
 just_boolean_settings := """
