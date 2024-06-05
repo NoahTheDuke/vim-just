@@ -49,6 +49,7 @@ just_boolean_settings := """
   allow-duplicate-recipes
   allow-duplicate-variables
   dotenv-load
+  dotenv-required
   export
   fallback
   ignore-comments

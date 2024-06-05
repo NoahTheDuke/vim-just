@@ -51,3 +51,7 @@ set tempdir := x'${XDG_CACHE_HOME:-/tmp}'
 
 set dotenv-filename := "mydotenv"
 set dotenv-path := '/tmp/dotenv'
+
+set dotenv-required
+set dotenv-required := true
+set dotenv-required := false
