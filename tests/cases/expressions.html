@@ -35,3 +35,4 @@ _true <span class="Operator">:=</span> <span class="Exception">assert</span>(<sp
 shell_command <span class="Operator">:=</span> <span class="Function">shell</span>(<span class="String">'echo "$@"'</span>, _true, random1)
 
 this_source <span class="Operator">:=</span> <span class="Function">source_directory</span>() <span class="Operator">+</span> <span class="String">"</span><span class="Special">\n</span><span class="String"> -&gt; "</span> <span class="Operator">+</span> <span class="Function">source_file</span>()
+current_module <span class="Operator">:=</span> <span class="Function">module_directory</span>() <span class="Operator">+</span> <span class="String">"</span><span class="Special">\n</span><span class="String"> -&gt; "</span> <span class="Operator">+</span> <span class="Function">module_file</span>()
