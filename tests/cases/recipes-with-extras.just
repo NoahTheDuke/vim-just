@@ -25,6 +25,11 @@ dependency2 firstparam=("abc\t" / 'def\t\"') secondparam=("""
 dependency3 theparam=('a' + (if env_var_or_default('FOO', blake3_file(justfile())) == '1' { ' With Foo'} else { ' none ' + p1 / p2 }) / 'b'):
   echo {{quote(theparam)}}
 
+dependency4:
+	echo 'Is Dependency:' {{is_dependency()}}
+
+test_dependency4: dependency4
+
 test4: (dependency2 "123"
         + '456')
   echo Test
@@ -124,3 +129,7 @@ not_documented:
 ''')]
 long_doc:
 	echo foo foo
+
+[positional-arguments]
+positional *args:
+	echo "$@"

@@ -25,6 +25,11 @@ param <span class="Operator">:=</span> <span class="Function">semver_matches</sp
 <span class="Function">dependency3</span> <span class="Identifier">theparam</span><span class="Operator">=</span><span class="Delimiter">(</span><span class="String">'a'</span> <span class="Operator">+</span> (<span class="Conditional">if</span> <span class="Function">env_var_or_default</span>(<span class="String">'FOO'</span>, <span class="Function">blake3_file</span>(<span class="Function">justfile</span>())) <span class="Operator">==</span> <span class="String">'1'</span> { <span class="String">' With Foo'</span>} <span class="Conditional">else</span> { <span class="String">' none '</span> <span class="Operator">+</span> p1 <span class="Operator">/</span> p2 }) <span class="Operator">/</span> <span class="String">'b'</span><span class="Delimiter">)</span><span class="Operator">:</span>
 <span class="Number">  echo </span><span class="Delimiter">{{</span><span class="Function">quote</span><span class="Normal">(</span><span class="Identifier">theparam</span><span class="Normal">)</span><span class="Delimiter">}}</span>
 
+<span class="Function">dependency4</span><span class="Operator">:</span>
+<span class="Number">	echo </span><span class="String">'Is Dependency:'</span><span class="Number"> </span><span class="Delimiter">{{</span><span class="Function">is_dependency</span><span class="Normal">()</span><span class="Delimiter">}}</span>
+
+<span class="Function">test_dependency4</span><span class="Operator">:</span> <span class="Function">dependency4</span>
+
 <span class="Function">test4</span><span class="Operator">:</span> <span class="Delimiter">(</span><span class="Function">dependency2</span> <span class="String">"123"</span>
         <span class="Operator">+</span> <span class="String">'456'</span><span class="Delimiter">)</span>
 <span class="Number">  echo Test</span>
@@ -124,3 +129,7 @@ somevar <span class="Operator">:=</span> <span class="String">"1"</span>
 <span class="String">'''</span><span class="Type">)]</span>
 <span class="Function">long_doc</span><span class="Operator">:</span>
 <span class="Number">	echo foo foo</span>
+
+<span class="Type">[positional-arguments]</span>
+<span class="Function">positional</span> <span class="Statement">*</span><span class="Identifier">args</span><span class="Operator">:</span>
+<span class="Number">	echo </span><span class="String">"$@"</span>
