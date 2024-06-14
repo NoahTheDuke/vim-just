@@ -44,6 +44,8 @@ foo10 := replace_regex("_abcdef",
   , \
 )
 
+foo11 := replace_regex(HEX, '\d+', "$$$$1")
+
 not_a_replacement := 'test $1 test '
 not_a_replacement_2 := "test $Abc_ test"
 

@@ -29,6 +29,7 @@ shell_expanded5 := x'''
   bar
      baz}
 '''
+shell_expanded6 := x'$$$$not_an_env_var $$$${also_not_an_env_var}'
 
 _true := assert('1' != '0', '1 is not 0')
 

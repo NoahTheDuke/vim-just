@@ -44,6 +44,8 @@ foo10 <span class="Operator">:=</span> <span class="Function">replace_regex</spa
   , <span class="Special">\</span>
 )
 
+foo11 <span class="Operator">:=</span> <span class="Function">replace_regex</span>(<span class="Constant">HEX</span>, <span class="String">'\d+'</span>, <span class="String">"</span><span class="Special">$$$$</span><span class="String">1"</span>)
+
 not_a_replacement <span class="Operator">:=</span> <span class="String">'test $1 test '</span>
 not_a_replacement_2 <span class="Operator">:=</span> <span class="String">"test $Abc_ test"</span>
 
