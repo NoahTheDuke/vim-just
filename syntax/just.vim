@@ -192,6 +192,9 @@ syn match justExportedAssignment "\v^export%(\s|\\\n)+\h\k*\s*:\=" transparent
 
 syn match justExport '\v^export' contained
 
+syn match justUnexportStatement '\v^unexport%(\s|\\\n)+\w+\s*$' contains=justUnexport
+syn match justUnexport '\v^unexport' contained
+
 syn keyword justConditional if else
 syn region justConditionalBraces start="\v\{\{@!" end="\v\}@=" transparent contains=@justExpr
 syn region justConditionalBracesInInterp start="\v\{\{@!" end="\v\}@=" transparent contained contains=@justExprInInterp
@@ -372,6 +375,7 @@ hi def link justStringEscapeSequence             Special
 hi def link justStringInShebangBody              String
 hi def link justStringInsideBody                 String
 hi def link justStringRegexRepl                  String
+hi def link justUnexport                         Statement
 hi def link justUserDefinedError                 Exception
 hi def link justVariadicPrefix                   Statement
 hi def link justVariadicPrefixError              Error

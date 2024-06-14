@@ -37,3 +37,5 @@ shell_command := shell('echo "$@"', _true, random1)
 
 this_source := source_directory() + "\n -> " + source_file()
 current_module := module_directory() + "\n -> " + module_file()
+
+unexport QT_QPA_PLATFORMTHEME
