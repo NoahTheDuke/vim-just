@@ -82,12 +82,15 @@ syn match justRecipeColon ":" contained
 
 syn region justRecipeAttributes
    \ matchgroup=justRecipeAttr start='\v^%(\\\n)@3<!\[' end='\V]'
-   \ contains=justRecipeAttr,justRecipeAttrSep,justRecipeAttrArgs,justRecipeAttrArgError
+   \ contains=justRecipeAttr,justRecipeAttrSep,justRecipeAttrArgs,justRecipeAttrArgError,justRecipeAttrValueShort
 
 syn keyword justRecipeAttr
    \ confirm doc group linux macos no-cd no-exit-message no-quiet positional-arguments private unix windows
    \ contained
 syn match justRecipeAttrSep ',' contained
+syn match justRecipeAttrValueShort '\v:%(\_s|\\\n)*' transparent contained
+   \ contains=justRecipeAttrValueColon nextgroup=@justStringLiterals
+syn match justRecipeAttrValueColon '\V:' contained
 syn region justRecipeAttrArgs matchgroup=justRecipeAttr start='\V(' end='\V)' contained
    \ contains=@justStringLiterals
 syn match justRecipeAttrArgError '\v\(%(\s|\\?\n)*\)' contained
@@ -338,6 +341,7 @@ hi def link justRecipeAt                         Special
 hi def link justRecipeAttr                       Type
 hi def link justRecipeAttrArgError               Error
 hi def link justRecipeAttrSep                    Operator
+hi def link justRecipeAttrValueColon             Operator
 hi def link justRecipeColon                      Operator
 hi def link justRecipeDepParamsParen             Delimiter
 hi def link justRecipeSubsequentDeps             Operator

@@ -133,3 +133,22 @@ long_doc:
 [positional-arguments]
 positional *args:
 	echo "$@"
+
+[group: 'foo group']
+attr-colon1:
+	echo foo
+
+[group  :  \
+  \
+ "foo group"
+]
+attr-colon2:
+	echo foo
+
+[
+  doc:
+    "Documentation",
+
+  group:'foo group' ]
+attr-colon3:
+	echo foo
