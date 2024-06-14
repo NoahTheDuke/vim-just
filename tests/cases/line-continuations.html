@@ -50,16 +50,16 @@ f3 <span class="Operator">:=</span> <span class="Function">replace_regex</span> 
 )
 
 <span class="Function">test</span><span class="Operator">:</span> <span class="Function">a</span> <span class="Special">\</span>
-	<span class="Function">b</span>
-<span class="Number">	echo </span><span class="String">'123'</span>
+&Tab;<span class="Function">b</span>
+<span class="Number">&Tab;echo </span><span class="String">'123'</span>
 
 <span class="Function">a</span><span class="Operator">:</span>
-<span class="Number">	echo </span><span class="String">'A'</span>
+<span class="Number">&Tab;echo </span><span class="String">'A'</span>
 <span class="Function">b</span><span class="Operator">:</span>
-<span class="Number">	echo </span><span class="String">'B'</span>
+<span class="Number">&Tab;echo </span><span class="String">'B'</span>
 <span class="Function">c</span><span class="Operator">:</span>
-<span class="Number">	echo </span><span class="String">'C'</span>
-<span class="Number">	</span><span class="Comment"># ignored line</span>
+<span class="Number">&Tab;echo </span><span class="String">'C'</span>
+<span class="Number">&Tab;</span><span class="Comment"># ignored line</span>
 
 <span class="Function">test2</span> <span class="Special">\</span>
     <span class="Identifier">param1</span><span class="Operator">=</span><span class="String">"foo"</span> <span class="Identifier">param2</span> <span class="Special">\</span>
@@ -75,33 +75,33 @@ f3 <span class="Operator">:=</span> <span class="Function">replace_regex</span> 
   <span class="Identifier">param4</span> <span class="Special">\</span>
 <span class="Operator">=</span> <span class="Special">\</span>
 f1 <span class="Operator">:</span>
-<span class="Number">	echo </span><span class="Delimiter">{{</span><span class="Identifier">param1</span><span class="Delimiter">}}</span><span class="Number"> </span><span class="Delimiter">{{</span><span class="Identifier">param2</span><span class="Delimiter">}}</span><span class="Number"> </span><span class="Delimiter">{{</span><span class="Identifier">param3</span><span class="Delimiter">}}</span><span class="Number"> </span><span class="Delimiter">{{</span><span class="Identifier">param4</span><span class="Delimiter">}}</span>
+<span class="Number">&Tab;echo </span><span class="Delimiter">{{</span><span class="Identifier">param1</span><span class="Delimiter">}}</span><span class="Number"> </span><span class="Delimiter">{{</span><span class="Identifier">param2</span><span class="Delimiter">}}</span><span class="Number"> </span><span class="Delimiter">{{</span><span class="Identifier">param3</span><span class="Delimiter">}}</span><span class="Number"> </span><span class="Delimiter">{{</span><span class="Identifier">param4</span><span class="Delimiter">}}</span>
 
 <span class="Function">test3</span><span class="Operator">:</span> <span class="Special">\</span>
-	<span class="Function">a</span> <span class="Function">b</span> <span class="Special">\</span>
-	<span class="Function">c</span> <span class="Comment">#comment \</span>
+&Tab;<span class="Function">a</span> <span class="Function">b</span> <span class="Special">\</span>
+&Tab;<span class="Function">c</span> <span class="Comment">#comment \</span>
 <span class="Number">  echo d</span>
 <span class="Number">  echo </span><span class="String">'Test 3'</span>
 
 <span class="Function">test4</span> <span class="Special">\</span>
-	<span class="Statement">+</span><span class="Statement">$</span><span class="Identifier">PARAM</span><span class="Operator">=</span><span class="String">'1'</span><span class="Operator">:</span> <span class="Function">test</span> <span class="Special">\</span>
-	<span class="Delimiter">(</span> <span class="Special">\</span>
-	  <span class="Function">test2</span> <span class="Special">\</span>
-	  <span class="String">'bar'</span>
-	
-	<span class="Delimiter">)</span>
-<span class="Number">	env | grep -F PARAM</span>
+&Tab;<span class="Statement">+</span><span class="Statement">$</span><span class="Identifier">PARAM</span><span class="Operator">=</span><span class="String">'1'</span><span class="Operator">:</span> <span class="Function">test</span> <span class="Special">\</span>
+&Tab;<span class="Delimiter">(</span> <span class="Special">\</span>
+&Tab;  <span class="Function">test2</span> <span class="Special">\</span>
+&Tab;  <span class="String">'bar'</span>
+&Tab;
+&Tab;<span class="Delimiter">)</span>
+<span class="Number">&Tab;env | grep -F PARAM</span>
 
 <span class="Function">test5</span><span class="Operator">:</span> <span class="Function">a</span> <span class="Special">\</span>
-	<span class="Special">\</span>
-	<span class="Special">\</span>
-	<span class="Special">\</span>
-	<span class="Function">b</span>
-<span class="Number">	echo </span><span class="String">'Test5'</span>
+&Tab;<span class="Special">\</span>
+&Tab;<span class="Special">\</span>
+&Tab;<span class="Special">\</span>
+&Tab;<span class="Function">b</span>
+<span class="Number">&Tab;echo </span><span class="String">'Test5'</span>
 
 <span class="Function">test6</span><span class="Operator">:</span> <span class="Function">a</span><span class="Special">\</span>
 <span class="Function">b</span>
-<span class="Number">	echo </span><span class="String">'Test6'</span>
+<span class="Number">&Tab;echo </span><span class="String">'Test6'</span>
 
 <span class="Comment"># the trailing space after the closing ] is intentional</span>
 <span class="Type">[</span><span class="Special">\</span>
@@ -110,7 +110,7 @@ f1 <span class="Operator">:</span>
 <span class="Operator">,</span> <span class="Type">unix</span> <span class="Special">\</span>
    <span class="Type">]</span> 
 <span class="Function">test7</span><span class="Operator">:</span>
-<span class="Number">	pwd</span>
+<span class="Number">&Tab;pwd</span>
 
 <span class="Statement">alias</span><span class="Special">\</span>
 <span class="Function">runpwd</span><span class="Special">\</span>
@@ -123,9 +123,9 @@ foo <span class="Special">\</span>
 <span class="Operator">=</span> <span class="Special">\</span>
 <span class="Delimiter">(</span> f1 <span class="Operator">+</span> <span class="String">'X'</span> <span class="Operator">+</span> f2<span class="Delimiter">)</span> <span class="Special">\</span>
 <span class="Operator">:</span>
-<span class="Number">	echo </span><span class="Delimiter">{{</span><span class="Normal"> </span><span class="Special">\</span>
-<span class="Normal">	  </span><span class="Identifier">param1</span><span class="Normal"> </span><span class="Special">\</span>
-<span class="Normal">	</span><span class="Delimiter">}}</span>
+<span class="Number">&Tab;echo </span><span class="Delimiter">{{</span><span class="Normal"> </span><span class="Special">\</span>
+<span class="Normal">&Tab;  </span><span class="Identifier">param1</span><span class="Normal"> </span><span class="Special">\</span>
+<span class="Normal">&Tab;</span><span class="Delimiter">}}</span>
 
 <span class="Function">test9</span><span class="Operator">:</span>
 <span class="Number">  echo </span><span class="Delimiter">{{</span><span class="Special">\</span>
@@ -153,23 +153,23 @@ foo <span class="Special">\</span>
 
 )<span class="Operator">:</span>  <span class="Special">\</span>
 <span class="Comment"># comment \</span>
-<span class="Number">	echo </span><span class="Delimiter">{{</span><span class="Identifier">param1</span><span class="Special">\</span>
-<span class="Normal">	  </span><span class="Operator">/</span><span class="Normal"> </span><span class="Identifier">param2</span><span class="Normal"> </span><span class="Delimiter">}}</span>
-<span class="Number">	echo .</span>
+<span class="Number">&Tab;echo </span><span class="Delimiter">{{</span><span class="Identifier">param1</span><span class="Special">\</span>
+<span class="Normal">&Tab;  </span><span class="Operator">/</span><span class="Normal"> </span><span class="Identifier">param2</span><span class="Normal"> </span><span class="Delimiter">}}</span>
+<span class="Number">&Tab;echo .</span>
 
 <span class="Function">test11</span><span class="Operator">:</span> <span class="Function">a</span> <span class="Special">\</span>
 <span class="Comment"># comment\</span>
-<span class="Number">	echo Test 11</span>
+<span class="Number">&Tab;echo Test 11</span>
 
 <span class="Function">test12</span><span class="Operator">:</span> <span class="Special">\</span>
 
-<span class="Number">	echo Test 12</span>
+<span class="Number">&Tab;echo Test 12</span>
 
 <span class="Function">test13</span><span class="Operator">:</span> <span class="Function">a</span><span class="Special">\</span>
 
-<span class="Number">	echo Test13</span>
+<span class="Number">&Tab;echo Test13</span>
 
 <span class="Function">continued_interpolation</span><span class="Operator">:</span>
-<span class="Number">	echo </span><span class="Delimiter">{{</span><span class="String">"foo "</span><span class="Normal"> </span><span class="Operator">+</span><span class="Normal"> </span><span class="Special">\</span>
+<span class="Number">&Tab;echo </span><span class="Delimiter">{{</span><span class="String">"foo "</span><span class="Normal"> </span><span class="Operator">+</span><span class="Normal"> </span><span class="Special">\</span>
 <span class="Normal"> </span><span class="Identifier">f2</span><span class="Normal"> </span><span class="Special">\</span>
 <span class="Normal"> </span><span class="Delimiter">}}</span>

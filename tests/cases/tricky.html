@@ -1,12 +1,12 @@
 <span class="Comment"># This recipe is at the start of this file because `just` inserts extra lines to make shebang script line numbers match the corresponding justfile line numbers.</span>
 <span class="Function">skip-all-whitespace-lines-shebang</span><span class="Operator">:</span>
-<span class="Number">	</span><span class="SpecialComment">#!/bin/bash</span>
+<span class="Number">&Tab;</span><span class="SpecialComment">#!/bin/bash</span>
 
 <span class="Number">  </span>
-<span class="Number"> 	</span>
-<span class="Number">	echo -e -n </span><span class="String">'\033[1;47;30m'</span>
-<span class="Number">	cat </span><span class="String">"$0"</span>
-<span class="Number">	echo -e -n </span><span class="String">'\033[0m'</span>
+<span class="Number"> &Tab;</span>
+<span class="Number">&Tab;echo -e -n </span><span class="String">'\033[1;47;30m'</span>
+<span class="Number">&Tab;cat </span><span class="String">"$0"</span>
+<span class="Number">&Tab;echo -e -n </span><span class="String">'\033[0m'</span>
 
 raw <span class="Operator">:=</span> <span class="String">'''</span>
 <span class="String">  it's two lines \</span>
@@ -29,12 +29,12 @@ other_export <span class="Operator">:=</span> <span class="String">'1'</span>
 
 valid_uuid <span class="Operator">:=</span> <span class="Function">uuid</span>( )
 
-this_justfile <span class="Operator">:=</span> <span class="Function">justfile</span>	 ( 
+this_justfile <span class="Operator">:=</span> <span class="Function">justfile</span>&Tab; ( 
 
   )
 
 not_a_uuid_anymore <span class="Operator">:=</span> <span class="Function">replace_regex</span>  (
-    <span class="Function">uuid</span>	(
+    <span class="Function">uuid</span>&Tab;(
   ), <span class="String">'-4([0-9A-Fa-f]{3})-'</span>
 , <span class="String">'_9</span><span class="Identifier">${1}</span><span class="String">_'</span>
 )
@@ -48,77 +48,77 @@ valid_uuid <span class="Operator">+</span> testing
 )
 
 <span class="Function">back2back_interpolations</span><span class="Operator">:</span>
-<span class="Number">	echo </span><span class="Delimiter">{{</span><span class="Identifier">something</span><span class="Delimiter">}}{{</span><span class="Identifier">testing</span><span class="Delimiter">}}</span>
+<span class="Number">&Tab;echo </span><span class="Delimiter">{{</span><span class="Identifier">something</span><span class="Delimiter">}}{{</span><span class="Identifier">testing</span><span class="Delimiter">}}</span>
 
 <span class="Function">interp_immediately_after_string</span><span class="Operator">:</span>
-<span class="Number">	</span><span class="SpecialComment">#!/usr/bin/env python3</span>
-<span class="Number">	print(</span><span class="String">''</span><span class="Delimiter">{{</span><span class="Function">quote</span><span class="Normal">(</span><span class="Identifier">something</span><span class="Normal">)</span><span class="Delimiter">}}</span><span class="String">''</span><span class="Number">.split(</span><span class="String">"T"</span><span class="Number">))</span>
+<span class="Number">&Tab;</span><span class="SpecialComment">#!/usr/bin/env python3</span>
+<span class="Number">&Tab;print(</span><span class="String">''</span><span class="Delimiter">{{</span><span class="Function">quote</span><span class="Normal">(</span><span class="Identifier">something</span><span class="Normal">)</span><span class="Delimiter">}}</span><span class="String">''</span><span class="Number">.split(</span><span class="String">"T"</span><span class="Number">))</span>
 
 <span class="Function">curly_braces_3</span><span class="Operator">:</span>
-<span class="Number">	echo </span><span class="String">'Four </span><span class="Special">{{{{{{{{</span><span class="Delimiter">{{</span><span class="String">"""</span><span class="Special">\</span>
+<span class="Number">&Tab;echo </span><span class="String">'Four </span><span class="Special">{{{{{{{{</span><span class="Delimiter">{{</span><span class="String">"""</span><span class="Special">\</span>
 <span class="String">Opening """</span><span class="Normal"> </span><span class="Operator">+</span><span class="Normal"> </span><span class="String">'Curly '</span><span class="Normal"> </span><span class="Operator">+</span><span class="Normal"> </span><span class="String">"Braces"</span><span class="Delimiter">}}</span><span class="String">!'</span>
-<span class="Number">	echo }}</span>
+<span class="Number">&Tab;echo }}</span>
 
 <span class="Function">line_continuation</span><span class="Operator">:</span>
-<span class="Number">	echo </span><span class="String">'This starts with tabs </span><span class="Special">\</span>
-<span class="String">	  but continues with tabs and spaces'</span>
-<span class="Number">	echo 123 456 </span><span class="Special">\</span>
-<span class="Number">	  789</span>
+<span class="Number">&Tab;echo </span><span class="String">'This starts with tabs </span><span class="Special">\</span>
+<span class="String">&Tab;  but continues with tabs and spaces'</span>
+<span class="Number">&Tab;echo 123 456 </span><span class="Special">\</span>
+<span class="Number">&Tab;  789</span>
 
 <span class="Function">line_continuation2</span><span class="Operator">:</span>
 <span class="Number">  echo </span><span class="String">"This starts with spaces </span><span class="Special">\</span>
-<span class="String">  	but continues with spaces and tabs"</span>
+<span class="String">  &Tab;but continues with spaces and tabs"</span>
 <span class="Number">  echo 987 654 </span><span class="Special">\</span>
-<span class="Number">  	321</span>
+<span class="Number">  &Tab;321</span>
 
 <span class="Function">mismatched_but_escaped_quotes</span><span class="Operator">:</span>
-<span class="Number">	echo it\'s a single apostrophe</span>
-<span class="Number">	echo </span><span class="String">"\"single escaped quote"</span>
-<span class="Number">	echo </span><span class="String">"string \\"</span><span class="Number"> ended there</span>
+<span class="Number">&Tab;echo it\'s a single apostrophe</span>
+<span class="Number">&Tab;echo </span><span class="String">"\"single escaped quote"</span>
+<span class="Number">&Tab;echo </span><span class="String">"string \\"</span><span class="Number"> ended there</span>
 
 <span class="Function">shebang_mixed_indentation</span><span class="Operator">:</span>
-<span class="Number">	</span><span class="SpecialComment">#!/usr/bin/env python3</span>
-<span class="Number">	if True:</span>
-<span class="Number">	  print(</span><span class="String">'tab indent followed by spaces is allowed in shebang recipe'</span><span class="Number">)</span>
+<span class="Number">&Tab;</span><span class="SpecialComment">#!/usr/bin/env python3</span>
+<span class="Number">&Tab;if True:</span>
+<span class="Number">&Tab;  print(</span><span class="String">'tab indent followed by spaces is allowed in shebang recipe'</span><span class="Number">)</span>
 
 <span class="Function">shebang_recipes_dont_do_line_prefixes</span><span class="Operator">:</span>
-<span class="Number">	</span><span class="SpecialComment">#!/bin/bash</span>
-<span class="Number">	@foo</span>
+<span class="Number">&Tab;</span><span class="SpecialComment">#!/bin/bash</span>
+<span class="Number">&Tab;@foo</span>
 
 <span class="Function">multiline-non-paren-final-param</span> <span class="Identifier">param0</span><span class="Operator">=</span>valid_uuid <span class="Statement">*</span><span class="Statement">$</span><span class="Identifier">PARAM</span><span class="Operator">=</span><span class="String">"""</span>
 <span class="String">  foo</span>
 
 <span class="String">"""</span><span class="Operator">:</span>
-<span class="Number">	echo </span><span class="Delimiter">{{</span><span class="Identifier">param0</span><span class="Delimiter">}}</span>
-<span class="Number">	env | grep -F PARAM</span>
+<span class="Number">&Tab;echo </span><span class="Delimiter">{{</span><span class="Identifier">param0</span><span class="Delimiter">}}</span>
+<span class="Number">&Tab;env | grep -F PARAM</span>
 
 <span class="Function">immediate-comment</span><span class="Operator">:</span><span class="Comment">#this is valid</span>
-<span class="Number">	echo comment</span>
+<span class="Number">&Tab;echo comment</span>
 
-<span class="Function">spaced_params</span> <span class="Identifier">param1</span>  <span class="Operator">=</span>  valid_uuid  <span class="Statement">*</span> <span class="Identifier">param2</span>	<span class="Operator">=</span>	<span class="String">"x"</span> <span class="Operator">:</span>
-<span class="Number">	echo </span><span class="Delimiter">{{</span><span class="Identifier">param1</span><span class="Delimiter">}}</span><span class="Number"> </span><span class="Delimiter">{{</span><span class="Identifier">param2</span><span class="Delimiter">}}</span>
+<span class="Function">spaced_params</span> <span class="Identifier">param1</span>  <span class="Operator">=</span>  valid_uuid  <span class="Statement">*</span> <span class="Identifier">param2</span>&Tab;<span class="Operator">=</span>&Tab;<span class="String">"x"</span> <span class="Operator">:</span>
+<span class="Number">&Tab;echo </span><span class="Delimiter">{{</span><span class="Identifier">param1</span><span class="Delimiter">}}</span><span class="Number"> </span><span class="Delimiter">{{</span><span class="Identifier">param2</span><span class="Delimiter">}}</span>
 
 <span class="Function">spaced_params2</span> <span class="Identifier">param1</span>  <span class="Operator">=</span>  valid_uuid  <span class="Statement">+</span> <span class="Statement">$</span> <span class="Identifier">ENV_PARAM2</span>  <span class="Operator">=</span> <span class="String">'exported environment variable value'</span><span class="Operator">:</span>
-<span class="Number">	echo </span><span class="Delimiter">{{</span><span class="Identifier">param1</span><span class="Delimiter">}}</span>
-<span class="Number">	env | grep -F PARAM2</span>
+<span class="Number">&Tab;echo </span><span class="Delimiter">{{</span><span class="Identifier">param1</span><span class="Delimiter">}}</span>
+<span class="Number">&Tab;env | grep -F PARAM2</span>
 
 <span class="Function">spaced_paren_param</span> <span class="Identifier">param1</span> <span class="Operator">=</span> <span class="Delimiter">(</span>valid_uuid <span class="Operator">+</span> valid_uuid<span class="Delimiter">)</span><span class="Operator">:</span>
-<span class="Number">	echo </span><span class="Delimiter">{{</span><span class="Identifier">param1</span><span class="Delimiter">}}</span>
+<span class="Number">&Tab;echo </span><span class="Delimiter">{{</span><span class="Identifier">param1</span><span class="Delimiter">}}</span>
 
 <span class="Function">spaced_paren_param2</span> <span class="Identifier">param</span><span class="Operator">=</span><span class="Delimiter">(</span>valid_uuid <span class="Delimiter">)</span> <span class="Operator">:</span>
-<span class="Number">	echo </span><span class="Delimiter">{{</span><span class="Identifier">param</span><span class="Delimiter">}}</span>
+<span class="Number">&Tab;echo </span><span class="Delimiter">{{</span><span class="Identifier">param</span><span class="Delimiter">}}</span>
 
 <span class="Function">invoke</span> <span class="Identifier">shell</span><span class="Operator">:</span>
-<span class="Number">	</span><span class="Delimiter">{{</span><span class="Identifier">shell</span><span class="Delimiter">}}</span>
+<span class="Number">&Tab;</span><span class="Delimiter">{{</span><span class="Identifier">shell</span><span class="Delimiter">}}</span>
 
 <span class="Function">multi</span> <span class="Identifier">count</span><span class="Operator">=</span><span class="Function">num_cpus</span>()<span class="Operator">:</span>
-<span class="Number">	seq -s </span><span class="String">' '</span><span class="Number"> 1 </span><span class="Delimiter">{{</span><span class="Identifier">count</span><span class="Delimiter">}}</span>
+<span class="Number">&Tab;seq -s </span><span class="String">' '</span><span class="Number"> 1 </span><span class="Delimiter">{{</span><span class="Identifier">count</span><span class="Delimiter">}}</span>
 
 <span class="Function">functions2</span> <span class="Identifier">cpus</span> <span class="Operator">=</span> <span class="Function">num_cpus</span>() <span class="Identifier">foo</span> <span class="Operator">=</span> <span class="Function">env</span>(<span class="String">'FOO'</span>, <span class="Function">just_pid</span>()) <span class="Operator">:</span>
-<span class="Number">	echo </span><span class="String">'</span><span class="Delimiter">{{</span><span class="Identifier">foo</span><span class="Delimiter">}}</span><span class="String">:x</span><span class="Delimiter">{{</span><span class="Identifier">cpus</span><span class="Delimiter">}}</span><span class="String">'</span>
+<span class="Number">&Tab;echo </span><span class="String">'</span><span class="Delimiter">{{</span><span class="Identifier">foo</span><span class="Delimiter">}}</span><span class="String">:x</span><span class="Delimiter">{{</span><span class="Identifier">cpus</span><span class="Delimiter">}}</span><span class="String">'</span>
 
 <span class="Function">env_test_export</span><span class="Operator">:</span>
-<span class="Number">	env | grep -F -i export</span>
+<span class="Number">&Tab;env | grep -F -i export</span>
 <span class="Statement">alias</span> <span class="Function">printenv</span><span class="Operator">:=</span><span class="Function">env_test_export</span>
 
 <span class="Function">parenthesized_dep_param</span><span class="Operator">:</span> <span class="Delimiter">(</span><span class="Function">multi</span> (<span class="String">'1'</span> <span class="Operator">+</span> <span class="String">'0'</span>)<span class="Delimiter">)</span>
@@ -137,14 +137,14 @@ valid_uuid <span class="Operator">+</span> testing
 <span class="Number">    echo </span><span class="String">'222'</span>
 
 <span class="Function">skip-all-whitespace-lines2</span><span class="Operator">:</span>
-<span class="Number">	echo start</span>
-<span class="Number">	</span>
+<span class="Number">&Tab;echo start</span>
+<span class="Number">&Tab;</span>
 
-<span class="Number">  	</span>
-<span class="Number">	echo end</span>
+<span class="Number">  &Tab;</span>
+<span class="Number">&Tab;echo end</span>
 
 <span class="Function">triple-quoted-multiline-interp</span><span class="Operator">:</span>
-<span class="Number">	echo </span><span class="Delimiter">{{</span><span class="Function">quote</span><span class="Normal">(</span><span class="String">"""</span>
+<span class="Number">&Tab;echo </span><span class="Delimiter">{{</span><span class="Function">quote</span><span class="Normal">(</span><span class="String">"""</span>
 <span class="String">[package]</span>
 <span class="String">name = "foo"</span>
 <span class="String">edition = "2021"</span>
@@ -157,4 +157,4 @@ valid_uuid <span class="Operator">+</span> testing
 
 <span class="Function">unexport</span> <span class="Identifier">PARAM</span> <span class="Special">\</span>
 <span class="Operator">:</span>
-<span class="Number">	env | grep -P </span><span class="Delimiter">{{</span><span class="Function">quote</span><span class="Normal">(</span><span class="Identifier">PARAM</span><span class="Normal">)</span><span class="Delimiter">}}</span>
+<span class="Number">&Tab;env | grep -P </span><span class="Delimiter">{{</span><span class="Function">quote</span><span class="Normal">(</span><span class="Identifier">PARAM</span><span class="Normal">)</span><span class="Delimiter">}}</span>

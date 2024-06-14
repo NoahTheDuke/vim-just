@@ -138,15 +138,15 @@ shebang <span class="Operator">:=</span> <span class="Conditional">if</span> <sp
 }
 
 <span class="Function">shebang</span><span class="Operator">:</span>
-<span class="Number">	</span><span class="SpecialComment">#!</span><span class="Delimiter">{{</span><span class="Identifier">shebang</span><span class="Delimiter">}}</span>
-<span class="Number">	$PSV = $PSVersionTable.PSVersion | % {</span><span class="String">"$_"</span><span class="Number"> -split </span><span class="String">"\."</span><span class="Number"> }</span>
-<span class="Number">	$psver = $PSV[0] + </span><span class="String">"."</span><span class="Number"> + $PSV[1]</span>
-<span class="Number">	if ($PSV[2].Length -lt 4) {</span>
-<span class="Number">		$psver += </span><span class="String">"."</span><span class="Number"> + $PSV[2] + </span><span class="String">" Core"</span>
-<span class="Number">	} else {</span>
-<span class="Number">		$psver += </span><span class="String">" Desktop"</span>
-<span class="Number">	}</span>
-<span class="Number">	echo </span><span class="String">"PowerShell $psver"</span>
+<span class="Number">&Tab;</span><span class="SpecialComment">#!</span><span class="Delimiter">{{</span><span class="Identifier">shebang</span><span class="Delimiter">}}</span>
+<span class="Number">&Tab;$PSV = $PSVersionTable.PSVersion | % {</span><span class="String">"$_"</span><span class="Number"> -split </span><span class="String">"\."</span><span class="Number"> }</span>
+<span class="Number">&Tab;$psver = $PSV[0] + </span><span class="String">"."</span><span class="Number"> + $PSV[1]</span>
+<span class="Number">&Tab;if ($PSV[2].Length -lt 4) {</span>
+<span class="Number">&Tab;&Tab;$psver += </span><span class="String">"."</span><span class="Number"> + $PSV[2] + </span><span class="String">" Core"</span>
+<span class="Number">&Tab;} else {</span>
+<span class="Number">&Tab;&Tab;$psver += </span><span class="String">" Desktop"</span>
+<span class="Number">&Tab;}</span>
+<span class="Number">&Tab;echo </span><span class="String">"PowerShell $psver"</span>
 
 <span class="Special">@</span><span class="Function">foo</span><span class="Operator">:</span>
 <span class="Number">  echo bar</span>
@@ -160,7 +160,7 @@ shebang <span class="Operator">:=</span> <span class="Conditional">if</span> <sp
 
 
 <span class="Function">notify</span> <span class="Identifier">m</span><span class="Operator">=</span><span class="String">""</span><span class="Operator">:</span>
-<span class="Number">	keybase chat send --topic-type </span><span class="String">"chat"</span><span class="Number"> --channel &lt;channel&gt; &lt;team&gt; </span><span class="String">"upd(&lt;repo&gt;): </span><span class="Delimiter">{{</span><span class="Identifier">m</span><span class="Delimiter">}}</span><span class="String">"</span>
+<span class="Number">&Tab;keybase chat send --topic-type </span><span class="String">"chat"</span><span class="Number"> --channel &lt;channel&gt; &lt;team&gt; </span><span class="String">"upd(&lt;repo&gt;): </span><span class="Delimiter">{{</span><span class="Identifier">m</span><span class="Delimiter">}}</span><span class="String">"</span>
 
 <span class="Comment"># Sample project script 2</span>
 <span class="Function">script2</span> <span class="Statement">*</span><span class="Identifier">ARGS</span><span class="Operator">:</span>

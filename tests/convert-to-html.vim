@@ -105,6 +105,8 @@ function s:html(winid)
         let l:line_html .= '&lt;'
       elseif l:chr == '>'
         let l:line_html .= '&gt;'
+      elseif l:chr == "\t"
+        let l:line_html .= '&Tab;'
       else
         let l:line_html .= l:chr
       endif
