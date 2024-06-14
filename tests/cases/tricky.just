@@ -154,3 +154,7 @@ edition = "2021"
 
 not-shell-expanded-string fix: (functions2 fix'$HOME')
 not-shell-expanded-string2 _-x: (functions2 _-x"$HOME")
+
+unexport PARAM \
+:
+	env | grep -P {{quote(PARAM)}}
