@@ -35,15 +35,15 @@ syn region justString start=/"/ skip=/\\\\\|\\"/ end=/"/ contains=justLineContin
 syn region justString start=/"""/ skip=/\\\\\|\\"/ end=/"""/ contains=justLineContinuation,justStringEscapeSequence
 
 syn region justShellExpandRawString start=/\v\k@1<!x'/ end=/'/
-   \ contains=justShellExpandVarRaw
+   \ contains=justShellExpandVarRaw,justDollarEscape
 syn region justShellExpandRawString start=/\v\k@1<!x'''/ end=/'''/
-   \ contains=justShellExpandVarRaw
+   \ contains=justShellExpandVarRaw,justDollarEscape
 syn region justShellExpandString
    \ start=/\v\k@1<!x"/ skip=/\\\\\|\\"/ end=/"/
-   \ contains=justLineContinuation,justStringEscapeSequence,justShellExpandVar
+   \ contains=justLineContinuation,justStringEscapeSequence,justShellExpandVar,justDollarEscape
 syn region justShellExpandString
    \ start=/\v\k@1<!x"""/ skip=/\\\\\|\\"/ end=/"""/
-   \ contains=justLineContinuation,justStringEscapeSequence,justShellExpandVar
+   \ contains=justLineContinuation,justStringEscapeSequence,justShellExpandVar,justDollarEscape
 
 syn cluster justStringLiterals
    \ contains=justRawString,justString,justShellExpandRawString,justShellExpandString
@@ -56,11 +56,11 @@ syn match justRegexReplacement
    \ /\v,%(\_s|\\\n)*%("%(\_[^"]|\\")*"|"""%(\_.%(""")@!)*\_.?""")%(\_s|\\\n)*%(,%(\_s|\\\n)*)?\)/me=e-1
    \ transparent contained contains=@justExpr,@justStringsWithRegexCapture
 
-syn region justRawStrRegexRepl start=/\v'/ end=/'/ contained contains=justRegexCapture
-syn region justRawStrRegexRepl start=/\v'''/ end=/'''/ contained contains=justRegexCapture
-syn region justStringRegexRepl start=/\v"/ skip=/\\\\\|\\"/ end=/"/ contained contains=justLineContinuation,justStringEscapeSequence,justRegexCapture
-syn region justStringRegexRepl start=/\v"""/ skip=/\\\\\|\\"/ end=/"""/ contained contains=justLineContinuation,justStringEscapeSequence,justRegexCapture
-syn match justRegexCapture '\v%(\$@1<!\$)@3<!\$%(\w+|\{\w+\})' contained
+syn region justRawStrRegexRepl start=/\v'/ end=/'/ contained contains=justRegexCapture,justDollarEscape
+syn region justRawStrRegexRepl start=/\v'''/ end=/'''/ contained contains=justRegexCapture,justDollarEscape
+syn region justStringRegexRepl start=/\v"/ skip=/\\\\\|\\"/ end=/"/ contained contains=justLineContinuation,justStringEscapeSequence,justRegexCapture,justDollarEscape
+syn region justStringRegexRepl start=/\v"""/ skip=/\\\\\|\\"/ end=/"""/ contained contains=justLineContinuation,justStringEscapeSequence,justRegexCapture,justDollarEscape
+syn match justRegexCapture '\v\$%(\w+|\{\w+\})' contained
 syn cluster justStringsWithRegexCapture contains=justRawStrRegexRepl,justStringRegexRepl
 
 syn cluster justRawStrings contains=justRawString,justRawStrRegexRepl
@@ -270,12 +270,14 @@ syn match justOperator "\V/"
 syn keyword justConstant
    \ HEX HEXLOWER HEXUPPER
 
-syn match justShellExpandVarRaw '\v%(\$@1<!\$)@3<!\$%(\{\_[^}]*\}|\w+)' contained contains=justShellExpandRawDefault
+syn match justShellExpandVarRaw '\v\$%(\{\_[^}]*\}|\w+)' contained contains=justShellExpandRawDefault
 syn match justShellExpandRawDefault '\V:-' contained nextgroup=justShellExpandRawDefaultValue
 syn match justShellExpandRawDefaultValue '\v\_[^}]*' contained
-syn match justShellExpandVar '\v%(\$@1<!\$)@3<!\$%(\{\_[^}]*\}|%(\w|\\\n\s*)+)' contained contains=justShellExpandDefault,justLineContinuation,justStringEscapeSequence
+syn match justShellExpandVar '\v\$%(\{\_[^}]*\}|%(\w|\\\n\s*)+)' contained contains=justShellExpandDefault,justLineContinuation,justStringEscapeSequence
 syn match justShellExpandDefault '\V:-' contained nextgroup=justShellExpandDefaultValue
 syn match justShellExpandDefaultValue '\v\_[^}]*' contained contains=justLineContinuation,justStringEscapeSequence
+
+syn match justDollarEscape '\V$$' contained
 
 syn cluster justExprBase contains=@justAllStrings,@justBuiltInFunctions,justConditional,justOperator,justConstant
 syn cluster justExpr contains=@justExprBase,justExprParen,justConditionalBraces,justReplaceRegex
@@ -319,6 +321,7 @@ hi def link justCommentTodo                      Todo
 hi def link justConditional                      Conditional
 hi def link justConstant                         Constant
 hi def link justCurlyBraces                      Special
+hi def link justDollarEscape                     Special
 hi def link justExport                           Statement
 hi def link justFunction                         Function
 hi def link justImportStatement                  Include

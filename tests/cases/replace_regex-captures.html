@@ -20,14 +20,14 @@ foo4 <span class="Operator">:=</span> <span class="Function">replace_regex</span
  )
 
 foo5 <span class="Operator">:=</span> <span class="Function">replace_regex</span>(<span class="String">"any</span><span class="Special">\n</span><span class="String">$123"</span>, <span class="String">'\$123'</span>, <span class="String">"""</span>
-<span class="Special">\t</span><span class="String">$$abc$</span>
+<span class="Special">\t</span><span class="Special">$$</span><span class="String">abc$</span>
 <span class="String">234</span><span class="Special">\</span>
 <span class="String">345 </span><span class="Identifier">${456}</span><span class="String">567</span>
 <span class="String">"""</span>)
 
-foo6 <span class="Operator">:=</span> <span class="Function">replace_regex</span>(<span class="String">"Some text."</span>, <span class="String">'([^a-z])'</span>, <span class="String">'$$</span><span class="Identifier">$1</span><span class="String">$$2'</span>)
+foo6 <span class="Operator">:=</span> <span class="Function">replace_regex</span>(<span class="String">"Some text."</span>, <span class="String">'([^a-z])'</span>, <span class="String">'</span><span class="Special">$$</span><span class="Identifier">$1</span><span class="Special">$$</span><span class="String">2'</span>)
 
-foo7 <span class="Operator">:=</span> <span class="Function">replace_regex</span>(<span class="String">"Some text."</span>, <span class="String">'([^a-z])'</span>, <span class="String">'$$1'</span>)
+foo7 <span class="Operator">:=</span> <span class="Function">replace_regex</span>(<span class="String">"Some text."</span>, <span class="String">'([^a-z])'</span>, <span class="String">'</span><span class="Special">$$</span><span class="String">1'</span>)
 
 foo8 <span class="Operator">:=</span> <span class="Function">replace_regex</span>(<span class="String">"test123"</span>, <span class="String">'\w(\d+)'</span>, <span class="String">'''</span>
 <span class="String">  \t'</span><span class="Identifier">$1</span><span class="String">'''</span>)
