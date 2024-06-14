@@ -104,3 +104,15 @@ invalid_multi_line_interp:
 	echo {{"foo" + \
 bar }}
 	echo this line is not part of the recipe body
+
+[group: group]
+invalid-shorthand-attr-value:
+
+[group: x]
+invalid-shorthand-attr-value2:
+
+[group::-]
+invalid-shorthand-attr-value3:
+
+[group: , unix]
+comma-is-not-invalid-attr-value:

@@ -152,3 +152,7 @@ attr-colon2:
   group:'foo group' ]
 attr-colon3:
 	echo foo
+
+[doc: x"echo value of $$HOME: $HOME"]
+attr-colon-shell-expanded-string:
+	echo "$HOME"

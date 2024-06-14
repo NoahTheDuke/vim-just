@@ -89,11 +89,13 @@ syn keyword justRecipeAttr
    \ contained
 syn match justRecipeAttrSep ',' contained
 syn match justRecipeAttrValueShort '\v:%(\_s|\\\n)*' transparent contained
-   \ contains=justRecipeAttrValueColon nextgroup=@justStringLiterals
+   \ contains=justRecipeAttrValueColon nextgroup=@justStringLiterals,justInvalidAttrValue
 syn match justRecipeAttrValueColon '\V:' contained
 syn region justRecipeAttrArgs matchgroup=justRecipeAttr start='\V(' end='\V)' contained
    \ contains=@justStringLiterals
 syn match justRecipeAttrArgError '\v\(%(\s|\\?\n)*\)' contained
+
+syn match justInvalidAttrValue '\v[^"',]["']@![^,\]]*' contained
 
 syn match justRecipeDeclSimple "\v^\@?\h\k*%(%(\s|\\\n)*:\=@!)@="
    \ transparent contains=justRecipeName
@@ -324,6 +326,7 @@ hi def link justIndentError                      Error
 hi def link justInterpError                      Error
 hi def link justInterpolation                    Normal
 hi def link justInterpolationDelim               Delimiter
+hi def link justInvalidAttrValue                 Error
 hi def link justLineContinuation                 Special
 hi def link justLineLeadingSymbol                Special
 hi def link justModStatement                     Keyword
