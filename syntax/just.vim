@@ -270,10 +270,10 @@ syn match justOperator "\V/"
 syn keyword justConstant
    \ HEX HEXLOWER HEXUPPER
 
-syn match justShellExpandVarRaw '\v\$%(\{\_[^}]*\}|\w+)' contained contains=justShellExpandRawDefault
+syn match justShellExpandVarRaw '\v%(\$@1<!\$)@3<!\$%(\{\_[^}]*\}|\w+)' contained contains=justShellExpandRawDefault
 syn match justShellExpandRawDefault '\V:-' contained nextgroup=justShellExpandRawDefaultValue
 syn match justShellExpandRawDefaultValue '\v\_[^}]*' contained
-syn match justShellExpandVar '\v\$%(\{\_[^}]*\}|%(\w|\\\n\s*)+)' contained contains=justShellExpandDefault,justLineContinuation,justStringEscapeSequence
+syn match justShellExpandVar '\v%(\$@1<!\$)@3<!\$%(\{\_[^}]*\}|%(\w|\\\n\s*)+)' contained contains=justShellExpandDefault,justLineContinuation,justStringEscapeSequence
 syn match justShellExpandDefault '\V:-' contained nextgroup=justShellExpandDefaultValue
 syn match justShellExpandDefaultValue '\v\_[^}]*' contained contains=justLineContinuation,justStringEscapeSequence
 
