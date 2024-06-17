@@ -36,22 +36,15 @@ For questions or issues when using these packages, contact the package's maintai
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/vim:vim-just.svg)](https://repology.org/project/vim:vim-just/versions)
 
-----------
+## Migrating old `git clone` based installations to `main`
 
-### Updating `git clone` based installations
-
-Run the same `cd` command as in the relevant installation instructions, then:
-
-```bash
-cd vim-just
-git pull --tags --verbose
-```
-
-#### Old `git clone` based installations
-
-In late March 2023, development was moved from `master` branch to `main` branch, and `master` is no longer maintained.  Updating installations that used a `git clone` prior to these changes requires some additional one-time steps, run **after** the normal update procedure:
+In late March 2023, development was moved from `master` branch to `main` branch,
+and `master` is no longer maintained.
+Updating installations that used a `git clone` prior to these changes requires some
+additional one-time steps:
 
 ```bash
+git fetch
 git checkout main
 git branch -d master || git branch --unset-upstream master
 git remote set-head origin -a
@@ -59,8 +52,6 @@ git remote prune origin
 ```
 
 Now future updates can again be obtained normally.
-
-----------
 
 ## Contributing & Development
 
