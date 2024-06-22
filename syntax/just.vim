@@ -201,7 +201,9 @@ syn region justConditionalBraces start="\v\{\{@!" end="\v\}@=" transparent conta
 syn region justConditionalBracesInInterp start="\v\{\{@!" end="\v\}@=" transparent contained contains=@justExprInInterp
 
 syn match justLineLeadingSymbol "\v^%(\\\n)@3<!\s+\zs%(\@-|-\@|\@|-)"
-syn match justLineContinuation "\\$" containedin=ALLBUT,justComment,justCommentInBody,justShebang,@justRawStrings,justPreBodyCommentError,justRecipeAttrArgError
+
+syn match justLineContinuation "\\$"
+   \ containedin=ALLBUT,justComment,justCommentInBody,justShebang,@justRawStrings,justPreBodyCommentError,justRecipeAttrArgError,justShellExpandRawDefaultValue
 
 syn region justBody
    \ start=/\v^\z( +|\t+)%(#!)@!\S/
