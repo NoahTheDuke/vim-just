@@ -1,12 +1,14 @@
 <span class="Comment"># This recipe is at the start of this file because `just` inserts extra lines to make shebang script line numbers match the corresponding justfile line numbers.</span>
 <span class="Function">skip-all-whitespace-lines-shebang</span><span class="Operator">:</span>
-<span class="Number">&Tab;</span><span class="SpecialComment">#!/bin/bash</span>
+<span class="SpecialComment">&Tab;#!/bin/bash</span>
 
 <span class="Number">  </span>
 <span class="Number"> &Tab;</span>
 <span class="Number">&Tab;echo -e -n </span><span class="String">'\033[1;47;30m'</span>
 <span class="Number">&Tab;cat </span><span class="String">"$0"</span>
 <span class="Number">&Tab;echo -e -n </span><span class="String">'\033[0m'</span>
+
+<span class="Statement">set</span> <span class="Keyword">ignore-comments</span>
 
 raw <span class="Operator">:=</span> <span class="String">'''</span>
 <span class="String">  it's two lines \</span>
@@ -51,7 +53,7 @@ valid_uuid <span class="Operator">+</span> testing
 <span class="Number">&Tab;echo </span><span class="Delimiter">{{</span><span class="Identifier">something</span><span class="Delimiter">}}{{</span><span class="Identifier">testing</span><span class="Delimiter">}}</span>
 
 <span class="Function">interp_immediately_after_string</span><span class="Operator">:</span>
-<span class="Number">&Tab;</span><span class="SpecialComment">#!/usr/bin/env python3</span>
+<span class="SpecialComment">&Tab;#!/usr/bin/env python3</span>
 <span class="Number">&Tab;print(</span><span class="String">''</span><span class="Delimiter">{{</span><span class="Function">quote</span><span class="Normal">(</span><span class="Identifier">something</span><span class="Normal">)</span><span class="Delimiter">}}</span><span class="String">''</span><span class="Number">.split(</span><span class="String">"T"</span><span class="Number">))</span>
 
 <span class="Function">curly_braces_3</span><span class="Operator">:</span>
@@ -77,12 +79,12 @@ valid_uuid <span class="Operator">+</span> testing
 <span class="Number">&Tab;echo </span><span class="String">"string \\"</span><span class="Number"> ended there</span>
 
 <span class="Function">shebang_mixed_indentation</span><span class="Operator">:</span>
-<span class="Number">&Tab;</span><span class="SpecialComment">#!/usr/bin/env python3</span>
+<span class="SpecialComment">&Tab;#!/usr/bin/env python3</span>
 <span class="Number">&Tab;if True:</span>
 <span class="Number">&Tab;  print(</span><span class="String">'tab indent followed by spaces is allowed in shebang recipe'</span><span class="Number">)</span>
 
 <span class="Function">shebang_recipes_dont_do_line_prefixes</span><span class="Operator">:</span>
-<span class="Number">&Tab;</span><span class="SpecialComment">#!/bin/bash</span>
+<span class="SpecialComment">&Tab;#!/bin/bash</span>
 <span class="Number">&Tab;@foo</span>
 
 <span class="Function">multiline-non-paren-final-param</span> <span class="Identifier">param0</span><span class="Operator">=</span>valid_uuid <span class="Statement">*</span><span class="Statement">$</span><span class="Identifier">PARAM</span><span class="Operator">=</span><span class="String">"""</span>
@@ -158,3 +160,8 @@ valid_uuid <span class="Operator">+</span> testing
 <span class="Function">unexport</span> <span class="Identifier">PARAM</span> <span class="Special">\</span>
 <span class="Operator">:</span>
 <span class="Number">&Tab;env | grep -P </span><span class="Delimiter">{{</span><span class="Function">quote</span><span class="Normal">(</span><span class="Identifier">PARAM</span><span class="Normal">)</span><span class="Delimiter">}}</span>
+
+<span class="Function">ignored-comments-in-recipe</span> <span class="Identifier">foo</span><span class="Operator">=</span><span class="String">'Foo'</span><span class="Operator">:</span>
+<span class="Number">&Tab;echo recipe</span>
+<span class="Number">&Tab;</span><span class="Comment"># echo </span><span class="Delimiter">{{</span><span class="Normal"> </span><span class="Identifier">foo</span><span class="Normal"> </span><span class="Delimiter">}}</span><span class="Comment"> </span><span class="Special">{{{{</span><span class="Comment">test \</span>
+<span class="Number">&Tab;echo recipe</span>

@@ -8,6 +8,8 @@ skip-all-whitespace-lines-shebang:
 	cat "$0"
 	echo -e -n '\033[0m'
 
+set ignore-comments
+
 raw := '''
   it's two lines \
 '''
@@ -158,3 +160,8 @@ not-shell-expanded-string2 _-x: (functions2 _-x"$HOME")
 unexport PARAM \
 :
 	env | grep -P {{quote(PARAM)}}
+
+ignored-comments-in-recipe foo='Foo':
+	echo recipe
+	# echo {{ foo }} {{{{test \
+	echo recipe

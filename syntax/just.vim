@@ -17,9 +17,10 @@ syn sync fromstart linebreaks=10
 " a-zA-Z0-9_-
 syn iskeyword @,48-57,_,-
 
-syn match justComment "\v#%([^!].*)?$" contains=@Spell,justCommentTodo
+syn match justComment "#.*$" contains=@Spell,justCommentTodo
+syn match justCommentInBody '#.*$' contained contains=justCommentTodo,justInterpolation,@justOtherCurlyBraces
 syn keyword justCommentTodo TODO FIXME XXX contained
-syn match justShebang "#!.*$" contains=justInterpolation
+syn match justShebang "^\s*#!.*$" contains=justInterpolation,@justOtherCurlyBraces
 syn match justName "\h\k*" contained
 syn match justFunction "\h\k*" contained
 
@@ -31,8 +32,8 @@ syn region justBacktick start=/`/ end=/`/
 syn region justBacktick start=/```/ end=/```/
 syn region justRawString start=/'/ end=/'/
 syn region justRawString start=/'''/ end=/'''/
-syn region justString start=/"/ skip=/\\\\\|\\"/ end=/"/ contains=justLineContinuation,justStringEscapeSequence
-syn region justString start=/"""/ skip=/\\\\\|\\"/ end=/"""/ contains=justLineContinuation,justStringEscapeSequence
+syn region justString start=/"/ skip=/\\\\\|\\"/ end=/"/ contains=justStringEscapeSequence
+syn region justString start=/"""/ skip=/\\\\\|\\"/ end=/"""/ contains=justStringEscapeSequence
 
 syn region justShellExpandRawString start=/\v\k@1<!x'/ end=/'/
    \ contains=justShellExpandVarRaw,justDollarEscape
@@ -40,10 +41,10 @@ syn region justShellExpandRawString start=/\v\k@1<!x'''/ end=/'''/
    \ contains=justShellExpandVarRaw,justDollarEscape
 syn region justShellExpandString
    \ start=/\v\k@1<!x"/ skip=/\\\\\|\\"/ end=/"/
-   \ contains=justLineContinuation,justStringEscapeSequence,justShellExpandVar,justDollarEscape
+   \ contains=justStringEscapeSequence,justShellExpandVar,justDollarEscape
 syn region justShellExpandString
    \ start=/\v\k@1<!x"""/ skip=/\\\\\|\\"/ end=/"""/
-   \ contains=justLineContinuation,justStringEscapeSequence,justShellExpandVar,justDollarEscape
+   \ contains=justStringEscapeSequence,justShellExpandVar,justDollarEscape
 
 syn cluster justStringLiterals
    \ contains=justRawString,justString,justShellExpandRawString,justShellExpandString
@@ -58,17 +59,17 @@ syn match justRegexReplacement
 
 syn region justRawStrRegexRepl start=/\v'/ end=/'/ contained contains=justRegexCapture,justDollarEscape
 syn region justRawStrRegexRepl start=/\v'''/ end=/'''/ contained contains=justRegexCapture,justDollarEscape
-syn region justStringRegexRepl start=/\v"/ skip=/\\\\\|\\"/ end=/"/ contained contains=justLineContinuation,justStringEscapeSequence,justRegexCapture,justDollarEscape
-syn region justStringRegexRepl start=/\v"""/ skip=/\\\\\|\\"/ end=/"""/ contained contains=justLineContinuation,justStringEscapeSequence,justRegexCapture,justDollarEscape
+syn region justStringRegexRepl start=/\v"/ skip=/\\\\\|\\"/ end=/"/ contained contains=justStringEscapeSequence,justRegexCapture,justDollarEscape
+syn region justStringRegexRepl start=/\v"""/ skip=/\\\\\|\\"/ end=/"""/ contained contains=justStringEscapeSequence,justRegexCapture,justDollarEscape
 syn match justRegexCapture '\v\$%(\w+|\{\w+\})' contained
 syn cluster justStringsWithRegexCapture contains=justRawStrRegexRepl,justStringRegexRepl
 
 syn cluster justRawStrings contains=justRawString,justRawStrRegexRepl
 
-syn region justStringInsideBody start=/\v\\@1<!'/ end=/'/ contained contains=justLineContinuation,justInterpolation,@justOtherCurlyBraces,justIndentError
-syn region justStringInsideBody start=/\v\\@1<!"/ skip=/\v\\@1<!\\"/ end=/"/ contained contains=justLineContinuation,justInterpolation,@justOtherCurlyBraces,justIndentError
-syn region justStringInShebangBody start=/\v\\@1<!'/ end=/'/ contained contains=justLineContinuation,justInterpolation,@justOtherCurlyBraces,justShebangIndentError
-syn region justStringInShebangBody start=/\v\\@1<!"/ skip=/\v\\@1<!\\"/ end=/"/ contained contains=justLineContinuation,justInterpolation,@justOtherCurlyBraces,justShebangIndentError
+syn region justStringInsideBody start=/\v\\@1<!'/ end=/'/ contained contains=justInterpolation,@justOtherCurlyBraces,justIndentError
+syn region justStringInsideBody start=/\v\\@1<!"/ skip=/\v\\@1<!\\"/ end=/"/ contained contains=justInterpolation,@justOtherCurlyBraces,justIndentError
+syn region justStringInShebangBody start=/\v\\@1<!'/ end=/'/ contained contains=justInterpolation,@justOtherCurlyBraces,justShebangIndentError
+syn region justStringInShebangBody start=/\v\\@1<!"/ skip=/\v\\@1<!\\"/ end=/"/ contained contains=justInterpolation,@justOtherCurlyBraces,justShebangIndentError
 
 syn match justStringEscapeSequence '\v\\[tnr"\\]' contained
 
@@ -200,20 +201,20 @@ syn region justConditionalBraces start="\v\{\{@!" end="\v\}@=" transparent conta
 syn region justConditionalBracesInInterp start="\v\{\{@!" end="\v\}@=" transparent contained contains=@justExprInInterp
 
 syn match justLineLeadingSymbol "\v^%(\\\n)@3<!\s+\zs%(\@-|-\@|\@|-)"
-syn match justLineContinuation "\\$" containedin=ALLBUT,justComment,justShebang,@justRawStrings,justPreBodyCommentError,justRecipeAttrArgError
+syn match justLineContinuation "\\$" containedin=ALLBUT,justComment,justCommentInBody,justShebang,@justRawStrings,justPreBodyCommentError,justRecipeAttrArgError
 
 syn region justBody
    \ start=/\v^\z( +|\t+)%(#!)@!\S/
    \ skip='\v\\\n|\n\s*$'
    \ end="\v\n\z1@!|%(^\S)@2<=\_.@="
-   \ contains=justInterpolation,@justOtherCurlyBraces,justLineLeadingSymbol,justLineContinuation,justComment,justStringInsideBody,justIndentError
+   \ contains=justInterpolation,@justOtherCurlyBraces,justLineLeadingSymbol,justCommentInBody,justStringInsideBody,justIndentError
    \ contained
 
 syn region justShebangBody
    \ start="\v^\z( +|\t+)#!"
    \ skip='\v\\\n|\n\s*$'
    \ end="\v\n\z1@!|%(^\S)@2<=\_.@="
-   \ contains=justInterpolation,@justOtherCurlyBraces,justLineContinuation,justComment,justShebang,justStringInShebangBody,justShebangIndentError
+   \ contains=justInterpolation,@justOtherCurlyBraces,justCommentInBody,justShebang,justStringInShebangBody,justShebangIndentError
    \ contained
 
 syn cluster justBodies contains=justBody,justShebangBody
@@ -276,9 +277,9 @@ syn keyword justConstant
 syn match justShellExpandVarRaw '\v\$%(\{\_[^}]*\}|\w+)' contained contains=justShellExpandRawDefault
 syn match justShellExpandRawDefault '\V:-' contained nextgroup=justShellExpandRawDefaultValue
 syn match justShellExpandRawDefaultValue '\v\_[^}]*' contained
-syn match justShellExpandVar '\v\$%(\{\_[^}]*\}|%(\w|\\\n\s*)+)' contained contains=justShellExpandDefault,justLineContinuation,justStringEscapeSequence
+syn match justShellExpandVar '\v\$%(\{\_[^}]*\}|%(\w|\\\n\s*)+)' contained contains=justShellExpandDefault,justStringEscapeSequence
 syn match justShellExpandDefault '\V:-' contained nextgroup=justShellExpandDefaultValue
-syn match justShellExpandDefaultValue '\v\_[^}]*' contained contains=justLineContinuation,justStringEscapeSequence
+syn match justShellExpandDefaultValue '\v\_[^}]*' contained contains=justStringEscapeSequence
 
 syn match justDollarEscape '\V$$' contained
 
@@ -320,6 +321,7 @@ hi def link justBody                             Number
 hi def link justBoolean                          Boolean
 hi def link justBuiltInFunction                  Function
 hi def link justComment                          Comment
+hi def link justCommentInBody                    Comment
 hi def link justCommentTodo                      Todo
 hi def link justConditional                      Conditional
 hi def link justConstant                         Constant
