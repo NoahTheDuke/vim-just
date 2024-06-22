@@ -4,7 +4,7 @@ import\
 'line-continuations.just'
 
 import ?	"""
-  tricky.just"""
+  a.just"""
 
 import? x'${FOOOOOOOOO:-.}/foo.just'
 import x"${FOOOOOOOOO:-.}/expressions.just"
