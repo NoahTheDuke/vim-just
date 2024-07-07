@@ -14,3 +14,8 @@ mod ? foo 'foo/justfile'
 
 mod foo x'$FOO/justfile'
 mod? foo x"$FOO/justfile"
+
+mod foo  # comment
+mod foo#comment
+mod foo \
+  # comment

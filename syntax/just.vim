@@ -297,7 +297,7 @@ syn match justImportStatement '^import' contained
 
 syn match justOldInclude "^!include"
 
-syn match justModule /\v^mod%(%(\s|\\\n)*\?)?%(\s|\\\n)+\h\k*\s*%($|%(\s|\\\n)+%(x?['"])@=)/
+syn match justModule /\v^mod%(%(\s|\\\n)*\?)?%(\s|\\\n)+\h\k*\s*%($|%(\s|\\\n)+%(x?['"])@=|%(\s|\\\n)*#@=)/
    \ transparent contains=justModStatement,justName,justOptionalFile
 syn match justModStatement '^mod' contained
 
