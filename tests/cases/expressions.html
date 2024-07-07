@@ -44,3 +44,6 @@ this_source <span class="Operator">:=</span> <span class="Function">source_direc
 current_module <span class="Operator">:=</span> <span class="Function">module_directory</span>() <span class="Operator">+</span> <span class="String">"</span><span class="Special">\n</span><span class="String"> -&gt; "</span> <span class="Operator">+</span> <span class="Function">module_file</span>()
 
 <span class="Statement">unexport</span> QT_QPA_PLATFORMTHEME
+
+now <span class="Operator">:=</span> <span class="Function">datetime</span>(<span class="String">'%Y-%m-%d %H:%M:%S %Z'</span>)
+now_utc <span class="Operator">:=</span> <span class="Function">datetime_utc</span>(<span class="String">'%Y-%m-%d %H:%M:%S %Z'</span>)

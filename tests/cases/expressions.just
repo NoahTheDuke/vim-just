@@ -44,3 +44,6 @@ this_source := source_directory() + "\n -> " + source_file()
 current_module := module_directory() + "\n -> " + module_file()
 
 unexport QT_QPA_PLATFORMTHEME
+
+now := datetime('%Y-%m-%d %H:%M:%S %Z')
+now_utc := datetime_utc('%Y-%m-%d %H:%M:%S %Z')
