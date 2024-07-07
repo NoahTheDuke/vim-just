@@ -19,3 +19,8 @@
 <span class="Keyword">mod</span> <span class="Identifier">foo</span><span class="Comment">#comment</span>
 <span class="Keyword">mod</span> <span class="Identifier">foo</span> <span class="Special">\</span>
   <span class="Comment"># comment</span>
+
+<span class="Keyword">mod</span> <span class="Identifier">foo</span><span class="String">"foo.just"</span>
+
+<span class="Comment"># not a shell-expanded string</span>
+<span class="Keyword">mod</span><span class="Conditional">?</span> <span class="Identifier">x</span><span class="String">"$FOO.just"</span>

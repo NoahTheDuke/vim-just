@@ -19,3 +19,8 @@ mod foo  # comment
 mod foo#comment
 mod foo \
   # comment
+
+mod foo"foo.just"
+
+# not a shell-expanded string
+mod? x"$FOO.just"
