@@ -58,6 +58,71 @@ just_boolean_settings := """
   windows-powershell
 """
 
+
+# Some functions are intentionally omitted from these lists because they're handled as special cases:
+#  - error
+functionsWithArgs := '''
+  absolute_path
+  capitalize
+  clean
+  env
+  env_var
+  env_var_or_default
+  extension
+  file_name
+  file_stem
+  join
+  kebabcase
+  lowercamelcase
+  lowercase
+  parent_directory
+  path_exists
+  quote
+  replace
+  replace_regex
+  semver_matches
+  sha256
+  sha256_file
+  shoutykebabcase
+  shoutysnakecase
+  snakecase
+  titlecase
+  trim
+  trim_end
+  trim_end_match
+  trim_end_matches
+  trim_start
+  trim_start_match
+  trim_start_matches
+  uppercamelcase
+  uppercase
+  without_extension
+'''
+zeroArgFunctions := '''
+  arch
+  cache_directory
+  config_directory
+  config_local_directory
+  data_directory
+  data_local_directory
+  executable_directory
+  home_directory
+  invocation_directory
+  invocation_directory_native
+  just_executable
+  just_pid
+  justfile
+  justfile_directory
+  num_cpus
+  os
+  os_family
+  uuid
+'''
+allFunctions := functionsWithArgs + zeroArgFunctions
+
+@functions:
+	echo $({{justq}} --evaluate allFunctions | sort)
+
 # generate an optimized Vim-style "very magic" regex snippet from a list of literal strings to match
 optrx +strings:
 	#!/usr/bin/env python3
