@@ -61,31 +61,63 @@ just_boolean_settings := """
 
 # Some functions are intentionally omitted from these lists because they're handled as special cases:
 #  - error
-functionsWithArgs := '''
+allFunctions := '''
   absolute_path
+  append
+  arch
+  blake3
+  blake3_file
+  cache_directory
+  canonicalize
   capitalize
+  choose
   clean
+  config_directory
+  config_local_directory
+  data_directory
+  data_local_directory
+  datetime
+  datetime_utc
+  encode_uri_component
   env
   env_var
   env_var_or_default
+  executable_directory
   extension
   file_name
   file_stem
+  home_directory
+  invocation_directory
+  invocation_directory_native
+  is_dependency
   join
+  just_executable
+  justfile
+  justfile_directory
+  just_pid
   kebabcase
   lowercamelcase
   lowercase
+  module_directory
+  module_file
+  num_cpus
+  os
+  os_family
   parent_directory
   path_exists
+  prepend
   quote
   replace
   replace_regex
   semver_matches
   sha256
   sha256_file
+  shell
   shoutykebabcase
   shoutysnakecase
   snakecase
+  source_directory
+  source_file
   titlecase
   trim
   trim_end
@@ -96,29 +128,9 @@ functionsWithArgs := '''
   trim_start_matches
   uppercamelcase
   uppercase
+  uuid
   without_extension
 '''
-zeroArgFunctions := '''
-  arch
-  cache_directory
-  config_directory
-  config_local_directory
-  data_directory
-  data_local_directory
-  executable_directory
-  home_directory
-  invocation_directory
-  invocation_directory_native
-  just_executable
-  just_pid
-  justfile
-  justfile_directory
-  num_cpus
-  os
-  os_family
-  uuid
-'''
-allFunctions := functionsWithArgs + zeroArgFunctions
 
 @functions:
 	echo $({{justq}} --evaluate allFunctions | sort)
