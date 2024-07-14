@@ -1,6 +1,8 @@
 # Do not prevent local external justfile recipes from being run from cwd within the repo
 set fallback
 
+mod test 'tests/justfile'
+
 justq := quote(just_executable()) + ' -f ' + quote(justfile())
 test_cases := justfile_directory() / 'tests/cases'
 
