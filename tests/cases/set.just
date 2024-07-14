@@ -55,3 +55,7 @@ set dotenv-path := '/tmp/dotenv'
 set dotenv-required
 set dotenv-required := true
 set dotenv-required := false
+
+set unstable
+set unstable := true
+set unstable := false

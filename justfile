@@ -55,6 +55,7 @@ just_boolean_settings := """
   ignore-comments
   positional-arguments
   quiet
+  unstable
   windows-powershell
 """
 
