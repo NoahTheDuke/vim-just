@@ -61,7 +61,7 @@ just_boolean_settings := """
 
 # Some functions are intentionally omitted from these lists because they're handled as special cases:
 #  - error
-allFunctions := '''
+allFunctions := replace_regex('''
   absolute_path
   append
   arch
@@ -130,10 +130,10 @@ allFunctions := '''
   uppercase
   uuid
   without_extension
-'''
+''', '(?m)^(.+)_directory(_native)?$', "${1}_dir$2\n$0")
 
 @functions:
-	echo $({{justq}} --evaluate allFunctions | sort)
+	{{justq}} --evaluate allFunctions | sort | tr '\n' ' ' | sed -E -e 's/\s+$/\n/g'
 
 # generate an optimized Vim-style "very magic" regex snippet from a list of literal strings to match
 optrx +strings:
