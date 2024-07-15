@@ -9,6 +9,19 @@ test_cases := justfile_directory() / 'tests/cases'
 @_default:
 	{{justq}} --list
 
+# delete all untracked files from the repository
+clean-all:
+	git clean -fxd
+
+# revert repository to committed state
+reset rev='': && clean-all
+	git checkout --force {{rev}}
+
+# show repository status
+id:
+	git show --format=fuller --no-patch HEAD
+	git status --ignored
+
 # preview JUSTFILE in Vim with syntax file from this repository
 [no-cd]
 preview JUSTFILE='': (_preview_common 'vim' JUSTFILE)
