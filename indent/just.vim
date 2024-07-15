@@ -2,7 +2,7 @@
 " Language:	Justfile
 " Maintainer:	Noah Bogart <noah.bogart@hey.com>
 " URL:		https://github.com/NoahTheDuke/vim-just.git
-" Last Change:	2024 Jan 19
+" Last Change:	2024 Jan 25
 
 " Only load this indent file when no other was loaded yet.
 if exists("b:did_indent")
