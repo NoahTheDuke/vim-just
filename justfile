@@ -60,6 +60,7 @@ update-last-changed *force:
 	  sed --in-place -E -e "s/(^\\S+\\s*Last\\s+Change:\\s+).+$/\\1${lastchange}/g" "$f"
 	done
 
+
 just_boolean_settings := """
   allow-duplicate-recipes
   allow-duplicate-variables
@@ -74,10 +75,10 @@ just_boolean_settings := """
   windows-powershell
 """
 
-
-# Some functions are intentionally omitted from these lists because they're handled as special cases:
+# Newline-separated list of `just` functions.
+# Some functions are intentionally omitted from this list because they're handled as special cases:
 #  - error
-allFunctions := replace_regex('''
+just_functions := replace_regex('''
   absolute_path
   append
   arch
@@ -108,9 +109,9 @@ allFunctions := replace_regex('''
   is_dependency
   join
   just_executable
+  just_pid
   justfile
   justfile_directory
-  just_pid
   kebabcase
   lowercamelcase
   lowercase
@@ -146,10 +147,10 @@ allFunctions := replace_regex('''
   uppercase
   uuid
   without_extension
-''', '(?m)^(.+)_directory(_native)?$', "${1}_dir$2\n$0")
+''', '(?m)^(.*)_directory(_native)?$', "${1}_dir$2\n$0")
 
 @functions:
-	{{justq}} --evaluate allFunctions | sort | tr '\n' ' ' | sed -E -e 's/\s+$/\n/g'
+	echo -n {{quote(just_functions)}} | LC_ALL=C sort | tr '\n' ' ' | sed -E -e 's/\s+$/\n/g'
 
 # generate an optimized Vim-style "very magic" regex snippet from a list of literal strings to match
 optrx +strings:
