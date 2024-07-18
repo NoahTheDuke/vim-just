@@ -116,3 +116,6 @@ invalid-shorthand-attr-value3:
 
 [group: , unix]
 comma-is-not-invalid-attr-value:
+
+[script: 'bash', "-x", '-c']
+attr-shorthand-takes-only-one-argument:
