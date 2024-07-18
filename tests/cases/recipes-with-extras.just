@@ -156,3 +156,9 @@ attr-colon3:
 [doc: x"echo value of $$HOME: $HOME"]
 attr-colon-shell-expanded-string:
 	echo "$HOME"
+
+[extension: '.py']
+ext:
+	#!/usr/bin/env python3
+	import sys
+	print(sys.argv)

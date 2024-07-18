@@ -86,7 +86,7 @@ syn region justRecipeAttributes
    \ contains=justRecipeAttr,justRecipeAttrSep,justRecipeAttrArgs,justRecipeAttrArgError,justRecipeAttrValueShort
 
 syn keyword justRecipeAttr
-   \ confirm doc group linux macos no-cd no-exit-message no-quiet positional-arguments private unix windows
+   \ confirm doc extension group linux macos no-cd no-exit-message no-quiet positional-arguments private script unix windows
    \ contained
 syn match justRecipeAttrSep ',' contained
 syn match justRecipeAttrValueShort '\v:%(\_s|\\\n)*' transparent contained
