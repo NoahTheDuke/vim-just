@@ -34,6 +34,8 @@ set shell := [x"$SHELL"]
 
 set windows-shell:=["powershell.exe", "-NoLogo", "-Command"]
 
+set script-interpreter := ['/usr/bin/env', 'python3']
+
 set fallback
 set fallback := true
 set fallback := false
@@ -59,3 +61,5 @@ set dotenv-required := false
 set unstable
 set unstable := true
 set unstable := false
+
+set working-directory := '/tmp'
