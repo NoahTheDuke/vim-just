@@ -11,6 +11,7 @@ path = "src/test-ftdetect.rs"
 
 [lints.clippy]
 get_unwrap = "warn"
+used_underscore_binding = "deny"
 
 [dependencies]
 clap         = { version = "4.5.13", features = ["derive"] }
