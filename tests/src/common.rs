@@ -48,10 +48,10 @@ pub fn create_dotvim_symlink() {
 
 pub fn setup_ctrlc_handler() -> Arc<AtomicBool> {
   let interrupted = Arc::new(AtomicBool::new(false));
-  let _interrupted = Arc::clone(&interrupted);
+  let interrupted_ = Arc::clone(&interrupted);
 
   ctrlc::set_handler(move || {
-    _interrupted.store(true, Relaxed);
+    interrupted_.store(true, Relaxed);
     eprintln!("Received Ctrl+C");
   })
   .unwrap();
