@@ -1,6 +1,7 @@
 mod common;
 use crate::common::*;
 
+use fancy_regex::Regex;
 use rand::{
   self,
   distributions::{Alphanumeric, DistString},
@@ -20,10 +21,13 @@ use tempfile::TempDir;
 #[serde(deny_unknown_fields)]
 struct FtdetectCase {
   #[serde(default)]
-  filename: Option<String>,
+  filename: String,
 
   #[serde(default)]
-  content: Option<String>,
+  never: String,
+
+  #[serde(default)]
+  content: String,
 
   #[serde(default)]
   not_justfile: bool,
@@ -47,8 +51,9 @@ fn random_alnum(rng: &mut ThreadRng, minlen: u8, maxlen: u8) -> String {
   Alphanumeric.sample_string(rng, len.into())
 }
 
-fn fuzz_filename(rng: &mut ThreadRng, filename: String) -> String {
+fn fuzz_filename<T: AsRef<str>>(rng: &mut ThreadRng, filename: T) -> String {
   filename
+    .as_ref()
     .split_inclusive('*')
     .map(|part| part.replace('*', random_alnum(rng, 3, 8).as_str()))
     .collect()
@@ -81,9 +86,34 @@ fn _main() -> io::Result<()> {
         case
       )));
     }
-    let fname = match &case.filename {
-      Some(n) => fuzz_filename(&mut rng, n.to_string()),
-      None => random_alnum(&mut rng, 1, 16),
+    let never_rx = if case.never.is_empty() {
+      None
+    } else {
+      match Regex::new(&case.never) {
+        Ok(r) => Some(r),
+        Err(e) => return Err(io::Error::other(e)),
+      }
+    };
+    let mut never_rx_tries = 0;
+    let fname = loop {
+      let fname_ = if case.filename.is_empty() {
+        random_alnum(&mut rng, 1, 16)
+      } else {
+        fuzz_filename(&mut rng, &case.filename)
+      };
+      if let Some(r) = &never_rx {
+        if r.is_match(&fname_).unwrap() {
+          if never_rx_tries >= 20 {
+            return Err(io::Error::other(format!(
+              "Failed to find filename matching `{}` but not /{}/ after {} tries",
+              &case.filename, r, never_rx_tries
+            )));
+          }
+          never_rx_tries += 1;
+          continue;
+        }
+      }
+      break fname_;
     };
     let actual_file = tempdirs
       .iter()
@@ -100,10 +130,7 @@ fn _main() -> io::Result<()> {
         tempdirs[tempdirs.len() - 1].path().join(&fname)
       });
     let mut testfile = File::create_new(&actual_file)?;
-    testfile.write_all(match &case.content {
-      Some(t) => t.as_bytes(),
-      None => b"",
-    })?;
+    testfile.write_all(case.content.as_bytes())?;
     file2case.insert(actual_file.into_os_string().into_string().unwrap(), case);
   }
 
