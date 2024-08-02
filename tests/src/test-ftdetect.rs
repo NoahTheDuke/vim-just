@@ -64,7 +64,7 @@ fn _main() -> io::Result<()> {
   let mut rng = rand::thread_rng();
 
   let cases = fs::read_to_string("cases/ftdetect.yml")?;
-  let cases = match serde_yaml::from_str::<Vec<FtdetectCase>>(cases.as_str()) {
+  let cases = match serde_yaml2::from_str::<Vec<FtdetectCase>>(cases.as_str()) {
     Ok(o) => o,
     Err(e) => return Err(io::Error::other(e)),
   };
