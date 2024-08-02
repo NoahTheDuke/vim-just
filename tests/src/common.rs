@@ -1,4 +1,3 @@
-use once_cell::sync::Lazy;
 use std::{
   env,
   ffi::OsString,
@@ -9,14 +8,14 @@ use std::{
   process::{Command, Stdio},
   sync::{
     atomic::{AtomicBool, Ordering::Relaxed},
-    Arc,
+    Arc, LazyLock,
   },
   time::Duration,
 };
 pub use tempfile::tempdir;
 use wait_timeout::ChildExt;
 
-pub static VIM_BIN: Lazy<OsString> = Lazy::new(|| {
+pub static VIM_BIN: LazyLock<OsString> = LazyLock::new(|| {
   let default_vim = OsString::from("vim");
   let v = env::var_os("TEST_VIM").unwrap_or(default_vim.clone());
   if v.is_empty() {
@@ -25,7 +24,7 @@ pub static VIM_BIN: Lazy<OsString> = Lazy::new(|| {
     v
   }
 });
-static TEST_NVIM: Lazy<bool> = Lazy::new(|| {
+static TEST_NVIM: LazyLock<bool> = LazyLock::new(|| {
   PathBuf::from(&*VIM_BIN)
     .file_stem()
     .unwrap()
@@ -33,7 +32,7 @@ static TEST_NVIM: Lazy<bool> = Lazy::new(|| {
     .unwrap()
     .contains("nvim")
 });
-static VIM_SYMLINK: Lazy<&str> = Lazy::new(|| if *TEST_NVIM { "nvim" } else { ".vim" });
+static VIM_SYMLINK: LazyLock<&str> = LazyLock::new(|| if *TEST_NVIM { "nvim" } else { ".vim" });
 
 pub fn clean_dotvim_symlink() {
   if fs::metadata(*VIM_SYMLINK).is_ok() {
