@@ -43,6 +43,21 @@ set fallback:=false
 set fallback:= true
 set fallback :=false
 
+# the trailing whitespace at the end of the following lines is intentional
+set fallback 
+set fallback := true 
+set fallback := false 
+
+set fallback # comment
+set fallback := true # comment
+set fallback := true# comment
+
+set fallback := true \
+  # comment
+
+set fallback := false\
+#comment
+
 set tempdir := '/tmp'
 set tempdir := """
 /tmp"""

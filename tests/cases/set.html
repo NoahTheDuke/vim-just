@@ -43,6 +43,21 @@
 <span class="Statement">set</span> <span class="Keyword">fallback</span><span class="Operator">:=</span> <span class="Boolean">true</span>
 <span class="Statement">set</span> <span class="Keyword">fallback</span> <span class="Operator">:=</span><span class="Boolean">false</span>
 
+<span class="Comment"># the trailing whitespace at the end of the following lines is intentional</span>
+<span class="Statement">set</span> <span class="Keyword">fallback</span> 
+<span class="Statement">set</span> <span class="Keyword">fallback</span> <span class="Operator">:=</span> <span class="Boolean">true</span> 
+<span class="Statement">set</span> <span class="Keyword">fallback</span> <span class="Operator">:=</span> <span class="Boolean">false</span> 
+
+<span class="Statement">set</span> <span class="Keyword">fallback</span> <span class="Comment"># comment</span>
+<span class="Statement">set</span> <span class="Keyword">fallback</span> <span class="Operator">:=</span> <span class="Boolean">true</span> <span class="Comment"># comment</span>
+<span class="Statement">set</span> <span class="Keyword">fallback</span> <span class="Operator">:=</span> <span class="Boolean">true</span><span class="Comment"># comment</span>
+
+<span class="Statement">set</span> <span class="Keyword">fallback</span> <span class="Operator">:=</span> <span class="Boolean">true</span> <span class="Special">\</span>
+  <span class="Comment"># comment</span>
+
+<span class="Statement">set</span> <span class="Keyword">fallback</span> <span class="Operator">:=</span> <span class="Boolean">false</span><span class="Special">\</span>
+<span class="Comment">#comment</span>
+
 <span class="Statement">set</span> <span class="Keyword">tempdir</span> <span class="Operator">:=</span> <span class="String">'/tmp'</span>
 <span class="Statement">set</span> <span class="Keyword">tempdir</span> <span class="Operator">:=</span> <span class="String">"""</span>
 <span class="String">/tmp"""</span>
