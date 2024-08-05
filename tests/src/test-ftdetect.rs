@@ -3,7 +3,6 @@ use crate::common::*;
 
 use fancy_regex::Regex;
 use rand::{
-  self,
   distributions::{Alphanumeric, DistString},
   rngs::ThreadRng,
   Rng,
@@ -15,7 +14,6 @@ use std::{
   hash::{Hash, Hasher},
   io::{self, prelude::*},
 };
-use tempfile::TempDir;
 
 #[derive(Clone, Debug, Default, Deserialize, Eq)]
 #[serde(deny_unknown_fields)]
@@ -59,12 +57,11 @@ fn fuzz_filename<T: AsRef<str>>(rng: &mut ThreadRng, filename: T) -> String {
     .collect()
 }
 
-fn _main() -> io::Result<()> {
+fn main() -> io::Result<()> {
   let interrupted = setup_ctrlc_handler();
 
+  let test_home = test_vim_home();
   let mut tempdirs: Vec<TempDir> = vec![tempdir().unwrap()];
-
-  create_dotvim_symlink();
 
   let mut rng = rand::thread_rng();
 
@@ -138,7 +135,7 @@ fn _main() -> io::Result<()> {
 
   let mut args = vec!["-R", "-S", "batch_ftdetect_res.vim"];
   args.extend(file2case.keys().map(|s| s.as_str()));
-  run_vim(args, &ftdetect_results, &interrupted)?;
+  run_vim(args, &ftdetect_results, test_home.path(), &interrupted)?;
 
   let ftdetections = fs::read_to_string(ftdetect_results)?;
 
@@ -181,13 +178,4 @@ fn _main() -> io::Result<()> {
       total
     )))
   }
-}
-
-fn main() -> io::Result<()> {
-  let real_main = _main();
-
-  // cleanup
-  clean_dotvim_symlink();
-
-  real_main
 }

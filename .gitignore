@@ -1,5 +1,2 @@
 .*.sw[a-p]
 tests/target
-.viminfo
-tests/.vim
-tests/nvim

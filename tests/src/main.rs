@@ -23,16 +23,15 @@ struct Arguments {
   filter: Option<Regex>,
 }
 
-fn _main() -> io::Result<()> {
+fn main() -> io::Result<()> {
   let arguments = Arguments::parse();
 
   let interrupted = setup_ctrlc_handler();
 
+  let test_home = test_vim_home();
   let tmpdir = tempdir().unwrap();
 
   let case_dir = Path::new("cases");
-
-  create_dotvim_symlink();
 
   let mut cases = 0;
   let mut passed = 0;
@@ -79,6 +78,7 @@ fn _main() -> io::Result<()> {
       run_vim(
         vec!["-S", "convert-to-html.vim", case.to_str().unwrap()],
         &output,
+        test_home.path(),
         &interrupted,
       )?;
 
@@ -166,13 +166,4 @@ fn _main() -> io::Result<()> {
       cases
     )))
   }
-}
-
-fn main() -> io::Result<()> {
-  let real_main = _main();
-
-  // cleanup
-  clean_dotvim_symlink();
-
-  real_main
 }

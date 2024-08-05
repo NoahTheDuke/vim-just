@@ -1,10 +1,10 @@
 use std::{
   env,
   ffi::OsString,
-  fs,
+  fs::canonicalize,
   io::{self, ErrorKind},
   os::unix::fs as ufs,
-  path::PathBuf,
+  path::{Path, PathBuf},
   process::{Command, Stdio},
   sync::{
     atomic::{AtomicBool, Ordering::Relaxed},
@@ -12,7 +12,7 @@ use std::{
   },
   time::Duration,
 };
-pub use tempfile::tempdir;
+pub use tempfile::{tempdir, TempDir};
 use wait_timeout::ChildExt;
 
 pub static VIM_BIN: LazyLock<OsString> = LazyLock::new(|| {
@@ -32,17 +32,17 @@ static TEST_NVIM: LazyLock<bool> = LazyLock::new(|| {
     .unwrap()
     .contains("nvim")
 });
-static VIM_SYMLINK: LazyLock<&str> = LazyLock::new(|| if *TEST_NVIM { "nvim" } else { ".vim" });
 
-pub fn clean_dotvim_symlink() {
-  if fs::metadata(*VIM_SYMLINK).is_ok() {
-    fs::remove_file(*VIM_SYMLINK).unwrap();
-  }
-}
-
-pub fn create_dotvim_symlink() {
-  clean_dotvim_symlink();
-  ufs::symlink("../", *VIM_SYMLINK).unwrap();
+pub fn test_vim_home() -> TempDir {
+  let test_home = tempdir().unwrap();
+  ufs::symlink(
+    canonicalize("..").unwrap(),
+    test_home
+      .path()
+      .join(if *TEST_NVIM { "nvim" } else { ".vim" }),
+  )
+  .unwrap();
+  test_home
 }
 
 pub fn setup_ctrlc_handler() -> Arc<AtomicBool> {
@@ -58,8 +58,12 @@ pub fn setup_ctrlc_handler() -> Arc<AtomicBool> {
   interrupted
 }
 
-pub fn run_vim(args: Vec<&str>, output: &PathBuf, interrupted: &Arc<AtomicBool>) -> io::Result<()> {
-  let xdg_state_dir = tempdir().unwrap();
+pub fn run_vim(
+  args: Vec<&str>,
+  output: &PathBuf,
+  home: &Path,
+  interrupted: &Arc<AtomicBool>,
+) -> io::Result<()> {
   let mut vim = Command::new(&*VIM_BIN)
     .arg(if *TEST_NVIM {
       "--headless"
@@ -69,19 +73,17 @@ pub fn run_vim(args: Vec<&str>, output: &PathBuf, interrupted: &Arc<AtomicBool>)
     .args(["-i", "NONE", "--cmd", "set noswapfile"])
     .args(args)
     .env("OUTPUT", output)
-    .env("HOME", env::current_dir().unwrap())
-    .env("XDG_CONFIG_HOME", env::current_dir().unwrap())
-    .env("XDG_DATA_HOME", env::current_dir().unwrap())
-    .env("XDG_STATE_HOME", xdg_state_dir.path())
+    .env("HOME", home)
+    .env("XDG_CONFIG_HOME", home)
+    .env("XDG_DATA_HOME", home)
     .stdin(Stdio::null())
     .stdout(Stdio::null())
     .stderr(Stdio::piped())
     .spawn()
     .unwrap();
 
-  let mut poll_count = 1;
   let status = loop {
-    let poll_interval = Duration::from_millis(if poll_count % 3 == 0 { 333 } else { 100 });
+    let poll_interval = Duration::from_millis(200);
     match vim.wait_timeout(poll_interval) {
       Ok(Some(status)) => break status,
       Ok(None) => {
@@ -94,7 +96,6 @@ pub fn run_vim(args: Vec<&str>, output: &PathBuf, interrupted: &Arc<AtomicBool>)
         return Err(e);
       }
     }
-    poll_count += 1;
   };
 
   if status.success() {
