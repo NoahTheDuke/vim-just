@@ -261,7 +261,7 @@ syn region justReplaceRegexCallInInterp
 
 syn match justParameterLineContinuation '\v%(\s|\\\n)*' contained nextgroup=justParameterError
 
-syn match justRecipeDepParenName '\v%(\(%(\s|\\\n)*)@<=\h\k*'
+syn match justRecipeDepParenName '\v%(\(\n?)@3<=%(\_s|\\\n)*\h\k*'
    \ transparent contained
    \ contains=justFunction
 

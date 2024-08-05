@@ -131,6 +131,14 @@ parenthesized_dep_param2 p: (invoke \
 
 parenthesized_dep_param3: (multi \
   ( '1' + '0' ) \
+) (
+functions2 valid_uuid) \
+( 
+
+	\
+
+  unexport
+  this_justfile
 )
 
 skip-all-whitespace-lines1:
@@ -159,7 +167,7 @@ not-shell-expanded-string2 _-x: (functions2 _-x"$HOME")
 
 unexport PARAM \
 :
-	env | grep -P {{quote(PARAM)}}
+	-env | grep -P {{quote(PARAM)}}
 
 ignored-comments-in-recipe foo='Foo':
 	echo recipe
