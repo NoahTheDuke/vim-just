@@ -49,6 +49,11 @@ f3 := replace_regex \
 \
 )
 
+export \
+  FOO_ENV \
+    := \
+      "FOO"
+
 test: a \
 	b
 	echo '123'

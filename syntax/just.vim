@@ -188,7 +188,7 @@ syn match justAliasDecl "\v^alias%(\s|\\\n)+\h\k*%(\s|\\\n)*:\=%(\s|\\\n)*"
    \ nextgroup=justAliasRes
 syn match justAliasRes '\v\h\k*%(\s|\\\n)*%(#@=|$)' contained transparent contains=justFunction
 
-syn match justExportedAssignment "\v^export%(\s|\\\n)+\h\k*\s*:\=" transparent
+syn match justExportedAssignment "\v^export%(\s|\\\n)+\h\k*%(\s|\\\n)*:\=" transparent
    \ contains=justExport,justAssignmentOperator
 
 syn match justExport '\v^export' contained
