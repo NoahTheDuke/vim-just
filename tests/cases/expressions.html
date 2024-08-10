@@ -50,3 +50,7 @@ current_module <span class="Operator">:=</span> <span class="Function">module_di
 
 now <span class="Operator">:=</span> <span class="Function">datetime</span>(<span class="String">'%Y-%m-%d %H:%M:%S %Z'</span>)
 now_utc <span class="Operator">:=</span> <span class="Function">datetime_utc</span>(<span class="String">'%Y-%m-%d %H:%M:%S %Z'</span>)
+
+<span class="Type">[private]</span>
+hidden <span class="Operator">:=</span> <span class="String">'foo'</span>
+not_hidden <span class="Operator">:=</span> <span class="String">'-'</span> <span class="Operator">+</span> hidden

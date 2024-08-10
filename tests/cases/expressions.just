@@ -50,3 +50,7 @@ unexport QT_QPA_PLATFORMTHEME
 
 now := datetime('%Y-%m-%d %H:%M:%S %Z')
 now_utc := datetime_utc('%Y-%m-%d %H:%M:%S %Z')
+
+[private]
+hidden := 'foo'
+not_hidden := '-' + hidden
