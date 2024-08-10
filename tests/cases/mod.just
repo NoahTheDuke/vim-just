@@ -24,3 +24,6 @@ mod foo"foo.just"
 
 # not a shell-expanded string
 mod? x"$FOO.just"
+
+[doc("documented module")]
+mod foo
