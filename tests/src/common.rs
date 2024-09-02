@@ -2,7 +2,7 @@ use std::{
   env,
   ffi::OsString,
   fs::canonicalize,
-  io::{self, ErrorKind},
+  io::{self, prelude::*, ErrorKind},
   os::unix::fs as ufs,
   path::{Path, PathBuf},
   process::{Command, Stdio},
@@ -76,11 +76,15 @@ pub fn run_vim(
     .env("HOME", home)
     .env("XDG_CONFIG_HOME", home)
     .env("XDG_DATA_HOME", home)
-    .stdin(Stdio::null())
+    .stdin(Stdio::piped())
     .stdout(Stdio::null())
     .stderr(Stdio::piped())
     .spawn()
     .unwrap();
+
+  let mut vim_stdin = vim.stdin.take().unwrap();
+  // Prevent stalling on "Press ENTER or type command to continue"
+  vim_stdin.write_all(b"\r")?;
 
   let status = loop {
     let poll_interval = Duration::from_millis(200);
