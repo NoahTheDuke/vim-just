@@ -60,7 +60,7 @@ jobs:
         cargo clippy --version
         cargo fmt --version
 
-    - uses: Swatinem/rust-cache@640a22190e7a783d4c409684cea558f081f92012
+    - uses: Swatinem/rust-cache@96a8d65dbafbc7d145a9b2b6c3b12ee335738cd2
       with:
         workspaces: ./tests -> target
 
