@@ -54,3 +54,13 @@ now_utc := datetime_utc('%Y-%m-%d %H:%M:%S %Z')
 [private]
 hidden := 'foo'
 not_hidden := '-' + hidden
+
+u_escape := "test \u{1F916} test"
+u_escape_triple_quoted := """
+  test
+  \u{1f9Ea}
+  test
+"""
+u_escape_shell_expanded := x"shell ${FOO:-(\u{1f41a})} shell"
+u_escape_in_replace_regex := replace_regex('foo', '^.', "\u{46}")
+not_u_escape := '\u{1F916}'

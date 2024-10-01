@@ -54,3 +54,13 @@ now_utc <span class="Operator">:=</span> <span class="Function">datetime_utc</sp
 <span class="Type">[private]</span>
 hidden <span class="Operator">:=</span> <span class="String">'foo'</span>
 not_hidden <span class="Operator">:=</span> <span class="String">'-'</span> <span class="Operator">+</span> hidden
+
+u_escape <span class="Operator">:=</span> <span class="String">"test </span><span class="Special">\u{1F916}</span><span class="String"> test"</span>
+u_escape_triple_quoted <span class="Operator">:=</span> <span class="String">"""</span>
+<span class="String">  test</span>
+<span class="String">  </span><span class="Special">\u{1f9Ea}</span>
+<span class="String">  test</span>
+<span class="String">"""</span>
+u_escape_shell_expanded <span class="Operator">:=</span> <span class="String">x"shell </span><span class="PreProc">${FOO</span><span class="Operator">:-</span><span class="Character">(</span><span class="Special">\u{1f41a}</span><span class="Character">)</span><span class="PreProc">}</span><span class="String"> shell"</span>
+u_escape_in_replace_regex <span class="Operator">:=</span> <span class="Function">replace_regex</span>(<span class="String">'foo'</span>, <span class="String">'^.'</span>, <span class="String">"</span><span class="Special">\u{46}</span><span class="String">"</span>)
+not_u_escape <span class="Operator">:=</span> <span class="String">'\u{1F916}'</span>
