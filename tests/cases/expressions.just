@@ -62,5 +62,7 @@ u_escape_triple_quoted := """
   test
 """
 u_escape_shell_expanded := x"shell ${FOO:-(\u{1f41a})} shell"
+u_escape_shell_expanded_name := x"""
+  TERM=${\u{000054}\u{00045}\u{0052}\u{04d}}"""
 u_escape_in_replace_regex := replace_regex('foo', '^.', "\u{46}")
 not_u_escape := '\u{1F916}'
