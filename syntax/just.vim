@@ -32,8 +32,8 @@ syn region justBacktick start=/`/ end=/`/
 syn region justBacktick start=/```/ end=/```/
 syn region justRawString start=/'/ end=/'/
 syn region justRawString start=/'''/ end=/'''/
-syn region justString start=/"/ skip=/\\\\\|\\"/ end=/"/ contains=justStringEscapeSequence,justStringUEscapeSequence
-syn region justString start=/"""/ skip=/\\\\\|\\"/ end=/"""/ contains=justStringEscapeSequence,justStringUEscapeSequence
+syn region justString start=/"/ skip=/\\\\\|\\"/ end=/"/ contains=justStringEscapeSequence,justStringUEscapeSequence,justStringEscapeError
+syn region justString start=/"""/ skip=/\\\\\|\\"/ end=/"""/ contains=justStringEscapeSequence,justStringUEscapeSequence,justStringEscapeError
 
 syn region justShellExpandRawString start=/\v\k@1<!x'/ end=/'/
    \ contains=justShellExpandVarRaw,justDollarEscape
@@ -41,10 +41,10 @@ syn region justShellExpandRawString start=/\v\k@1<!x'''/ end=/'''/
    \ contains=justShellExpandVarRaw,justDollarEscape
 syn region justShellExpandString
    \ start=/\v\k@1<!x"/ skip=/\\\\\|\\"/ end=/"/
-   \ contains=justStringEscapeSequence,justStringUEscapeSequence,justShellExpandVar,justDollarEscape
+   \ contains=justStringEscapeSequence,justStringUEscapeSequence,justStringEscapeError,justShellExpandVar,justDollarEscape
 syn region justShellExpandString
    \ start=/\v\k@1<!x"""/ skip=/\\\\\|\\"/ end=/"""/
-   \ contains=justStringEscapeSequence,justStringUEscapeSequence,justShellExpandVar,justDollarEscape
+   \ contains=justStringEscapeSequence,justStringUEscapeSequence,justStringEscapeError,justShellExpandVar,justDollarEscape
 
 syn cluster justStringLiterals
    \ contains=justRawString,justString,justShellExpandRawString,justShellExpandString
@@ -59,8 +59,8 @@ syn match justRegexReplacement
 
 syn region justRawStrRegexRepl start=/\v'/ end=/'/ contained contains=justRegexCapture,justDollarEscape
 syn region justRawStrRegexRepl start=/\v'''/ end=/'''/ contained contains=justRegexCapture,justDollarEscape
-syn region justStringRegexRepl start=/\v"/ skip=/\\\\\|\\"/ end=/"/ contained contains=justStringEscapeSequence,justStringUEscapeSequence,justRegexCapture,justDollarEscape
-syn region justStringRegexRepl start=/\v"""/ skip=/\\\\\|\\"/ end=/"""/ contained contains=justStringEscapeSequence,justStringUEscapeSequence,justRegexCapture,justDollarEscape
+syn region justStringRegexRepl start=/\v"/ skip=/\\\\\|\\"/ end=/"/ contained contains=justStringEscapeSequence,justStringUEscapeSequence,justStringEscapeError,justRegexCapture,justDollarEscape
+syn region justStringRegexRepl start=/\v"""/ skip=/\\\\\|\\"/ end=/"""/ contained contains=justStringEscapeSequence,justStringUEscapeSequence,justStringEscapeError,justRegexCapture,justDollarEscape
 syn match justRegexCapture '\v\$%(\w+|\{\w+\})' contained
 syn cluster justStringsWithRegexCapture contains=justRawStrRegexRepl,justStringRegexRepl
 
@@ -71,6 +71,7 @@ syn region justStringInsideBody start=/\v\\@1<!"/ skip=/\v\\@1<!\\"/ end=/"/ con
 syn region justStringInShebangBody start=/\v\\@1<!'/ end=/'/ contained contains=justInterpolation,@justOtherCurlyBraces,justShebangIndentError
 syn region justStringInShebangBody start=/\v\\@1<!"/ skip=/\v\\@1<!\\"/ end=/"/ contained contains=justInterpolation,@justOtherCurlyBraces,justShebangIndentError
 
+syn match justStringEscapeError '\\.' contained
 syn match justStringEscapeSequence '\v\\[tnr"\\]' contained
 syn match justStringUEscapeSequence '\v\\u\{[0-9A-Fa-f]{1,6}\}' contained
 
@@ -281,11 +282,11 @@ syn match justShellExpandVarRaw '\v\$%(\{\_[^}]*\}|\w+)' contained contains=just
 syn match justShellExpandRawDefaultDelimiter '\V:-' contained nextgroup=justShellExpandRawDefaultValue
 syn match justShellExpandRawDefaultValue '\v\_[^}]*' contained
 syn match justShellExpandVar '\v\$%(\w|\\\n\s*)+' contained
-syn region justShellExpandVar start='\V${' end='}' contains=justShellExpandDefault,justStringEscapeSequence,justStringUEscapeSequence
+syn region justShellExpandVar start='\V${' end='}' contains=justShellExpandDefault,justStringEscapeSequence,justStringUEscapeSequence,justStringEscapeError
 syn region justShellExpandDefault
    \ matchgroup=justShellExpandDefaultDelimiter start='\V:-' end='\v\}@='
    \ contained
-   \ contains=justStringEscapeSequence,justStringUEscapeSequence
+   \ contains=justStringEscapeSequence,justStringUEscapeSequence,justStringEscapeError
 
 syn match justDollarEscape '\V$$' contained
 
@@ -379,6 +380,7 @@ hi def link justShellExpandVar                   PreProc
 hi def link justShellExpandVarRaw                PreProc
 hi def link justShellSetError                    Error
 hi def link justString                           String
+hi def link justStringEscapeError                Error
 hi def link justStringEscapeSequence             Special
 hi def link justStringInShebangBody              String
 hi def link justStringInsideBody                 String
