@@ -38,6 +38,21 @@ shell_expanded7 := x'''
   baz
   }
 '''
+shell_expanded8 := x"""
+  $\
+  $\
+  $\
+  {\
+  F\
+  O\
+  O\
+  :\
+  -\
+  f\
+  o\
+  o\
+  }\
+"""
 
 _true := assert('1' != '0', '1 is not 0')
 

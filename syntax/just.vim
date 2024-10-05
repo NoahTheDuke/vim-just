@@ -41,10 +41,10 @@ syn region justShellExpandRawString start=/\v\k@1<!x'''/ end=/'''/
    \ contains=justShellExpandVarRaw,justDollarEscape
 syn region justShellExpandString
    \ start=/\v\k@1<!x"/ skip=/\\\\\|\\"/ end=/"/
-   \ contains=justStringEscapeSequence,justStringUEscapeSequence,justStringEscapeError,justShellExpandVar,justDollarEscape
+   \ contains=justStringEscapeSequence,justStringUEscapeSequence,justStringEscapeError,justShellExpandVar,justDollarEscape,justDollarEscapeSplit
 syn region justShellExpandString
    \ start=/\v\k@1<!x"""/ skip=/\\\\\|\\"/ end=/"""/
-   \ contains=justStringEscapeSequence,justStringUEscapeSequence,justStringEscapeError,justShellExpandVar,justDollarEscape
+   \ contains=justStringEscapeSequence,justStringUEscapeSequence,justStringEscapeError,justShellExpandVar,justDollarEscape,justDollarEscapeSplit
 
 syn cluster justStringLiterals
    \ contains=justRawString,justString,justShellExpandRawString,justShellExpandString
@@ -59,8 +59,8 @@ syn match justRegexReplacement
 
 syn region justRawStrRegexRepl start=/\v'/ end=/'/ contained contains=justRegexCapture,justDollarEscape
 syn region justRawStrRegexRepl start=/\v'''/ end=/'''/ contained contains=justRegexCapture,justDollarEscape
-syn region justStringRegexRepl start=/\v"/ skip=/\\\\\|\\"/ end=/"/ contained contains=justStringEscapeSequence,justStringUEscapeSequence,justStringEscapeError,justRegexCapture,justDollarEscape
-syn region justStringRegexRepl start=/\v"""/ skip=/\\\\\|\\"/ end=/"""/ contained contains=justStringEscapeSequence,justStringUEscapeSequence,justStringEscapeError,justRegexCapture,justDollarEscape
+syn region justStringRegexRepl start=/\v"/ skip=/\\\\\|\\"/ end=/"/ contained contains=justStringEscapeSequence,justStringUEscapeSequence,justStringEscapeError,justRegexCapture,justDollarEscape,justDollarEscapeSplit
+syn region justStringRegexRepl start=/\v"""/ skip=/\\\\\|\\"/ end=/"""/ contained contains=justStringEscapeSequence,justStringUEscapeSequence,justStringEscapeError,justRegexCapture,justDollarEscape,justDollarEscapeSplit
 syn match justRegexCapture '\v\$%(\w+|\{\w+\})' contained
 syn cluster justStringsWithRegexCapture contains=justRawStrRegexRepl,justStringRegexRepl
 
@@ -282,13 +282,15 @@ syn match justShellExpandVarRaw '\v\$%(\{\_[^}]*\}|\w+)' contained contains=just
 syn match justShellExpandRawDefaultDelimiter '\V:-' contained nextgroup=justShellExpandRawDefaultValue
 syn match justShellExpandRawDefaultValue '\v\_[^}]*' contained
 syn match justShellExpandVar '\v\$%(\w|\\\n\s*)+' contained
-syn region justShellExpandVar start='\V${' end='}' contains=justShellExpandDefault,justStringEscapeSequence,justStringUEscapeSequence,justStringEscapeError
+syn region justShellExpandVar start='\v\$%(\\\n\s*)*\{' end='\V}' contains=justShellExpandDefaultDelimiter,justStringEscapeSequence,justStringUEscapeSequence,justStringEscapeError
+syn match justShellExpandDefaultDelimiter '\v:%(\\\n\s*)*-@=' contained nextgroup=justShellExpandDefault
 syn region justShellExpandDefault
-   \ matchgroup=justShellExpandDefaultDelimiter start='\V:-' end='\v\}@='
+   \ matchgroup=justShellExpandDefaultDelimiter start='\V-' end='\v\}@='
    \ contained
    \ contains=justStringEscapeSequence,justStringUEscapeSequence,justStringEscapeError
 
 syn match justDollarEscape '\V$$' contained
+syn match justDollarEscapeSplit '\v\$%(\\\n\s*)*\$' contained
 
 syn cluster justExprBase contains=@justAllStrings,@justBuiltInFunctions,justConditional,justOperator,justConstant
 syn cluster justExpr contains=@justExprBase,justExprParen,justConditionalBraces,justReplaceRegex
@@ -334,6 +336,7 @@ hi def link justConditional                      Conditional
 hi def link justConstant                         Constant
 hi def link justCurlyBraces                      Special
 hi def link justDollarEscape                     Special
+hi def link justDollarEscapeSplit                Special
 hi def link justExport                           Statement
 hi def link justFunction                         Function
 hi def link justImportStatement                  Include
