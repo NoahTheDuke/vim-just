@@ -14,17 +14,16 @@ cases_invalid_justfiles := """
 run FILTER='':
   cargo run {{ if FILTER == '' { '' } else { '-- ' + quote(FILTER) } }}
 
-watchwatch := '`just watch watch` is redundant'
-
 # run tests whenever a file changes
-watch RECIPE='run' FILTER='': build
-  cargo watch \
+[positional-arguments]
+watch *args:
+  {{if args =~ '(?:^|\s)watch(?:\s|$)' { error('`just watch watch` is redundant') } else { '' } }}
+  watchexec \
     --clear \
-    --shell "{{quote(just_executable())}} \
-        {{if RECIPE == 'watch' { error(watchwatch) } else { quote(RECIPE) } }} \
-        {{if RECIPE + FILTER =~ 'watch' { error(watchwatch) } else if FILTER == '' { '' } else { quote(FILTER) } }} \
-      " \
-    --watch ..
+    --shell=none \
+    --project-origin {{quote(clean(source_directory() / '..'))}} \
+    --watch {{quote(clean(source_directory() / '..'))}} \
+    {{quote(just_executable())}} "$@"
 
 # run ftdetect tests
 ftdetect:
@@ -32,7 +31,7 @@ ftdetect:
 
 # install development dependencies
 deps:
-  cargo install --locked cargo-watch
+  cargo install watchexec-cli
 
 # compile test runner without running tests
 build:

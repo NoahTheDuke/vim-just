@@ -43,7 +43,7 @@ is a simple test-runner in the `main` fn.
 * Rust ([simple/recommended installation instructions](https://www.rust-lang.org/tools/install); for detailed and alternative installation instructions see [here](https://forge.rust-lang.org/infra/other-installation-methods.html))
 
 Run `just deps` to install the cargo dev dependencies, which right now is only
-[`cargo-watch`](https://crates.io/crates/cargo-watch).
+[Watchexec CLI](https://crates.io/crates/watchexec-cli).
 
 ### Running the tests
 
@@ -80,7 +80,7 @@ To run the filetype detection tests, run `just ftdetect` in tests/.
 If you're going to do more than a simple change, I recommend calling `just watch` in tests/,
 which will watch for any changes in the whole repo and re-run the test suite.
 By default, it will run the syntax highlighting tests.
-`just watch` accepts up to two parameters to customize which tests to watch:
+`just watch` accepts positional parameters to customize which tests to watch:
 
 ```bash
 # watch all syntax highlighting tests (default)
