@@ -173,3 +173,8 @@ ignored-comments-in-recipe foo='Foo':
 	echo recipe
 	# echo {{ foo }} {{{{test \
 	echo recipe
+
+# documented recipe 1
+documented1:
+# documented recipe 2
+documented2:

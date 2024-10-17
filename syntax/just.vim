@@ -26,7 +26,6 @@ syn match justFunction "\h\k*" contained
 
 syn match justPreBodyComment "\v%(\s|\\\n)*#%([^!].*)?\n%(\t+| +)@=" transparent contained contains=justComment
    \ nextgroup=@justBodies skipnl
-syn match justPreBodyCommentError "\v^%(%(\\\n)@3<!#|(\\\n)@3<!%( +\t+|\t+ +)#).*$" contained
 
 syn region justBacktick start=/`/ end=/`/
 syn region justBacktick start=/```/ end=/```/
@@ -144,11 +143,11 @@ syn match justRecipeSubsequentDeps '\V&&' contained
 syn match justRecipeNoDeps '\v:%(\s|\\\n)*\n|:#@=|:%(\s|\\\n)+#@='
    \ transparent contained
    \ contains=justRecipeColon
-   \ nextgroup=justPreBodyComment,justPreBodyCommentError,@justBodies
+   \ nextgroup=justPreBodyComment,@justBodies
 syn region justRecipeDeps start="\v:%(\s|\\\n)*%([a-zA-Z_(]|\&\&)" skip='\\\n' end="\v#@=|\\@1<!\n"
    \ transparent contained
    \ contains=justFunction,justRecipeColon,justRecipeSubsequentDeps,justRecipeParamDep
-   \ nextgroup=justPreBodyComment,justPreBodyCommentError,@justBodies
+   \ nextgroup=justPreBodyComment,@justBodies
 
 syn region justRecipeParamDep contained transparent
    \ matchgroup=justRecipeDepParamsParen
@@ -205,7 +204,7 @@ syn region justConditionalBracesInInterp start="\v\{\{@!" end="\v\}@=" transpare
 syn match justLineLeadingSymbol "\v^%(\\\n)@3<!\s+\zs%(\@-|-\@|\@|-)"
 
 syn match justLineContinuation "\\$"
-   \ containedin=ALLBUT,justComment,justCommentInBody,justShebang,@justRawStrings,justPreBodyCommentError,justRecipeAttrArgError,justShellExpandRawDefaultValue
+   \ containedin=ALLBUT,justComment,justCommentInBody,justShebang,@justRawStrings,justRecipeAttrArgError,justShellExpandRawDefaultValue
 
 syn region justBody
    \ start=/\v^\z( +|\t+)%(#!)@!\S/
@@ -355,7 +354,6 @@ hi def link justOptionalFile                     Conditional
 hi def link justParameterError                   Error
 hi def link justParameterOperator                Operator
 hi def link justParamExport                      Statement
-hi def link justPreBodyCommentError              Error
 hi def link justRawString                        String
 hi def link justRawStrRegexRepl                  String
 hi def link justRecipeAt                         Special
