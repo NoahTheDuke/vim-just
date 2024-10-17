@@ -24,7 +24,7 @@ syn match justShebang "^\s*#!.*$" contains=justInterpolation,@justOtherCurlyBrac
 syn match justName "\h\k*" contained
 syn match justFunction "\h\k*" contained
 
-syn match justPreBodyComment "\v%(\s|\\\n)*#%([^!].*)?\n%(\t+| +)@=" transparent contained contains=justComment
+syn match justPreBodyComment "\v%(\s|\\\n)*%([^\\]\n)@3<!#%([^!].*)?\n%(\t+| +)@=" transparent contained contains=justComment
    \ nextgroup=@justBodies skipnl
 
 syn region justBacktick start=/`/ end=/`/

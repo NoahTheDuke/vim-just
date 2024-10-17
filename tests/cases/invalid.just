@@ -122,3 +122,8 @@ comma-is-not-invalid-attr-value:
 
 [script: 'bash', "-x", '-c']
 attr-shorthand-takes-only-one-argument:
+
+
+recipe-without-body:
+# comment
+	echo this line is not recipe body
