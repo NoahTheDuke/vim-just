@@ -12,7 +12,7 @@ use std::{
   path::{Path, PathBuf},
   sync::{
     atomic::{AtomicU64, Ordering::Relaxed},
-    Arc, Mutex,
+    Mutex,
   },
   time::Instant,
 };
@@ -61,11 +61,9 @@ fn main() -> io::Result<()> {
     .collect::<Result<Vec<_>, io::Error>>()?;
   test_cases.sort_unstable();
 
-  let total_vim_time = Arc::new(AtomicU64::new(0));
+  let total_vim_time = AtomicU64::new(0);
 
-  let res = Arc::new(Mutex::new(HashMap::<String, String>::with_capacity(
-    test_cases.len(),
-  )));
+  let res = Mutex::new(HashMap::<String, String>::with_capacity(test_cases.len()));
   test_cases
     .par_iter()
     .try_for_each(|case| -> io::Result<()> {
@@ -97,7 +95,7 @@ fn main() -> io::Result<()> {
     total_vim_time.load(Relaxed) as f64 / 1000.0
   );
 
-  let res = Arc::into_inner(res).unwrap().into_inner().unwrap();
+  let res = res.into_inner().unwrap();
 
   for case in test_cases.iter() {
     let name = &case.0;
