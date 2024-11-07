@@ -1,11 +1,11 @@
 mod common;
 use crate::common::*;
 
-use clap::Parser;
 use fancy_regex::Regex;
 use rayon::prelude::*;
 use std::{
   collections::HashMap,
+  env,
   ffi::OsStr,
   fs,
   io::{self, ErrorKind},
@@ -17,14 +17,16 @@ use std::{
   time::Instant,
 };
 
-#[derive(Parser)]
-struct Arguments {
-  #[arg(name = "PATTERN", help = "Only run tests that match <PATTERN>")]
-  filter: Option<Regex>,
-}
-
 fn main() -> io::Result<()> {
-  let arguments = Arguments::parse();
+  let filter = match env::args().nth(1).map(|s| Regex::new(&s)).transpose() {
+    Ok(o) => o,
+    Err(e) => {
+      return Err(io::Error::other(format!(
+        "Invalid regex given on command line: {}",
+        e
+      )));
+    }
+  };
 
   let interrupted = setup_ctrlc_handler();
 
@@ -32,9 +34,6 @@ fn main() -> io::Result<()> {
   let tmpdir = tempdir().unwrap();
 
   let case_dir = Path::new("cases");
-
-  let mut cases = 0;
-  let mut passed = 0;
 
   let mut test_cases = fs::read_dir(case_dir)?
     .filter_map(
@@ -47,8 +46,8 @@ fn main() -> io::Result<()> {
               return None;
             }
             let name = p.file_stem().unwrap().to_str().unwrap().to_owned();
-            if let Some(filter) = &arguments.filter {
-              if !filter.is_match(&name).unwrap() {
+            if let Some(rx) = &filter {
+              if !rx.is_match(&name).unwrap() {
                 return None;
               }
             }
@@ -61,14 +60,15 @@ fn main() -> io::Result<()> {
     .collect::<Result<Vec<_>, io::Error>>()?;
   test_cases.sort_unstable();
 
+  let total = test_cases.len();
+  let mut passed = 0;
+
   let total_vim_time = AtomicU64::new(0);
 
-  let res = Mutex::new(HashMap::<String, String>::with_capacity(test_cases.len()));
+  let res = Mutex::new(HashMap::<String, String>::with_capacity(total));
   test_cases
     .par_iter()
-    .try_for_each(|case| -> io::Result<()> {
-      let (name, case) = case;
-
+    .try_for_each(|(name, case)| -> io::Result<()> {
       let output = tmpdir.path().join(format!("{}.output.html", name));
 
       let ts = Instant::now();
@@ -97,11 +97,7 @@ fn main() -> io::Result<()> {
 
   let res = res.into_inner().unwrap();
 
-  for case in test_cases.iter() {
-    let name = &case.0;
-
-    cases += 1;
-
+  for (name, _) in test_cases.iter() {
     eprintln!("test {}…", name);
 
     let output = &res[name];
@@ -123,12 +119,10 @@ fn main() -> io::Result<()> {
 
     let expected = fs::read_to_string(expected)?;
 
-    let diff = format!(
-      "{}",
-      similar::TextDiff::from_lines(output, &expected)
-        .unified_diff()
-        .header("output", "expected")
-    );
+    let diff = similar::TextDiff::from_lines(output, &expected)
+      .unified_diff()
+      .header("output", "expected")
+      .to_string();
     if diff.is_empty() {
       eprintln!("ok");
       passed += 1;
@@ -155,13 +149,13 @@ fn main() -> io::Result<()> {
     }
   }
 
-  if passed == cases {
+  if passed == total {
     Ok(())
   } else {
     Err(io::Error::other(format!(
       "{}/{} tests failed.",
-      cases - passed,
-      cases
+      total - passed,
+      total
     )))
   }
 }
