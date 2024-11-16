@@ -32,6 +32,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        persist-credentials: false
 
     # Vim maybe already installed, but this appears to be an undocumented implementation detail.
     # Make sure Vim is installed and working, and log Vim version.
