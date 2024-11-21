@@ -135,6 +135,7 @@ just_functions := replace_regex('''
   snakecase
   source_directory
   source_file
+  style
   titlecase
   trim
   trim_end
