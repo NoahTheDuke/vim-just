@@ -162,3 +162,11 @@ ext:
 	#!/usr/bin/env python3
 	import sys
 	print(sys.argv)
+
+styles:
+	#!/bin/bash
+	echo "{{GREEN}}Green{{NORMAL}}"
+	echo '{{BLUE}}{{BOLD}}Bold Blue{{NORMAL}}'
+	echo {{UNDERLINE}}{{MAGENTA}}Magenta underlined text{{NORMAL}}
+	echo "{{style('command')}}echo command{{NORMAL}}"
+	echo {{quote(style('command') + 'echo command' + NORMAL)}} >&2
