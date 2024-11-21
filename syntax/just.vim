@@ -276,6 +276,9 @@ syn match justOperator "\V/"
 
 syn keyword justConstant
    \ HEX HEXLOWER HEXUPPER
+   \ CLEAR NORMAL BOLD ITALIC UNDERLINE INVERT HIDE STRIKETHROUGH
+   \ BLACK RED GREEN YELLOW BLUE MAGENTA CYAN WHITE
+   \ BG_BLACK BG_RED BG_GREEN BG_YELLOW BG_BLUE BG_MAGENTA BG_CYAN BG_WHITE
 
 syn match justShellExpandVarRaw '\v\$%(\{\_[^}]*\}|\w+)' contained contains=justShellExpandRawDefaultDelimiter
 syn match justShellExpandRawDefaultDelimiter '\V:-' contained nextgroup=justShellExpandRawDefaultValue
