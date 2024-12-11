@@ -170,3 +170,8 @@ styles:
 	echo {{UNDERLINE}}{{MAGENTA}}Magenta underlined text{{NORMAL}}
 	echo "{{style('command')}}echo command{{NORMAL}}"
 	echo {{quote(style('command') + 'echo command' + NORMAL)}} >&2
+
+[working-directory('../..')]
+attr-working-directory:
+	pwd
+	ls -lA
