@@ -84,7 +84,17 @@ pub fn run_vim(
 
   let mut vim_stdin = vim.stdin.take().unwrap();
   // Prevent stalling on "Press ENTER or type command to continue"
-  vim_stdin.write_all(b"\r")?;
+  if let Err(e) = vim_stdin.write_all(b"\r") {
+    // If we return this error, the Vim process will never be waited on in the error case,
+    // resulting in `clippy::zombie_processes` lint flagging the above call to `.spawn()`.
+    // To avoid stray processes, don't return this error, try to terminate the Vim process
+    // but unconditionally fall through to the .wait_timeout() below
+    // so that the Vim process is always waited on.
+    eprintln!("Error writing to subprocess stdin: {}", e);
+    if let Err(e) = vim.kill() {
+      eprintln!("Error sending signal to subprocess: {}", e);
+    }
+  }
 
   let status = loop {
     let poll_interval = Duration::from_millis(200);
