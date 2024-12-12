@@ -91,7 +91,7 @@ fn main() -> io::Result<()> {
 
   eprintln!(
     "{} total execution time: {}s.",
-    &*VIM_BIN.to_string_lossy(),
+    VIM_BIN.to_string_lossy(),
     total_vim_time.load(Relaxed) as f64 / 1000.0
   );
 

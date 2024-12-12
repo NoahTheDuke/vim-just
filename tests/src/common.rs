@@ -117,7 +117,7 @@ pub fn run_vim(
   } else {
     Err(io::Error::other(format!(
       "{} failed with status: {}",
-      &*VIM_BIN.to_string_lossy(),
+      VIM_BIN.to_string_lossy(),
       status
     )))
   }
