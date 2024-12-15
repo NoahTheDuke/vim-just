@@ -268,9 +268,10 @@ syn match justRecipeDepParenName '\v%(\(\n?)@3<=%(\_s|\\\n)*\h\k*'
 
 syn cluster justBuiltInFunctions contains=justFunctionCall,justUserDefinedError
 
-syn match justOperator "\V=="
-syn match justOperator "\V!="
-syn match justOperator "\V=~"
+syn match justConditionalOperator "\V=="
+syn match justConditionalOperator "\V!="
+syn match justConditionalOperator "\V=~"
+
 syn match justOperator "\V+"
 syn match justOperator "\V/"
 
@@ -294,7 +295,7 @@ syn region justShellExpandDefault
 syn match justDollarEscape '\V$$' contained
 syn match justDollarEscapeSplit '\v\$%(\\\n\s*)*\$' contained
 
-syn cluster justExprBase contains=@justAllStrings,@justBuiltInFunctions,justConditional,justOperator,justConstant
+syn cluster justExprBase contains=@justAllStrings,@justBuiltInFunctions,justConditional,justConditionalOperator,justOperator,justConstant
 syn cluster justExpr contains=@justExprBase,justExprParen,justConditionalBraces,justReplaceRegex
 syn cluster justExprInInterp contains=@justExprBase,justName,justExprParenInInterp,justConditionalBracesInInterp,justReplaceRegexInInterp
 
@@ -335,6 +336,7 @@ hi def link justComment                          Comment
 hi def link justCommentInBody                    Comment
 hi def link justCommentTodo                      Todo
 hi def link justConditional                      Conditional
+hi def link justConditionalOperator              Conditional
 hi def link justConstant                         Constant
 hi def link justCurlyBraces                      Special
 hi def link justDollarEscape                     Special
@@ -366,7 +368,7 @@ hi def link justRecipeAttrSep                    Operator
 hi def link justRecipeAttrValueColon             Operator
 hi def link justRecipeColon                      Operator
 hi def link justRecipeDepParamsParen             Delimiter
-hi def link justRecipeSubsequentDeps             Operator
+hi def link justRecipeSubsequentDeps             Delimiter
 hi def link justRegexCapture                     Identifier
 hi def link justSet                              Statement
 hi def link justSetDeprecatedKeywords            Underlined

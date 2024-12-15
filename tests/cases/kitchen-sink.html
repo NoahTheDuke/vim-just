@@ -94,13 +94,13 @@ id__path <span class="Operator">:=</span> <span class="String">'/tmp'</span> <sp
 _another_var <span class="Operator">:=</span> <span class="Function">env_var_or_default</span>(<span class="String">"HOME"</span>, <span class="Function">justfile_directory</span>())
 python <span class="Operator">:=</span> <span class="Special">`which python`</span>
 
-exists <span class="Operator">:=</span> <span class="Conditional">if</span> <span class="Function">path_exists</span>(<span class="Function">just_executable</span>()) <span class="Operator">=~</span> <span class="String">'^/User'</span> { <span class="Function">uuid</span>() } <span class="Conditional">else</span> { <span class="String">'yeah'</span> }
+exists <span class="Operator">:=</span> <span class="Conditional">if</span> <span class="Function">path_exists</span>(<span class="Function">just_executable</span>()) <span class="Conditional">=~</span> <span class="String">'^/User'</span> { <span class="Function">uuid</span>() } <span class="Conditional">else</span> { <span class="String">'yeah'</span> }
 
-foo   <span class="Operator">:=</span> <span class="Conditional">if</span> <span class="Function">env_var</span>(<span class="String">"_"</span>) <span class="Operator">==</span> <span class="String">"/usr/bin/env"</span> { <span class="Special">`touch /tmp/a_file`</span> } <span class="Conditional">else</span> { <span class="String">"dummy-value"</span> }
-foo_b <span class="Operator">:=</span> <span class="Conditional">if</span> <span class="String">"hello"</span> <span class="Operator">==</span> <span class="String">"goodbye"</span> { <span class="String">"xyz"</span> } <span class="Conditional">else</span> { <span class="Conditional">if</span> <span class="String">"no"</span> <span class="Operator">==</span> <span class="String">"no"</span> { <span class="String">"yep"</span>} <span class="Conditional">else</span> { <span class="Exception">error</span>(<span class="String">"123"</span>) } }
-foo_c <span class="Operator">:=</span> <span class="Conditional">if</span> <span class="String">"hello"</span> <span class="Operator">==</span> <span class="String">"goodbye"</span> {
+foo   <span class="Operator">:=</span> <span class="Conditional">if</span> <span class="Function">env_var</span>(<span class="String">"_"</span>) <span class="Conditional">==</span> <span class="String">"/usr/bin/env"</span> { <span class="Special">`touch /tmp/a_file`</span> } <span class="Conditional">else</span> { <span class="String">"dummy-value"</span> }
+foo_b <span class="Operator">:=</span> <span class="Conditional">if</span> <span class="String">"hello"</span> <span class="Conditional">==</span> <span class="String">"goodbye"</span> { <span class="String">"xyz"</span> } <span class="Conditional">else</span> { <span class="Conditional">if</span> <span class="String">"no"</span> <span class="Conditional">==</span> <span class="String">"no"</span> { <span class="String">"yep"</span>} <span class="Conditional">else</span> { <span class="Exception">error</span>(<span class="String">"123"</span>) } }
+foo_c <span class="Operator">:=</span> <span class="Conditional">if</span> <span class="String">"hello"</span> <span class="Conditional">==</span> <span class="String">"goodbye"</span> {
   <span class="String">"xyz"</span>
-} <span class="Conditional">else</span> <span class="Conditional">if</span> <span class="String">"a"</span> <span class="Operator">==</span> <span class="String">"a"</span> {
+} <span class="Conditional">else</span> <span class="Conditional">if</span> <span class="String">"a"</span> <span class="Conditional">==</span> <span class="String">"a"</span> {
   <span class="String">"abc"</span>
 } <span class="Conditional">else</span> {
   <span class="String">"123"</span>
@@ -111,7 +111,7 @@ foo_c <span class="Operator">:=</span> <span class="Conditional">if</span> <span
 
 
 <span class="Function">bar2</span> <span class="Identifier">foo_stuff</span><span class="Operator">:</span>
-<span class="Number">  echo </span><span class="Delimiter">{{</span><span class="Normal"> </span><span class="Conditional">if</span><span class="Normal"> </span><span class="Identifier">foo_stuff</span><span class="Normal"> </span><span class="Operator">==</span><span class="Normal"> </span><span class="String">"bar"</span><span class="Normal"> { </span><span class="String">"hello"</span><span class="Normal"> } </span><span class="Conditional">else</span><span class="Normal"> { </span><span class="String">"goodbye"</span><span class="Normal"> } </span><span class="Delimiter">}}</span>
+<span class="Number">  echo </span><span class="Delimiter">{{</span><span class="Normal"> </span><span class="Conditional">if</span><span class="Normal"> </span><span class="Identifier">foo_stuff</span><span class="Normal"> </span><span class="Conditional">==</span><span class="Normal"> </span><span class="String">"bar"</span><span class="Normal"> { </span><span class="String">"hello"</span><span class="Normal"> } </span><span class="Conditional">else</span><span class="Normal"> { </span><span class="String">"goodbye"</span><span class="Normal"> } </span><span class="Delimiter">}}</span>
 
 <span class="Function">executable</span><span class="Operator">:</span>
 <span class="Number">  </span><span class="Special">@</span><span class="Number">echo The executable is at: </span><span class="Delimiter">{{</span><span class="Function">just_executable</span><span class="Normal">()</span><span class="Delimiter">}}</span>
@@ -131,7 +131,7 @@ foo_c <span class="Operator">:=</span> <span class="Conditional">if</span> <span
 <span class="Number">  </span><span class="Special">@</span><span class="Number">echo </span><span class="String">"Starting server with database $DATABASE_ADDRESS on port $SERVER_PORT…"</span>
 
 
-shebang <span class="Operator">:=</span> <span class="Conditional">if</span> <span class="Function">os</span>() <span class="Operator">==</span> <span class="String">'windows'</span> {
+shebang <span class="Operator">:=</span> <span class="Conditional">if</span> <span class="Function">os</span>() <span class="Conditional">==</span> <span class="String">'windows'</span> {
   <span class="String">'powershell.exe'</span>
 } <span class="Conditional">else</span> {
   <span class="String">'/usr/bin/env pwsh'</span>
@@ -205,7 +205,7 @@ shebang <span class="Operator">:=</span> <span class="Conditional">if</span> <sp
 <span class="Function">a</span><span class="Operator">:</span>
 <span class="Number">  echo </span><span class="String">'A!'</span>
 
-<span class="Function">b</span><span class="Operator">:</span> <span class="Function">a</span> <span class="Operator">&amp;&amp;</span> <span class="Function">d</span>
+<span class="Function">b</span><span class="Operator">:</span> <span class="Function">a</span> <span class="Delimiter">&amp;&amp;</span> <span class="Function">d</span>
 <span class="Number">  echo </span><span class="String">'B start!'</span>
 <span class="Number">  just -f </span><span class="Delimiter">{{</span><span class="Function">justfile</span><span class="Normal">()</span><span class="Delimiter">}}</span><span class="Number"> c</span>
 <span class="Number">  echo </span><span class="String">'B end!'</span>
