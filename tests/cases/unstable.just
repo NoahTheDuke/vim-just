@@ -1,3 +1,5 @@
+set unstable
+
 [script: 'python3']
 python_info:
 	import platform
@@ -7,3 +9,5 @@ python_info:
 nested_justfile:
 	foo:
 		pwd
+
+foo := 'foo' && '' || 'foo'

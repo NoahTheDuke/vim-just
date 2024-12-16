@@ -1,3 +1,5 @@
+<span class="Statement">set</span> <span class="Keyword">unstable</span>
+
 <span class="Type">[script</span><span class="Operator">:</span> <span class="String">'python3'</span><span class="Type">]</span>
 <span class="Function">python_info</span><span class="Operator">:</span>
 <span class="Number">&Tab;import platform</span>
@@ -7,3 +9,5 @@
 <span class="Function">nested_justfile</span><span class="Operator">:</span>
 <span class="Number">&Tab;foo:</span>
 <span class="Number">&Tab;&Tab;pwd</span>
+
+foo <span class="Operator">:=</span> <span class="String">'foo'</span> <span class="Operator">&amp;&amp;</span> <span class="String">''</span> <span class="Operator">||</span> <span class="String">'foo'</span>

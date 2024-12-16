@@ -274,6 +274,8 @@ syn match justConditionalOperator "\V=~"
 
 syn match justOperator "\V+"
 syn match justOperator "\V/"
+syn match justOperator "\V&&"
+syn match justOperator "\V||"
 
 syn keyword justConstant
    \ HEX HEXLOWER HEXUPPER
