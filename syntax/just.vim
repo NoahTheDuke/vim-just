@@ -275,6 +275,7 @@ syn cluster justBuiltInFunctions contains=justFunctionCall,justUserDefinedError
 syn match justConditionalOperator "\V=="
 syn match justConditionalOperator "\V!="
 syn match justConditionalOperator "\V=~"
+syn match justConditionalOperator "\V!~"
 
 syn match justOperator "\V+"
 syn match justOperator "\V/"

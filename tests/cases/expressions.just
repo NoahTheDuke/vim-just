@@ -81,3 +81,5 @@ u_escape_shell_expanded_name := x"""
   TERM=${\u{000054}\u{00045}\u{0052}\u{04d}}"""
 u_escape_in_replace_regex := replace_regex('foo', '^.', "\u{46}")
 not_u_escape := '\u{1F916}'
+
+_regex_mismatch := assert('foo' !~ '^ba', "foo is not bar or baz")

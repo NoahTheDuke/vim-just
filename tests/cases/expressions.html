@@ -81,3 +81,5 @@ u_escape_shell_expanded_name <span class="Operator">:=</span> <span class="Strin
 <span class="String">  TERM=</span><span class="PreProc">${</span><span class="Special">\u{000054}\u{00045}\u{0052}\u{04d}</span><span class="PreProc">}</span><span class="String">"""</span>
 u_escape_in_replace_regex <span class="Operator">:=</span> <span class="Function">replace_regex</span>(<span class="String">'foo'</span>, <span class="String">'^.'</span>, <span class="String">"</span><span class="Special">\u{46}</span><span class="String">"</span>)
 not_u_escape <span class="Operator">:=</span> <span class="String">'\u{1F916}'</span>
+
+_regex_mismatch <span class="Operator">:=</span> <span class="Exception">assert</span>(<span class="String">'foo'</span> <span class="Conditional">!~</span> <span class="String">'^ba'</span>, <span class="String">"foo is not bar or baz"</span>)
