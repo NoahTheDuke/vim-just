@@ -124,6 +124,7 @@ just_functions := replace_regex('''
   path_exists
   prepend
   quote
+  read
   replace
   replace_regex
   semver_matches
