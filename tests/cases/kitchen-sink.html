@@ -74,7 +74,7 @@ stuff <span class="Operator">:=</span> <span class="Special">```</span>
 
 an_arch <span class="Operator">:=</span> <span class="Function">trim</span>(<span class="Function">lowercase</span>(<span class="Function">justfile</span>())) <span class="Operator">+</span> <span class="Function">arch</span>()
 trim_end <span class="Operator">:=</span> <span class="Function">trim_end</span>(<span class="String">"99.99954%   "</span>)
-home_dir <span class="Operator">:=</span> <span class="Function">replace</span>(<span class="Function">env_var</span>(<span class="String">'HOME'</span>) <span class="Operator">/</span> <span class="String">"yep"</span>, <span class="String">'yep'</span>, <span class="String">''</span>)
+home_dir <span class="Operator">:=</span> <span class="Function">replace</span>(<span class="Underlined">env_var</span>(<span class="String">'HOME'</span>) <span class="Operator">/</span> <span class="String">"yep"</span>, <span class="String">'yep'</span>, <span class="String">''</span>)
 quoted <span class="Operator">:=</span> <span class="Function">quote</span>(<span class="String">"some things beyond</span><span class="Special">\"</span><span class="String">$()^%#@!|-+=_*&amp;'`"</span>)
 smartphone <span class="Operator">:=</span> <span class="Function">trim_end_match</span>(<span class="String">'blah.txt'</span>, <span class="String">'txt'</span>)
 museum <span class="Operator">:=</span> <span class="Function">trim_start_match</span>(<span class="Function">trim_start</span>(<span class="Function">trim_end_matches</span>(<span class="String">'   yep_blah.txt.txt'</span>, <span class="String">'.txt'</span>)), <span class="String">'yep_'</span>)
@@ -91,12 +91,12 @@ sans_ext <span class="Operator">:=</span> <span class="Function">without_extensi
 camera <span class="Operator">:=</span> <span class="Function">join</span>(<span class="String">'tmp'</span>, <span class="String">'dir1'</span>, <span class="String">'dir2'</span>, path_2)
 cleaned <span class="Operator">:=</span> <span class="Function">clean</span>(<span class="String">'/tmp/blah/..///thing.txt'</span>)
 id__path <span class="Operator">:=</span> <span class="String">'/tmp'</span> <span class="Operator">/</span> <span class="Function">sha256</span>(<span class="String">'blah'</span>) <span class="Operator">/</span> <span class="Function">sha256_file</span>(<span class="Function">justfile</span>())
-_another_var <span class="Operator">:=</span> <span class="Function">env_var_or_default</span>(<span class="String">"HOME"</span>, <span class="Function">justfile_directory</span>())
+_another_var <span class="Operator">:=</span> <span class="Underlined">env_var_or_default</span>(<span class="String">"HOME"</span>, <span class="Function">justfile_directory</span>())
 python <span class="Operator">:=</span> <span class="Special">`which python`</span>
 
 exists <span class="Operator">:=</span> <span class="Conditional">if</span> <span class="Function">path_exists</span>(<span class="Function">just_executable</span>()) <span class="Conditional">=~</span> <span class="String">'^/User'</span> { <span class="Function">uuid</span>() } <span class="Conditional">else</span> { <span class="String">'yeah'</span> }
 
-foo   <span class="Operator">:=</span> <span class="Conditional">if</span> <span class="Function">env_var</span>(<span class="String">"_"</span>) <span class="Conditional">==</span> <span class="String">"/usr/bin/env"</span> { <span class="Special">`touch /tmp/a_file`</span> } <span class="Conditional">else</span> { <span class="String">"dummy-value"</span> }
+foo   <span class="Operator">:=</span> <span class="Conditional">if</span> <span class="Underlined">env_var</span>(<span class="String">"_"</span>) <span class="Conditional">==</span> <span class="String">"/usr/bin/env"</span> { <span class="Special">`touch /tmp/a_file`</span> } <span class="Conditional">else</span> { <span class="String">"dummy-value"</span> }
 foo_b <span class="Operator">:=</span> <span class="Conditional">if</span> <span class="String">"hello"</span> <span class="Conditional">==</span> <span class="String">"goodbye"</span> { <span class="String">"xyz"</span> } <span class="Conditional">else</span> { <span class="Conditional">if</span> <span class="String">"no"</span> <span class="Conditional">==</span> <span class="String">"no"</span> { <span class="String">"yep"</span>} <span class="Conditional">else</span> { <span class="Exception">error</span>(<span class="String">"123"</span>) } }
 foo_c <span class="Operator">:=</span> <span class="Conditional">if</span> <span class="String">"hello"</span> <span class="Conditional">==</span> <span class="String">"goodbye"</span> {
   <span class="String">"xyz"</span>

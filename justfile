@@ -78,6 +78,8 @@ just_boolean_settings := """
 # Newline-separated list of `just` functions.
 # Some functions are intentionally omitted from this list because they're handled as special cases:
 #  - error
+#  - env_var
+#  - env_var_or_default
 just_functions := replace_regex('''
   absolute_path
   append
@@ -97,8 +99,6 @@ just_functions := replace_regex('''
   datetime_utc
   encode_uri_component
   env
-  env_var
-  env_var_or_default
   executable_directory
   extension
   file_name

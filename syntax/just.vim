@@ -237,14 +237,18 @@ syn match justCurlyBraces '\v\{{4}' contained
 syn match justBadCurlyBraces '\v\{{5}\ze[^{]' contained
 syn cluster justOtherCurlyBraces contains=justCurlyBraces,justBadCurlyBraces
 
-syn match justFunctionCall "\v\w+%(\s|\\\n)*\(@=" transparent contains=justBuiltInFunction
+syn match justFunctionCall "\v\w+%(\s|\\\n)*\(@=" transparent
+   \ contains=justBuiltInFunction,justDeprecatedFunction,justUserDefinedError
 
-" error() is intentionally not included in this list
+" error, env_var, and env_var_or_default are intentionally not included in this list
 syn keyword justBuiltInFunction
-   \ absolute_path append arch blake3 blake3_file cache_dir cache_directory canonicalize capitalize choose clean config_dir config_directory config_local_dir config_local_directory data_dir data_directory data_local_dir data_local_directory datetime datetime_utc encode_uri_component env env_var env_var_or_default executable_dir executable_directory extension file_name file_stem home_dir home_directory invocation_dir invocation_dir_native invocation_directory invocation_directory_native is_dependency join just_executable just_pid justfile justfile_dir justfile_directory kebabcase lowercamelcase lowercase module_dir module_directory module_file num_cpus os os_family parent_dir parent_directory path_exists prepend quote replace replace_regex semver_matches sha256 sha256_file shell shoutykebabcase shoutysnakecase snakecase source_dir source_directory source_file style titlecase trim trim_end trim_end_match trim_end_matches trim_start trim_start_match trim_start_matches uppercamelcase uppercase uuid without_extension
+   \ absolute_path append arch blake3 blake3_file cache_dir cache_directory canonicalize capitalize choose clean config_dir config_directory config_local_dir config_local_directory data_dir data_directory data_local_dir data_local_directory datetime datetime_utc encode_uri_component env executable_dir executable_directory extension file_name file_stem home_dir home_directory invocation_dir invocation_dir_native invocation_directory invocation_directory_native is_dependency join just_executable just_pid justfile justfile_dir justfile_directory kebabcase lowercamelcase lowercase module_dir module_directory module_file num_cpus os os_family parent_dir parent_directory path_exists prepend quote replace replace_regex semver_matches sha256 sha256_file shell shoutykebabcase shoutysnakecase snakecase source_dir source_directory source_file style titlecase trim trim_end trim_end_match trim_end_matches trim_start trim_start_match trim_start_matches uppercamelcase uppercase uuid without_extension
    \ contained
 
-syn match justUserDefinedError "\v%(assert|error)%(%(\s|\\\n)*\()@="
+syn keyword justDeprecatedFunction env_var env_var_or_default
+   \ contained
+syn keyword justUserDefinedError assert error
+   \ contained
 
 syn match justReplaceRegex '\vreplace_regex%(\s|\\\n)*\(@=' transparent contains=justBuiltInFunction nextgroup=justReplaceRegexCall
 syn match justReplaceRegexInInterp '\vreplace_regex%(\s|\\\n)*\(@=' transparent contained contains=justBuiltInFunction nextgroup=justReplaceRegexCallInInterp
@@ -341,6 +345,7 @@ hi def link justConditional                      Conditional
 hi def link justConditionalOperator              Conditional
 hi def link justConstant                         Constant
 hi def link justCurlyBraces                      Special
+hi def link justDeprecatedFunction               Underlined
 hi def link justDollarEscape                     Special
 hi def link justDollarEscapeSplit                Special
 hi def link justExport                           Statement

@@ -22,7 +22,7 @@ dependency2 firstparam=("abc\t" / 'def\t\"') secondparam=("""
   /bin/echo {{quote(firstparam)}}
   /bin/echo {{quote(secondparam)}}
 
-dependency3 theparam=('a' + (if env_var_or_default('FOO', blake3_file(justfile())) == '1' { ' With Foo'} else { ' none ' + p1 / p2 }) / 'b'):
+dependency3 theparam=('a' + (if env('FOO', blake3_file(justfile())) == '1' { ' With Foo'} else { ' none ' + p1 / p2 }) / 'b'):
   echo {{quote(theparam)}}
 
 dependency4:
