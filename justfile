@@ -69,6 +69,7 @@ just_boolean_settings := """
   export
   fallback
   ignore-comments
+  no-exit-message
   positional-arguments
   quiet
   unstable

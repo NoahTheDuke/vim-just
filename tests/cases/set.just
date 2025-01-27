@@ -78,3 +78,7 @@ set unstable := true
 set unstable := false
 
 set working-directory := '/tmp'
+
+set no-exit-message
+set no-exit-message := true
+set no-exit-message := false

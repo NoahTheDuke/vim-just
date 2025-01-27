@@ -104,6 +104,7 @@ interp_with_conditional foo:
 	echo {{if foo != 'foo' { quote(foo) } else { foo / foo } }}
 
 [no-quiet]
+[exit-message]
 loud:
 	echo LOUD
 

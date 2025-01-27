@@ -87,7 +87,7 @@ syn region justRecipeAttributes
    \ contains=justRecipeAttr,justRecipeAttrSep,justRecipeAttrArgs,justRecipeAttrArgError,justRecipeAttrValueShort
 
 syn keyword justRecipeAttr
-   \ confirm doc extension group linux macos no-cd no-exit-message no-quiet openbsd positional-arguments private script unix windows working-directory
+   \ confirm doc exit-message extension group linux macos no-cd no-exit-message no-quiet openbsd positional-arguments private script unix windows working-directory
    \ contained
 syn match justRecipeAttrSep ',' contained
 syn match justRecipeAttrValueShort '\v:%(\_s|\\\n)*' transparent contained
@@ -161,10 +161,10 @@ syn match justAssignment "\v^\h\k*%(\s|\\\n)*:\=" transparent contains=justAssig
 
 syn match justSet '\v^set' contained
 syn keyword justSetKeywords
-   \ allow-duplicate-recipes allow-duplicate-variables dotenv-load dotenv-filename dotenv-path dotenv-required export fallback ignore-comments positional-arguments quiet script-interpreter shell tempdir unstable windows-shell working-directory
+   \ allow-duplicate-recipes allow-duplicate-variables dotenv-load dotenv-filename dotenv-path dotenv-required export fallback ignore-comments no-exit-message positional-arguments quiet script-interpreter shell tempdir unstable windows-shell working-directory
    \ contained
 syn keyword justSetDeprecatedKeywords windows-powershell contained
-syn match justBooleanSet "\v^set%(\s|\\\n)+%(allow-duplicate-%(recip|variabl)es|dotenv-%(loa|require)d|export|fallback|ignore-comments|positional-arguments|quiet|unstable|windows-powershell)%(%(\s|\\\n)*:\=%(\s|\\\n)*%(true|false))?%(\s|\\\n)*%($|#@=)"
+syn match justBooleanSet "\v^set%(\s|\\\n)+%(allow-duplicate-%(recip|variabl)es|dotenv-%(loa|require)d|export|fallback|ignore-comments|no-exit-message|positional-arguments|quiet|unstable|windows-powershell)%(%(\s|\\\n)*:\=%(\s|\\\n)*%(true|false))?%(\s|\\\n)*%($|#@=)"
    \ contains=justSet,justSetKeywords,justSetDeprecatedKeywords,justAssignmentOperator,justBoolean
    \ transparent
 
