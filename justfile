@@ -128,6 +128,7 @@ just_functions := replace_regex('''
   read
   replace
   replace_regex
+  require
   semver_matches
   sha256
   sha256_file
@@ -149,6 +150,7 @@ just_functions := replace_regex('''
   uppercamelcase
   uppercase
   uuid
+  which
   without_extension
 ''', '(?m)^(.*)_directory(_native)?$', "${1}_dir$2\n$0")
 
