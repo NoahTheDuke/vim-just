@@ -46,14 +46,14 @@ jobs:
         vim --version
 
     - name: Download Neovim
-      run: gh -R neovim/neovim release download -p nvim-linux64.tar.gz
+      run: gh -R neovim/neovim release download -p nvim-linux-x86_64.tar.gz
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Setup Neovim
       run: |
-        tar -C "$HOME" -xaf nvim-linux64.tar.gz
-        "$HOME/nvim-linux64/bin/nvim" --version
+        tar -C "$HOME" -xaf nvim-linux-x86_64.tar.gz
+        "$HOME/nvim-linux-x86_64/bin/nvim" --version
 
     - name: Rust Toolchain Info
       run: |
@@ -82,6 +82,6 @@ jobs:
 
     - name: Test Neovim
       run: |
-        export TEST_VIM="$HOME/nvim-linux64/bin/nvim"
+        export TEST_VIM="$HOME/nvim-linux-x86_64/bin/nvim"
         cargo run
         cargo run --bin=test-ftdetect
