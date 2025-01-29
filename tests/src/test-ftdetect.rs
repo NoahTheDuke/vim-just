@@ -3,7 +3,7 @@ use crate::common::*;
 
 use fancy_regex::Regex;
 use rand::{
-  distributions::{Alphanumeric, DistString},
+  distr::{Alphanumeric, SampleString},
   rngs::ThreadRng,
   Rng,
 };
@@ -45,7 +45,7 @@ impl Hash for FtdetectCase {
 }
 
 fn random_alnum(rng: &mut ThreadRng, minlen: u8, maxlen: u8) -> String {
-  let len = rng.gen_range(minlen..=maxlen);
+  let len = rng.random_range(minlen..=maxlen);
   Alphanumeric.sample_string(rng, len.into())
 }
 
@@ -63,7 +63,7 @@ fn main() -> io::Result<()> {
   let test_home = test_vim_home();
   let mut tempdirs: Vec<TempDir> = vec![tempdir().unwrap()];
 
-  let mut rng = rand::thread_rng();
+  let mut rng = rand::rng();
 
   let cases = fs::read_to_string("cases/ftdetect.yml")?;
   let cases = match serde_yaml2::from_str::<Vec<FtdetectCase>>(cases.as_str()) {

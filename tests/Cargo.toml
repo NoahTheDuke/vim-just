@@ -15,7 +15,7 @@ used_underscore_binding = "deny"
 [dependencies]
 ctrlc        = "3.4.5"
 fancy-regex  = "0.14.0"
-rand         = "0.8.5"
+rand         = "0.9"
 rayon        = "1.10.0"
 serde        = { version = "1.0.214", features = ["derive"] }
 serde_yaml2  = "0.1.2"
