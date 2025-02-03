@@ -10,6 +10,12 @@ endif
 
 let b:current_syntax = 'just'
 
+" Ensure the Vim syntaxes required by this file are enabled.
+" Setting and restoring 'cpoptions' is documented not to have side effects,
+" so this does not need to be conditionally gated.
+let s:cpo_save = &cpo
+set cpo&vim
+
 " syncing fromstart prevents mismatched highlighting when jumping around in a justfile
 " linebreaks= keeps multi-line constructs highlighted correctly while typing
 syn sync fromstart linebreaks=10
@@ -320,6 +326,10 @@ syn match justModStatement '^mod' contained
 
 syn match justOptionalFile '\V?' contained
 
+
+let &cpo = s:cpo_save
+unlet s:cpo_save
+
 " Most linked colorscheme colors are chosen based on semantics of the color name.
 " Some are for parity with other syntax files (for example, Number for recipe body highlighting
 " is to align with the make.vim distributed with Vim).
@@ -330,7 +340,8 @@ syn match justOptionalFile '\V?' contained
 "
 " Note that vim-just's highlight groups are an implementation detail and may be subject to change.
 
-" The list of highlight links is sorted alphabetically.
+" The list of highlight links is sorted alphabetically,
+" and is placed at the very end of the file to simplify keeping it sorted.
 
 hi def link justAlias                            Statement
 hi def link justAssignmentOperator               Operator
