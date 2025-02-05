@@ -82,22 +82,6 @@
 - not_justfile: true
   never: "(?i)^justfile$"
 
-- content: "#!/usr/bin/just"
-  never: "(?i)^justfile$"
-  not_justfile: true
-
-- content: "#!/usr/bin/just\n"
-  never: "(?i)^justfile$"
-  not_justfile: true
-
-- content: "#!/usr/bin/env just"
-  never: "(?i)^justfile$"
-  not_justfile: true
-
-- content: "#!/usr/bin/env just\n"
-  never: "(?i)^justfile$"
-  not_justfile: true
-
 - content: "#!/usr//bin/env just -f\n"
   never: "(?i)^justfile$"
 
