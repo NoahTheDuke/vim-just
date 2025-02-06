@@ -87,3 +87,12 @@
 
 - content: "#!//usr/local/bin/just -f\n"
   never: "(?i)^justfile$"
+
+- content: "#!/usr/bin/env just --justfile\n"
+  never: "(?i)^justfile$"
+
+- content: "#!/usr/bin/env just --working-directory . --justfile\n"
+  never: "(?i)^justfile$"
+
+- content: "#!/usr/bin/env -S just --justfile\n"
+  never: "(?i)^justfile$"
