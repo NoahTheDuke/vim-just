@@ -44,16 +44,26 @@ impl Hash for FtdetectCase {
   }
 }
 
-fn random_alnum(rng: &mut ThreadRng, minlen: u8, maxlen: u8) -> String {
+fn is_justfile_filename(s: &str) -> bool {
+  let s = s.to_ascii_lowercase();
+  s == "justfile" || s.ends_with(".justfile") || s.ends_with(".just")
+}
+
+fn random_alnum(rng: &mut ThreadRng, minlen: u8, maxlen: u8, never_like_justfile: bool) -> String {
   let len = rng.random_range(minlen..=maxlen);
-  Alphanumeric.sample_string(rng, len.into())
+  loop {
+    let r = Alphanumeric.sample_string(rng, len.into());
+    if !(never_like_justfile && is_justfile_filename(&r)) {
+      break r;
+    }
+  }
 }
 
 fn fuzz_filename<T: AsRef<str>>(rng: &mut ThreadRng, filename: T) -> String {
   filename
     .as_ref()
     .split_inclusive('*')
-    .map(|part| part.replace('*', random_alnum(rng, 3, 8).as_str()))
+    .map(|part| part.replace('*', random_alnum(rng, 3, 8, false).as_str()))
     .collect()
 }
 
@@ -91,24 +101,26 @@ fn main() -> io::Result<()> {
         Err(e) => return Err(io::Error::other(e)),
       }
     };
-    let mut never_rx_tries = 0;
+    let mut tries = 0;
     let fname = loop {
       let fname_ = if case.filename.is_empty() {
-        random_alnum(&mut rng, 1, 16)
+        random_alnum(&mut rng, 1, 16, true)
       } else {
         fuzz_filename(&mut rng, &case.filename)
       };
-      if let Some(r) = &never_rx {
-        if r.is_match(&fname_).unwrap() {
-          if never_rx_tries >= 20 {
-            return Err(io::Error::other(format!(
-              "Failed to find filename matching `{}` but not /{}/ after {} tries",
-              &case.filename, r, never_rx_tries
-            )));
-          }
-          never_rx_tries += 1;
-          continue;
+      if (case.not_justfile && is_justfile_filename(&fname_))
+        || never_rx
+          .as_ref()
+          .is_some_and(|r| r.is_match(&fname_).unwrap())
+      {
+        if tries >= 20 {
+          return Err(io::Error::other(format!(
+            "Failed to find a suitable filename for {:?} after {} tries",
+            &case, tries
+          )));
         }
+        tries += 1;
+        continue;
       }
       break fname_;
     };
