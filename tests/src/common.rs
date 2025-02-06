@@ -64,7 +64,7 @@ pub fn run_vim(
   home: &Path,
   interrupted: &Arc<AtomicBool>,
 ) -> io::Result<()> {
-  let mut vim = Command::new(&*VIM_BIN)
+  let mut vim = match Command::new(&*VIM_BIN)
     .arg(if *TEST_NVIM {
       "--headless"
     } else {
@@ -80,7 +80,13 @@ pub fn run_vim(
     .stdout(Stdio::null())
     .stderr(Stdio::piped())
     .spawn()
-    .unwrap();
+  {
+    Ok(o) => o,
+    Err(e) => {
+      eprintln!("Failed to start {:?} subprocess", VIM_BIN.to_string_lossy());
+      return Err(e);
+    }
+  };
 
   let mut vim_stdin = vim.stdin.take().unwrap();
   // Prevent stalling on "Press ENTER or type command to continue"
