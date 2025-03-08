@@ -138,7 +138,7 @@ syn match justVariadicPrefix "\v%(\s|\\\n)@3<=[*+]%(%(\s|\\\n)*\$?%(\s|\\\n)*\h)
 syn match justParamExport '\V$' contained
 syn match justVariadicPrefixError "\v\$%(\s|\\\n)*[*+]" contained
 
-syn match justParameterError "\v%(%([+*$]+%(\s|\\\n)*)*\h\k*)@>%(%(\s|\\\n)*\=)@!" contained
+syn match justParameterError "\v%(%([+$]+%(\s|\\\n)*)*\h\k*)@>%(%(\s|\\\n)*\=)@!" contained
 
 syn region justRecipeParenDefault
    \ matchgroup=justRecipeDepParamsParen start='\v%(\=%(\s|\\\n)*)@<=\(' end='\V)'

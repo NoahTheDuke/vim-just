@@ -78,7 +78,7 @@ variadic-env-wrong-order-with-whitespace $  *  PARAM:
 
 non-default-param-after-default param0='value' param1:
 	/bin/false
-non-default-param-after-default2 param0='value'  *  $  PARAM:
+non-default-param-after-default2 param0='value'  +  $  PARAM:
 	env
 non-default-param-after-default3 param0='value' param1 param2 param3 param4=something param5:
 	/bin/false

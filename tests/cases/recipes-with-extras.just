@@ -176,3 +176,8 @@ styles:
 attr-working-directory:
 	pwd
 	ls -lA
+
+variadic-star-after-default param1='foo' *ARGS:
+	echo {{ARGS}}
+variadic-star-after-default2 param1='foo' * ARGS:
+	echo {{ARGS}}
