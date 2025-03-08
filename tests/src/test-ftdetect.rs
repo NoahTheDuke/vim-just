@@ -3,9 +3,9 @@ use crate::common::*;
 
 use fancy_regex::Regex;
 use rand::{
+  Rng,
   distr::{Alphanumeric, SampleString},
   rngs::ThreadRng,
-  Rng,
 };
 use serde::Deserialize;
 use std::{
@@ -128,11 +128,7 @@ fn main() -> io::Result<()> {
       .iter()
       .find_map(|t| {
         let pth = t.path().join(&fname);
-        if pth.exists() {
-          None
-        } else {
-          Some(pth)
-        }
+        if pth.exists() { None } else { Some(pth) }
       })
       .unwrap_or_else(|| {
         tempdirs.push(tempdir().unwrap());

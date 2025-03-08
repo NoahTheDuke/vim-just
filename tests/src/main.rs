@@ -11,8 +11,8 @@ use std::{
   io::{self, ErrorKind},
   path::{Path, PathBuf},
   sync::{
-    atomic::{AtomicU64, Ordering::Relaxed},
     Mutex,
+    atomic::{AtomicU64, Ordering::Relaxed},
   },
   time::Instant,
 };

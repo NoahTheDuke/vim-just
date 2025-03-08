@@ -2,27 +2,23 @@ use std::{
   env,
   ffi::OsString,
   fs::canonicalize,
-  io::{self, prelude::*, ErrorKind},
+  io::{self, ErrorKind, prelude::*},
   os::unix::fs as ufs,
   path::{Path, PathBuf},
   process::{Command, Stdio},
   sync::{
-    atomic::{AtomicBool, Ordering::Relaxed},
     Arc, LazyLock,
+    atomic::{AtomicBool, Ordering::Relaxed},
   },
   time::Duration,
 };
-pub use tempfile::{tempdir, TempDir};
+pub use tempfile::{TempDir, tempdir};
 use wait_timeout::ChildExt;
 
 pub static VIM_BIN: LazyLock<OsString> = LazyLock::new(|| {
   let default_vim = OsString::from("vim");
   let v = env::var_os("TEST_VIM").unwrap_or(default_vim.clone());
-  if v.is_empty() {
-    default_vim
-  } else {
-    v
-  }
+  if v.is_empty() { default_vim } else { v }
 });
 static TEST_NVIM: LazyLock<bool> = LazyLock::new(|| {
   PathBuf::from(&*VIM_BIN)
