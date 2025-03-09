@@ -27,3 +27,10 @@ mod? x"$FOO.just"
 
 [doc("documented module")]
 mod foo
+
+alias foo := foo::foo
+alias foo := foo\
+::\
+	foo
+alias foo := foo  :: foo
+alias foo := foo::foo::foo

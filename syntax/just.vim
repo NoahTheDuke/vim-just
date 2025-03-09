@@ -193,7 +193,11 @@ syn match justAliasDecl "\v^alias%(\s|\\\n)+\h\k*%(\s|\\\n)*:\=%(\s|\\\n)*"
    \ transparent
    \ contains=justAlias,justFunction,justAssignmentOperator
    \ nextgroup=justAliasRes
-syn match justAliasRes '\v\h\k*%(\s|\\\n)*%(#@=|$)' contained transparent contains=justFunction
+syn match justAliasRes '\v\h\k*%(%(\s|\\\n)*::%(\s|\\\n)*\h\k*)*%(\s|\\\n)*%(#@=|$)'
+   \ contained transparent
+   \ contains=justFunction,justNamepathSep
+
+syn match justNamepathSep '\V::' contained
 
 syn match justExportedAssignment "\v^export%(\s|\\\n)+\h\k*%(\s|\\\n)*:\=" transparent
    \ contains=justExport,justAssignmentOperator
@@ -372,6 +376,7 @@ hi def link justLineContinuation                 Special
 hi def link justLineLeadingSymbol                Special
 hi def link justModStatement                     Keyword
 hi def link justName                             Identifier
+hi def link justNamepathSep                      Delimiter
 hi def link justOldInclude                       Error
 hi def link justOperator                         Operator
 hi def link justOptionalFile                     Conditional
