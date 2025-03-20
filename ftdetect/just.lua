@@ -2,7 +2,7 @@
 -- Language:	Justfile
 -- Maintainer:	Noah Bogart <noah.bogart@hey.com>
 -- URL:		https://github.com/NoahTheDuke/vim-just.git
--- Last Change:	2024 May 30
+-- Last Change:	2025 Feb 05
 
 if vim.fn.has("nvim-0.8") then
   vim.filetype.add({
