@@ -22,8 +22,7 @@ fn main() -> io::Result<()> {
     Ok(o) => o,
     Err(e) => {
       return Err(io::Error::other(format!(
-        "Invalid regex given on command line: {}",
-        e
+        "Invalid regex given on command line: {e}"
       )));
     }
   };
@@ -69,7 +68,7 @@ fn main() -> io::Result<()> {
   test_cases
     .par_iter()
     .try_for_each(|(name, case)| -> io::Result<()> {
-      let output = tmpdir.path().join(format!("{}.output.html", name));
+      let output = tmpdir.path().join(format!("{name}.output.html"));
 
       let ts = Instant::now();
 
@@ -98,11 +97,11 @@ fn main() -> io::Result<()> {
   let res = res.into_inner().unwrap();
 
   for (name, _) in test_cases.iter() {
-    eprintln!("test {}…", name);
+    eprintln!("test {name}…");
 
     let output = &res[name];
 
-    let expected = case_dir.join(format!("{}.html", name));
+    let expected = case_dir.join(format!("{name}.html"));
 
     if !expected.is_file() {
       eprintln!(
@@ -130,7 +129,7 @@ fn main() -> io::Result<()> {
       eprintln!("syntax highlighting mismatch:");
       for line in diff.lines() {
         if line.starts_with(' ') {
-          eprintln!("{}", line);
+          eprintln!("{line}");
           continue;
         }
         let color = if line.starts_with('+') {
@@ -144,7 +143,7 @@ fn main() -> io::Result<()> {
         } else {
           unimplemented!("no defined color for line: '{}'", line);
         };
-        eprintln!("\x1B[{}m{}\x1B[0m", color, line);
+        eprintln!("\x1B[{color}m{line}\x1B[0m");
       }
     }
   }

@@ -92,9 +92,9 @@ pub fn run_vim(
     // To avoid stray processes, don't return this error, try to terminate the Vim process
     // but unconditionally fall through to the .wait_timeout() below
     // so that the Vim process is always waited on.
-    eprintln!("Error writing to subprocess stdin: {}", e);
+    eprintln!("Error writing to subprocess stdin: {e}");
     if let Err(e) = vim.kill() {
-      eprintln!("Error sending signal to subprocess: {}", e);
+      eprintln!("Error sending signal to subprocess: {e}");
     }
   }
 

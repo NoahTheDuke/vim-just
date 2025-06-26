@@ -89,8 +89,7 @@ fn main() -> io::Result<()> {
   for case in cases {
     if !unique.insert(case.clone()) {
       return Err(io::Error::other(format!(
-        "Duplicate or contradictory test case: {:?}",
-        case
+        "Duplicate or contradictory test case: {case:?}"
       )));
     }
     let never_rx = if case.never.is_empty() {
@@ -156,8 +155,7 @@ fn main() -> io::Result<()> {
         Some((_, ft)) => ft,
         None => {
           return Err(io::Error::other(format!(
-            "expected to find \"filetype=\" in line: {:?}",
-            line
+            "expected to find \"filetype=\" in line: {line:?}"
           )));
         }
       };
@@ -166,8 +164,7 @@ fn main() -> io::Result<()> {
         passed += 1;
       } else {
         eprintln!(
-          "TEST FAILED: {:?} (file {}): unexpectedly detected as '{}'",
-          case, current_key, filetype
+          "TEST FAILED: {case:?} (file {current_key}): unexpectedly detected as '{filetype}'"
         );
       }
       current_key = "";
@@ -177,13 +174,12 @@ fn main() -> io::Result<()> {
   }
 
   if passed == total {
-    eprintln!("[\u{2713}] {0}/{0} ftdetect tests passed.", total);
+    eprintln!("[\u{2713}] {passed}/{total} ftdetect tests passed.");
     Ok(())
   } else {
     Err(io::Error::other(format!(
-      "{}/{} tests failed.",
-      total - passed,
-      total
+      "{}/{total} tests failed.",
+      total - passed
     )))
   }
 }
