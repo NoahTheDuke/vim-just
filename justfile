@@ -65,6 +65,7 @@ just_boolean_settings := """
   allow-duplicate-recipes
   allow-duplicate-variables
   dotenv-load
+  dotenv-override
   dotenv-required
   export
   fallback

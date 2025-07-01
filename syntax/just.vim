@@ -167,10 +167,10 @@ syn match justAssignment "\v^\h\k*%(\s|\\\n)*:\=" transparent contains=justAssig
 
 syn match justSet '\v^set' contained
 syn keyword justSetKeywords
-   \ allow-duplicate-recipes allow-duplicate-variables dotenv-load dotenv-filename dotenv-path dotenv-required export fallback ignore-comments no-exit-message positional-arguments quiet script-interpreter shell tempdir unstable windows-shell working-directory
+   \ allow-duplicate-recipes allow-duplicate-variables dotenv-load dotenv-filename dotenv-override dotenv-path dotenv-required export fallback ignore-comments no-exit-message positional-arguments quiet script-interpreter shell tempdir unstable windows-shell working-directory
    \ contained
 syn keyword justSetDeprecatedKeywords windows-powershell contained
-syn match justBooleanSet "\v^set%(\s|\\\n)+%(allow-duplicate-%(recip|variabl)es|dotenv-%(loa|require)d|export|fallback|ignore-comments|no-exit-message|positional-arguments|quiet|unstable|windows-powershell)%(%(\s|\\\n)*:\=%(\s|\\\n)*%(true|false))?%(\s|\\\n)*%($|#@=)"
+syn match justBooleanSet "\v^set%(\s|\\\n)+%(allow-duplicate-%(recip|variabl)es|dotenv-%(load|override|required)|export|fallback|ignore-comments|no-exit-message|positional-arguments|quiet|unstable|windows-powershell)%(%(\s|\\\n)*:\=%(\s|\\\n)*%(true|false))?%(\s|\\\n)*%($|#@=)"
    \ contains=justSet,justSetKeywords,justSetDeprecatedKeywords,justAssignmentOperator,justBoolean
    \ transparent
 

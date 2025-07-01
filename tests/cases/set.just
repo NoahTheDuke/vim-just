@@ -6,6 +6,10 @@ set dotenv-load
 set dotenv-load := true
 set dotenv-load := false
 
+set dotenv-override
+set dotenv-override := true
+set dotenv-override := false
+
 set export
 set export := true
 set export := false
