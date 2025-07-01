@@ -83,3 +83,5 @@ u_escape_in_replace_regex := replace_regex('foo', '^.', "\u{46}")
 not_u_escape := '\u{1F916}'
 
 _regex_mismatch := assert('foo' !~ '^ba', "foo is not bar or baz")
+
+test_path := PATH_SEP + 'bin' + PATH_VAR_SEP + env("PATH")
