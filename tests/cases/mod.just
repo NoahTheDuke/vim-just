@@ -34,3 +34,11 @@ alias foo := foo\
 	foo
 alias foo := foo  :: foo
 alias foo := foo::foo::foo
+
+foo: foo::foo foo \
+  :: \
+ foo (foo::foo::\
+foo foo foo) (foo \
+  :: \
+  foo foo)
+	echo foo

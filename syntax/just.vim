@@ -28,7 +28,12 @@ syn match justCommentInBody '#.*$' contained contains=justCommentTodo,justInterp
 syn keyword justCommentTodo TODO FIXME XXX contained
 syn match justShebang "^\s*#!.*$" contains=justInterpolation,@justOtherCurlyBraces
 syn match justName "\h\k*" contained
-syn match justFunction "\h\k*" contained
+
+syn match justNamepath "\v\h\k*%(%(\s|\\\n)*::%(\s|\\\n)*\h\k*)*"
+   \ contained
+   \ contains=justNamepathComponent,justNamepathSep
+syn match justNamepathComponent "\h\k*" contained
+syn match justNamepathSep '\V::' contained
 
 syn match justPreBodyComment "\v%(\s|\\\n)*%([^\\]\n)@3<!#%([^!].*)?\n%(\t+| +)@=" transparent contained contains=justComment
    \ nextgroup=@justBodies skipnl
@@ -114,7 +119,7 @@ syn region justRecipeDeclComplex start="\v^\@?\h\k*%(\s|\\\n)+%([+*$]+%(\s|\\\n)
    \ contains=justRecipeName,justParameter
    \ nextgroup=justRecipeNoDeps,justRecipeDeps
 
-syn match justRecipeName "\v^\@?\h\k*" transparent contained contains=justRecipeAt,justFunction
+syn match justRecipeName "\v^\@?\h\k*" transparent contained contains=justRecipeAt,justNamepathComponent
 
 syn match justParameter "\v%(\s|\\\n)@3<=%(%([*+]%(\s|\\\n)*)?%(\$%(\s|\\\n)*)?|\$%(\s|\\\n)*[*+]%(\s|\\\n)*)\h\k*"
    \ transparent contained
@@ -152,7 +157,7 @@ syn match justRecipeNoDeps '\v:%(\s|\\\n)*\n|:#@=|:%(\s|\\\n)+#@='
    \ nextgroup=justPreBodyComment,@justBodies
 syn region justRecipeDeps start="\v:%(\s|\\\n)*%([a-zA-Z_(]|\&\&)" skip='\\\n' end="\v#@=|\\@1<!\n"
    \ transparent contained
-   \ contains=justFunction,justRecipeColon,justRecipeSubsequentDeps,justRecipeParamDep
+   \ contains=justNamepath,justRecipeColon,justRecipeSubsequentDeps,justRecipeParamDep
    \ nextgroup=justPreBodyComment,@justBodies
 
 syn region justRecipeParamDep contained transparent
@@ -191,13 +196,11 @@ syn match justShellSetError '\v\k+['"]@!' contained
 syn match justAlias '\v^alias' contained
 syn match justAliasDecl "\v^alias%(\s|\\\n)+\h\k*%(\s|\\\n)*:\=%(\s|\\\n)*"
    \ transparent
-   \ contains=justAlias,justFunction,justAssignmentOperator
+   \ contains=justAlias,justNamepathComponent,justAssignmentOperator
    \ nextgroup=justAliasRes
 syn match justAliasRes '\v\h\k*%(%(\s|\\\n)*::%(\s|\\\n)*\h\k*)*%(\s|\\\n)*%(#@=|$)'
    \ contained transparent
-   \ contains=justFunction,justNamepathSep
-
-syn match justNamepathSep '\V::' contained
+   \ contains=justNamepath
 
 syn match justExportedAssignment "\v^export%(\s|\\\n)+\h\k*%(\s|\\\n)*:\=" transparent
    \ contains=justExport,justAssignmentOperator
@@ -276,9 +279,9 @@ syn region justReplaceRegexCallInInterp
 
 syn match justParameterLineContinuation '\v%(\s|\\\n)*' contained nextgroup=justParameterError
 
-syn match justRecipeDepParenName '\v%(\(\n?)@3<=%(\_s|\\\n)*\h\k*'
+syn match justRecipeDepParenName '\v%(\(\n?)@3<=%(\_s|\\\n)*\h\k*%(%(\s|\\\n)*::%(\s|\\\n)*\h\k*)*'
    \ transparent contained
-   \ contains=justFunction
+   \ contains=justNamepath
 
 syn cluster justBuiltInFunctions contains=justFunctionCall,justUserDefinedError
 
@@ -366,7 +369,6 @@ hi def link justDeprecatedFunction               Underlined
 hi def link justDollarEscape                     Special
 hi def link justDollarEscapeSplit                Special
 hi def link justExport                           Statement
-hi def link justFunction                         Function
 hi def link justImportStatement                  Include
 hi def link justIndentError                      Error
 hi def link justInterpError                      Error
@@ -377,6 +379,7 @@ hi def link justLineContinuation                 Special
 hi def link justLineLeadingSymbol                Special
 hi def link justModStatement                     Keyword
 hi def link justName                             Identifier
+hi def link justNamepathComponent                Function
 hi def link justNamepathSep                      Delimiter
 hi def link justOldInclude                       Error
 hi def link justOperator                         Operator
