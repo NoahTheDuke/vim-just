@@ -110,7 +110,7 @@ syn match justRecipeAttrArgError '\v\(%(\s|\\?\n)*\)' contained
 
 syn match justInvalidAttrValue '\v[^"',]["']@![^,\]]*' contained
 
-syn match justRecipeDeclSimple "\v^\@?\h\k*%(%(\s|\\\n)*:\=@!)@="
+syn match justRecipeDeclSimple "\v^\@?\h\k*%(\s|\\\n)*%(:\=@!)@="
    \ transparent contains=justRecipeName
    \ nextgroup=justRecipeNoDeps,justRecipeDeps
 

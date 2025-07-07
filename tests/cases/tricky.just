@@ -178,3 +178,6 @@ ignored-comments-in-recipe foo='Foo':
 documented1:
 # documented recipe 2
 documented2:
+
+space_after_name_before_colon_no_params :
+	echo recipe body
