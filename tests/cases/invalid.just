@@ -127,3 +127,11 @@ attr-shorthand-takes-only-one-argument:
 recipe-without-body:
 # comment
 	echo this line is not recipe body
+
+foo::bar:
+foo::bar :
+	echo recipe names are not module namepaths
+
+foo bar::baz:
+foo bar::baz :
+	echo recipe parameters are not module namepaths

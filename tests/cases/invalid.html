@@ -127,3 +127,11 @@ not_a_recipe_start
 <span class="Function">recipe-without-body</span><span class="Operator">:</span>
 <span class="Comment"># comment</span>
 &Tab;echo this line is not recipe body
+
+<span class="Function">foo</span>::bar:
+<span class="Function">foo</span>::bar :
+&Tab;echo recipe names are not module namepaths
+
+<span class="Function">foo</span> <span class="Identifier">bar</span>::baz:
+<span class="Function">foo</span> <span class="Identifier">bar</span>::baz :
+&Tab;echo recipe parameters are not module namepaths
