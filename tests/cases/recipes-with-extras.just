@@ -187,3 +187,15 @@ variadic-star-after-default2 param1='foo' * ARGS:
 [metadata("foo", "bar")]
 recipe-with-metadata:
 	echo foo
+
+test-not-parallel: sleep2 sleep1
+[parallel]
+test-parallel: sleep2 sleep1
+
+sleep1:
+	sleep 1
+	echo 'sleep1 done'
+
+sleep2:
+	sleep 2
+	echo 'sleep2 done'
