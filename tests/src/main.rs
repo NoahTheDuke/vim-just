@@ -45,10 +45,10 @@ fn main() -> io::Result<()> {
               return None;
             }
             let name = p.file_stem().unwrap().to_str().unwrap().to_owned();
-            if let Some(rx) = &filter {
-              if !rx.is_match(&name).unwrap() {
-                return None;
-              }
+            if let Some(rx) = &filter
+              && !rx.is_match(&name).unwrap()
+            {
+              return None;
             }
             Some(Ok((name, p)))
           }
