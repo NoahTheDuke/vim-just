@@ -199,3 +199,7 @@ sleep1:
 sleep2:
 	sleep 2
 	echo 'sleep2 done'
+
+[default]
+the-default-recipe:
+	echo 'default recipe'
