@@ -4,7 +4,7 @@
 -- URL:		https://github.com/NoahTheDuke/vim-just.git
 -- Last Change:	2025 Feb 05
 
-if vim.fn.has("nvim-0.8") then
+if vim.fn.has("nvim-0.8") == 1 then
   vim.filetype.add({
     -- Neovim adds start/end anchors to the patterns
     pattern = {
