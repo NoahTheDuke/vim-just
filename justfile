@@ -34,6 +34,14 @@ gpreview JUSTFILE='': (_preview_common 'gvim -f' JUSTFILE)
 [no-cd]
 npreview JUSTFILE='': (_preview_common 'nvim' JUSTFILE)
 
+# preview JUSTFILE in Vim with stock config + syntax file from this repository
+[no-cd]
+stock-preview JUSTFILE='': (_preview_common 'vim --clean' JUSTFILE)
+
+# preview JUSTFILE in Neovim with stock config + syntax file from this repository
+[no-cd]
+stock-npreview JUSTFILE='': (_preview_common 'nvim --clean' JUSTFILE)
+
 [no-cd]
 _preview_common vimcmd JUSTFILE:
 	{{vimcmd}} \
