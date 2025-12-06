@@ -51,6 +51,6 @@ check-cases:
   }})
   for case in cases/*.just;do
     if [[ -z "${cases_invalid_justfiles["$case"]}" ]];then
-      {{quote(just_executable())}} --unstable -f "$case" --list >/dev/null
+      {{quote(just_executable())}} -f "$case" --list >/dev/null
     fi
   done
