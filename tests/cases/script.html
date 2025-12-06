@@ -1,0 +1,9 @@
+<span class="Type">[script</span><span class="Operator">:</span> <span class="String">'python3'</span><span class="Type">]</span>
+<span class="Function">python_info</span><span class="Operator">:</span>
+<span class="Number">&Tab;import platform</span>
+<span class="Number">&Tab;print(platform.python_implementation(), platform.python_version())</span>
+
+<span class="Type">[script(</span><span class="String">'just'</span>, <span class="String">'-d'</span>, <span class="String">x'</span><span class="PreProc">${PWD</span><span class="Operator">:-</span><span class="Character">.</span><span class="PreProc">}</span><span class="String">/'</span>, <span class="String">'-f'</span><span class="Type">)]</span>
+<span class="Function">nested_justfile</span><span class="Operator">:</span>
+<span class="Number">&Tab;foo:</span>
+<span class="Number">&Tab;&Tab;pwd</span>
