@@ -56,9 +56,20 @@ syn region justShellExpandString
    \ start=/\v\k@1<!x"""/ skip=/\\\\\|\\"/ end=/"""/
    \ contains=justStringEscapeSequence,justStringUEscapeSequence,justStringEscapeError,justShellExpandVar,justDollarEscape,justDollarEscapeSplit
 
+syn region justFStringRaw start=/\v\k@1<!f'/ end=/'/
+   \ contains=justInterpolation,@justOtherCurlyBraces
+syn region justFStringRaw start=/\v\k@1<!f'''/ end=/'''/
+   \ contains=justInterpolation,@justOtherCurlyBraces
+syn region justFString
+   \ start=/\v\k@1<!f"/ skip=/\\\\\|\\"/ end=/"/
+   \ contains=justStringEscapeSequence,justStringUEscapeSequence,justStringEscapeError,justInterpolation,@justOtherCurlyBraces
+syn region justFString
+   \ start=/\v\k@1<!f"""/ skip=/\\\\\|\\"/ end=/"""/
+   \ contains=justStringEscapeSequence,justStringUEscapeSequence,justStringEscapeError,justInterpolation,@justOtherCurlyBraces
+
 syn cluster justStringLiterals
    \ contains=justRawString,justString,justShellExpandRawString,justShellExpandString
-syn cluster justAllStrings contains=justBacktick,@justStringLiterals
+syn cluster justAllStrings contains=justBacktick,justFStringRaw,justFString,@justStringLiterals
 
 syn match justRegexReplacement
    \ /\v,%(\_s|\\\n)*%('\_[^']*'|'''%(\_.%(''')@!)*\_.?''')%(\_s|\\\n)*%(,%(\_s|\\\n)*)?\)/me=e-1
@@ -369,6 +380,8 @@ hi def link justDeprecatedFunction               Underlined
 hi def link justDollarEscape                     Special
 hi def link justDollarEscapeSplit                Special
 hi def link justExport                           Statement
+hi def link justFString                          String
+hi def link justFStringRaw                       String
 hi def link justImportStatement                  Include
 hi def link justIndentError                      Error
 hi def link justInterpError                      Error
