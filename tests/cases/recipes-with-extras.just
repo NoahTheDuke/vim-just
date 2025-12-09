@@ -203,3 +203,11 @@ sleep2:
 [default]
 the-default-recipe:
 	echo 'default recipe'
+
+interpolation-close-right-after-conditional foo:
+  echo {{ if foo == "bar" { "hello" } else { "goodbye" }}}123
+
+multi_line_interpolation_noindent:
+	echo {{"foo" +
+p1 }}
+	echo 'next recipe body line'

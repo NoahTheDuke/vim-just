@@ -203,3 +203,11 @@ somevar <span class="Operator">:=</span> <span class="String">"1"</span>
 <span class="Type">[default]</span>
 <span class="Function">the-default-recipe</span><span class="Operator">:</span>
 <span class="Number">&Tab;echo </span><span class="String">'default recipe'</span>
+
+<span class="Function">interpolation-close-right-after-conditional</span> <span class="Identifier">foo</span><span class="Operator">:</span>
+<span class="Number">  echo </span><span class="Delimiter">{{</span><span class="Normal"> </span><span class="Conditional">if</span><span class="Normal"> </span><span class="Identifier">foo</span><span class="Normal"> </span><span class="Conditional">==</span><span class="Normal"> </span><span class="String">"bar"</span><span class="Normal"> { </span><span class="String">"hello"</span><span class="Normal"> } </span><span class="Conditional">else</span><span class="Normal"> { </span><span class="String">"goodbye"</span><span class="Normal"> }</span><span class="Delimiter">}}</span><span class="Number">123</span>
+
+<span class="Function">multi_line_interpolation_noindent</span><span class="Operator">:</span>
+<span class="Number">&Tab;echo </span><span class="Delimiter">{{</span><span class="String">"foo"</span><span class="Normal"> </span><span class="Operator">+</span>
+<span class="Identifier">p1</span><span class="Normal"> </span><span class="Delimiter">}}</span>
+<span class="Number">&Tab;echo </span><span class="String">'next recipe body line'</span>

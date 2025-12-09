@@ -223,7 +223,7 @@ syn match justUnexport '\v^unexport' contained
 
 syn keyword justConditional if else
 syn region justConditionalBraces start="\v\{\{@!" end="\v\}@=" transparent contains=@justExpr
-syn region justConditionalBracesInInterp start="\v\{\{@!" end="\v\}@=" transparent contained contains=@justExprInInterp
+syn region justConditionalBracesInInterp start="\v\{\{@!" end="\V}" transparent contained contains=@justExprInInterp
 
 syn match justLineLeadingSymbol "\v^%(\\\n)@3<!\s+\zs%(\@-|-\@|\@|-)"
 
@@ -251,8 +251,7 @@ syn match justShebangIndentError '\v^ +\zs\t\s*\S@='
 
 syn region justInterpolation
    \ matchgroup=justInterpolationDelim
-   \ start="\v\{\{\{@!" end="\v%(%(\\\n\s|\S)\s*)@<=\}\}|$"
-   \ matchgroup=justInterpError end='^\S'
+   \ start="\v\{\{\{@!" end="\V}}"
    \ contained
    \ contains=@justExprInInterp
 

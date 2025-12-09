@@ -85,3 +85,18 @@ not_u_escape := '\u{1F916}'
 _regex_mismatch := assert('foo' !~ '^ba', "foo is not bar or baz")
 
 test_path := PATH_SEP + 'bin' + PATH_VAR_SEP + env("PATH")
+
+fstring1 := f'{{u_escape}} {{not_u_escape}}'
+fstring2 := f"{{u_escape + " " + not_u_escape}} test"
+fstring3 := f'{{u_escape + '.' + not_u_escape}} '
+fstring4 := f'''
+{{ random1 +
+test_path + " '' " + choose('8', 'abcdefghij')
+ + \
+uuid()
+}}'''
+fstring5 := f"""
+  Foo {{random1
++ uuid() + test_path}}
+  bar baz {{'foo' + "Foo" + """foo""" + random1}}
+"""

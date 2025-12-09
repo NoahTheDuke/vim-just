@@ -64,11 +64,6 @@ bad_curly_braces:
 	echo {{{{{{{Odd number of opening curly braces is an error.}}}}}
 	echo "{{{{{{{{{Odd number of opening curly braces is an error.}}}}}"
 
-early-interpolation-close foo:
-  echo {{ if foo == "bar" { "hello" } else { "goodbye" }}}
-other-recipe:
-	echo interpolation ended in last recipe
-
 variadic-env-wrong-order1 param0 $*PARAM:
 	env
 variadic-env-wrong-order2 $+PARAM="1":
@@ -102,11 +97,6 @@ argless-attribute2:
 ) ]
 argless-attribute3:
 	/bin/false
-
-invalid_multi_line_interp:
-	echo {{"foo" + \
-bar }}
-	echo this line is not part of the recipe body
 
 [group: group]
 invalid-shorthand-attr-value:
