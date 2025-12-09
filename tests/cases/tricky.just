@@ -181,3 +181,10 @@ documented2:
 
 space_after_name_before_colon_no_params :
 	echo recipe body
+
+curly_braces_x5:
+	echo {{{{{3 opening 2 closing}}
+	echo {{{{{{{{{5 opening 2 closing}}
+	echo '{{{{{3 opening 2 closing}}'
+	echo '{{{{{{{{{5 opening 2 closing}}'
+	echo "{{{{{{{{{5 opening 5 closing}}}}}"

@@ -53,16 +53,11 @@ bad_but_not_mixed_indentation_shebang:
 	echo 'tab indent'
 
 bad_curly_braces:
-	echo {{{Odd number of opening curly braces is an error.}}
-	echo {{{{{Odd number of opening curly braces is an error.}}
-	echo {{{{{{{Odd number of opening curly braces is an error.}}
-	echo {{{{{{{{{Odd number of opening curly braces is an error.}}
-	echo '{{{Odd number of opening curly braces is an error.}}'
-	echo '{{{{{Odd number of opening curly braces is an error.}}'
-	echo '{{{{{{{Odd number of opening curly braces is an error.}}'
-	echo '{{{{{{{{{Odd number of opening curly braces is an error.}}'
-	echo {{{{{{{Odd number of opening curly braces is an error.}}}}}
-	echo "{{{{{{{{{Odd number of opening curly braces is an error.}}}}}"
+	echo {{{3 opening curly braces is an error.}}
+	echo {{{{{{{3 opening curly braces is an error.}}
+	echo '{{{3 opening curly braces is an error.}}'
+	echo '{{{{{{{3 opening curly braces is an error.}}'
+	echo {{{{{{{3 opening curly braces is an error.}}}}}
 
 variadic-env-wrong-order1 param0 $*PARAM:
 	env
