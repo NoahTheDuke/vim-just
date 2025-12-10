@@ -211,3 +211,22 @@ multi_line_interpolation_noindent:
 	echo {{"foo" +
 p1 }}
 	echo 'next recipe body line'
+
+[arg('foo', pattern="foo")]
+param_with_pattern1 foo:
+	echo {{quote(foo)}}
+[arg('foo', pattern = '\w+')]
+param_with_pattern2 foo:
+	echo {{quote(foo)}}
+[arg("foo", pattern = \
+ x"$WAYLAND_DISPLAY|$DISPLAY")]
+param_with_pattern3 foo:
+	echo {{quote(foo)}}
+[arg('foo',
+pattern
+\
+=
+\
+ ".*\"")]
+param_with_pattern4 foo:
+	echo {{quote(foo)}}

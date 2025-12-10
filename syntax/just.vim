@@ -109,17 +109,21 @@ syn region justRecipeAttributes
    \ contains=justRecipeAttr,justRecipeAttrSep,justRecipeAttrArgs,justRecipeAttrArgError,justRecipeAttrValueShort
 
 syn keyword justRecipeAttr
-   \ confirm default doc exit-message extension group linux macos metadata no-cd no-exit-message no-quiet openbsd parallel positional-arguments private script unix windows working-directory
+   \ arg confirm default doc exit-message extension group linux macos metadata no-cd no-exit-message no-quiet openbsd parallel positional-arguments private script unix windows working-directory
    \ contained
 syn match justRecipeAttrSep ',' contained
 syn match justRecipeAttrValueShort '\v:%(\_s|\\\n)*' transparent contained
    \ contains=justRecipeAttrValueColon nextgroup=@justStringLiterals,justInvalidAttrValue
 syn match justRecipeAttrValueColon '\V:' contained
 syn region justRecipeAttrArgs matchgroup=justRecipeAttr start='\V(' end='\V)' contained
-   \ contains=@justStringLiterals
+   \ contains=@justStringLiterals,justRecipeAttrKeywordArg
 syn match justRecipeAttrArgError '\v\(%(\s|\\?\n)*\)' contained
 
 syn match justInvalidAttrValue '\v[^"',]["']@![^,\]]*' contained
+
+syn match justRecipeAttrKeywordArg '\v\h\k*%(\s|\\?\n)*\=' contained
+   \ contains=justRecipeAttrArgName,justParameterOperator
+syn match justRecipeAttrArgName '\h\k*' contained
 
 syn match justRecipeDeclSimple "\v^\@?\h\k*%(\s|\\\n)*%(:\=@!)@="
    \ transparent contains=justRecipeName
@@ -403,6 +407,7 @@ hi def link justRawStrRegexRepl                  String
 hi def link justRecipeAt                         Special
 hi def link justRecipeAttr                       Type
 hi def link justRecipeAttrArgError               Error
+hi def link justRecipeAttrArgName                Keyword
 hi def link justRecipeAttrSep                    Operator
 hi def link justRecipeAttrValueColon             Operator
 hi def link justRecipeColon                      Operator
