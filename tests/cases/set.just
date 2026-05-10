@@ -14,6 +14,14 @@ set export
 set export := true
 set export := false
 
+set lazy
+set lazy := true
+set lazy := false
+
+set no-cd
+set no-cd := true
+set no-cd := false
+
 set positional-arguments
 set positional-arguments := true
 set positional-arguments := false
