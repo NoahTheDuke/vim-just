@@ -78,6 +78,8 @@ just_boolean_settings := """
   export
   fallback
   ignore-comments
+	lazy
+	no-cd
   no-exit-message
   positional-arguments
   quiet
