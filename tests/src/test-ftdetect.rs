@@ -3,7 +3,7 @@ use crate::common::*;
 
 use fancy_regex::Regex;
 use rand::{
-  Rng,
+  RngExt,
   distr::{Alphanumeric, SampleString},
   rngs::ThreadRng,
 };
