@@ -48,6 +48,10 @@ runpwd:
 error:
 	sh -c 'echo Exit 3;exit 3'
 
+[android]
+android-only:
+	echo android
+
 [ unix ]
 [  macos,windows, linux ]
 any:
