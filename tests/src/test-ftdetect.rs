@@ -115,7 +115,7 @@ fn main() -> io::Result<()> {
         if tries >= 20 {
           return Err(io::Error::other(format!(
             "Failed to find a suitable filename for {:?} after {} tries",
-            &case, tries
+            case, tries
           )));
         }
         tries += 1;
