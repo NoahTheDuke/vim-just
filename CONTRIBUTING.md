@@ -20,6 +20,34 @@ this can simply be a link to the relevant issue.
 We sometimes like to manually apply PRs, so don't be
 surprised if we close your PR while pushing your authored commit directly to main.
 
+## AI/LLM Usage
+
+### Code Contributions
+
+**We do not accept third-party code contributions containing any AI-generated code.**
+**Only code contributions originating from vim-just developers may use any form of AI assistance.**
+
+In our experience,
+AI-generating usable code takes highly-detailed prompting
+and feedback-informed trial-and-error.
+Since `vim-just` has quite a few non-obvious tricky aspects,
+AI coding assistance with `vim-just` would require knowing these subtleties well enough to:
+
+ - explain them in the needed level of detail,
+ - spot where an AI misses them,
+ - know what concept(s) need to be iteratively explained better in the prompt to help the AI improve its answers, and
+ - know how and when to switch to tuning the code by hand.
+
+That requires developer-level familiarity with `vim-just`'s code.
+
+If AI assistance is useful for a code change, it's more straightforward and more fun for us to prompt the AI ourselves on our own terms.  This streamlines the review process and provides more opportunity for maximizing code quality before committing.
+
+We're happy to assist people who are willing to learn and care for the `vim-just` project in creating the PR yourself!
+
+### Commenting
+
+Do not use any generative AI when commenting in this project in any form. Not when filing an issue, not when writing a pull request description, not when writing a comment, not when writing a commit message. Nothing. This is on the honor system but I'm trusting you here. Don't fuckin do it.
+
 Developer Documentation
 =======================
 
