@@ -339,8 +339,6 @@ syn match justImport /\v^import%(%(\s|\\\n)*\?|%(\s|\\\n)+%(x?['"])@=)/ transpar
    \ contains=justImportStatement,justOptionalFile
 syn match justImportStatement '^import' contained
 
-syn match justOldInclude "^!include"
-
 syn match justModule /\v^mod%(%(\s|\\\n)*\?)?%(\s|\\\n)+\h\k*\s*%($|%(\s|\\\n)*%(x?['"]|#)@=)/
    \ transparent contains=justModStatement,justName,justOptionalFile
 syn match justModStatement '^mod' contained
@@ -396,7 +394,6 @@ hi def link justModStatement                     Keyword
 hi def link justName                             Identifier
 hi def link justNamepathComponent                Function
 hi def link justNamepathSep                      Delimiter
-hi def link justOldInclude                       Error
 hi def link justOperator                         Operator
 hi def link justOptionalFile                     Conditional
 hi def link justParameterError                   Error
