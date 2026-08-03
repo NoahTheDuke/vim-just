@@ -234,3 +234,9 @@ pattern
  ".*\"")]
 param_with_pattern4 foo:
 	echo {{quote(foo)}}
+
+set guards
+recipe-with-guards:
+	?/bin/true
+	?@echo 'command not echoed'
+	@?echo 'command not echoed'

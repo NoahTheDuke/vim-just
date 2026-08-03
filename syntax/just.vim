@@ -229,7 +229,7 @@ syn keyword justConditional if else
 syn region justConditionalBraces start="\v\{\{@!" end="\v\}@=" transparent contains=@justExpr
 syn region justConditionalBracesInInterp start="\v\{\{@!" end="\V}" transparent contained contains=@justExprInInterp
 
-syn match justLineLeadingSymbol "\v^%(\\\n)@3<!\s+\zs%(\@-|-\@|\@|-)"
+syn match justLineLeadingSymbol "\v^%(\\\n)@3<!\s+\zs%(\@[-?]|[-?]\@|[@?-])"
 
 syn match justLineContinuation "\\$"
    \ containedin=ALLBUT,justComment,justCommentInBody,justShebang,@justRawStrings,justRecipeAttrArgError,justShellExpandRawDefaultValue
