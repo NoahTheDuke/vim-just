@@ -109,7 +109,7 @@ syn region justRecipeAttributes
    \ contains=justRecipeAttr,justRecipeAttrSep,justRecipeAttrArgs,justRecipeAttrArgError,justRecipeAttrValueShort
 
 syn keyword justRecipeAttr
-   \ android arg confirm default doc exit-message extension group linux macos metadata no-cd no-exit-message no-quiet openbsd parallel positional-arguments private script unix windows working-directory
+   \ android arg cache confirm continue default doc dragonfly env exit-message extension freebsd group linux macos metadata netbsd no-cd no-exit-message no-quiet openbsd parallel positional-arguments private script shell timestamp unix windows working-directory
    \ contained
 syn match justRecipeAttrSep ',' contained
 syn match justRecipeAttrValueShort '\v:%(\_s|\\\n)*' transparent contained
@@ -187,10 +187,10 @@ syn match justAssignment "\v^\h\k*%(\s|\\\n)*:\=" transparent contains=justAssig
 
 syn match justSet '\v^set' contained
 syn keyword justSetKeywords
-   \ allow-duplicate-recipes allow-duplicate-variables dotenv-load dotenv-filename dotenv-override dotenv-path dotenv-required export fallback ignore-comments lazy no-cd no-exit-message positional-arguments quiet script-interpreter shell tempdir unstable windows-shell working-directory
+   \ allow-duplicate-recipes allow-duplicate-variables default-list default-script dotenv-load dotenv-filename dotenv-override dotenv-path dotenv-required export fallback guards ignore-comments indentation lazy lists minimum-version no-cd no-exit-message positional-arguments quiet script-interpreter shell tempdir unstable windows-shell working-directory
    \ contained
 syn keyword justSetDeprecatedKeywords windows-powershell contained
-syn match justBooleanSet "\v^set%(\s|\\\n)+%(allow-duplicate-%(recip|variabl)es|dotenv-%(load|override|required)|export|fallback|ignore-comments|lazy|no-cd|no-exit-message|positional-arguments|quiet|unstable|windows-powershell)%(%(\s|\\\n)*:\=%(\s|\\\n)*%(true|false))?%(\s|\\\n)*%($|#@=)"
+syn match justBooleanSet "\v^set%(\s|\\\n)+%(allow-duplicate-%(recip|variabl)es|d%(efault-%(lis|scrip)t|otenv-%(load|override|required))|export|fallback|guards|ignore-comments|l%(azy|ists)|no-%(cd|exit-message)|positional-arguments|quiet|unstable|windows-powershell)%(%(\s|\\\n)*:\=%(\s|\\\n)*%(true|false))?%(\s|\\\n)*%($|#@=)"
    \ contains=justSet,justSetKeywords,justSetDeprecatedKeywords,justAssignmentOperator,justBoolean
    \ transparent
 
@@ -268,7 +268,7 @@ syn match justFunctionCall "\v\w+%(\s|\\\n)*\(@=" transparent
 
 " error, env_var, and env_var_or_default are intentionally not included in this list
 syn keyword justBuiltInFunction
-   \ absolute_path append arch blake3 blake3_file cache_dir cache_directory canonicalize capitalize choose clean config_dir config_directory config_local_dir config_local_directory data_dir data_directory data_local_dir data_local_directory datetime datetime_utc encode_uri_component env executable_dir executable_directory extension file_name file_stem home_dir home_directory invocation_dir invocation_dir_native invocation_directory invocation_directory_native is_dependency join just_executable just_pid justfile justfile_dir justfile_directory kebabcase lowercamelcase lowercase module_dir module_directory module_file num_cpus os os_family parent_dir parent_directory path_exists prepend quote read replace replace_regex require semver_matches sha256 sha256_file shell shoutykebabcase shoutysnakecase snakecase source_dir source_directory source_file style titlecase trim trim_end trim_end_match trim_end_matches trim_start trim_start_match trim_start_matches uppercamelcase uppercase uuid which without_extension
+   \ absolute_path append arch blake3 blake3_file bool cache_dir cache_directory canonicalize capitalize choose clean config_dir config_directory config_local_dir config_local_directory data_dir data_directory data_local_dir data_local_directory datetime datetime_utc encode_uri_component env executable_dir executable_directory extension file_name file_stem home_dir home_directory invocation_dir invocation_dir_native invocation_directory invocation_directory_native is_dependency join join_list just_executable just_pid just_version justfile justfile_dir justfile_directory kebabcase lowercamelcase lowercase module_dir module_directory module_file module_path num_cpus num_jobs os os_family parent_dir parent_directory path_exists prepend quote read recipe_name replace replace_regex require runtime_dir runtime_directory semver_matches sha256 sha256_file shell shoutykebabcase shoutysnakecase show snakecase source_dir source_directory source_file split style titlecase trim trim_end trim_end_match trim_end_matches trim_start trim_start_match trim_start_matches uppercamelcase uppercase uuid which without_extension
    \ contained
 
 syn keyword justDeprecatedFunction env_var env_var_or_default

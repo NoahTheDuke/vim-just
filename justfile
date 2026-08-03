@@ -72,14 +72,18 @@ update-last-changed *force:
 just_boolean_settings := """
   allow-duplicate-recipes
   allow-duplicate-variables
+  default-list
+  default-script
   dotenv-load
   dotenv-override
   dotenv-required
   export
   fallback
+  guards
   ignore-comments
-	lazy
-	no-cd
+  lazy
+  lists
+  no-cd
   no-exit-message
   positional-arguments
   quiet
@@ -98,6 +102,7 @@ just_functions := replace_regex('''
   arch
   blake3
   blake3_file
+  bool
   cache_directory
   canonicalize
   capitalize
@@ -120,8 +125,10 @@ just_functions := replace_regex('''
   invocation_directory_native
   is_dependency
   join
+  join_list
   just_executable
   just_pid
+  just_version
   justfile
   justfile_directory
   kebabcase
@@ -129,7 +136,9 @@ just_functions := replace_regex('''
   lowercase
   module_directory
   module_file
+  module_path
   num_cpus
+  num_jobs
   os
   os_family
   parent_directory
@@ -137,18 +146,22 @@ just_functions := replace_regex('''
   prepend
   quote
   read
+  recipe_name
   replace
   replace_regex
   require
+  runtime_directory
   semver_matches
   sha256
   sha256_file
   shell
   shoutykebabcase
   shoutysnakecase
+  show
   snakecase
   source_directory
   source_file
+  split
   style
   titlecase
   trim
