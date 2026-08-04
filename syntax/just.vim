@@ -227,7 +227,7 @@ syn match justExportedAssignment "\v^export%(\s|\\\n)+\h\k*%(\s|\\\n)*:\=" trans
 
 syn match justExport '\v^export' contained
 
-syn match justUnexportStatement '\v^unexport%(\s|\\\n)+\w+\s*$' contains=justUnexport
+syn match justUnexportStatement '\v^unexport%(\s|\\\n)+\w+\s*%(#|$)@=' contains=justUnexport
 syn match justUnexport '\v^unexport' contained
 
 syn keyword justConditional if else
