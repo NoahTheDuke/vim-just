@@ -106,16 +106,16 @@ syn match justRecipeColon ":" contained
 
 syn region justRecipeAttributes
    \ matchgroup=justRecipeAttr start='\v^%(\\\n)@3<!\[' end='\V]'
-   \ contains=justRecipeAttr,justRecipeAttrSep,justRecipeAttrArgs,justRecipeAttrArgError,justRecipeAttrValueShort
+   \ contains=justRecipeAttr,justRecipeAttrSep,justRecipeAttrArgsGeneric,justRecipeAttrArgError,justRecipeAttrValueShort,justArgRecipeAttr
 
 syn keyword justRecipeAttr
-   \ android arg cache confirm continue default doc dragonfly env exit-message extension freebsd group linux macos metadata netbsd no-cd no-exit-message no-quiet openbsd parallel positional-arguments private script shell timestamp unix windows working-directory
+   \ android cache confirm continue default doc dragonfly env exit-message extension freebsd group linux macos metadata netbsd no-cd no-exit-message no-quiet openbsd parallel positional-arguments private script shell timestamp unix windows working-directory
    \ contained
 syn match justRecipeAttrSep ',' contained
 syn match justRecipeAttrValueShort '\v:%(\_s|\\\n)*' transparent contained
    \ contains=justRecipeAttrValueColon nextgroup=@justStringLiterals,justInvalidAttrValue
 syn match justRecipeAttrValueColon '\V:' contained
-syn region justRecipeAttrArgs matchgroup=justRecipeAttr start='\V(' end='\V)' contained
+syn region justRecipeAttrArgsGeneric matchgroup=justRecipeAttr start='\V(' end='\V)' contained
    \ contains=@justStringLiterals,justRecipeAttrKeywordArg
 syn match justRecipeAttrArgError '\v\(%(\s|\\?\n)*\)' contained
 
@@ -124,6 +124,11 @@ syn match justInvalidAttrValue '\v[^"',]["']@![^,\]]*' contained
 syn match justRecipeAttrKeywordArg '\v\h\k*%(\s|\\?\n)*\=' contained
    \ contains=justRecipeAttrArgName,justParameterOperator
 syn match justRecipeAttrArgName '\h\k*' contained
+
+syn region justArgRecipeAttr matchgroup=justRecipeAttr start='\varg%(\s|\\\n)*\(' end='\V)' contained
+   \ contains=@justStringLiterals,justRecipeAttrKeywordArg,justArgRecipeAttrKeywords
+syn keyword justArgRecipeAttrKeywords contained
+   \ short long flag
 
 syn match justRecipeDeclSimple "\v^\@?\h\k*%(\s|\\\n)*%(:\=@!)@="
    \ transparent contains=justRecipeName
@@ -363,6 +368,7 @@ unlet s:cpo_save
 " and is placed at the very end of the file to simplify keeping it sorted.
 
 hi def link justAlias                            Statement
+hi def link justArgRecipeAttrKeywords            Keyword
 hi def link justAssignmentOperator               Operator
 hi def link justBacktick                         Special
 hi def link justBadCurlyBraces                   Error
