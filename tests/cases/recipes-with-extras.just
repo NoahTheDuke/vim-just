@@ -223,7 +223,7 @@ param_with_pattern1 foo:
 param_with_pattern2 foo:
 	echo {{quote(foo)}}
 [arg("foo", pattern = \
- x"$WAYLAND_DISPLAY|$DISPLAY")]
+ x"${WAYLAND_DISPLAY:-}|$DISPLAY")]
 param_with_pattern3 foo:
 	echo {{quote(foo)}}
 [arg('foo',
