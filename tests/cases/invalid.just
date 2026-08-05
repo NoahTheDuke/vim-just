@@ -1,5 +1,3 @@
- !include not-at-beginning-of-line.just
-
 mod -invalid-mod
 
 set shell

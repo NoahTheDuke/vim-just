@@ -303,6 +303,8 @@ syn match justRecipeDepParenName '\v%(\(\n?)@3<=%(\_s|\\\n)*\h\k*%(%(\s|\\\n)*::
 
 syn cluster justBuiltInFunctions contains=justFunctionCall,justUserDefinedError
 
+syn match justOperator "\V!"
+
 syn match justConditionalOperator "\V=="
 syn match justConditionalOperator "\V!="
 syn match justConditionalOperator "\V=~"
