@@ -5,6 +5,7 @@ xdg_data := data_directory()
 xdg_data_local := data_local_directory()
 xdg_executable := executable_directory()
 xdg_home := home_directory()
+xdg_runtime := runtime_directory()
 
 mydir := justfile_dir()
 invoked_from := invocation_dir_native()
@@ -60,6 +61,7 @@ shell_command := shell('echo "$@"', _true, random1)
 
 this_source := source_directory() + "\n -> " + source_file()
 current_module := module_directory() + "\n -> " + module_file()
+current_module_path := module_path()
 
 unexport QT_QPA_PLATFORMTHEME
 unexport JUST_ALIAS_STYLE  # comment
@@ -101,3 +103,5 @@ fstring5 := f"""
 + uuid() + test_path}}
   bar baz {{'foo' + "Foo" + """foo""" + random1}}
 """
+
+version_str := just_version()

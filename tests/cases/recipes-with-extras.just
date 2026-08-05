@@ -206,7 +206,7 @@ sleep2:
 
 [default]
 the-default-recipe:
-	echo 'default recipe'
+	echo 'default recipe:' {{recipe_name()}}
 
 interpolation-close-right-after-conditional foo:
   echo {{ if foo == "bar" { "hello" } else { "goodbye" }}}123

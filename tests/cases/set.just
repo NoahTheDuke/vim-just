@@ -94,3 +94,11 @@ set working-directory := '/tmp'
 set no-exit-message
 set no-exit-message := true
 set no-exit-message := false
+
+set default-list
+set default-list := true
+set default-list := false
+
+set default-script
+set default-script := true
+set default-script := false
