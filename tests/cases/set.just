@@ -102,3 +102,16 @@ set default-list := false
 set default-script
 set default-script := true
 set default-script := false
+
+set guards
+set guards := true
+set guards := false
+
+set lists
+set lists := true
+set lists := false
+
+set indentation := "	"
+set indentation := "\t"
+set indentation := "  "
+set minimum-version := '1.58.0'

@@ -240,3 +240,31 @@ recipe-with-guards:
 	?/bin/true
 	?@echo 'command not echoed'
 	@?echo 'command not echoed'
+
+[continue]
+continue-default-signals:
+        echo continue with default signal
+
+[continue("SIGINT")]
+continue-sigint:
+        echo continue on SIGINT
+
+[openbsd,dragonfly,freebsd,netbsd]
+bsd-only:
+        echo on BSD
+
+[env('FOO', 'bar')]
+recipe-with-env:
+        echo "$FOO"
+
+[shell]
+shell-recipe:
+        echo running in shell
+
+[timestamp]
+timestamped:
+        echo timestamped
+
+[timestamp("%Y-%m-%d")]
+timestamped-format:
+        echo custom format
