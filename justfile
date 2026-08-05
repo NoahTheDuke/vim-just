@@ -150,6 +150,7 @@ just_functions := replace_regex('''
   justfile
   justfile_directory
   kebabcase
+  len
   lowercamelcase
   lowercase
   module_directory
