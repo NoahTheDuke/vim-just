@@ -22,6 +22,24 @@ id:
 	git show --format=fuller --no-patch HEAD
 	git status --ignored
 
+[doc('''
+  Check if a short snippet of justfile code is syntactically valid.
+  Accepts justfile code either from stdin or as a single positional parameter.
+''')]
+[no-exit-message]
+is-valid-justfile j='':
+	#!/bin/bash
+	set -euo pipefail
+	if [[ -n {{quote(j)}} ]];then
+	  just -f - --list >/dev/null <<EOF
+	{{j}}
+	EOF
+	else
+	  # read from stdin
+	  just -f - --list >/dev/null
+	fi
+	echo '{{GREEN}}{{"\u{2713}"}} OK{{NORMAL}}' >&2
+
 # preview JUSTFILE in Vim with syntax file from this repository
 [no-cd]
 preview JUSTFILE='': (_preview_common 'vim' JUSTFILE)
