@@ -3,3 +3,7 @@
 
 foo <span class="Operator">:=</span> <span class="String">'foo'</span> <span class="Operator">&amp;&amp;</span> <span class="String">''</span> <span class="Operator">||</span> <span class="String">'foo'</span>
 fdfind <span class="Operator">:=</span> <span class="Function">which</span>(<span class="String">'fd'</span>) <span class="Operator">||</span> <span class="Function">require</span>(<span class="String">'fdfind'</span>)
+
+canonical_false <span class="Operator">:=</span> <span class="Function">bool</span>(<span class="String">"false"</span>)
+jobs <span class="Operator">:=</span> <span class="Function">num_jobs</span>()
+split_list <span class="Operator">:=</span> <span class="Function">split</span>(<span class="String">"a</span><span class="Special">\u{0}</span><span class="String">b</span><span class="Special">\u{0}</span><span class="String">c"</span>, <span class="String">"</span><span class="Special">\u{0}</span><span class="String">"</span>)
