@@ -195,11 +195,12 @@ syn keyword justSetKeywords
    \ allow-duplicate-recipes allow-duplicate-variables default-list default-script dotenv-load dotenv-filename dotenv-override dotenv-path dotenv-required export fallback guards ignore-comments indentation lazy lists minimum-version no-cd no-exit-message positional-arguments quiet script-interpreter shell tempdir unstable windows-shell working-directory
    \ contained
 syn keyword justSetDeprecatedKeywords windows-powershell contained
+
+syn match justStringSet '\v^set%(\s|\\\n)+\k+%(\s|\\\n)*:\=' transparent contains=justSet,justSetKeywords,justAssignmentOperator
+
 syn match justBooleanSet "\v^set%(\s|\\\n)+%(allow-duplicate-%(recip|variabl)es|d%(efault-%(lis|scrip)t|otenv-%(load|override|required))|export|fallback|guards|ignore-comments|l%(azy|ists)|no-%(cd|exit-message)|positional-arguments|quiet|unstable|windows-powershell)%(%(\s|\\\n)*:\=%(\s|\\\n)*%(true|false))?%(\s|\\\n)*%($|#@=)"
    \ contains=justSet,justSetKeywords,justSetDeprecatedKeywords,justAssignmentOperator,justBoolean
    \ transparent
-
-syn match justStringSet '\v^set%(\s|\\\n)+\k+%(\s|\\\n)*:\=%(\s|\\\n)*%(x?['"])@=' transparent contains=justSet,justSetKeywords,justAssignmentOperator
 
 syn match justShellSet
    \ "\v^set%(\s|\\\n)+%(s%(hell|cript-interpreter)|windows-shell)%(\s|\\\n)*:\=%(\s|\\\n)*\[@="
@@ -209,9 +210,7 @@ syn match justShellSet
 syn region justShellSetValue
    \ start='\V[' end='\V]'
    \ contained
-   \ contains=@justStringLiterals,justShellSetError
-
-syn match justShellSetError '\v\k+['"]@!' contained
+   \ contains=@justStringLiterals
 
 syn match justAlias '\v^alias' contained
 syn match justAliasDecl "\v^alias%(\s|\\\n)+\h\k*%(\s|\\\n)*:\=%(\s|\\\n)*"
@@ -433,7 +432,6 @@ hi def link justShellExpandRawString             String
 hi def link justShellExpandString                String
 hi def link justShellExpandVar                   PreProc
 hi def link justShellExpandVarRaw                PreProc
-hi def link justShellSetError                    Error
 hi def link justString                           String
 hi def link justStringEscapeError                Error
 hi def link justStringEscapeSequence             Special

@@ -2,10 +2,6 @@ mod -invalid-mod
 
 set shell
 
-bash := 'bash'
-c := '-c'
-set shell := [bash, c]
-
 invalid_escapes := "\q \u{} \u{foo}\u{1234123} \u1234"
 invalid_escapes_shell_expanded := x"${foo:-z\u{zzz}z}"
 
