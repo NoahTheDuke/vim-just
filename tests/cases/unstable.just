@@ -16,3 +16,10 @@ negated3 := !\
 elseless_if := if "a" == "b" { "this branch is unreachable" }
 assert_by_value := assert("foo")
 conditional_value := "a" =~ '^[a-z]'
+
+[
+arg('flag', short, long, flag),
+arg('FILES', min='2', max='4')
+]
+backup_minmax flag +FILES:
+	echo {{FILES}}

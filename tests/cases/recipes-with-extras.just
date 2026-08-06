@@ -235,6 +235,23 @@ pattern
 param_with_pattern4 foo:
 	echo {{quote(foo)}}
 
+[arg('bar', help="hello", long="bar")]
+[arg("baz", short)]
+param_with_options bar baz:
+	echo {{quote(bar)}} {{quote(baz)}}
+
+[ \
+arg('flag', long = "force", value="hello")]
+param_flag_value flag:
+	echo {{quote(flag)}}
+
+[unix, \
+arg   ('foo', short="f")]
+[private, arg \
+('bar', long)]
+param_after_attrs foo bar:
+	echo {{quote(foo)}} {{quote(bar)}}
+
 set guards
 recipe-with-guards:
 	?/bin/true

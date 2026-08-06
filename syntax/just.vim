@@ -106,7 +106,7 @@ syn match justRecipeColon ":" contained
 
 syn region justRecipeAttributes
    \ matchgroup=justRecipeAttr start='\v^%(\\\n)@3<!\[' end='\V]'
-   \ contains=justRecipeAttr,justRecipeAttrSep,justRecipeAttrArgsGeneric,justRecipeAttrArgError,justRecipeAttrValueShort,justArgRecipeAttr
+   \ contains=justRecipeAttr,justRecipeAttrSep,justRecipeAttrArgsGeneric,justRecipeAttrArgError,justRecipeAttrValueShort,justArgRecipeAttrName
 
 syn keyword justRecipeAttr
    \ android cache confirm continue default doc dragonfly env exit-message extension freebsd group linux macos metadata netbsd no-cd no-exit-message no-quiet openbsd parallel positional-arguments private script shell timestamp unix windows working-directory
@@ -119,14 +119,16 @@ syn region justRecipeAttrArgsGeneric matchgroup=justRecipeAttr start='\V(' end='
    \ contains=@justExpr,justRecipeAttrKeywordArg
 syn match justRecipeAttrArgError '\v\(%(\s|\\?\n)*\)' contained
 
+syn match justArgRecipeAttrKeywords '\v\k@1<!%(short|long|flag)\k@!' contained
+
 syn match justRecipeAttrKeywordArg '\v\h\k*%(\s|\\?\n)*\=%([=~])@!' contained
    \ contains=justRecipeAttrArgName,justParameterOperator
 syn match justRecipeAttrArgName '\h\k*' contained
 
-syn region justArgRecipeAttr matchgroup=justRecipeAttr start='\varg%(\s|\\\n)*\(' end='\V)' contained
+syn match justArgRecipeAttrName '\v\k@1<!arg%(\s|\\\n)*\(@='he=s+3 contained
+   \ nextgroup=justArgRecipeAttrArgs
+syn region justArgRecipeAttrArgs matchgroup=justRecipeAttr start='\V(' end='\V)' contained
    \ contains=@justStringLiterals,justRecipeAttrKeywordArg,justArgRecipeAttrKeywords
-syn keyword justArgRecipeAttrKeywords contained
-   \ short long flag
 
 syn match justRecipeDeclSimple "\v^\@?\h\k*%(\s|\\\n)*%(:\=@!)@="
    \ transparent contains=justRecipeName
@@ -369,6 +371,7 @@ unlet s:cpo_save
 
 hi def link justAlias                            Statement
 hi def link justArgRecipeAttrKeywords            Keyword
+hi def link justArgRecipeAttrName                Type
 hi def link justAssignmentOperator               Operator
 hi def link justBacktick                         Special
 hi def link justBadCurlyBraces                   Error
