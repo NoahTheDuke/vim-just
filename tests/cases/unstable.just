@@ -23,3 +23,9 @@ arg('FILES', min='2', max='4')
 ]
 backup_minmax flag +FILES:
 	echo {{FILES}}
+
+[parallel]
+build target *platform: *(compile target *platform)
+
+@compile target platform:
+  echo compiling {{ target }} for {{ platform }}…

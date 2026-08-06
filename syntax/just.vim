@@ -183,16 +183,19 @@ syn match justRecipeNoDeps '\v:%(\s|\\\n)*\n|:#@=|:%(\s|\\\n)+#@='
    \ transparent contained
    \ contains=justRecipeColon
    \ nextgroup=justPreBodyComment,@justBodies
-syn region justRecipeDeps start="\v:%(\s|\\\n)*%([a-zA-Z_(]|\&\&)" skip='\\\n' end="\v#@=|\\@1<!\n"
+syn region justRecipeDeps start="\v:%(\s|\\\n)*%([a-zA-Z_(*]|\&\&)" skip='\\\n' end="\v#@=|\\@1<!\n"
    \ transparent contained
-   \ contains=justNamepath,justRecipeColon,justRecipeSubsequentDeps,justRecipeParamDep
+   \ contains=justNamepath,justRecipeColon,justRecipeSubsequentDeps,justRecipeParamDep,justRecipeListDepIter
    \ nextgroup=justPreBodyComment,@justBodies
 
 syn region justRecipeParamDep contained transparent
    \ matchgroup=justRecipeDepParamsParen
    \ start="\V("
    \ end="\V)"
-   \ contains=justRecipeDepParenName,@justExpr
+   \ contains=justRecipeDepParenName,@justExpr,justRecipeDepList
+
+syn match justRecipeListDepIter '\v\*%(%(\s|\\\n)*\()@=' contained
+syn match justRecipeDepList '\V*' contained
 
 syn keyword justBoolean true false contained
 
@@ -427,7 +430,9 @@ hi def link justRecipeAttrArgName                Keyword
 hi def link justRecipeAttrSep                    Operator
 hi def link justRecipeAttrValueColon             Operator
 hi def link justRecipeColon                      Operator
+hi def link justRecipeDepList                    Repeat
 hi def link justRecipeDepParamsParen             Delimiter
+hi def link justRecipeListDepIter                Repeat
 hi def link justRecipeSubsequentDeps             Delimiter
 hi def link justRegexCapture                     Identifier
 hi def link justSet                              Statement
