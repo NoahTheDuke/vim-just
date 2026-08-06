@@ -101,6 +101,14 @@ syn match justAssignmentOperator "\V:=" contained
 syn region justExprParen start='\V(' end='\V)' transparent contains=@justExpr
 syn region justExprParenInInterp start='\V(' end='\V)' transparent contained contains=@justExprInInterp
 
+syn region justListLiteral
+   \ start='\V[' end='\V]'
+   \ contains=@justExpr
+syn region justListLiteralInInterp
+   \ start='\V[' end='\V]'
+   \ contained
+   \ contains=@justExprInInterp
+
 syn match justRecipeAt "^@" contained
 syn match justRecipeColon ":" contained
 
@@ -206,11 +214,6 @@ syn match justShellSet
    \ "\v^set%(\s|\\\n)+%(s%(hell|cript-interpreter)|windows-shell)%(\s|\\\n)*:\=%(\s|\\\n)*\[@="
    \ contains=justSet,justSetKeywords,justAssignmentOperator
    \ transparent skipwhite
-   \ nextgroup=justShellSetValue
-syn region justShellSetValue
-   \ start='\V[' end='\V]'
-   \ contained
-   \ contains=@justStringLiterals
 
 syn match justAlias '\v^alias' contained
 syn match justAliasDecl "\v^alias%(\s|\\\n)+\h\k*%(\s|\\\n)*:\=%(\s|\\\n)*"
@@ -336,8 +339,8 @@ syn match justDollarEscape '\V$$' contained
 syn match justDollarEscapeSplit '\v\$%(\\\n\s*)*\$' contained
 
 syn cluster justExprBase contains=@justAllStrings,@justBuiltInFunctions,justConditional,justConditionalOperator,justOperator,justConstant
-syn cluster justExpr contains=@justExprBase,justExprParen,justConditionalBraces,justReplaceRegex
-syn cluster justExprInInterp contains=@justExprBase,justName,justExprParenInInterp,justConditionalBracesInInterp,justReplaceRegexInInterp
+syn cluster justExpr contains=@justExprBase,justExprParen,justConditionalBraces,justReplaceRegex,justList
+syn cluster justExprInInterp contains=@justExprBase,justName,justExprParenInInterp,justConditionalBracesInInterp,justReplaceRegexInInterp,justListInInterp
 
 syn cluster justExprFunc contains=@justBuiltInFunctions,justReplaceRegex,justExprParen
 
