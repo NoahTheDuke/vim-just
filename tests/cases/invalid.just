@@ -5,6 +5,15 @@ set shell
 invalid_escapes := "\q \u{} \u{foo}\u{1234123} \u1234"
 invalid_escapes_shell_expanded := x"${foo:-z\u{zzz}z}"
 
+not_alias_with_line_continuation := foo \
+alias f := foo
+
+not_export_with_line_continuation := foo \
+export FOO_ENV := foo
+
+not_eager_with_line_continuation := foo \
+eager foo := 'f' + 'o' + 'o'
+
 # export is only valid when prefixing an assignment
 # just thinks the following line is a malformed attempt to start a recipe called "export"
 export FOO

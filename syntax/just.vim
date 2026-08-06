@@ -216,7 +216,7 @@ syn match justShellSet
    \ transparent skipwhite
 
 syn match justAlias '\v^alias' contained
-syn match justAliasDecl "\v^alias%(\s|\\\n)+\h\k*%(\s|\\\n)*:\=%(\s|\\\n)*"
+syn match justAliasDecl "\v^%(\\\n)@3<!alias%(\s|\\\n)+\h\k*%(\s|\\\n)*:\=%(\s|\\\n)*"
    \ transparent
    \ contains=justAlias,justNamepathComponent,justAssignmentOperator
    \ nextgroup=justAliasRes
@@ -224,10 +224,13 @@ syn match justAliasRes '\v\h\k*%(%(\s|\\\n)*::%(\s|\\\n)*\h\k*)*%(\s|\\\n)*%(#@=
    \ contained transparent
    \ contains=justNamepath
 
-syn match justExportedAssignment "\v^export%(\s|\\\n)+\h\k*%(\s|\\\n)*:\=" transparent
+syn match justExportedAssignment "\v^%(\\\n)@3<!export%(\s|\\\n)+\h\k*%(\s|\\\n)*:\=" transparent
    \ contains=justExport,justAssignmentOperator
-
 syn match justExport '\v^export' contained
+
+syn match justEagerAssignment "\v^%(\\\n)@3<!eager%(\s|\\\n)+\h\k*%(\s|\\\n)*:\=" transparent
+   \ contains=justEager,justAssignmentOperator
+syn match justEager '^eager' contained
 
 syn match justUnexportStatement '\v^unexport%(\s|\\\n)+\w+\s*%(#|$)@=' contains=justUnexport
 syn match justUnexport '\v^unexport' contained
@@ -395,6 +398,7 @@ hi def link justCurlyBraces                      Special
 hi def link justDeprecatedFunction               Underlined
 hi def link justDollarEscape                     Special
 hi def link justDollarEscapeSplit                Special
+hi def link justEager                            Statement
 hi def link justExport                           Statement
 hi def link justFString                          String
 hi def link justFStringRaw                       String

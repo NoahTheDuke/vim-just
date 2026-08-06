@@ -105,3 +105,6 @@ fstring5 := f"""
 """
 
 version_str := just_version()
+
+set lazy
+eager not_lazy := `echo not lazy`
