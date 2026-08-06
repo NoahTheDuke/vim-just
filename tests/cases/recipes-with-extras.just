@@ -268,3 +268,7 @@ timestamped:
 [timestamp("%Y-%m-%d")]
 timestamped-format:
         echo custom format
+
+[env('FOO', p1 + if param == 'true' { param } else { '' })]
+attr-with-expr:
+	env | grep -F FOO

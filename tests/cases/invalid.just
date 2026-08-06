@@ -91,15 +91,6 @@ argless-attribute2:
 argless-attribute3:
 	/bin/false
 
-[group: group]
-invalid-shorthand-attr-value:
-
-[group: x]
-invalid-shorthand-attr-value2:
-
-[group::-]
-invalid-shorthand-attr-value3:
-
 [group: , unix]
 comma-is-not-invalid-attr-value:
 

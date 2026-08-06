@@ -268,3 +268,7 @@ somevar <span class="Operator">:=</span> <span class="String">"1"</span>
 <span class="Type">[timestamp(</span><span class="String">"%Y-%m-%d"</span><span class="Type">)]</span>
 <span class="Function">timestamped-format</span><span class="Operator">:</span>
 <span class="Number">        echo custom format</span>
+
+<span class="Type">[env(</span><span class="String">'FOO'</span>, p1 <span class="Operator">+</span> <span class="Conditional">if</span> param <span class="Conditional">==</span> <span class="String">'true'</span> { param } <span class="Conditional">else</span> { <span class="String">''</span> }<span class="Type">)]</span>
+<span class="Function">attr-with-expr</span><span class="Operator">:</span>
+<span class="Number">&Tab;env | grep -F FOO</span>
