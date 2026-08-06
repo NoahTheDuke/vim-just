@@ -273,6 +273,11 @@ syn cluster justOtherCurlyBraces contains=justCurlyBraces,justBadCurlyBraces
 syn match justFunctionCall "\v\w+%(\s|\\\n)*\(@=" transparent
    \ contains=justBuiltInFunction,justDeprecatedFunction,justUserDefinedError
 
+syn region justUserDefinedFunction
+   \ skip='\\\n' end='\v#@=|\\@1<!\n'
+   \ matchgroup=justUserFunctionName start="\v^%(\\\n)@3<!\h\k*%(%(\s|\\\n)*\(%(.|\\\n)*\)%(\s|\\\n)*:\=)@="
+   \ contains=justAssignmentOperator,@justExprInInterp
+
 " error, env_var, and env_var_or_default are intentionally not included in this list
 syn keyword justBuiltInFunction
    \ absolute_path append arch blake3 blake3_file bool cache_dir cache_directory canonicalize capitalize choose clean config_dir config_directory config_local_dir config_local_directory data_dir data_directory data_local_dir data_local_directory datetime datetime_utc encode_uri_component env executable_dir executable_directory extension file_name file_stem home_dir home_directory invocation_dir invocation_dir_native invocation_directory invocation_directory_native is_dependency join join_list just_executable just_pid just_version justfile justfile_dir justfile_directory kebabcase len lowercamelcase lowercase module_dir module_directory module_file module_path num_cpus num_jobs os os_family parent_dir parent_directory path_exists prepend quote read recipe_name replace replace_regex require runtime_dir runtime_directory semver_matches sha256 sha256_file shell shoutykebabcase shoutysnakecase show snakecase source_dir source_directory source_file split style titlecase trim trim_end trim_end_match trim_end_matches trim_start trim_start_match trim_start_matches uppercamelcase uppercase uuid which without_extension
@@ -444,5 +449,6 @@ hi def link justStringRegexRepl                  String
 hi def link justStringUEscapeSequence            Special
 hi def link justUnexport                         Statement
 hi def link justUserDefinedError                 Exception
+hi def link justUserFunctionName                 Function
 hi def link justVariadicPrefix                   Statement
 hi def link justVariadicPrefixError              Error
