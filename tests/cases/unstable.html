@@ -18,8 +18,8 @@ assert_by_value <span class="Operator">:=</span> <span class="Exception">assert<
 conditional_value <span class="Operator">:=</span> <span class="String">"a"</span> <span class="Conditional">=~</span> <span class="String">'^[a-z]'</span>
 
 <span class="Type">[</span>
-<span class="Type">arg</span><span class="Type">(</span><span class="String">'flag'</span>, <span class="Keyword">short</span>, <span class="Keyword">long</span>, <span class="Keyword">flag</span><span class="Type">)</span><span class="Operator">,</span>
-<span class="Type">arg</span><span class="Type">(</span><span class="String">'FILES'</span>, <span class="Keyword">min</span><span class="Operator">=</span><span class="String">'2'</span>, <span class="Keyword">max</span><span class="Operator">=</span><span class="String">'4'</span><span class="Type">)</span>
+<span class="Type">arg(</span><span class="String">'flag'</span>, <span class="Keyword">short</span>, <span class="Keyword">long</span>, <span class="Keyword">flag</span><span class="Type">)</span><span class="Operator">,</span>
+<span class="Type">arg(</span><span class="String">'FILES'</span>, <span class="Keyword">min</span><span class="Operator">=</span><span class="String">'2'</span>, <span class="Keyword">max</span><span class="Operator">=</span><span class="String">'4'</span><span class="Type">)</span>
 <span class="Type">]</span>
 <span class="Function">backup_minmax</span> <span class="Identifier">flag</span> <span class="Statement">+</span><span class="Identifier">FILES</span><span class="Operator">:</span>
 <span class="Number">&Tab;echo </span><span class="Delimiter">{{</span><span class="Identifier">FILES</span><span class="Delimiter">}}</span>

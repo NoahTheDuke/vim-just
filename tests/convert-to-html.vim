@@ -82,7 +82,6 @@ function s:html(winid)
 
     let l:chr_n = 0
     let l:chr = l:line[l:chr_n]
-    let l:last_synid = hlID("cleared")
     while !empty(l:chr)
       let l:synid = synID(l:line_n, l:chr_n + 1, 1)
       let l:name = synIDattr(synIDtrans(l:synid), "name")
@@ -90,7 +89,7 @@ function s:html(winid)
         let l:name = ""
       endif
 
-      if l:synid != l:last_synid
+      if l:name != l:last_name
         if !empty(l:last_name)
           let l:line_html .= '</span>'
         endif
@@ -112,7 +111,6 @@ function s:html(winid)
       endif
 
       let l:last_name = l:name
-      let l:last_synid = l:synid
 
       let l:chr_n += 1
       let l:chr = l:line[l:chr_n]
