@@ -12,3 +12,7 @@ negated <span class="Operator">:=</span> <span class="Operator">!</span><span cl
 negated2 <span class="Operator">:=</span> <span class="Operator">!</span> <span class="String">"true"</span>
 negated3 <span class="Operator">:=</span> <span class="Operator">!</span><span class="Special">\</span>
 <span class="String">"true"</span>
+
+elseless_if <span class="Operator">:=</span> <span class="Conditional">if</span> <span class="String">"a"</span> <span class="Conditional">==</span> <span class="String">"b"</span> { <span class="String">"this branch is unreachable"</span> }
+assert_by_value <span class="Operator">:=</span> <span class="Exception">assert</span>(<span class="String">"foo"</span>)
+conditional_value <span class="Operator">:=</span> <span class="String">"a"</span> <span class="Conditional">=~</span> <span class="String">'^[a-z]'</span>
