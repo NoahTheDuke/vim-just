@@ -22,6 +22,41 @@ zero := len([])
 
 list_of_lists := ["a", ["b", "c"] ++ ["d"], "e"] ++ ["f", "g", "h"]
 
+# === User-defined functions ===
+hello(name) := f"Hello, {{ name }}!"
+greet (name) := "Hi, " + name + "!"
+
+wave\
+(greeting) := greeting + "..."
+
+hyphenate(a, b) := a + "-" + b
+
+tabbed(	a	,	b	) := a + " " + b
+
+multiline_params(
+  x,
+  y
+) := x + "
+" + y
+
+extra_close(name ) := name + "?"
+
+nospace_assign(name):= name + "!?"
+
+no_space_at_all(name):=f'|{{name}}|'
+
+many_spaces(name)   :=  name + foo
+
+backslash_assign(greeting)\
+:= greeting + "!"
+
+double(x) := x + "* 2"
+triple(x) := double(x) + ", triple"
+
+truthy(val) := if val == "1" { "yes" } else { "no" }
+
+fancy( name ) := f"""\n  {{name}}\n  """
+
 
 [
 arg('flag', short, long, flag),

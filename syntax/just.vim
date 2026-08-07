@@ -281,7 +281,7 @@ syn match justFunctionCall "\v\w+%(\s|\\\n)*\(@=" transparent
 
 syn region justUserDefinedFunction
    \ skip='\\\n' end='\v#@=|\\@1<!\n'
-   \ matchgroup=justUserFunctionName start="\v^%(\\\n)@3<!\h\k*%(%(\s|\\\n)*\(%(.|\\\n)*\)%(\s|\\\n)*:\=)@="
+   \ matchgroup=justUserFunctionName start="\v^%(\\\n)@3<!\h\k*%(%(\s|\\\n)*\(%(.|\\?\n)*\)%(\s|\\\n)*:\=)@="
    \ contains=justAssignmentOperator,@justExprInInterp
 
 " error, env_var, and env_var_or_default are intentionally not included in this list
