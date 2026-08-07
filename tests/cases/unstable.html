@@ -7,6 +7,7 @@ fdfind <span class="Operator">:=</span> <span class="Function">which</span>(<spa
 canonical_false <span class="Operator">:=</span> <span class="Function">bool</span>(<span class="String">"false"</span>)
 jobs <span class="Operator">:=</span> <span class="Function">num_jobs</span>()
 split_list <span class="Operator">:=</span> <span class="Function">split</span>(<span class="String">"a</span><span class="Special">\u{0}</span><span class="String">b</span><span class="Special">\u{0}</span><span class="String">c"</span>, <span class="String">"</span><span class="Special">\u{0}</span><span class="String">"</span>)
+joined <span class="Operator">:=</span> <span class="Function">join_list</span>([<span class="String">"a"</span>, <span class="String">"b"</span>, <span class="String">"c"</span>], <span class="String">'\x00'</span>)
 
 negated <span class="Operator">:=</span> <span class="Operator">!</span><span class="String">"true"</span>
 negated2 <span class="Operator">:=</span> <span class="Operator">!</span> <span class="String">"true"</span>
@@ -16,6 +17,11 @@ negated3 <span class="Operator">:=</span> <span class="Operator">!</span><span c
 elseless_if <span class="Operator">:=</span> <span class="Conditional">if</span> <span class="String">"a"</span> <span class="Conditional">==</span> <span class="String">"b"</span> { <span class="String">"this branch is unreachable"</span> }
 assert_by_value <span class="Operator">:=</span> <span class="Exception">assert</span>(<span class="String">"foo"</span>)
 conditional_value <span class="Operator">:=</span> <span class="String">"a"</span> <span class="Conditional">=~</span> <span class="String">'^[a-z]'</span>
+
+zero <span class="Operator">:=</span> <span class="Function">len</span>([])
+
+list_of_lists <span class="Operator">:=</span> [<span class="String">"a"</span>, [<span class="String">"b"</span>, <span class="String">"c"</span>] <span class="Operator">++</span> [<span class="String">"d"</span>], <span class="String">"e"</span>] <span class="Operator">++</span> [<span class="String">"f"</span>, <span class="String">"g"</span>, <span class="String">"h"</span>]
+
 
 <span class="Type">[</span>
 <span class="Type">arg(</span><span class="String">'flag'</span>, <span class="Keyword">short</span>, <span class="Keyword">long</span>, <span class="Keyword">flag</span><span class="Type">)</span><span class="Operator">,</span>
