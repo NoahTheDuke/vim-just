@@ -43,6 +43,11 @@
 ]
 <span class="Statement">set</span> <span class="Keyword">shell</span><span class="Operator">:=</span>[<span class="String">'bash'</span>,<span class="String">"-c"</span>]
 <span class="Statement">set</span> <span class="Keyword">shell</span> <span class="Operator">:=</span> [<span class="String">x"</span><span class="PreProc">$SHELL</span><span class="String">"</span>]
+<span class="Statement">set</span> <span class="Keyword">shell</span> <span class="Operator">:=</span> [system_root <span class="Operator">+</span> <span class="Constant">PATH_SEP</span> <span class="Operator">+</span> <span class="String">'bin'</span> <span class="Operator">/</span> <span class="String">'bash'</span>, <span class="String">'-euc'</span>]
+<span class="Statement">set</span> <span class="Keyword">shell</span> <span class="Operator">:=</span> [system_root <span class="Operator">+</span> <span class="Special">\</span>
+  <span class="Constant">PATH_SEP</span> <span class="Operator">+</span> <span class="String">'bin'</span> <span class="Special">\</span>
+<span class="Operator">/</span> <span class="String">'bash'</span>,
+<span class="String">'-euc'</span>]
 
 <span class="Statement">set</span> <span class="Keyword">windows-shell</span><span class="Operator">:=</span>[<span class="String">"powershell.exe"</span>, <span class="String">"-NoLogo"</span>, <span class="String">"-Command"</span>]
 
@@ -77,6 +82,8 @@
 <span class="Statement">set</span> <span class="Keyword">tempdir</span><span class="Operator">:=</span> <span class="String">"/tmp"</span>
 <span class="Statement">set</span> <span class="Keyword">tempdir</span> <span class="Operator">:=</span><span class="String">'/tmp'</span>
 <span class="Statement">set</span> <span class="Keyword">tempdir</span> <span class="Operator">:=</span> <span class="String">x'</span><span class="PreProc">${XDG_CACHE_HOME</span><span class="Operator">:-</span><span class="Character">/tmp</span><span class="PreProc">}</span><span class="String">'</span>
+<span class="Statement">set</span> <span class="Keyword">tempdir</span> <span class="Operator">:=</span> <span class="String">'/run/user'</span> <span class="Operator">/</span> user_id <span class="Operator">/</span> <span class="String">'just'</span>
+<span class="Statement">set</span> <span class="Keyword">tempdir</span> <span class="Operator">:=</span> <span class="Constant">PATH_SEP</span> <span class="Operator">+</span> <span class="String">'t'</span> <span class="Operator">+</span> <span class="String">"m"</span> <span class="Operator">+</span> <span class="String">'''p'''</span>
 
 <span class="Statement">set</span> <span class="Keyword">dotenv-filename</span> <span class="Operator">:=</span> <span class="String">"mydotenv"</span>
 <span class="Statement">set</span> <span class="Keyword">dotenv-path</span> <span class="Operator">:=</span> <span class="String">'/tmp/dotenv'</span>

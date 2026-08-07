@@ -43,6 +43,11 @@ prefix'''
 ]
 set shell:=['bash',"-c"]
 set shell := [x"$SHELL"]
+set shell := [system_root + PATH_SEP + 'bin' / 'bash', '-euc']
+set shell := [system_root + \
+  PATH_SEP + 'bin' \
+/ 'bash',
+'-euc']
 
 set windows-shell:=["powershell.exe", "-NoLogo", "-Command"]
 
@@ -77,6 +82,8 @@ set tempdir:="/tmp"
 set tempdir:= "/tmp"
 set tempdir :='/tmp'
 set tempdir := x'${XDG_CACHE_HOME:-/tmp}'
+set tempdir := '/run/user' / user_id / 'just'
+set tempdir := PATH_SEP + 't' + "m" + '''p'''
 
 set dotenv-filename := "mydotenv"
 set dotenv-path := '/tmp/dotenv'
