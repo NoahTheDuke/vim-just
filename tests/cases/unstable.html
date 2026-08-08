@@ -23,39 +23,44 @@ zero <span class="Operator">:=</span> <span class="Function">len</span>([])
 list_of_lists <span class="Operator">:=</span> [<span class="String">"a"</span>, [<span class="String">"b"</span>, <span class="String">"c"</span>] <span class="Operator">++</span> [<span class="String">"d"</span>], <span class="String">"e"</span>] <span class="Operator">++</span> [<span class="String">"f"</span>, <span class="String">"g"</span>, <span class="String">"h"</span>]
 
 <span class="Comment"># === User-defined functions ===</span>
-<span class="Function">hello</span>(<span class="Identifier">name</span>) <span class="Operator">:=</span> <span class="String">f"Hello, </span><span class="Delimiter">{{</span><span class="Normal"> </span><span class="Identifier">name</span><span class="Normal"> </span><span class="Delimiter">}}</span><span class="String">!"</span>
-<span class="Function">greet</span> (<span class="Identifier">name</span>) <span class="Operator">:=</span> <span class="String">"Hi, "</span> <span class="Operator">+</span> <span class="Identifier">name</span> <span class="Operator">+</span> <span class="String">"!"</span>
+<span class="Macro">hello</span>(<span class="Identifier">name</span>) <span class="Operator">:=</span> <span class="String">f"Hello, </span><span class="Delimiter">{{</span><span class="Normal"> </span><span class="Identifier">name</span><span class="Normal"> </span><span class="Delimiter">}}</span><span class="String">!"</span>
+<span class="Macro">greet</span> (<span class="Identifier">name</span>) <span class="Operator">:=</span> <span class="String">"Hi, "</span> <span class="Operator">+</span> <span class="Identifier">name</span> <span class="Operator">+</span> <span class="String">"!"</span>
 
-<span class="Function">wave</span><span class="Special">\</span>
+<span class="Macro">wave</span><span class="Special">\</span>
 (<span class="Identifier">greeting</span>) <span class="Operator">:=</span> <span class="Identifier">greeting</span> <span class="Operator">+</span> <span class="String">"..."</span>
 
-<span class="Function">hyphenate</span>(<span class="Identifier">a</span>, <span class="Identifier">b</span>) <span class="Operator">:=</span> <span class="Identifier">a</span> <span class="Operator">+</span> <span class="String">"-"</span> <span class="Operator">+</span> <span class="Identifier">b</span>
+<span class="Macro">hyphenate</span>(<span class="Identifier">a</span>, <span class="Identifier">b</span>) <span class="Operator">:=</span> <span class="Identifier">a</span> <span class="Operator">+</span> <span class="String">"-"</span> <span class="Operator">+</span> <span class="Identifier">b</span>
 
-<span class="Function">tabbed</span>(&Tab;<span class="Identifier">a</span>&Tab;,&Tab;<span class="Identifier">b</span>&Tab;) <span class="Operator">:=</span> <span class="Identifier">a</span> <span class="Operator">+</span> <span class="String">" "</span> <span class="Operator">+</span> <span class="Identifier">b</span>
+<span class="Macro">tabbed</span>(&Tab;<span class="Identifier">a</span>&Tab;,&Tab;<span class="Identifier">b</span>&Tab;) <span class="Operator">:=</span> <span class="Identifier">a</span> <span class="Operator">+</span> <span class="String">" "</span> <span class="Operator">+</span> <span class="Identifier">b</span>
 
-<span class="Function">multiline_params</span>(
+<span class="Macro">multiline_params</span>(
   <span class="Identifier">x</span>,
   <span class="Identifier">y</span>
 ) <span class="Operator">:=</span> <span class="Identifier">x</span> <span class="Operator">+</span> <span class="String">"</span>
 <span class="String">"</span> <span class="Operator">+</span> <span class="Identifier">y</span>
 
-<span class="Function">extra_close</span>(<span class="Identifier">name</span> ) <span class="Operator">:=</span> <span class="Identifier">name</span> <span class="Operator">+</span> <span class="String">"?"</span>
+<span class="Macro">extra_close</span>(<span class="Identifier">name</span> ) <span class="Operator">:=</span> <span class="Identifier">name</span> <span class="Operator">+</span> <span class="String">"?"</span>
 
-<span class="Function">nospace_assign</span>(<span class="Identifier">name</span>)<span class="Operator">:=</span> <span class="Identifier">name</span> <span class="Operator">+</span> <span class="String">"!?"</span>
+<span class="Macro">nospace_assign</span>(<span class="Identifier">name</span>)<span class="Operator">:=</span> <span class="Identifier">name</span> <span class="Operator">+</span> <span class="String">"!?"</span>
 
-<span class="Function">no_space_at_all</span>(<span class="Identifier">name</span>)<span class="Operator">:=</span><span class="String">f'|</span><span class="Delimiter">{{</span><span class="Identifier">name</span><span class="Delimiter">}}</span><span class="String">|'</span>
+<span class="Macro">no_space_at_all</span>(<span class="Identifier">name</span>)<span class="Operator">:=</span><span class="String">f'|</span><span class="Delimiter">{{</span><span class="Identifier">name</span><span class="Delimiter">}}</span><span class="String">|'</span>
 
-<span class="Function">many_spaces</span>(<span class="Identifier">name</span>)   <span class="Operator">:=</span>  <span class="Identifier">name</span> <span class="Operator">+</span> <span class="Identifier">foo</span>
+<span class="Macro">many_spaces</span>(<span class="Identifier">name</span>)   <span class="Operator">:=</span>  <span class="Identifier">name</span> <span class="Operator">+</span> <span class="Identifier">foo</span>
 
-<span class="Function">backslash_assign</span>(<span class="Identifier">greeting</span>)<span class="Special">\</span>
+<span class="Macro">backslash_assign</span>(<span class="Identifier">greeting</span>)<span class="Special">\</span>
 <span class="Operator">:=</span> <span class="Identifier">greeting</span> <span class="Operator">+</span> <span class="String">"!"</span>
 
-<span class="Function">double</span>(<span class="Identifier">x</span>) <span class="Operator">:=</span> <span class="Identifier">x</span> <span class="Operator">+</span> <span class="String">"* 2"</span>
-<span class="Function">triple</span>(<span class="Identifier">x</span>) <span class="Operator">:=</span> double(<span class="Identifier">x</span>) <span class="Operator">+</span> <span class="String">", triple"</span>
+<span class="Macro">double</span>(<span class="Identifier">x</span>) <span class="Operator">:=</span> <span class="Identifier">x</span> <span class="Operator">+</span> <span class="String">"* 2"</span>
+<span class="Macro">triple</span>(<span class="Identifier">x</span>) <span class="Operator">:=</span> <span class="Function">replace_regex</span>(<span class="Macro">double</span>(<span class="Identifier">x</span>), <span class="String">'2$'</span>, <span class="String">'3'</span>)
+<span class="Macro">quadruple</span>(<span class="Identifier">x</span>) <span class="Operator">:=</span> <span class="Macro">double</span>(<span class="Macro">double</span>(<span class="Identifier">x</span>))
 
-<span class="Function">truthy</span>(<span class="Identifier">val</span>) <span class="Operator">:=</span> <span class="Conditional">if</span> <span class="Identifier">val</span> <span class="Conditional">==</span> <span class="String">"1"</span> { <span class="String">"yes"</span> } <span class="Conditional">else</span> { <span class="String">"no"</span> }
+<span class="Macro">truthy</span>(<span class="Identifier">val</span>) <span class="Operator">:=</span> <span class="Conditional">if</span> <span class="Identifier">val</span> <span class="Conditional">==</span> <span class="String">"1"</span> { <span class="String">"yes"</span> } <span class="Conditional">else</span> { <span class="String">"no"</span> }
 
-<span class="Function">fancy</span>( <span class="Identifier">name</span> ) <span class="Operator">:=</span> <span class="String">f"""</span><span class="Special">\n</span><span class="String">  </span><span class="Delimiter">{{</span><span class="Identifier">name</span><span class="Delimiter">}}</span><span class="Special">\n</span><span class="String">  """</span>
+<span class="Macro">fancy</span>( <span class="Identifier">name</span> ) <span class="Operator">:=</span> <span class="String">f"""</span><span class="Special">\n</span><span class="String">  </span><span class="Delimiter">{{</span><span class="Identifier">name</span><span class="Delimiter">}}</span><span class="Special">\n</span><span class="String">  """</span>
+
+<span class="Macro">shadowuuid</span>() <span class="Operator">:=</span> <span class="Function">uuid</span>()
+<span class="Macro">shadow_replace_regex</span>(<span class="Identifier">str</span>, <span class="Identifier">pat</span>, <span class="Identifier">repl</span>) <span class="Operator">:=</span> <span class="Function">replace_regex</span>(<span class="Identifier">str</span>, <span class="Identifier">pat</span>, <span class="Identifier">repl</span>)
+user_func_prefixing_builtin_func_name <span class="Operator">:=</span> <span class="Macro">shadow_replace_regex</span>(<span class="Macro">shadowuuid</span>(), <span class="String">'-'</span>, <span class="String">''</span>)
 
 
 <span class="Type">[</span>

@@ -51,11 +51,16 @@ backslash_assign(greeting)\
 := greeting + "!"
 
 double(x) := x + "* 2"
-triple(x) := double(x) + ", triple"
+triple(x) := replace_regex(double(x), '2$', '3')
+quadruple(x) := double(double(x))
 
 truthy(val) := if val == "1" { "yes" } else { "no" }
 
 fancy( name ) := f"""\n  {{name}}\n  """
+
+shadowuuid() := uuid()
+shadow_replace_regex(str, pat, repl) := replace_regex(str, pat, repl)
+user_func_prefixing_builtin_func_name := shadow_replace_regex(shadowuuid(), '-', '')
 
 
 [

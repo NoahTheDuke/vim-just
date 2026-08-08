@@ -277,12 +277,14 @@ syn match justCurlyBraces '\v\{{4}' contained
 syn cluster justOtherCurlyBraces contains=justCurlyBraces,justBadCurlyBraces
 
 syn match justFunctionCall "\v\w+%(\s|\\\n)*\(@=" transparent
-   \ contains=justBuiltInFunction,justDeprecatedFunction,justUserDefinedError
+   \ contains=justBuiltInFunction,justDeprecatedFunction,justUserDefinedError,justUserFunctionName
 
 syn region justUserDefinedFunction
    \ skip='\\\n' end='\v#@=|\\@1<!\n'
    \ matchgroup=justUserFunctionName start="\v^%(\\\n)@3<!\h\k*%(%(\s|\\\n)*\(%(.|\\?\n)*\)%(\s|\\\n)*:\=)@="
    \ contains=justAssignmentOperator,@justExprInInterp
+
+syn match justUserFunctionName "\v\w+" contained
 
 " error, env_var, and env_var_or_default are intentionally not included in this list
 syn keyword justBuiltInFunction
@@ -458,6 +460,6 @@ hi def link justStringRegexRepl                  String
 hi def link justStringUEscapeSequence            Special
 hi def link justUnexport                         Statement
 hi def link justUserDefinedError                 Exception
-hi def link justUserFunctionName                 Function
+hi def link justUserFunctionName                 Macro
 hi def link justVariadicPrefix                   Statement
 hi def link justVariadicPrefixError              Error

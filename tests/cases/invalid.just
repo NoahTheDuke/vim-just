@@ -26,9 +26,6 @@ badfunc5 := num_cpus(\)
 not_a_recipe_name #comment:
 	not a recipe body
 
-nonexistant_func := blahuuid()
-nonexistant_func2 := blah_replace_regex('foo', '([^o])', '$1')
-
 invalid_recipe_body:
  	  echo 'My indentation mixes spaces and tabs!'
 	 echo 'My indentation mixes tabs and spaces!'
