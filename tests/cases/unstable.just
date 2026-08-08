@@ -22,6 +22,35 @@ zero := len([])
 
 list_of_lists := ["a", ["b", "c"] ++ ["d"], "e"] ++ ["f", "g", "h"]
 
+bare_list := ["red", "green", "blue"]
+single_element := ["only"]
+empty_list := []
+tight_commas := ["a","b","c"]
+spread_backslash := [ \
+  "first", \
+  "second", \
+  "third" \
+]
+multiline_natural := [
+  "alpha",
+  "beta",
+  "gamma"
+]
+multiline_natural_trailing_comma := [
+  "alpha",
+  "beta",
+  "gamma",
+]
+deeply_nested_flattening := ["a", ["b", ["c", ["d"]]], "e"]
+string_plus_list := "pre-" + ["a", "b"]
+pairwise_concat := ["x", "y"] + ["1", "2"]
+path_join_with_list := "dir" / ["sub1", "sub2"]
+tab_separated := [        "a"        ,        "b"        ]
+list_mixed := [ "foo"\
+, "bar", "baz",
+"quux",
+  "a", "b", "c", ]
+
 # === User-defined functions ===
 hello(name) := f"Hello, {{ name }}!"
 greet (name) := "Hi, " + name + "!"
@@ -61,6 +90,11 @@ fancy( name ) := f"""\n  {{name}}\n  """
 shadowuuid() := uuid()
 shadow_replace_regex(str, pat, repl) := replace_regex(str, pat, repl)
 user_func_prefixing_builtin_func_name := shadow_replace_regex(shadowuuid(), '-', '')
+
+list_with_expr := [if "a" == "b" { "unreachable" }else { "always"}, zero + HEXUPPER,
+  f"""{{foo + "foo"}} bar""",
+  assert("foo"), '{' + shadowuuid() + '}', just_version()
+]
 
 
 [

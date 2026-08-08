@@ -22,6 +22,35 @@ zero <span class="Operator">:=</span> <span class="Function">len</span>([])
 
 list_of_lists <span class="Operator">:=</span> [<span class="String">"a"</span>, [<span class="String">"b"</span>, <span class="String">"c"</span>] <span class="Operator">++</span> [<span class="String">"d"</span>], <span class="String">"e"</span>] <span class="Operator">++</span> [<span class="String">"f"</span>, <span class="String">"g"</span>, <span class="String">"h"</span>]
 
+bare_list <span class="Operator">:=</span> [<span class="String">"red"</span>, <span class="String">"green"</span>, <span class="String">"blue"</span>]
+single_element <span class="Operator">:=</span> [<span class="String">"only"</span>]
+empty_list <span class="Operator">:=</span> []
+tight_commas <span class="Operator">:=</span> [<span class="String">"a"</span>,<span class="String">"b"</span>,<span class="String">"c"</span>]
+spread_backslash <span class="Operator">:=</span> [ <span class="Special">\</span>
+  <span class="String">"first"</span>, <span class="Special">\</span>
+  <span class="String">"second"</span>, <span class="Special">\</span>
+  <span class="String">"third"</span> <span class="Special">\</span>
+]
+multiline_natural <span class="Operator">:=</span> [
+  <span class="String">"alpha"</span>,
+  <span class="String">"beta"</span>,
+  <span class="String">"gamma"</span>
+]
+multiline_natural_trailing_comma <span class="Operator">:=</span> [
+  <span class="String">"alpha"</span>,
+  <span class="String">"beta"</span>,
+  <span class="String">"gamma"</span>,
+]
+deeply_nested_flattening <span class="Operator">:=</span> [<span class="String">"a"</span>, [<span class="String">"b"</span>, [<span class="String">"c"</span>, [<span class="String">"d"</span>]]], <span class="String">"e"</span>]
+string_plus_list <span class="Operator">:=</span> <span class="String">"pre-"</span> <span class="Operator">+</span> [<span class="String">"a"</span>, <span class="String">"b"</span>]
+pairwise_concat <span class="Operator">:=</span> [<span class="String">"x"</span>, <span class="String">"y"</span>] <span class="Operator">+</span> [<span class="String">"1"</span>, <span class="String">"2"</span>]
+path_join_with_list <span class="Operator">:=</span> <span class="String">"dir"</span> <span class="Operator">/</span> [<span class="String">"sub1"</span>, <span class="String">"sub2"</span>]
+tab_separated <span class="Operator">:=</span> [        <span class="String">"a"</span>        ,        <span class="String">"b"</span>        ]
+list_mixed <span class="Operator">:=</span> [ <span class="String">"foo"</span><span class="Special">\</span>
+, <span class="String">"bar"</span>, <span class="String">"baz"</span>,
+<span class="String">"quux"</span>,
+  <span class="String">"a"</span>, <span class="String">"b"</span>, <span class="String">"c"</span>, ]
+
 <span class="Comment"># === User-defined functions ===</span>
 <span class="Macro">hello</span>(<span class="Identifier">name</span>) <span class="Operator">:=</span> <span class="String">f"Hello, </span><span class="Delimiter">{{</span><span class="Normal"> </span><span class="Identifier">name</span><span class="Normal"> </span><span class="Delimiter">}}</span><span class="String">!"</span>
 <span class="Macro">greet</span> (<span class="Identifier">name</span>) <span class="Operator">:=</span> <span class="String">"Hi, "</span> <span class="Operator">+</span> <span class="Identifier">name</span> <span class="Operator">+</span> <span class="String">"!"</span>
@@ -61,6 +90,11 @@ list_of_lists <span class="Operator">:=</span> [<span class="String">"a"</span>,
 <span class="Macro">shadowuuid</span>() <span class="Operator">:=</span> <span class="Function">uuid</span>()
 <span class="Macro">shadow_replace_regex</span>(<span class="Identifier">str</span>, <span class="Identifier">pat</span>, <span class="Identifier">repl</span>) <span class="Operator">:=</span> <span class="Function">replace_regex</span>(<span class="Identifier">str</span>, <span class="Identifier">pat</span>, <span class="Identifier">repl</span>)
 user_func_prefixing_builtin_func_name <span class="Operator">:=</span> <span class="Macro">shadow_replace_regex</span>(<span class="Macro">shadowuuid</span>(), <span class="String">'-'</span>, <span class="String">''</span>)
+
+list_with_expr <span class="Operator">:=</span> [<span class="Conditional">if</span> <span class="String">"a"</span> <span class="Conditional">==</span> <span class="String">"b"</span> { <span class="String">"unreachable"</span> }<span class="Conditional">else</span> { <span class="String">"always"</span>}, zero <span class="Operator">+</span> <span class="Constant">HEXUPPER</span>,
+  <span class="String">f"""</span><span class="Delimiter">{{</span><span class="Identifier">foo</span><span class="Normal"> </span><span class="Operator">+</span><span class="Normal"> </span><span class="String">"foo"</span><span class="Delimiter">}}</span><span class="String"> bar"""</span>,
+  <span class="Exception">assert</span>(<span class="String">"foo"</span>), <span class="String">'{'</span> <span class="Operator">+</span> <span class="Macro">shadowuuid</span>() <span class="Operator">+</span> <span class="String">'}'</span>, <span class="Function">just_version</span>()
+]
 
 
 <span class="Type">[</span>
