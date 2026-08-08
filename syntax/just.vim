@@ -242,7 +242,9 @@ syn keyword justConditional if else
 syn region justConditionalBraces start="\v\{\{@!" end="\v\}@=" transparent contains=@justExpr
 syn region justConditionalBracesInInterp start="\v\{\{@!" end="\V}" transparent contained contains=@justExprInInterp
 
-syn match justLineLeadingSymbol "\v^%(\\\n)@3<!\s+\zs%(\@[-?]|[-?]\@|[@?-])"
+syn match justLineLeadingSymbol "\v^%(\\\n)@3<!\s+\zs%(\@%(-\??|\?-?)|-%(\?\@?|\@\??)|\?%(-\@?|\@-?)|[@?-])" contained
+   \ contains=justLineLeadingSymbolError
+syn match justLineLeadingSymbolError "\v\?\@?-|-\@?\?" contained
 
 syn match justLineContinuation "\\$"
    \ containedin=ALLBUT,justComment,justCommentInBody,justShebang,@justRawStrings,justRecipeAttrArgError,justShellExpandRawDefaultValue
@@ -414,6 +416,7 @@ hi def link justInterpolation                    Normal
 hi def link justInterpolationDelim               Delimiter
 hi def link justLineContinuation                 Special
 hi def link justLineLeadingSymbol                Special
+hi def link justLineLeadingSymbolError           Error
 hi def link justModStatement                     Keyword
 hi def link justName                             Identifier
 hi def link justNamepathComponent                Function

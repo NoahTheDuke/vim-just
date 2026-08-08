@@ -111,3 +111,11 @@ foo::bar :
 foo bar::baz:
 foo bar::baz :
 	echo recipe parameters are not module namepaths
+
+invalid-line-leads:
+	?-echo invalid
+	-?echo invalid
+	@-?echo invalid
+	?-@echo invalid
+	?@-echo invalid
+	-@?echo invalid
