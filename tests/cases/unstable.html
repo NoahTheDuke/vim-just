@@ -109,3 +109,18 @@ list_with_expr <span class="Operator">:=</span> [<span class="Conditional">if</s
 
 <span class="Special">@</span><span class="Function">compile</span> <span class="Identifier">target</span> <span class="Identifier">platform</span><span class="Operator">:</span>
 <span class="Number">  echo compiling </span><span class="Delimiter">{{</span><span class="Normal"> </span><span class="Identifier">target</span><span class="Normal"> </span><span class="Delimiter">}}</span><span class="Number"> for </span><span class="Delimiter">{{</span><span class="Normal"> </span><span class="Identifier">platform</span><span class="Normal"> </span><span class="Delimiter">}}</span><span class="Number">…</span>
+
+<span class="Type">[script]</span>
+<span class="Type">[cache(</span><span class="Keyword">inputs</span> <span class="Operator">=</span> <span class="String">"/etc/issue"</span>, <span class="Keyword">outputs</span> <span class="Operator">=</span> <span class="String">".justcache/foo.txt"</span>, <span class="Keyword">extra</span> <span class="Operator">=</span> <span class="Special">`uname -r`</span><span class="Type">)]</span>
+<span class="Function">cached-1</span><span class="Operator">:</span>
+<span class="Number">&Tab;lsb_release -a &gt; .justcache/foo.txt</span>
+
+<span class="Type">[script]</span>
+<span class="Type">[cache(</span><span class="Keyword">inputs</span> <span class="Operator">=</span> [<span class="String">"/proc/version"</span>, <span class="String">"/etc/hostname"</span>]<span class="Type">)]</span>
+<span class="Function">cached-2</span><span class="Operator">:</span>
+<span class="Number">&Tab;uname -a</span>
+
+<span class="Type">[script(</span><span class="String">'bash'</span>, <span class="String">'-eu'</span><span class="Type">)]</span>
+<span class="Type">[cache(</span><span class="Keyword">inputs</span> <span class="Operator">=</span> [<span class="String">"/etc/lsb-release"</span>, <span class="String">"/etc/os-release"</span>], <span class="Keyword">outputs</span> <span class="Operator">=</span> <span class="String">".justcache/foo.txt"</span><span class="Type">)]</span>
+<span class="Function">cached-3</span><span class="Operator">:</span>
+<span class="Number">&Tab;lsb_release -a &gt; .justcache/foo.txt</span>

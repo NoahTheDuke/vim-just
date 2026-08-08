@@ -109,3 +109,18 @@ build target *platform: *(compile target *platform)
 
 @compile target platform:
   echo compiling {{ target }} for {{ platform }}…
+
+[script]
+[cache(inputs = "/etc/issue", outputs = ".justcache/foo.txt", extra = `uname -r`)]
+cached-1:
+	lsb_release -a > .justcache/foo.txt
+
+[script]
+[cache(inputs = ["/proc/version", "/etc/hostname"])]
+cached-2:
+	uname -a
+
+[script('bash', '-eu')]
+[cache(inputs = ["/etc/lsb-release", "/etc/os-release"], outputs = ".justcache/foo.txt")]
+cached-3:
+	lsb_release -a > .justcache/foo.txt
