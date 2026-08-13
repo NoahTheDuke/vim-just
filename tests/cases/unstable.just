@@ -124,3 +124,7 @@ cached-2:
 [cache(inputs = ["/etc/lsb-release", "/etc/os-release"], outputs = ".justcache/foo3.txt", environment = ['PATH', "TERM"])]
 cached-3:
 	lsb_release -a > .justcache/foo3.txt
+
+[script, cache]
+cached-4:
+	echo cached

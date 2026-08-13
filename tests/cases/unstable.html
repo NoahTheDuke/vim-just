@@ -124,3 +124,7 @@ list_with_expr <span class="Operator">:=</span> [<span class="Conditional">if</s
 <span class="Type">[cache(</span><span class="Keyword">inputs</span> <span class="Operator">=</span> [<span class="String">"/etc/lsb-release"</span>, <span class="String">"/etc/os-release"</span>], <span class="Keyword">outputs</span> <span class="Operator">=</span> <span class="String">".justcache/foo3.txt"</span>, <span class="Keyword">environment</span> <span class="Operator">=</span> [<span class="String">'PATH'</span>, <span class="String">"TERM"</span>]<span class="Type">)]</span>
 <span class="Function">cached-3</span><span class="Operator">:</span>
 <span class="Number">&Tab;lsb_release -a &gt; .justcache/foo3.txt</span>
+
+<span class="Type">[script</span><span class="Operator">,</span> <span class="Type">cache]</span>
+<span class="Function">cached-4</span><span class="Operator">:</span>
+<span class="Number">&Tab;echo cached</span>
