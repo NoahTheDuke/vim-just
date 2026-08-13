@@ -111,9 +111,9 @@ build target *platform: *(compile target *platform)
   echo compiling {{ target }} for {{ platform }}…
 
 [script]
-[cache(inputs = "/etc/issue", outputs = ".justcache/foo.txt", extra = `uname -r`)]
+[cache(inputs = "/proc/cpuinfo", outputs = ".justcache/foo1.txt", extra = `nproc --all`)]
 cached-1:
-	lsb_release -a > .justcache/foo.txt
+	lscpu > .justcache/foo1.txt
 
 [script]
 [cache(inputs = ["/proc/version", "/etc/hostname"])]
@@ -121,6 +121,6 @@ cached-2:
 	uname -a
 
 [script('bash', '-eu')]
-[cache(inputs = ["/etc/lsb-release", "/etc/os-release"], outputs = ".justcache/foo.txt")]
+[cache(inputs = ["/etc/lsb-release", "/etc/os-release"], outputs = ".justcache/foo3.txt", environment = ['PATH', "TERM"])]
 cached-3:
-	lsb_release -a > .justcache/foo.txt
+	lsb_release -a > .justcache/foo3.txt
