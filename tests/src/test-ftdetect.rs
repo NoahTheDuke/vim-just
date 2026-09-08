@@ -12,7 +12,8 @@ use std::{
   collections::{HashMap, HashSet},
   fs::{self, File},
   hash::{Hash, Hasher},
-  io::{self, prelude::*},
+  io::{self, ErrorKind, prelude::*},
+  sync::atomic::Ordering::Relaxed,
 };
 
 #[derive(Clone, Debug, Default, Deserialize, Eq)]
@@ -102,6 +103,10 @@ fn main() -> io::Result<()> {
     };
     let mut tries = 0;
     let fname = loop {
+      if interrupted.load(Relaxed) {
+        return Err(io::Error::new(ErrorKind::Interrupted, "interrupted!"));
+      }
+
       let fname_ = if case.filename.is_empty() {
         random_alnum(&mut rng, 1, 16, true)
       } else {
@@ -123,6 +128,11 @@ fn main() -> io::Result<()> {
       }
       break fname_;
     };
+
+    if interrupted.load(Relaxed) {
+      return Err(io::Error::new(ErrorKind::Interrupted, "interrupted!"));
+    }
+
     let actual_file = tempdirs
       .iter()
       .find_map(|t| {
@@ -138,11 +148,15 @@ fn main() -> io::Result<()> {
     file2case.insert(actual_file.into_os_string().into_string().unwrap(), case);
   }
 
+  if interrupted.load(Relaxed) {
+    return Err(io::Error::new(ErrorKind::Interrupted, "interrupted!"));
+  }
+
   let ftdetect_results = tempdirs[0].path().join("ftdetect_results.txt");
 
   let mut args = vec!["-R", "-S", "batch_ftdetect_res.vim"];
   args.extend(file2case.keys().map(|s| s.as_str()));
-  run_vim(args, &ftdetect_results, test_home.path(), &interrupted)?;
+  run_vim(args, &ftdetect_results, test_home.path())?;
 
   let ftdetections = fs::read_to_string(ftdetect_results)?;
 

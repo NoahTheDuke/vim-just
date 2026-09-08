@@ -1,19 +1,18 @@
 use std::{
+  collections::HashSet,
   env,
   ffi::OsString,
   fs::canonicalize,
-  io::{self, ErrorKind, prelude::*},
+  io::{self, prelude::*},
   os::unix::fs as ufs,
   path::{Path, PathBuf},
   process::{Command, Stdio},
   sync::{
-    Arc, LazyLock,
+    Arc, LazyLock, Mutex,
     atomic::{AtomicBool, Ordering::Relaxed},
   },
-  time::Duration,
 };
 pub use tempfile::{TempDir, tempdir};
-use wait_timeout::ChildExt;
 
 pub static VIM_BIN: LazyLock<OsString> = LazyLock::new(|| {
   let default_vim = OsString::from("vim");
@@ -28,6 +27,9 @@ static TEST_NVIM: LazyLock<bool> = LazyLock::new(|| {
     .unwrap()
     .contains("nvim")
 });
+
+static VIM_PIDS: LazyLock<Mutex<HashSet<rustix::process::Pid>>> =
+  LazyLock::new(|| Mutex::new(HashSet::new()));
 
 pub fn test_vim_home() -> TempDir {
   let test_home = tempdir().unwrap();
@@ -48,18 +50,17 @@ pub fn setup_ctrlc_handler() -> Arc<AtomicBool> {
   ctrlc::set_handler(move || {
     interrupted_.store(true, Relaxed);
     eprintln!("Received Ctrl+C");
+    for pid in VIM_PIDS.lock().unwrap().iter() {
+      // Vim might not quit on SIGTERM
+      rustix::process::kill_process(*pid, rustix::process::Signal::KILL).unwrap();
+    }
   })
   .unwrap();
 
   interrupted
 }
 
-pub fn run_vim(
-  args: Vec<&str>,
-  output: &PathBuf,
-  home: &Path,
-  interrupted: &Arc<AtomicBool>,
-) -> io::Result<()> {
+pub fn run_vim(args: Vec<&str>, output: &PathBuf, home: &Path) -> io::Result<()> {
   let mut vim = match Command::new(&*VIM_BIN)
     .arg(if *TEST_NVIM {
       "--headless"
@@ -84,6 +85,13 @@ pub fn run_vim(
     }
   };
 
+  let vim_pid = rustix::process::Pid::from_child(&vim);
+  {
+    let mut vim_pid_map = VIM_PIDS.lock().unwrap();
+    assert!(!vim_pid_map.contains(&vim_pid));
+    vim_pid_map.insert(vim_pid);
+  }
+
   let mut vim_stdin = vim.stdin.take().unwrap();
   // Prevent stalling on "Press ENTER or type command to continue"
   if let Err(e) = vim_stdin.write_all(b"\r") {
@@ -98,21 +106,9 @@ pub fn run_vim(
     }
   }
 
-  let status = loop {
-    let poll_interval = Duration::from_millis(200);
-    match vim.wait_timeout(poll_interval) {
-      Ok(Some(status)) => break status,
-      Ok(None) => {
-        if interrupted.load(Relaxed) {
-          vim.kill().unwrap();
-          return Err(io::Error::new(ErrorKind::Interrupted, "interrupted!"));
-        }
-      }
-      Err(e) => {
-        return Err(e);
-      }
-    }
-  };
+  let status = vim.wait()?;
+
+  VIM_PIDS.lock().unwrap().remove(&vim_pid);
 
   if status.success() {
     Ok(())

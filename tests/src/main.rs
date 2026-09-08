@@ -76,7 +76,6 @@ fn main() -> io::Result<()> {
         vec!["-S", "convert-to-html.vim", case.to_str().unwrap()],
         &output,
         test_home.path(),
-        &interrupted,
       )?;
 
       let vim_time = ts.elapsed().as_millis() as u64;
