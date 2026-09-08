@@ -75,6 +75,7 @@ is a simple test-runner in the `main` fn.
 
 ### Prerequisites
 
+* A Unix-like OS
 * just (of course, lol)
 * Rust ([simple/recommended installation instructions](https://www.rust-lang.org/tools/install); for detailed and alternative installation instructions see [here](https://forge.rust-lang.org/infra/other-installation-methods.html))
 
