@@ -203,7 +203,7 @@ syn match justAssignment "\v^\h\k*%(\s|\\\n)*:\=" transparent contains=justAssig
 
 syn match justSet '\v^set' contained
 syn keyword justSetKeywords
-   \ allow-duplicate-recipes allow-duplicate-variables default-list default-script dotenv-load dotenv-filename dotenv-override dotenv-path dotenv-required export fallback guards ignore-comments indentation lazy lists minimum-version no-cd no-exit-message positional-arguments quiet script-interpreter shell tempdir unstable windows-shell working-directory
+   \ allow-duplicate-recipes allow-duplicate-variables default-list default-script dotenv-command dotenv-load dotenv-filename dotenv-override dotenv-path dotenv-required export fallback guards ignore-comments indentation lazy lists minimum-version no-cd no-exit-message positional-arguments quiet script-interpreter shell tempdir unstable windows-shell working-directory
    \ contained
 syn keyword justSetDeprecatedKeywords windows-powershell contained
 

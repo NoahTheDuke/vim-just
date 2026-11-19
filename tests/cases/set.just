@@ -122,3 +122,12 @@ set indentation := "	"
 set indentation := "\t"
 set indentation := "  "
 set minimum-version := '1.58.0'
+
+set dotenv-command := "echo -e 'FOO=1\nBAR=2'"
+set dotenv-command := [
+  "echo -e 'FOO=1'",
+  'echo -e "BAR=2"',
+  """python3 -c 'import random
+print(f"BAZ={random.random()}")
+'
+"""]
