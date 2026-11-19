@@ -1,6 +1,6 @@
 [package]
 name    = "tests"
-authors = ["Casey Rodarmor <casey@rodarmor.com>", "Noah Bogart <noah.bogart@hey.com"]
+authors = ["Casey Rodarmor <casey@rodarmor.com>", "Naomi Bogart <noah.bogart@hey.com"]
 edition = "2024"
 default-run = "tests"
 
